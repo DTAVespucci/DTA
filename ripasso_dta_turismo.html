@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTA 2025 - Ripasso Interattivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 50%, #0f172a 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes slide-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes zoom-in {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-slide-in {
+            animation: slide-in-left 0.6s ease-out;
+        }
+        
+        .animate-zoom {
+            animation: zoom-in 0.5s ease-out;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #1e40af, #0ea5e9, #3b82f6);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+        }
+        
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        
+        .card-3d:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5),
+                        0 0 20px rgba(59, 130, 246, 0.3),
+                        0 0 30px rgba(59, 130, 246, 0.1);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .progress-segment {
+            height: 8px;
+            border-radius: 4px;
+            transition: all 0.5s ease;
+        }
+        
+        .btn-futuristic {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .btn-futuristic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-futuristic:hover::before {
+            left: 100%;
+        }
+        
+        .btn-futuristic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .quiz-option {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            transform: translateX(10px);
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .quiz-correct {
+            background: rgba(34, 197, 94, 0.3) !important;
+            border-color: #22c55e !important;
+        }
+        
+        .quiz-wrong {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: #ef4444 !important;
+        }
+        
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 50%;
+            animation: particle-float 20s infinite;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .tooltip:hover::after {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+        
+        .expandable {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .expandable.expanded {
+            max-height: 2000px;
+        }
+        
+        .shortcuts-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+        
+        .shortcuts-panel.visible {
+            transform: translateX(0);
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div id="particles"></div>
+
+    <header class="glass fixed top-0 left-0 right-0 z-50 border-b border-white/20">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-black gradient-text">DTA 2025</h1>
+                    <p class="text-white/80 text-sm mt-1">Economia Aziendale Interattiva</p>
+                </div>
+                
+                <div class="flex gap-3 items-center">
+                    <div class="glass px-4 py-2 rounded-full text-white text-sm font-semibold">
+                        <span id="timer">00:00</span>
+                    </div>
+                    
+                    <button onclick="toggleFullscreen()" class="glass p-3 rounded-full text-white hover:bg-white/20 transition tooltip" data-tooltip="Schermo Intero">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                        </svg>
+                    </button>
+                    
+                    <button onclick="toggleShortcuts()" class="glass p-3 rounded-full text-white hover:bg-white/20 transition tooltip" data-tooltip="Scorciatoie">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex gap-1">
+                <div class="progress-segment flex-1 bg-white/20" id="prog-1"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-2"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-3"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-4"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-5"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-6"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-7"></div>
+                <div class="progress-segment flex-1 bg-white/20" id="prog-8"></div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="glass fixed top-28 left-0 right-0 z-40 border-b border-white/20">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex overflow-x-auto gap-2 justify-center">
+                <button onclick="showSection(1)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">1. Intro</button>
+                <button onclick="showSection(2)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">2. Azienda</button>
+                <button onclick="showSection(3)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">3. Forme</button>
+                <button onclick="showSection(4)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">4. Imprese</button>
+                <button onclick="showSection(5)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">5. Sostenibilità</button>
+                <button onclick="showSection(6)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">6. Calcoli</button>
+                <button onclick="showSection(7)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">7. Normativa</button>
+                <button onclick="showSection(8)" class="nav-btn btn-futuristic px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm whitespace-nowrap transition">8. Recap</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 pt-48 pb-20 relative z-10">
+        
+        <!-- SEZIONE 1 -->
+        <section id="section1" class="content-section">
+            <div class="glass-strong rounded-3xl p-12 shadow-2xl animate-zoom">
+                <div class="text-center mb-12">
+                    <h2 class="text-6xl md:text-7xl font-black gradient-text mb-4 animate-float">Pronti per la Verifica?</h2>
+                    <p class="text-2xl text-gray-700 font-semibold">Ripasso Completo - 2 Ore di Preparazione Intensiva</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="glass p-8 rounded-2xl neon-border text-center card-3d">
+                        <div class="text-6xl mb-4">📚</div>
+                        <h3 class="text-3xl font-bold text-blue-700 mb-2">8</h3>
+                        <p class="text-gray-700 font-semibold">Sezioni Tematiche</p>
+                    </div>
+                    <div class="glass p-8 rounded-2xl neon-border text-center card-3d">
+                        <div class="text-6xl mb-4">🎯</div>
+                        <h3 class="text-3xl font-bold text-blue-700 mb-2">50+</h3>
+                        <p class="text-gray-700 font-semibold">Concetti Chiave</p>
+                    </div>
+                    <div class="glass p-8 rounded-2xl neon-border text-center card-3d">
+                        <div class="text-6xl mb-4">⚡</div>
+                        <h3 class="text-3xl font-bold text-blue-700 mb-2">120</h3>
+                        <p class="text-gray-700 font-semibold">Minuti Intensivi</p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-slate-700 to-slate-900 text-white rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold mb-6">Argomenti Principali</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center font-bold">1</div>
+                                <p class="text-lg">Elementi costitutivi dell'azienda</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center font-bold">2</div>
+                                <p class="text-lg">Forme giuridiche (SNC, SAS, SRL, SPA)</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center font-bold">3</div>
+                                <p class="text-lg">Imprese turistico-ristorative</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center font-bold">4</div>
+                                <p class="text-lg">Sostenibilità e economia circolare</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center font-bold">5</div>
+                                <p class="text-lg">Calcoli economici e indicatori</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center font-bold">6</div>
+                                <p class="text-lg">Normativa e adempimenti</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-700 to-blue-900 text-white rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold mb-6">Timeline Lezione</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-16 h-16 bg-white/30 rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">0-20'</div>
+                                <div>
+                                    <p class="font-bold text-lg">L'azienda</p>
+                                    <p class="text-sm opacity-90">Elementi costitutivi e attività economica</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-16 h-16 bg-white/30 rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">20-45'</div>
+                                <div>
+                                    <p class="font-bold text-lg">Forme giuridiche</p>
+                                    <p class="text-sm opacity-90">Responsabilità e caratteristiche</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-16 h-16 bg-white/30 rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">45-70'</div>
+                                <div>
+                                    <p class="font-bold text-lg">Imprese turistiche</p>
+                                    <p class="text-sm opacity-90">Ricettive, ristorative, viaggi</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-16 h-16 bg-white/30 rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">70-90'</div>
+                                <div>
+                                    <p class="font-bold text-lg">Sostenibilità</p>
+                                    <p class="text-sm opacity-90">Economia circolare e green</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-16 h-16 bg-white/30 rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">90-110'</div>
+                                <div>
+                                    <p class="font-bold text-lg">Calcoli economici</p>
+                                    <p class="text-sm opacity-90">Utile, Occupancy, RevPAR</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-16 h-16 bg-white/30 rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">110-120'</div>
+                                <div>
+                                    <p class="font-bold text-lg">Normativa & Recap</p>
+                                    <p class="text-sm opacity-90">Adempimenti e riepilogo finale</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button onclick="showSection(2)" class="btn-futuristic bg-gradient-to-r from-blue-700 to-blue-900 text-white px-12 py-5 rounded-2xl text-2xl font-bold hover:shadow-2xl">
+                        Iniziamo 🚀
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 2 -->
+        <section id="section2" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 animate-slide-in">L'Azienda e i suoi Elementi</h2>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl card-3d animate-zoom">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="text-6xl">🏢</div>
+                        <h3 class="text-4xl font-bold text-slate-800">Definizione di Azienda</h3>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-100 to-slate-100 rounded-2xl p-8 border-l-8 border-blue-700 mb-6">
+                        <p class="text-2xl leading-relaxed text-gray-800">
+                            L'azienda è un'<span class="font-bold text-blue-700">organizzazione durevole</span> di 
+                            <span class="font-bold text-blue-700">persone e beni</span> che compie 
+                            <span class="font-bold text-blue-700">operazioni coordinate</span> con lo scopo di 
+                            <span class="font-bold text-blue-700">soddisfare bisogni umani</span>.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-slate-100 to-gray-100 rounded-2xl p-6">
+                        <p class="text-lg font-bold text-slate-800 mb-3">Art. 2555 c.c. - Definizione Civilistica:</p>
+                        <p class="text-lg text-gray-700 italic mb-3">"Il complesso dei beni organizzati dall'imprenditore per l'esercizio dell'impresa"</p>
+                        <div class="bg-orange-100 rounded-xl p-4 border-l-4 border-orange-600">
+                            <p class="font-bold text-orange-900">DIFFERENZA CHIAVE:</p>
+                            <p class="text-gray-800 text-lg">Il codice civile NON menziona esplicitamente le <strong>persone</strong> come elemento costitutivo</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="glass-strong rounded-2xl overflow-hidden card-3d">
+                        <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 cursor-pointer" onclick="toggleExpand(1)">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-5xl">👥</div>
+                                    <h4 class="text-3xl font-bold text-white">PERSONE</h4>
+                                </div>
+                                <svg class="w-8 h-8 text-white transform transition" id="arrow-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="expandable p-6" id="expand-1">
+                            <h5 class="text-xl font-bold text-blue-800 mb-4">Risorse Umane dell'Azienda</h5>
+                            <div class="space-y-4">
+                                <div class="bg-blue-50 rounded-xl p-4">
+                                    <p class="font-bold text-blue-900 mb-2">Caratteristiche:</p>
+                                    <ul class="space-y-2 text-gray-800 text-lg">
+                                        <li>• Ricevono <strong>retribuzione</strong> periodica</li>
+                                        <li>• Funzioni diverse (manuali e intellettuali)</li>
+                                        <li>• Competenze specializzate</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gradient-to-r from-blue-100 to-slate-100 rounded-xl p-4">
+                                    <p class="font-bold text-blue-900 mb-2">Esempio Hotel Rex:</p>
+                                    <div class="grid grid-cols-2 gap-2 text-sm">
+                                        <div class="bg-white rounded-lg p-2">Receptionist</div>
+                                        <div class="bg-white rounded-lg p-2">Chef</div>
+                                        <div class="bg-white rounded-lg p-2">Maitre</div>
+                                        <div class="bg-white rounded-lg p-2">Manager</div>
+                                        <div class="bg-white rounded-lg p-2">Camerieri</div>
+                                        <div class="bg-white rounded-lg p-2">Addetti pulizie</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl overflow-hidden card-3d">
+                        <div class="bg-gradient-to-r from-slate-700 to-slate-900 p-6 cursor-pointer" onclick="toggleExpand(2)">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-5xl">🏗️</div>
+                                    <h4 class="text-3xl font-bold text-white">ORGANIZZAZIONE</h4>
+                                </div>
+                                <svg class="w-8 h-8 text-white transform transition" id="arrow-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="expandable p-6" id="expand-2">
+                            <h5 class="text-xl font-bold text-slate-800 mb-4">Struttura Organizzativa</h5>
+                            <div class="space-y-4">
+                                <div class="bg-slate-50 rounded-xl p-4">
+                                    <p class="font-bold text-slate-900 mb-2">Funzioni:</p>
+                                    <ul class="space-y-2 text-gray-800 text-lg">
+                                        <li>• Definisce <strong>compiti</strong> e <strong>responsabilità</strong></li>
+                                        <li>• Coordina le operazioni</li>
+                                        <li>• Evita sprechi di risorse</li>
+                                        <li>• Garantisce efficienza</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-orange-100 rounded-xl p-4 border-l-4 border-orange-600">
+                                    <p class="text-gray-800 text-lg"><strong>Senza organizzazione</strong> = caos e inefficienza</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl overflow-hidden card-3d">
+                        <div class="bg-gradient-to-r from-orange-600 to-orange-800 p-6 cursor-pointer" onclick="toggleExpand(3)">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-5xl">📦</div>
+                                    <h4 class="text-3xl font-bold text-white">BENI ECONOMICI</h4>
+                                </div>
+                                <svg class="w-8 h-8 text-white transform transition" id="arrow-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="expandable p-6" id="expand-3">
+                            <h5 class="text-xl font-bold text-orange-800 mb-4">Patrimonio Aziendale</h5>
+                            <div class="space-y-4">
+                                <div class="bg-orange-50 rounded-xl p-4 border-4 border-orange-300">
+                                    <p class="font-bold text-orange-900 mb-3 text-xl">Beni DUREVOLI (Pluriennali):</p>
+                                    <p class="text-gray-700 text-lg mb-3">Utilizzati per più anni</p>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white rounded-lg p-3 text-center">Arredamento</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Impianti</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Computer</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Automezzi</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Attrezzature</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Macchinari</div>
+                                    </div>
+                                </div>
+                                <div class="bg-red-50 rounded-xl p-4 border-4 border-red-400">
+                                    <p class="font-bold text-red-900 mb-3 text-xl">Beni a BREVE CICLO (Consumo Immediato):</p>
+                                    <p class="text-gray-700 text-lg mb-3">Utilizzati una sola volta</p>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white rounded-lg p-3 text-center">Prodotti pulizia</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Generi alimentari</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Biancheria</div>
+                                        <div class="bg-white rounded-lg p-3 text-center">Materiali consumo</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl overflow-hidden card-3d">
+                        <div class="bg-gradient-to-r from-green-700 to-green-900 p-6 cursor-pointer" onclick="toggleExpand(4)">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-5xl">⚙️</div>
+                                    <h4 class="text-3xl font-bold text-white">OPERAZIONI</h4>
+                                </div>
+                                <svg class="w-8 h-8 text-white transform transition" id="arrow-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="expandable p-6" id="expand-4">
+                            <h5 class="text-xl font-bold text-green-800 mb-4">Attività Coordinate</h5>
+                            <div class="space-y-4">
+                                <div class="bg-green-50 rounded-xl p-4">
+                                    <p class="font-bold text-green-900 mb-2">Caratteristiche:</p>
+                                    <ul class="space-y-2 text-gray-800 text-lg">
+                                        <li>• <strong>Coordinate</strong> tra loro</li>
+                                        <li>• Finalizzate allo scopo aziendale</li>
+                                        <li>• Efficienti ed efficaci</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gradient-to-r from-green-100 to-emerald-100 rounded-xl p-4">
+                                    <p class="font-bold text-green-900 mb-2">Esempio Hotel:</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-center flex-1">
+                                            <div class="text-3xl mb-2">📞</div>
+                                            <p class="text-sm font-semibold">Accoglienza</p>
+                                        </div>
+                                        <div class="text-2xl">→</div>
+                                        <div class="text-center flex-1">
+                                            <div class="text-3xl mb-2">🛏️</div>
+                                            <p class="text-sm font-semibold">Soggiorno</p>
+                                        </div>
+                                        <div class="text-2xl">→</div>
+                                        <div class="text-center flex-1">
+                                            <div class="text-3xl mb-2">👋</div>
+                                            <p class="text-sm font-semibold">Partenza</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl card-3d">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8 flex items-center gap-4">
+                        <span class="text-5xl">💰</span>
+                        Fasi dell'Attività Economica
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl p-6 text-center card-3d">
+                            <div class="text-6xl mb-4">🏭</div>
+                            <h4 class="text-2xl font-bold mb-3">1. PRODUZIONE</h4>
+                            <p class="text-lg">Creazione di nuovi beni e servizi</p>
+                            <p class="text-sm mt-2 opacity-90">Nuova ricchezza</p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-slate-600 to-slate-800 text-white rounded-2xl p-6 text-center card-3d">
+                            <div class="text-6xl mb-4">🔄</div>
+                            <h4 class="text-2xl font-bold mb-3">2. SCAMBIO</h4>
+                            <p class="text-lg">Vendita sul mercato</p>
+                            <p class="text-sm mt-2 opacity-90">Trasferimento beni</p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl p-6 text-center card-3d">
+                            <div class="text-6xl mb-4">🛒</div>
+                            <h4 class="text-2xl font-bold mb-3">3. CONSUMO</h4>
+                            <p class="text-lg">Utilizzo finale</p>
+                            <p class="text-sm mt-2 opacity-90">Soddisfazione bisogni</p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-orange-600 to-orange-800 text-white rounded-2xl p-6 text-center card-3d">
+                            <div class="text-6xl mb-4">💼</div>
+                            <h4 class="text-2xl font-bold mb-3">4. INVESTIMENTO</h4>
+                            <p class="text-lg">Beni produttivi</p>
+                            <p class="text-sm mt-2 opacity-90">Attività aziendale</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-orange-50 border-l-8 border-orange-600 rounded-2xl p-6">
+                        <p class="text-2xl font-bold text-orange-900 mb-4">ATTENZIONE - Differenze Importanti:</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white rounded-xl p-5">
+                                <p class="font-bold text-xl text-orange-900 mb-3">RISPARMIO</p>
+                                <p class="text-gray-800 text-lg">Bene/merce messa da parte per <strong>consumo futuro</strong></p>
+                                <div class="bg-orange-100 rounded-lg p-3 mt-3">
+                                    <p class="text-sm font-semibold text-orange-900">Esempio:</p>
+                                    <p class="text-sm">Ristorante che acquista surgelati per 3 mesi</p>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-5">
+                                <p class="font-bold text-xl text-blue-900 mb-3">INVESTIMENTO</p>
+                                <p class="text-gray-800 text-lg">Acquisto beni per <strong>attività produttiva</strong></p>
+                                <div class="bg-blue-100 rounded-lg p-3 mt-3">
+                                    <p class="text-sm font-semibold text-blue-900">Esempio:</p>
+                                    <p class="text-sm">Hotel che acquista nuovo sistema di prenotazione</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Quiz Rapido</h3>
+                    <div class="bg-gradient-to-r from-blue-100 to-slate-100 rounded-2xl p-6">
+                        <p class="text-xl font-semibold text-gray-800 mb-4">Un hotel acquista 200 kit cortesia da usare in 3 mesi e installa un nuovo sistema informatico che userà per 5 anni. Queste operazioni sono:</p>
+                        <div class="space-y-3">
+                            <div class="quiz-option bg-white rounded-xl p-4 border-4 border-transparent" onclick="checkAnswer(this, false)">
+                                <p class="text-lg">A) Entrambe investimenti</p>
+                            </div>
+                            <div class="quiz-option bg-white rounded-xl p-4 border-4 border-transparent" onclick="checkAnswer(this, true)">
+                                <p class="text-lg">B) Risparmio e investimento</p>
+                            </div>
+                            <div class="quiz-option bg-white rounded-xl p-4 border-4 border-transparent" onclick="checkAnswer(this, false)">
+                                <p class="text-lg">C) Entrambe risparmio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 3: FORME GIURIDICHE -->
+        <section id="section3" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 animate-slide-in">Forme Giuridiche delle Imprese</h2>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Confronto Forme Giuridiche</h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-slate-700 to-slate-900 text-white">
+                                    <th class="p-4 text-xl rounded-tl-xl">Forma</th>
+                                    <th class="p-4 text-xl">Responsabilità</th>
+                                    <th class="p-4 text-xl">Capitale Min.</th>
+                                    <th class="p-4 text-xl">Adatta a</th>
+                                    <th class="p-4 text-xl rounded-tr-xl">Pro/Contro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-blue-50 border-b-4 border-white">
+                                    <td class="p-4">
+                                        <p class="font-bold text-xl text-blue-900">Individuale</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="bg-red-200 text-red-900 px-3 py-1 rounded-full text-sm font-bold">ILLIMITATA</span>
+                                    </td>
+                                    <td class="p-4 text-lg">-</td>
+                                    <td class="p-4 text-lg">B&B, Bar, Piccole</td>
+                                    <td class="p-4">
+                                        <p class="text-green-700 text-sm">✓ Semplice</p>
+                                        <p class="text-red-700 text-sm">✗ Rischio alto</p>
+                                    </td>
+                                </tr>
+                                <tr class="bg-slate-50 border-b-4 border-white">
+                                    <td class="p-4">
+                                        <p class="font-bold text-xl text-slate-900">SNC</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="space-y-1">
+                                            <span class="bg-red-200 text-red-900 px-3 py-1 rounded-full text-sm font-bold block w-fit">ILLIMITATA</span>
+                                            <span class="bg-red-300 text-red-900 px-3 py-1 rounded-full text-sm font-bold block w-fit">SOLIDALE</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-lg">-</td>
+                                    <td class="p-4 text-lg">Piccole/Medie</td>
+                                    <td class="p-4">
+                                        <p class="text-green-700 text-sm">✓ Più capitali</p>
+                                        <p class="text-red-700 text-sm">✗ Rischio massimo</p>
+                                    </td>
+                                </tr>
+                                <tr class="bg-green-50 border-b-4 border-white">
+                                    <td class="p-4">
+                                        <p class="font-bold text-xl text-green-900">SRL</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="bg-green-200 text-green-900 px-3 py-1 rounded-full text-sm font-bold">LIMITATA</span>
+                                    </td>
+                                    <td class="p-4">
+                                        <p class="text-lg font-bold">10.000€</p>
+                                        <p class="text-sm">(1€ SRLS)</p>
+                                    </td>
+                                    <td class="p-4 text-lg">Piccole/Medie</td>
+                                    <td class="p-4">
+                                        <p class="text-green-700 text-sm">✓ Protetta</p>
+                                        <p class="text-green-700 text-sm">✓ Flessibile</p>
+                                    </td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td class="p-4 rounded-bl-xl">
+                                        <p class="font-bold text-xl text-blue-900">SPA</p>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="bg-green-200 text-green-900 px-3 py-1 rounded-full text-sm font-bold">LIMITATA</span>
+                                    </td>
+                                    <td class="p-4">
+                                        <p class="text-lg font-bold">50.000€</p>
+                                    </td>
+                                    <td class="p-4 text-lg">Grandi catene</td>
+                                    <td class="p-4 rounded-br-xl">
+                                        <p class="text-green-700 text-sm">✓ Azioni</p>
+                                        <p class="text-red-700 text-sm">✗ Complessa</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-blue-900 mb-6">SNC - Società in Nome Collettivo</h3>
+                        <div class="space-y-4">
+                            <div class="bg-red-50 rounded-xl p-5 border-l-4 border-red-600">
+                                <p class="font-bold text-red-900 mb-2 text-xl">Responsabilità ILLIMITATA:</p>
+                                <p class="text-gray-800">I soci rispondono con <strong>tutto</strong> il patrimonio presente e futuro</p>
+                            </div>
+                            <div class="bg-red-50 rounded-xl p-5 border-l-4 border-red-600">
+                                <p class="font-bold text-red-900 mb-2 text-xl">Responsabilità SOLIDALE:</p>
+                                <p class="text-gray-800">I creditori possono chiedere l'intero debito a <strong>qualsiasi socio</strong></p>
+                            </div>
+                            <div class="bg-orange-100 rounded-xl p-4">
+                                <p class="font-semibold text-orange-900 mb-2">Esempio:</p>
+                                <p class="text-gray-800">Debito 50.000€, socio con quota 20% può essere chiamato a pagare tutto. Poi si rivalerà sugli altri soci.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-slate-900 mb-6">SAS - Società in Accomandita Semplice</h3>
+                        <div class="space-y-4">
+                            <div class="bg-slate-100 rounded-xl p-5">
+                                <p class="font-bold text-slate-900 mb-2 text-lg">SOCI ACCOMANDATARI:</p>
+                                <ul class="text-gray-800 space-y-1">
+                                    <li>• Amministrano la società</li>
+                                    <li>• Responsabilità <strong>illimitata e solidale</strong></li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 rounded-xl p-5">
+                                <p class="font-bold text-green-900 mb-2 text-lg">SOCI ACCOMANDANTI:</p>
+                                <ul class="text-gray-800 space-y-1">
+                                    <li>• NON amministrano</li>
+                                    <li>• Responsabilità <strong>limitata alla quota</strong></li>
+                                    <li>• Possono votare in assemblea ✓</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Società di Capitali</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">SPA - Società Per Azioni</h4>
+                            <div class="space-y-4">
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold mb-2">Caratteristiche:</p>
+                                    <ul class="space-y-1">
+                                        <li>• Capitale minimo: <strong>50.000€</strong></li>
+                                        <li>• Quote = <strong>azioni</strong></li>
+                                        <li>• Ogni azione = 1 voto</li>
+                                        <li>• Personalità giuridica</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold mb-2">Adatta a:</p>
+                                    <p>Grandi catene alberghiere (Hilton, Marriott, Accor)</p>
+                                </div>
+                                <div class="bg-white/30 rounded-xl p-4">
+                                    <p class="font-bold">Soggetto Economico:</p>
+                                    <p>Soci che detengono la <strong>maggioranza delle azioni</strong></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">SRL - Società a Responsabilità Limitata</h4>
+                            <div class="space-y-4">
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold mb-2">SRL Ordinaria:</p>
+                                    <p>Capitale minimo: <strong>10.000€</strong></p>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold mb-2">SRLS Semplificata:</p>
+                                    <p>Capitale: da <strong>1€</strong> a 9.999,99€</p>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold mb-2">SRL Unipersonale:</p>
+                                    <p>Socio unico con responsabilità limitata</p>
+                                </div>
+                                <div class="bg-white/30 rounded-xl p-4">
+                                    <p class="font-bold">Adatta a:</p>
+                                    <p>Piccole/medie imprese ristorative, ricettive e ADV</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Impresa Familiare</h3>
+                    <div class="bg-gradient-to-r from-orange-100 to-amber-100 rounded-2xl p-6">
+                        <p class="text-xl font-semibold text-gray-800 mb-4">Art. 230 bis c.c.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="font-bold text-orange-900 mb-2">Collaborano:</p>
+                                <ul class="text-gray-800 space-y-1">
+                                    <li>• Coniuge</li>
+                                    <li>• Parenti entro 3° grado</li>
+                                    <li>• Affini entro 2°</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-bold text-orange-900 mb-2">Diritti familiari:</p>
+                                <ul class="text-gray-800 space-y-1">
+                                    <li>• Partecipazione agli <strong>utili</strong></li>
+                                    <li>• Decisioni importanti a <strong>maggioranza</strong></li>
+                                    <li>• Gestione straordinaria</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 4: IMPRESE TURISTICHE -->
+        <section id="section4" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 animate-slide-in">Imprese Turistico-Ristorative</h2>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Imprese Ricettive</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">ALBERGHIERE</h4>
+                            <div class="space-y-3">
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold text-xl mb-2">Alberghi</p>
+                                    <p>Classificazione: da 1 a 5 stelle</p>
+                                    <p class="text-sm mt-1">5 stelle LUSSO = Grand Hotel</p>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold text-xl mb-2">Motel</p>
+                                    <p>Vicino arterie stradali, sosta veicoli</p>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold text-xl mb-2">Villaggi-Albergo</p>
+                                    <p>Più edifici, servizi centralizzati</p>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-4">
+                                    <p class="font-bold text-xl mb-2">Alberghi Diffusi</p>
+                                    <p>Reception centralizzata + unità nel centro storico</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">EXTRA-ALBERGHIERE</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Residence</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">B&B</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Affittacamere</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Campeggi</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Agriturismi</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Rifugi</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Ostelli</p>
+                                </div>
+                                <div class="bg-white/20 rounded-lg p-3 text-center">
+                                    <p class="font-semibold">Villaggi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-orange-100 rounded-2xl p-6 border-l-4 border-orange-600">
+                        <p class="font-bold text-orange-900 mb-2">Normativa Regionale</p>
+                        <p class="text-gray-800">Le Regioni classificano le imprese ricettive (L. Cost. 3/2001) - possibili differenze tra Regioni</p>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Imprese Ristorative</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-orange-600 to-orange-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-4">RISTORAZIONE COMMERCIALE</h4>
+                            <p class="text-xl mb-4">Con <strong>fine di lucro</strong></p>
+                            <ul class="space-y-3">
+                                <li class="bg-white/20 rounded-lg p-3">• Ristoranti tradizionali</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Trattorie, osterie, pizzerie</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Fast food, paninoteche</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Ristoranti alberghieri</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-slate-600 to-slate-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-4">RISTORAZIONE COLLETTIVA</h4>
+                            <p class="text-xl mb-4"><strong>Senza</strong> fine di lucro</p>
+                            <ul class="space-y-3">
+                                <li class="bg-white/20 rounded-lg p-3">• Mense aziendali</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Mense scolastiche/universitarie</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Mense ospedaliere</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Banqueting e catering</li>
+                                <li class="bg-white/20 rounded-lg p-3">• Ristorazione trasporti</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Imprese di Viaggio</h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-blue-50 rounded-2xl p-6 border-4 border-blue-300">
+                            <h4 class="text-2xl font-bold text-blue-900 mb-4">Agenzie di Viaggio (ADV)</h4>
+                            <p class="font-semibold text-blue-800 mb-3">Attività:</p>
+                            <ul class="space-y-2 text-gray-800">
+                                <li>• Intermediazione</li>
+                                <li>• Vendita biglietti</li>
+                                <li>• Transfer</li>
+                                <li>• Prenotazioni hotel</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-slate-50 rounded-2xl p-6 border-4 border-slate-400">
+                            <h4 class="text-2xl font-bold text-slate-900 mb-4">Tour Operator (TO)</h4>
+                            <p class="font-semibold text-slate-800 mb-3">Attività:</p>
+                            <ul class="space-y-2 text-gray-800">
+                                <li>• <strong>Organizzano</strong> pacchetti</li>
+                                <li>• Outgoing (estero)</li>
+                                <li>• Incoming (Italia)</li>
+                                <li>• <strong>Producono</strong> il viaggio</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 rounded-2xl p-6 border-4 border-green-300">
+                            <h4 class="text-2xl font-bold text-green-900 mb-4">Tour Organizer</h4>
+                            <p class="font-semibold text-green-800 mb-3">Attività:</p>
+                            <ul class="space-y-2 text-gray-800">
+                                <li>• Viaggi su richiesta</li>
+                                <li>• Personalizzati</li>
+                                <li>• Su misura cliente</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-red-50 rounded-2xl p-6 border-l-4 border-red-600">
+                        <p class="font-bold text-red-900 mb-2 text-xl">Differenza chiave ADV vs TO:</p>
+                        <p class="text-gray-800 text-lg"><strong>ADV</strong> = Intermediazione (vende servizi di altri)</p>
+                        <p class="text-gray-800 text-lg"><strong>TO</strong> = Produzione (crea e organizza il pacchetto turistico completo)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 5: SOSTENIBILITÀ -->
+        <section id="section5" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 animate-slide-in">Sostenibilità ed Economia Circolare</h2>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Sviluppo Sostenibile</h3>
+                    <div class="bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl p-8 border-l-8 border-green-700">
+                        <p class="text-2xl font-semibold text-gray-800">
+                            Sviluppo che <strong>soddisfa i bisogni delle generazioni presenti</strong> senza compromettere la possibilità per le <strong>generazioni future</strong> di soddisfare i propri bisogni
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <div class="text-6xl mb-4">🌱</div>
+                        <h4 class="text-2xl font-bold text-green-700 mb-4">Sostenibilità AMBIENTALE</h4>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>• Rispetto per l'ambiente</li>
+                            <li>• Riduzione inquinamento</li>
+                            <li>• Gestione rifiuti</li>
+                            <li>• Energie rinnovabili</li>
+                            <li>• Raccolta acqua piovana</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <div class="text-6xl mb-4">👥</div>
+                        <h4 class="text-2xl font-bold text-blue-700 mb-4">Sostenibilità SOCIALE</h4>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>• Equa distribuzione ricchezza</li>
+                            <li>• Rispetto diritti lavoratori</li>
+                            <li>• Pari opportunità</li>
+                            <li>• Inclusione sociale</li>
+                            <li>• Benessere collettivo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <div class="text-6xl mb-4">💼</div>
+                        <h4 class="text-2xl font-bold text-slate-700 mb-4">Sostenibilità ECONOMICA</h4>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>• Generare reddito</li>
+                            <li>• Garantire lavoro</li>
+                            <li>• Crescita equilibrata</li>
+                            <li>• Efficienza produttiva</li>
+                            <li>• Redditività nel tempo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">I 4 Pilastri dell'Economia Circolare</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex items-start gap-4 bg-orange-50 rounded-2xl p-6 border-l-4 border-orange-600">
+                            <div class="text-5xl">1️⃣</div>
+                            <div>
+                                <h5 class="font-bold text-orange-700 text-2xl mb-2">RIDUZIONE</h5>
+                                <p class="text-gray-800 text-lg">Riduzione rifiuti e sprechi di risorse</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-green-50 rounded-2xl p-6 border-l-4 border-green-600">
+                            <div class="text-5xl">2️⃣</div>
+                            <div>
+                                <h5 class="font-bold text-green-700 text-2xl mb-2">RIUTILIZZO</h5>
+                                <p class="text-gray-800 text-lg">Riutilizzo dei beni</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-blue-50 rounded-2xl p-6 border-l-4 border-blue-600">
+                            <div class="text-5xl">3️⃣</div>
+                            <div>
+                                <h5 class="font-bold text-blue-700 text-2xl mb-2">RICICLO</h5>
+                                <p class="text-gray-800 text-lg">Raccolta differenziata e riciclo</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-slate-50 rounded-2xl p-6 border-l-4 border-slate-600">
+                            <div class="text-5xl">4️⃣</div>
+                            <div>
+                                <h5 class="font-bold text-slate-700 text-2xl mb-2">RECUPERO</h5>
+                                <p class="text-gray-800 text-lg">Recupero materiali non riciclabili</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Esempi Pratici nel Settore Turistico</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-green-600 to-emerald-700 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-4">Ristorante GREEN</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <ul class="space-y-2">
+                                    <li>✓ Ortaggi e vino prodotti localmente (km 0)</li>
+                                    <li>✓ Riduzione emissioni da trasporto</li>
+                                    <li>✓ Valorizzazione territorio</li>
+                                </ul>
+                                <ul class="space-y-2">
+                                    <li>✓ Prodotti freschi e stagionali</li>
+                                    <li>✓ Packaging biodegradabile</li>
+                                    <li>✓ Compostaggio scarti</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-600 to-cyan-700 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-4">ECO-HOTEL</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <ul class="space-y-2">
+                                    <li>✓ Energie rinnovabili (pannelli solari)</li>
+                                    <li>✓ Raccolta acqua piovana</li>
+                                    <li>✓ Bici elettriche per ospiti</li>
+                                </ul>
+                                <ul class="space-y-2">
+                                    <li>✓ Certificazione sostenibilità</li>
+                                    <li>✓ Riduzione plastica monouso</li>
+                                    <li>✓ Prodotti biodegradabili</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-orange-600 to-amber-700 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-4">Albergo di Montagna Sostenibile</h4>
+                            <ul class="space-y-3">
+                                <li>• Organizza escursioni naturalistiche</li>
+                                <li>• Reinveste utili nella manutenzione sentieri</li>
+                                <li>• Colazioni a km 0 con fornitori locali</li>
+                                <li>• <strong>Vantaggi competitivi:</strong> fidelizzazione clientela eco-sensibile</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 6: CALCOLI -->
+        <section id="section6" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 animate-slide-in">Calcoli Economici e Indicatori</h2>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl text-center">
+                    <h3 class="text-5xl font-bold text-slate-800 mb-6">Formula Fondamentale</h3>
+                    <div class="bg-gradient-to-r from-green-600 to-emerald-700 text-white rounded-2xl p-12">
+                        <p class="text-6xl font-black mb-6">RICAVI - COSTI = UTILE</p>
+                        <div class="grid md:grid-cols-3 gap-6 mt-8">
+                            <div class="bg-white/20 rounded-xl p-6">
+                                <p class="text-3xl font-bold mb-2">RICAVI</p>
+                                <p class="text-lg">Vendita beni/servizi</p>
+                            </div>
+                            <div class="bg-white/20 rounded-xl p-6">
+                                <p class="text-3xl font-bold mb-2">COSTI</p>
+                                <p class="text-lg">Spese per produzione</p>
+                            </div>
+                            <div class="bg-white/20 rounded-xl p-6">
+                                <p class="text-3xl font-bold mb-2">UTILE</p>
+                                <p class="text-lg">Profitto (guadagno)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Esempio 1: Trattoria Tirreno</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 rounded-2xl p-6">
+                            <h4 class="font-bold text-blue-900 mb-4 text-2xl">Dati:</h4>
+                            <ul class="space-y-3 text-gray-800 text-xl">
+                                <li>• 15.000 pasti all'anno</li>
+                                <li>• Prezzo medio: 25€ a pasto</li>
+                                <li>• Costi totali: 230.000€</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 rounded-2xl p-6">
+                            <h4 class="font-bold text-green-900 mb-4 text-2xl">Calcolo:</h4>
+                            <div class="space-y-3 text-xl">
+                                <p><strong>Ricavi:</strong> 15.000 × 25€ = <span class="text-green-700 font-bold text-2xl">375.000€</span></p>
+                                <p><strong>Costi:</strong> <span class="text-red-700 font-bold text-2xl">230.000€</span></p>
+                                <p class="pt-3 border-t-4 border-green-400"><strong>UTILE:</strong> <span class="text-4xl text-green-700 font-black">145.000€</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Esempio 2: Hotel 50 Camere</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 rounded-2xl p-6">
+                            <h4 class="font-bold text-slate-900 mb-4 text-2xl">Dati:</h4>
+                            <ul class="space-y-3 text-gray-800 text-xl">
+                                <li>• Ricavi annui: 1.200.000€</li>
+                                <li>• Costi personale: 450.000€</li>
+                                <li>• Utenze/manutenzioni: 180.000€</li>
+                                <li>• Forniture/servizi: 220.000€</li>
+                                <li>• Altri costi: 150.000€</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 rounded-2xl p-6">
+                            <h4 class="font-bold text-orange-900 mb-4 text-2xl">Calcolo:</h4>
+                            <div class="space-y-3 text-xl">
+                                <p><strong>Ricavi:</strong> <span class="text-green-700 font-bold text-2xl">1.200.000€</span></p>
+                                <p><strong>Costi Totali:</strong></p>
+                                <p class="text-lg pl-4">450k + 180k + 220k + 150k = <span class="text-red-700 font-bold text-2xl">1.000.000€</span></p>
+                                <p class="pt-3 border-t-4 border-orange-400"><strong>UTILE:</strong> <span class="text-4xl text-green-700 font-black">200.000€</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Indicatori Fondamentali del Settore Alberghiero</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">TASSO DI OCCUPAZIONE (Room Occupancy)</h4>
+                            <div class="bg-white/20 rounded-xl p-6 mb-6">
+                                <p class="text-center text-3xl font-bold">
+                                    (Camere Occupate / Camere Disponibili) × 100
+                                </p>
+                            </div>
+                            <p class="mb-4 text-lg"><strong>Indica:</strong> Percentuale di utilizzo delle camere</p>
+                            <div class="bg-white/30 rounded-xl p-4">
+                                <p class="font-bold mb-2">Esempio:</p>
+                                <p>35 camere occupate su 50 disponibili</p>
+                                <p className="mt-2">Occupancy = (35/50) × 100 = <strong className="text-2xl">70%</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">RICAVO MEDIO PER CAMERA (RevPAR)</h4>
+                            <div class="bg-white/20 rounded-xl p-6 mb-6">
+                                <p class="text-center text-2xl font-bold mb-3">
+                                    RevPAR = Ricavi Camere / Camere Disponibili
+                                </p>
+                                <p class="text-center text-lg">oppure</p>
+                                <p class="text-center text-2xl font-bold mt-3">
+                                    RevPAR = Tariffa Media × Occupancy%
+                                </p>
+                            </div>
+                            <p class="mb-4 text-lg"><strong>Indica:</strong> Performance economica dell'hotel</p>
+                            <div class="bg-white/30 rounded-xl p-4">
+                                <p class="font-bold mb-2">Esempio:</p>
+                                <p>Tariffa 120€, Occupancy 70%</p>
+                                <p class="mt-2">RevPAR = 120€ × 0,70 = <strong class="text-2xl">84€</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-red-50 rounded-2xl p-6 border-l-4 border-red-600">
+                        <p class="font-bold text-red-900 mb-3 text-2xl">Perché sono fondamentali?</p>
+                        <ul class="text-gray-800 space-y-2 text-lg">
+                            <li>• Misurano l'<strong>efficienza gestionale</strong> dell'hotel</li>
+                            <li>• Permettono <strong>confronti con competitor</strong></li>
+                            <li>• Guidano decisioni su <strong>pricing e strategie commerciali</strong></li>
+                            <li>• Indicano la <strong>salute economica</strong> della struttura</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 7: NORMATIVA -->
+        <section id="section7" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 animate-slide-in">Normativa e Adempimenti</h2>
+                
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Comunicazione Unica d'Impresa</h3>
+                    <div class="bg-gradient-to-r from-blue-100 to-slate-100 rounded-2xl p-8 border-l-8 border-blue-700 mb-6">
+                        <p class="text-2xl font-semibold text-gray-800">
+                            Invio <strong>telematico</strong> al <strong>Registro delle Imprese (CCIAA)</strong> - Camera di Commercio
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-red-50 rounded-2xl p-6 border-l-4 border-red-600">
+                            <h4 class="font-bold text-red-900 mb-3 text-xl">Agenzia delle Entrate</h4>
+                            <p class="text-gray-800 text-lg">Apertura <strong>Partita IVA</strong></p>
+                        </div>
+                        <div class="bg-blue-50 rounded-2xl p-6 border-l-4 border-blue-600">
+                            <h4 class="font-bold text-blue-900 mb-3 text-xl">INAIL</h4>
+                            <p class="text-gray-800 text-lg">Assicurazione <strong>infortuni e malattie professionali</strong></p>
+                        </div>
+                        <div class="bg-green-50 rounded-2xl p-6 border-l-4 border-green-600">
+                            <h4 class="font-bold text-green-900 mb-3 text-xl">INPS</h4>
+                            <p class="text-gray-800 text-lg">Iscrizione per <strong>contributi previdenziali</strong> dipendenti</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">SCIA - Segnalazione Certificata Inizio Attività</h3>
+                    <div class="bg-gradient-to-r from-slate-700 to-slate-900 text-white rounded-2xl p-8">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-3xl font-bold mb-4">Dove si invia?</h4>
+                                <p class="text-2xl mb-3"><strong>SUAP</strong></p>
+                                <p class="text-xl">Sportello Unico Attività Produttive</p>
+                                <p class="text-lg opacity-90">Del Comune di residenza</p>
+                            </div>
+                            <div>
+                                <h4 class="text-3xl font-bold mb-4">Quando posso iniziare?</h4>
+                                <p class="text-3xl mb-3 font-black">IMMEDIATAMENTE</p>
+                                <p class="text-lg">Dopo ricevuta telematica dal SUAP</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-8">Atto Costitutivo delle Società</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">SOCIETÀ DI PERSONE</h4>
+                            <div class="space-y-4">
+                                <div class="bg-white/20 rounded-xl p-5">
+                                    <p class="font-bold text-xl mb-3">Forma richiesta:</p>
+                                    <ul class="space-y-2">
+                                        <li>• Scrittura privata con firme autenticate</li>
+                                        <li class="text-center my-2 text-lg">oppure</li>
+                                        <li>• Atto pubblico (notaio)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-slate-600 to-slate-800 text-white rounded-2xl p-8 card-3d">
+                            <h4 class="text-3xl font-bold mb-6">SOCIETÀ DI CAPITALI</h4>
+                            <div class="space-y-4">
+                                <div class="bg-white/20 rounded-xl p-5">
+                                    <p class="font-bold text-xl mb-3">Forma richiesta:</p>
+                                    <p class="text-2xl font-black mb-2">SOLO Atto pubblico (notaio)</p>
+                                    <p class="text-lg">Obbligatorio per SPA e SRL</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-strong rounded-3xl p-10 shadow-2xl">
+                    <h3 class="text-4xl font-bold text-slate-800 mb-6">Domicilio Digitale</h3>
+                    <div class="bg-gradient-to-r from-orange-100 to-amber-100 rounded-2xl p-8 border-l-8 border-orange-600">
+                        <p class="text-2xl font-bold text-orange-900 mb-4">D.L. 76/2020: Obbligo di domicilio digitale</p>
+                        <p class="text-xl text-gray-800 mb-2">Per tutte le imprese e i professionisti</p>
+                        <p class="text-lg text-gray-700">Indirizzo PEC per comunicazioni ufficiali</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 8: RECAP FINALE -->
+        <section id="section8" class="content-section hidden">
+            <div class="space-y-8">
+                <h2 class="text-6xl font-black gradient-text mb-8 text-center animate-slide-in">Recap Finale - Siete Pronti!</h2>
+                
+                <div class="glass-strong rounded-3xl p-12 shadow-2xl text-center">
+                    <div class="text-8xl mb-6 animate-float">🎓</div>
+                    <h3 class="text-5xl font-black gradient-text mb-6">Congratulazioni!</h3>
+                    <p class="text-3xl text-gray-700 font-semibold mb-12">Avete completato il ripasso completo</p>
+                    
+                    <div class="grid md:grid-cols-4 gap-6 mb-12">
+                        <div class="glass p-8 rounded-2xl neon-border card-3d">
+                            <p class="text-6xl font-black text-blue-700 counter" data-target="8">0</p>
+                            <p class="text-xl text-gray-700 mt-3 font-semibold">Sezioni</p>
+                        </div>
+                        <div class="glass p-8 rounded-2xl neon-border card-3d">
+                            <p class="text-6xl font-black text-blue-700 counter" data-target="50">0</p>
+                            <p class="text-xl text-gray-700 mt-3 font-semibold">Concetti</p>
+                        </div>
+                        <div class="glass p-8 rounded-2xl neon-border card-3d">
+                            <p class="text-6xl font-black text-blue-700 counter" data-target="120">0</p>
+                            <p class="text-xl text-gray-700 mt-3 font-semibold">Minuti</p>
+                        </div>
+                        <div class="glass p-8 rounded-2xl neon-border card-3d">
+                            <p class="text-6xl font-black text-blue-700 counter" data-target="100">0</p>
+                            <p class="text-xl text-gray-700 mt-3 font-semibold">% Pronti</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-700 via-slate-700 to-blue-700 text-white rounded-3xl p-12 animate-zoom">
+                        <p class="text-5xl font-black mb-6">In Bocca al Lupo!</p>
+                        <p class="text-2xl opacity-90">Siete preparati al massimo per la verifica</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-blue-900 mb-6">L'AZIENDA</h3>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>✓ Organizzazione durevole di persone e beni</li>
+                            <li>✓ Beni durevoli vs breve ciclo</li>
+                            <li>✓ Risparmio vs Investimento</li>
+                            <li>✓ Art. 2555 c.c. non menziona le persone</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-slate-900 mb-6">FORME GIURIDICHE</h3>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>✓ SNC: responsabilità illimitata + solidale</li>
+                            <li>✓ SAS: accomandatari vs accomandanti</li>
+                            <li>✓ SRL: capitale min 10.000€ (1€ SRLS)</li>
+                            <li>✓ SPA: capitale min 50.000€</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-green-900 mb-6">IMPRESE TURISTICHE</h3>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>✓ Alberghiere: 1-5 stelle, Grand Hotel</li>
+                            <li>✓ Extra-alberghiere: B&B, agriturismi, campeggi</li>
+                            <li>✓ Alberghi diffusi: unità distribuite centro storico</li>
+                            <li>✓ TO organizza, ADV intermedia</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-orange-900 mb-6">SOSTENIBILITÀ</h3>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>✓ Ambientale, Sociale, Economica</li>
+                            <li>✓ 4 R: Riduzione, Riutilizzo, Riciclo, Recupero</li>
+                            <li>✓ Km 0, energie rinnovabili</li>
+                            <li>✓ Vantaggi competitivi e fidelizzazione</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-blue-900 mb-6">CALCOLI</h3>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>✓ UTILE = RICAVI - COSTI</li>
+                            <li>✓ Occupancy = (Occ/Disp) × 100</li>
+                            <li>✓ RevPAR = Tariffa × Occupancy%</li>
+                            <li>✓ Indicatori fondamentali performance hotel</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-strong rounded-2xl p-8 card-3d">
+                        <h3 class="text-3xl font-bold text-slate-900 mb-6">NORMATIVA</h3>
+                        <ul class="space-y-2 text-gray-800 text-lg">
+                            <li>✓ Comunicazione Unica a CCIAA</li>
+                            <li>✓ INPS per contributi dipendenti</li>
+                            <li>✓ SCIA al SUAP → inizio immediato</li>
+                            <li>✓ Società capitali: solo atto pubblico</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="shortcuts-panel" id="shortcutsPanel">
+        <h4 class="font-bold mb-3 text-lg">Scorciatoie Tastiera</h4>
+        <div class="space-y-2 text-sm">
+            <p><kbd class="bg-white text-black px-2 py-1 rounded">→</kbd> Sezione successiva</p>
+            <p><kbd class="bg-white text-black px-2 py-1 rounded">←</kbd> Sezione precedente</p>
+            <p><kbd class="bg-white text-black px-2 py-1 rounded">F</kbd> Schermo intero</p>
+            <p><kbd class="bg-white text-black px-2 py-1 rounded">?</kbd> Mostra/nascondi</p>
+        </div>
+    </div>
+
+    <footer class="glass fixed bottom-0 left-0 right-0 z-30 border-t border-white/20">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center text-white text-sm">
+                <p>DTA 2025 - Economia Aziendale Turistica</p>
+                <p>Usa le frecce o i pulsanti per navigare</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 8;
+        let startTime = Date.now();
+        let timerInterval;
+        let shortcutsVisible = false;
+        
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        function showSection(num) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
+            const section = document.getElementById(`section${num}`);
+            if (section) {
+                section.classList.remove('hidden');
+                currentSection = num;
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                if (num === 8) {
+                    setTimeout(animateCounters, 300);
+                }
+            }
+        }
+        
+        function updateProgress() {
+            for (let i = 1; i <= totalSections; i++) {
+                const segment = document.getElementById(`prog-${i}`);
+                if (i <= currentSection) {
+                    segment.style.background = 'linear-gradient(90deg, #3b82f6, #1e40af)';
+                } else {
+                    segment.style.background = 'rgba(255, 255, 255, 0.2)';
+                }
+            }
+        }
+        
+        function toggleExpand(num) {
+            const content = document.getElementById(`expand-${num}`);
+            const arrow = document.getElementById(`arrow-${num}`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('expanded');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        function checkAnswer(element, correct) {
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.onclick = null;
+                opt.style.cursor = 'default';
+            });
+            
+            if (correct) {
+                element.classList.add('quiz-correct');
+                setTimeout(() => {
+                    alert('✓ Corretto! Kit cortesia = risparmio (consumo futuro), Sistema informatico = investimento (bene produttivo)');
+                }, 300);
+            } else {
+                element.classList.add('quiz-wrong');
+                setTimeout(() => {
+                    alert('✗ Riprova! Pensa alla differenza tra risparmio e investimento');
+                }, 300);
+            }
+        }
+        
+        function animateCounters() {
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        function toggleShortcuts() {
+            shortcutsVisible = !shortcutsVisible;
+            const panel = document.getElementById('shortcutsPanel');
+            if (shortcutsVisible) {
+                panel.classList.add('visible');
+            } else {
+                panel.classList.remove('visible');
+            }
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                    if (currentSection < totalSections) showSection(currentSection + 1);
+                    break;
+                case 'ArrowLeft':
+                    if (currentSection > 1) showSection(currentSection - 1);
+                    break;
+                case 'f':
+                case 'F':
+                    toggleFullscreen();
+                    break;
+                case '?':
+                    toggleShortcuts();
+                    break;
+            }
+        });
+        
+        createParticles();
+        showSection(1);
+        timerInterval = setInterval(updateTimer, 1000);
+    </script>
+
+</body>
+</html>
