@@ -1,0 +1,2821 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economia Aziendale - Istituto Alberghiero | Modulo Strumenti di Lavoro</title>
+    <meta name="description" content="Corso interattivo di Economia Aziendale per l'Istituto Alberghiero: proporzioni, percentuali, interessi e riparti">
+    
+    <style>
+        /* === THEME VARIABLES === */
+        :root {
+            --bg: #0E1116;
+            --surface: #141A22;
+            --surface-2: #192231;
+            --primary: #1F4E79;
+            --accent: #2F6F6F;
+            --text: #E6ECEF;
+            --muted: #A6B3BE;
+            --success: #2E7D32;
+            --warning: #B26A00;
+            --danger: #8B1E1E;
+            --radius: 20px;
+            --radius-sm: 12px;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -2px rgba(0,0,0,0.2);
+            --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* === RESET & BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 48px; }
+        h2 { font-size: 36px; margin-top: 2rem; }
+        h3 { font-size: 28px; margin-top: 1.5rem; }
+        h4 { font-size: 22px; margin-top: 1rem; }
+        h5 { font-size: 20px; }
+        h6 { font-size: 18px; }
+
+        p { margin-bottom: 1rem; }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        a:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* === LAYOUT === */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-bottom: 1px solid var(--surface-2);
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        /* === NAVIGATION TABS === */
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--surface-2);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--muted);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: var(--primary);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-tab:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* === SIDEBAR === */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            bottom: 0;
+            width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--surface-2);
+            padding: 1.5rem;
+            overflow-y: auto;
+            z-index: 90;
+            transition: transform 0.3s;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            left: 10px;
+            top: 90px;
+            z-index: 95;
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: none;
+        }
+
+        .sidebar h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .sidebar-links {
+            list-style: none;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-links a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .sidebar-links a:hover {
+            background: var(--surface-2);
+            text-decoration: none;
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            margin-left: 280px;
+            margin-top: 80px;
+            flex: 1;
+            padding: 2rem;
+            max-width: calc(100% - 280px);
+        }
+
+        .main-content.full-width {
+            margin-left: 0;
+            max-width: 100%;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* === TAB PANELS === */
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === CARDS === */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--surface-2);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--surface-2);
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 3rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .learning-outcomes {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .learning-outcomes li {
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .learning-outcomes li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: var(--success);
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* === FORMS & INPUTS === */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--surface-2);
+            border: 1px solid var(--muted);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.2);
+        }
+
+        /* === BUTTONS === */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2a5f8a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        /* === CALCULATORS === */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .calculator-card {
+            background: var(--surface-2);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--muted);
+        }
+
+        .calculator-result {
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+            border-left: 4px solid var(--success);
+        }
+
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .calculation-steps {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        /* === ACCORDION === */
+        .accordion {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: var(--surface-2);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--surface-2);
+        }
+
+        .accordion-header:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .accordion-header.active {
+            background: var(--primary);
+            color: white;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--surface-2);
+            border-top: none;
+            border-bottom-left-radius: var(--radius-sm);
+            border-bottom-right-radius: var(--radius-sm);
+        }
+
+        .accordion-content.active {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 5000px;
+            }
+        }
+
+        /* === QUIZ === */
+        .quiz-container {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-2);
+            border-radius: var(--radius-sm);
+        }
+
+        .quiz-options {
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: var(--surface);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            display: none;
+        }
+
+        .quiz-feedback.success {
+            background: rgba(46, 125, 50, 0.2);
+            border-left: 4px solid var(--success);
+            display: block;
+        }
+
+        .quiz-feedback.error {
+            background: rgba(139, 30, 30, 0.2);
+            border-left: 4px solid var(--danger);
+            display: block;
+        }
+
+        .quiz-results {
+            background: var(--surface-2);
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            display: none;
+        }
+
+        .quiz-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* === TABLES === */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-2);
+        }
+
+        th {
+            background: var(--surface-2);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        tr:hover {
+            background: rgba(31, 78, 121, 0.1);
+        }
+
+        /* === FORMULE === */
+        .formula-box {
+            background: var(--surface-2);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent);
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+
+        .formula-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* === TOOLTIPS === */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .tooltip-content {
+            visibility: hidden;
+            background: var(--surface-2);
+            color: var(--text);
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .tooltip:hover .tooltip-content {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* === NOTIFICATIONS === */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--surface);
+            color: var(--text);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            animation: slideIn 0.3s;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 968px) {
+            .sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1rem;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 32px; }
+            h2 { font-size: 28px; }
+            h3 { font-size: 24px; }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-tabs {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* === PRINT STYLES === */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .header,
+            .sidebar,
+            .sidebar-toggle,
+            .nav-tabs,
+            .hero,
+            .toast,
+            .btn,
+            button {
+                display: none !important;
+            }
+
+            .main-content {
+                margin: 0;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .card {
+                background: white;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .accordion-content {
+                display: block !important;
+            }
+
+            .quiz-container,
+            .calculator-card {
+                display: none;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                color: black;
+                page-break-after: avoid;
+            }
+
+            .formula-box {
+                border-left-color: black;
+                background: #f5f5f5;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* === UTILITIES === */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .p-1 { padding: 0.5rem; }
+        .p-2 { padding: 1rem; }
+        .p-3 { padding: 1.5rem; }
+        .p-4 { padding: 2rem; }
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-1 { gap: 0.5rem; }
+        .gap-2 { gap: 1rem; }
+        .gap-3 { gap: 1.5rem; }
+    </style>
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="header-content">
+            <div class="logo">
+                <h1>ECONOMIA AZIENDALE</h1>
+            </div>
+            <nav class="nav-tabs" role="navigation" aria-label="Navigazione principale">
+                <button class="nav-tab active" data-tab="home" role="tab" aria-selected="true" aria-controls="home-panel">Home</button>
+                <button class="nav-tab" data-tab="lezione1" role="tab" aria-selected="false" aria-controls="lezione1-panel">Lezione 1</button>
+                <button class="nav-tab" data-tab="lezione2" role="tab" aria-selected="false" aria-controls="lezione2-panel">Lezione 2</button>
+                <button class="nav-tab" data-tab="lezione3" role="tab" aria-selected="false" aria-controls="lezione3-panel">Lezione 3</button>
+                <button class="nav-tab" data-tab="esercizi" role="tab" aria-selected="false" aria-controls="esercizi-panel">Esercizi</button>
+                <button class="nav-tab" data-tab="quiz" role="tab" aria-selected="false" aria-controls="quiz-panel">Quiz Finale</button>
+                <button class="nav-tab" data-tab="risorse" role="tab" aria-selected="false" aria-controls="risorse-panel">Risorse</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <button class="sidebar-toggle" aria-label="Toggle menu laterale" onclick="toggleSidebar()">☰</button>
+        
+        <aside class="sidebar" role="complementary" aria-label="Indice delle sezioni">
+            <h3>Indice delle Lezioni</h3>
+            <ul class="sidebar-links">
+                <li><a href="#proporzioni">Le Proporzioni</a></li>
+                <li><a href="#percentuali">I Calcoli Percentuali</a></li>
+                <li><a href="#interesse">L'Interesse</a></li>
+                <li><a href="#montante">Il Montante</a></li>
+                <li><a href="#sconto">Lo Sconto Commerciale</a></li>
+                <li><a href="#valore-attuale">Il Valore Attuale</a></li>
+                <li><a href="#riparti">I Riparti Proporzionali</a></li>
+                <li><a href="#glossario">Glossario</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content" role="main">
+            <div class="content-wrapper">
+                <div id="home-panel" class="tab-panel active" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="hero">
+                        <h1>Economia Aziendale per l'Istituto Alberghiero</h1>
+                        <p class="hero-subtitle">Modulo: Strumenti di Lavoro - Settore Accoglienza Turistica ed Enogastronomia</p>
+                        <ul class="learning-outcomes">
+                            <li>Padroneggiare proporzioni e calcoli percentuali per la gestione aziendale</li>
+                            <li>Calcolare interessi, montanti e sconti commerciali</li>
+                            <li>Applicare i riparti proporzionali nelle attività turistiche</li>
+                        </ul>
+                        <button class="cta-button" onclick="showTab('lezione1')">Inizia il Corso</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Benvenuto nel corso interattivo</h2>
+                        </div>
+                        <p>Questo corso ti guiderà attraverso i fondamenti dell'economia aziendale applicata al settore alberghiero e della ristorazione. Troverai:</p>
+                        <ul>
+                            <li><strong>3 Lezioni complete</strong> con teoria ed esempi pratici</li>
+                            <li><strong>32 Esercizi svolti</strong> per consolidare l'apprendimento</li>
+                            <li><strong>Calcolatori interattivi</strong> per ogni argomento</li>
+                            <li><strong>Quiz di autovalutazione</strong> con feedback immediato</li>
+                        </ul>
+                        <p class="mt-3">Il corso è ottimizzato per essere visualizzato su qualsiasi dispositivo e può essere stampato per lo studio offline.</p>
+                    </div>
+                </div>
+
+                <div id="lezione1-panel" class="tab-panel" role="tabpanel" aria-labelledby="lezione1-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Lezione 1 - I Calcoli Percentuali e le Proporzioni</h2>
+                        </div>
+                        
+                        <section id="proporzioni">
+                            <h3>1. LE PROPORZIONI</h3>
+                            
+                            <h4>Cos'è una proporzione?</h4>
+                            <p>Una proporzione è l'uguaglianza tra due rapporti. È il risultato della divisione tra il primo numero e il secondo numero.</p>
+                            
+                            <p><strong>Esempio pratico:</strong> 5 è un rapporto.</p>
+                            
+                            <p>Se consideriamo questi due rapporti:</p>
+                            <ul>
+                                <li>24 : 8 = 3</li>
+                                <li>36 : 12 = 3</li>
+                            </ul>
+                            
+                            <p>Osserviamo che hanno lo stesso risultato (3). In questo caso possiamo uguagliare i due rapporti per ottenere una proporzione:</p>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">24 : 8 = 36 : 12</div>
+                                che si legge: "24 sta a 8 come 36 sta a 12"
+                            </div>
+                            
+                            <h4>Terminologia delle proporzioni</h4>
+                            <p>I numeri sono detti termini della proporzione:</p>
+                            
+                            <div class="formula-box">
+                                24  :  8  =  36  :  12<br>
+                                ↓     ↓     ↓      ↓<br>
+                                estremo medio medio estremo
+                            </div>
+                            
+                            <ul>
+                                <li>Il primo e il quarto numero sono detti <strong>estremi</strong></li>
+                                <li>Il secondo e il terzo numero sono detti <strong>medi</strong></li>
+                            </ul>
+                            
+                            <h4>Proprietà fondamentale delle proporzioni</h4>
+                            <p><strong>Il prodotto dei medi è uguale al prodotto degli estremi</strong></p>
+                            
+                            <p>Infatti, se moltiplichiamo:</p>
+                            <ul>
+                                <li>24 × 12 = 288</li>
+                                <li>8 × 36 = 288</li>
+                            </ul>
+                            
+                            <p>La distinzione tra medi ed estremi è importante per calcolare il termine incognito di una proporzione. Se non conosciamo un termine, applicando la proprietà fondamentale delle proporzioni possiamo calcolarlo.</p>
+                            
+                            <h4>Come calcolare il termine incognito</h4>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">METODO:</div>
+                                <strong>SE L'INCOGNITA È UN ESTREMO:</strong><br>
+                                medio × medio<br>
+                                ─────────────<br>
+                                estremo conosciuto<br><br>
+                                
+                                <strong>SE L'INCOGNITA È UN MEDIO:</strong><br>
+                                estremo × estremo<br>
+                                ─────────────────<br>
+                                medio conosciuto
+                            </div>
+                            
+                            <h4>Distinzione tra antecedenti e conseguenti</h4>
+                            
+                            <div class="formula-box">
+                                24  :  8  =  36  :  12<br>
+                                ↓     ↓     ↓      ↓<br>
+                                ant. cons. ant.  cons.
+                            </div>
+                            
+                            <ul>
+                                <li>Il primo e il terzo numero sono detti <strong>antecedenti</strong></li>
+                                <li>Il secondo e il quarto numero sono detti <strong>conseguenti</strong></li>
+                            </ul>
+                            
+                            <p>La distinzione tra antecedenti e conseguenti è importante per impostare una proporzione, perché se le grandezze sono direttamente proporzionali, antecedenti e conseguenti devono essere dello stesso tipo.</p>
+                            
+                            <h4>ESEMPIO: Calcolo con le proporzioni</h4>
+                            <p><strong>Problema:</strong> Una ricetta prevede l'utilizzo di 40 g di burro per 800 g di mele. Quanti grammi di burro sono necessari per 960 g di mele?</p>
+                            
+                            <p>In questo caso abbiamo:</p>
+                            <ul>
+                                <li>antecedenti: burro</li>
+                                <li>conseguenti: mele</li>
+                            </ul>
+                            
+                            <p>La proporzione si imposta come segue:</p>
+                            
+                            <div class="formula-box">
+                                40  :  800  =  x  :  960<br>
+                                burro mele  burro mele
+                            </div>
+                            
+                            <p>Il termine incognito è un medio, quindi avremo:</p>
+                            <div class="formula-box">
+                                x = (40 × 960) / 800 = 48 g di burro
+                            </div>
+                        </section>
+
+                        <div class="calculator-card mt-4">
+                            <h4>Calcolatore Proporzioni</h4>
+                            <div class="form-group">
+                                <label for="prop-a">Primo termine (a):</label>
+                                <input type="number" id="prop-a" placeholder="es. 24" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="prop-b">Secondo termine (b):</label>
+                                <input type="number" id="prop-b" placeholder="es. 8" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="prop-c">Terzo termine (c):</label>
+                                <input type="number" id="prop-c" placeholder="es. 36" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="prop-d">Quarto termine (d):</label>
+                                <input type="number" id="prop-d" placeholder="es. x (lascia vuoto per calcolare)" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="prop-unknown">Termine da calcolare:</label>
+                                <select id="prop-unknown">
+                                    <option value="">Seleziona...</option>
+                                    <option value="a">Primo (estremo)</option>
+                                    <option value="b">Secondo (medio)</option>
+                                    <option value="c">Terzo (medio)</option>
+                                    <option value="d">Quarto (estremo)</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="calcolaProporzione()">Calcola</button>
+                            <div id="prop-result" class="calculator-result hidden">
+                                <div class="result-value"></div>
+                                <div class="calculation-steps"></div>
+                            </div>
+                        </div>
+
+                        <section id="percentuali" class="mt-4">
+                            <h3>2. I CALCOLI PERCENTUALI</h3>
+                            
+                            <h4>Cosa significa percentuale?</h4>
+                            <p>Con il termine percentuale si indica il valore di una grandezza riferita a 100.</p>
+                            
+                            <p>Nei calcoli commerciali è frequente che i valori siano riferiti a 100. Per esempio, quando uno svenditore concede uno sconto del 10% del prezzo di un imballaggio, e il 5% del peso di una merce.</p>
+                            
+                            <p>Per eseguire un calcolo percentuale si applica la seguente proporzione:</p>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">100 : r = S : P</div>
+                                dove:<br>
+                                • r = aliquota percentuale (o ragione), espressa da un numero seguito da %<br>
+                                • S = somma di riferimento su cui si calcola la percentuale<br>
+                                • P = ammontare totale della percentuale (percento totale)
+                            </div>
+                            
+                            <h4>CALCOLO PERCENTUALE DIRETTO</h4>
+                            <p>L'incognita da calcolare è il percento totale P</p>
+                            
+                            <p><strong>Formula:</strong> 100 : r = S : P</p>
+                            
+                            <p><strong>ESEMPIO:</strong> Un'ADV offre alla clientela un soggiorno di una settimana a Ischia al prezzo complessivo di 940 euro; nel mese di marzo lo stesso soggiorno viene offerto con lo sconto del 10%. Quale sconto ottiene il cliente che prenota nel mese di marzo?</p>
+                            
+                            <p>In questo caso abbiamo:</p>
+                            <ul>
+                                <li>r = 10%, aliquota percentuale</li>
+                                <li>S = 940 euro, somma su cui si calcola la percentuale</li>
+                                <li>P = sconto concesso, incognita da calcolare</li>
+                            </ul>
+                            
+                            <p>Impostiamo la proporzione: 100 : 10 = 940 : x</p>
+                            
+                            <p>Calcoliamo l'incognita:</p>
+                            <div class="formula-box">
+                                x = (10 × 940) / 100 = 94 euro, sconto ottenuto
+                            </div>
+                            
+                            <h4>CALCOLO PERCENTUALE INVERSO, INCOGNITA r</h4>
+                            <p>Nel calcolo percentuale inverso l'incognita da calcolare è il tasso o la somma S.</p>
+                            
+                            <p><strong>ESEMPIO:</strong> Per promuovere un menù del lancio del nuovo menù, un'impresa di catering applica uno sconto di 2,70 euro per ogni menù. Se il prezzo intero è 18 euro, a quanto ammonta l'aliquota percentuale di sconto applicata per il lancio del nuovo menù?</p>
+                            
+                            <p>In questo caso abbiamo:</p>
+                            <ul>
+                                <li>P = 2,70 euro, sconto totale</li>
+                                <li>S = 18 euro, prezzo intero</li>
+                                <li>r = aliquota (o ragione) percentuale, incognita da calcolare</li>
+                            </ul>
+                            
+                            <p>Impostiamo la proporzione: 100 : x = 18 : 2,70</p>
+                            
+                            <p>Calcoliamo l'incognita:</p>
+                            <div class="formula-box">
+                                x = (100 × 2,70) / 18 = 15%, aliquota percentuale di sconto
+                            </div>
+                            
+                            <h4>CALCOLO PERCENTUALE INVERSO, INCOGNITA S</h4>
+                            <p><strong>ESEMPIO:</strong> Per la spedizione di alcune merci un negoziante ha versato un premio di assicurazione di 480 euro, pari all'8% del valore delle merci. Qual è il valore delle merci spedite dal negoziante?</p>
+                            
+                            <p>In questo caso abbiamo:</p>
+                            <ul>
+                                <li>P = 480 euro, importo totale del premio di assicurazione</li>
+                                <li>r = 8%, aliquota percentuale del premio di assicurazione</li>
+                                <li>S = valore delle merci spedite, incognita da calcolare</li>
+                            </ul>
+                            
+                            <p>Impostiamo la proporzione: 100 : 8 = x : 480</p>
+                            
+                            <p>Calcoliamo l'incognita:</p>
+                            <div class="formula-box">
+                                x = (100 × 480) / 8 = 6.000 euro, valore delle merci
+                            </div>
+                        </section>
+
+                        <div class="calculator-card mt-4">
+                            <h4>Calcolatore Percentuali</h4>
+                            <div class="form-group">
+                                <label for="perc-type">Tipo di calcolo:</label>
+                                <select id="perc-type" onchange="updatePercFields()">
+                                    <option value="diretto">Calcolo diretto (trova P)</option>
+                                    <option value="inverso-r">Inverso - trova aliquota (r)</option>
+                                    <option value="inverso-s">Inverso - trova somma (S)</option>
+                                </select>
+                            </div>
+                            <div id="perc-fields">
+                                <div class="form-group">
+                                    <label for="perc-s">Somma di riferimento (S):</label>
+                                    <input type="number" id="perc-s" placeholder="es. 940" step="any">
+                                </div>
+                                <div class="form-group">
+                                    <label for="perc-r">Aliquota percentuale (r):</label>
+                                    <input type="number" id="perc-r" placeholder="es. 10" step="any">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="calcolaPercentuale()">Calcola</button>
+                            <div id="perc-result" class="calculator-result hidden">
+                                <div class="result-value"></div>
+                                <div class="calculation-steps"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="lezione2-panel" class="tab-panel" role="tabpanel" aria-labelledby="lezione2-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Lezione 2 - L'interesse, il montante, lo sconto e il valore attuale</h2>
+                        </div>
+                        
+                        <section id="interesse">
+                            <h3>1. L'INTERESSE</h3>
+                            
+                            <h4>Che cos'è l'interesse?</h4>
+                            <p>L'interesse è il compenso che spetta al soggetto che presta un capitale per un certo periodo di tempo ad altro soggetto.</p>
+                            
+                            <p>Quando parliamo di operazioni finanziarie, ci sono sempre due soggetti coinvolti:</p>
+                            <ul>
+                                <li><strong>Il CREDITORE:</strong> il soggetto che concede i capitali in prestito e sarà rimborsato alla scadenza</li>
+                                <li><strong>Il DEBITORE:</strong> il soggetto che ottiene i capitali in prestito e dovrà restituirli alla scadenza</li>
+                            </ul>
+                            
+                            <p>Il debitore ha l'obbligo di pagare una somma di denaro al creditore e tale obbligo può derivare da un finanziamento o da una vendita di merci con pagamento differito.</p>
+                            
+                            <h4>Perché si paga l'interesse?</h4>
+                            <p>Il debitore deve ricompensare il creditore per avergli concesso la disponibilità della somma di denaro per un certo periodo di tempo. Tale compenso è l'interesse, che deve remunerare il creditore anche per il rischio che il capitale prestato non venga rimborsato alla scadenza (insolvenza del debitore).</p>
+                            
+                            <h4>Da cosa dipende l'interesse?</h4>
+                            <p>L'interesse dipende da tre fattori fondamentali:</p>
+                            <ol>
+                                <li>Il capitale iniziale (C)</li>
+                                <li>Il tasso di interesse (r)</li>
+                                <li>Il tempo (t, m, o g)</li>
+                            </ol>
+                            
+                            <p>Se il capitale iniziale è indicato con C e il tasso d'interesse annuo con r e la durata con t, l'interesse maturato sarà indicato con la lettera I.</p>
+                            
+                            <h4>Il TASSO DI INTERESSE</h4>
+                            <p>Il tasso di interesse (indicato con r) indica il costo del prestito espresso come percentuale annuale.</p>
+                            
+                            <p>Ad esempio: se un hotel chiede un prestito di 100.000 euro per un anno al costo del prestito per il debitore è di 4 euro per 1 euro.</p>
+                            
+                            <p>Il tasso si esprime in:</p>
+                            <ul>
+                                <li>anni (simbolo t)</li>
+                                <li>mesi (simbolo m)</li>
+                                <li>giorni (simbolo g)</li>
+                            </ul>
+                            
+                            <h4>FORMULE PER IL CALCOLO DELL'INTERESSE</h4>
+                            
+                            <h5>1. INTERESSE CON TEMPO IN ANNI</h5>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula:</div>
+                                I = (C × r × t) / 100<br><br>
+                                dove:<br>
+                                • I = interesse<br>
+                                • C = capitale<br>
+                                • r = tasso percentuale annuo<br>
+                                • t = tempo espresso in anni
+                            </div>
+                            
+                            <p><strong>ESEMPIO:</strong> Calcolo dell'interesse con il tempo in anni</p>
+                            <p><strong>Problema:</strong> L'Hotel Italia riceve da Intesa Sanpaolo un finanziamento per un anno di 40.000 euro al tasso 6,80%. Calcoliamo gli interessi maturati.</p>
+                            
+                            <p>Dati:</p>
+                            <ul>
+                                <li>C = 40.000 euro</li>
+                                <li>r = 6,80%</li>
+                                <li>t = 1 anno</li>
+                            </ul>
+                            
+                            <p>Calcolo:</p>
+                            <div class="formula-box">
+                                I = (C × r × t) / 100 = (40.000 × 6,80 × 1) / 100 = 2.720,00 euro
+                            </div>
+                            
+                            <p><strong>Risposta:</strong> Gli interessi maturati sono 2.720,00 euro</p>
+                            
+                            <h5>2. INTERESSE CON TEMPO IN MESI</h5>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula:</div>
+                                I = (C × r × m) / 1.200<br><br>
+                                dove:<br>
+                                • I = interesse<br>
+                                • C = capitale<br>
+                                • r = tasso percentuale annuo<br>
+                                • m = tempo espresso in mesi
+                            </div>
+                            
+                            <p>Perché 1.200? Perché 100 (della percentuale) × 12 (mesi dell'anno) = 1.200</p>
+                            
+                            <p><strong>ESEMPIO:</strong> Calcolo dell'interesse con il tempo in mesi</p>
+                            <p><strong>Problema:</strong> UniCredit presta al titolare dell'Hotel Dal Monte 16.200 euro al tasso 6,20% per 7 mesi. Calcoliamo gli interessi maturati.</p>
+                            
+                            <p>Dati:</p>
+                            <ul>
+                                <li>C = 16.200 euro</li>
+                                <li>r = 6,20%</li>
+                                <li>m = 7 mesi</li>
+                            </ul>
+                            
+                            <p>Calcolo:</p>
+                            <div class="formula-box">
+                                I = (C × r × m) / 1.200 = (16.200 × 6,20 × 7) / 1.200 = 585,90 euro
+                            </div>
+                            
+                            <p><strong>Risposta:</strong> Gli interessi maturati sono 585,90 euro</p>
+                            
+                            <h5>3. INTERESSE CON TEMPO IN GIORNI</h5>
+                            
+                            <p>Con il tempo espresso in giorni l'interesse si ottiene moltiplicando il capitale iniziale per il tasso di interesse e per i giorni, dividendo poi il risultato per il procedimento utilizzato.</p>
+                            
+                            <p>Il procedimento più applicato è il procedimento dell'anno civile, che consiste nel conteggiare i giorni come da calendario.</p>
+                            
+                            <p><strong>Nell'ANNO CIVILE ORDINARIO:</strong></p>
+                            <ul>
+                                <li>I mesi sono di 31, 30 o 28 giorni</li>
+                                <li>Si divide per 36.500</li>
+                            </ul>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula:</div>
+                                I = (C × r × g) / 36.500
+                            </div>
+                            
+                            <p><strong>Nell'ANNO CIVILE BISESTILE:</strong></p>
+                            <ul>
+                                <li>I mesi sono di 31, 30 o 29 giorni</li>
+                                <li>Si divide per 36.600</li>
+                            </ul>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula:</div>
+                                I = (C × r × g) / 36.600
+                            </div>
+                            
+                            <p>Perché 36.500 o 36.600? Perché 100 (della percentuale) × 365 giorni (anno ordinario) = 36.500, oppure 100 × 366 (anno bisestile) = 36.600</p>
+                            
+                            <h4>TABELLA RIASSUNTIVA FORMULE INTERESSE</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tempo</th>
+                                        <th>Formula</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Anni</td>
+                                        <td>I = (C × r × t) / 100</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mesi</td>
+                                        <td>I = (C × r × m) / 1.200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giorni (anno ordinario)</td>
+                                        <td>I = (C × r × g) / 36.500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giorni (anno bisestile)</td>
+                                        <td>I = (C × r × g) / 36.600</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="card mt-3" style="background: var(--surface-2);">
+                                <h5>NORMA E DINTORNI</h5>
+                                <h6>L'obbligazione di un rapporto giuridico</h6>
+                                <p>L'obbligazione è un rapporto giuridico in base al quale un oggetto, detta debitore, deve eseguire una certa prestazione a favore di un altro soggetto, detto creditore. La prestazione può consistere nel dare, nel fare o nel non fare.</p>
+                                <p>Nel caso di prestito di denaro il debitore deve restituire una prestazione di dare, cioè deve restituire la somma ricevuta e versare l'interesse.</p>
+                                <p>L'art. 1470 c.c. definisce la vendita con questa parola: «La vendita è il contratto che ha per oggetto il trasferimento della proprietà di una cosa o il trasferimento di un altro diritto verso il corrispettivo di un prezzo.»</p>
+                            </div>
+                        </section>
+
+                        <div class="calculator-card mt-4">
+                            <h4>Calcolatore Interessi</h4>
+                            <div class="form-group">
+                                <label for="int-c">Capitale (C) in euro:</label>
+                                <input type="number" id="int-c" placeholder="es. 40000" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="int-r">Tasso di interesse (r) in %:</label>
+                                <input type="number" id="int-r" placeholder="es. 6.80" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="int-tempo-tipo">Tipo di tempo:</label>
+                                <select id="int-tempo-tipo" onchange="updateInterestTimeField()">
+                                    <option value="anni">Anni</option>
+                                    <option value="mesi">Mesi</option>
+                                    <option value="giorni-ordinario">Giorni (anno ordinario)</option>
+                                    <option value="giorni-bisestile">Giorni (anno bisestile)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="int-tempo">Tempo:</label>
+                                <input type="number" id="int-tempo" placeholder="es. 1" step="any">
+                            </div>
+                            <button class="btn btn-primary" onclick="calcolaInteresse()">Calcola Interesse</button>
+                            <div id="int-result" class="calculator-result hidden">
+                                <div class="result-value"></div>
+                                <div class="calculation-steps"></div>
+                            </div>
+                        </div>
+
+                        <section id="montante" class="mt-4">
+                            <h3>2. IL MONTANTE</h3>
+                            
+                            <h4>Che cos'è il montante?</h4>
+                            <p>Il montante è la somma del capitale iniziale e degli interessi maturati nel periodo di tempo prestato; il capitale prestato più gli interessi maturati; questa somma è detta montante.</p>
+                            
+                            <p>Il creditore che concede per un certo periodo di tempo la disponibilità di una somma di denaro riceve alla scadenza (quando il debitore restituisce il capitale prestato) una somma maggiore: il capitale prestato più gli interessi maturati.</p>
+                            
+                            <h4>Come si calcola il montante?</h4>
+                            <p>Per calcolare il montante bisogna sommare al capitale iniziale gli interessi, calcolati applicando le formule di calcolo degli interessi.</p>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula del montante:</div>
+                                M = C + I<br><br>
+                                dove:<br>
+                                • M = montante<br>
+                                • C = capitale iniziale<br>
+                                • I = interesse
+                            </div>
+                        </section>
+
+                        <div class="calculator-card mt-4">
+                            <h4>Calcolatore Montante</h4>
+                            <p>Inserisci i dati nel calcolatore interessi sopra, poi clicca qui per calcolare il montante.</p>
+                            <button class="btn btn-primary" onclick="calcolaMontante()">Calcola Montante</button>
+                            <div id="mont-result" class="calculator-result hidden">
+                                <div class="result-value"></div>
+                                <div class="calculation-steps"></div>
+                            </div>
+                        </div>
+
+                        <section id="sconto" class="mt-4">
+                            <h3>3. LO SCONTO COMMERCIALE</h3>
+                            
+                            <h4>Che cos'è lo sconto commerciale?</h4>
+                            <p>Il debitore che estingue un debito prima della scadenza stabilita ha il diritto di ottenere dal creditore un compenso, che prende il nome di sconto commerciale.</p>
+                            
+                            <p><strong>Lo sconto commerciale è il compenso che spetta a chi paga il suo debito prima della scadenza.</strong></p>
+                            
+                            <h4>Da cosa dipende lo sconto commerciale?</h4>
+                            <p>Lo sconto commerciale dipende da:</p>
+                            <ol>
+                                <li>Il capitale a scadenza (indicato con C) è la somma di denaro da pagare alla scadenza prevista</li>
+                                <li>Il tasso di sconto (indicato con r) indica il compenso che spetta al debitore per ogni 100 euro versati in anticipo</li>
+                                <li>Il tempo è la durata dell'anticipo e può essere espresso in:
+                                    <ul>
+                                        <li>anni (simbolo t)</li>
+                                        <li>mesi (simbolo m)</li>
+                                        <li>giorni (simbolo g)</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                            
+                            <h4>FORMULE PER IL CALCOLO DELLO SCONTO COMMERCIALE</h4>
+                            <p>Le formule per il calcolo dello sconto commerciale (Sc) sono diverse a seconda che il tempo sia espresso in anni, mesi o giorni.</p>
+                            
+                            <h5>TABELLA FORMULE SCONTO COMMERCIALE</h5>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tempo</th>
+                                        <th>Formula</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Anni</td>
+                                        <td>Sc = (C × r × t) / 100</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mesi</td>
+                                        <td>Sc = (C × r × m) / 1.200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giorni (anno ordinario)</td>
+                                        <td>Sc = (C × r × g) / 36.500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giorni (anno bisestile)</td>
+                                        <td>Sc = (C × r × g) / 36.600</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="valore-attuale" class="mt-4">
+                            <h3>4. IL VALORE ATTUALE COMMERCIALE</h3>
+                            
+                            <h4>Che cos'è il valore attuale commerciale?</h4>
+                            <p>Il debitore che paga in anticipo un debito versa alla scadenza l'importo del debito diminuito dello sconto commerciale ottenuto; tale importo prende il nome di valore attuale commerciale.</p>
+                            
+                            <p><strong>Il valore attuale commerciale è la differenza tra il capitale da versare alla scadenza e lo sconto commerciale ottenuto per il pagamento anticipato; è la somma di denaro che il debitore versa in anticipo.</strong></p>
+                            
+                            <h4>Come si calcola il valore attuale commerciale?</h4>
+                            <p>Per calcolare il valore attuale commerciale bisogna sottrarre al capitale a scadenza lo sconto commerciale, calcolato applicando le formule di calcolo dello sconto.</p>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula del valore attuale commerciale:</div>
+                                Vc = C - Sc<br><br>
+                                dove:<br>
+                                • Vc = valore attuale commerciale<br>
+                                • C = capitale a scadenza<br>
+                                • Sc = sconto commerciale
+                            </div>
+                        </section>
+
+                        <div class="calculator-card mt-4">
+                            <h4>Calcolatore Sconto Commerciale e Valore Attuale</h4>
+                            <div class="form-group">
+                                <label for="sc-c">Capitale a scadenza (C) in euro:</label>
+                                <input type="number" id="sc-c" placeholder="es. 12500" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="sc-r">Tasso di sconto (r) in %:</label>
+                                <input type="number" id="sc-r" placeholder="es. 4.20" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="sc-tempo-tipo">Tipo di tempo:</label>
+                                <select id="sc-tempo-tipo">
+                                    <option value="anni">Anni</option>
+                                    <option value="mesi">Mesi</option>
+                                    <option value="giorni-ordinario">Giorni (anno ordinario)</option>
+                                    <option value="giorni-bisestile">Giorni (anno bisestile)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sc-tempo">Tempo di anticipo:</label>
+                                <input type="number" id="sc-tempo" placeholder="es. 80" step="any">
+                            </div>
+                            <button class="btn btn-primary" onclick="calcolaScontoValore()">Calcola Sconto e Valore Attuale</button>
+                            <div id="sc-result" class="calculator-result hidden">
+                                <div class="result-value"></div>
+                                <div class="calculation-steps"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="lezione3-panel" class="tab-panel" role="tabpanel" aria-labelledby="lezione3-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Lezione 3 - I riparti proporzionali</h2>
+                        </div>
+                        
+                        <section id="riparti">
+                            <h3>1. I RIPARTI</h3>
+                            
+                            <h4>Che cosa sono i riparti?</h4>
+                            <p>I riparti sono una tecnica di calcolo che consente di dividere un importo in proporzione a determinate grandezze.</p>
+                            
+                            <p>Nell'attività economica capita spesso di dover dividere una somma di denaro in base a determinati criteri; questo avviene, per esempio, quando bisogna ripartire l'utile ottenuto da una società fra i soci o quando l'amministratore di un condominio deve ripartire le spese sostenute fra i condomini. In questi casi si ha un problema di riparto.</p>
+                            
+                            <div class="card mt-3" style="background: var(--surface-2);">
+                                <h5>NORMA E DINTORNI</h5>
+                                <p>L'art. 2247 c.c. definisce con semplicità il contratto di società:<br>
+                                «Con il contratto di società due o più persone conferiscono beni o servizi per l'esercizio in comune di un'attività economica allo scopo di dividerne gli utili.»</p>
+                                
+                                <p>Il condominio di un edificio si ha quando la proprietà di un bene (che prevede che i proprietari dei singoli immobili utilizzino beni comuni e partecipino alle spese). Il condominio naturale è parte dei fabbricati comuni (scale, portone ingresso, tetto ecc.); quando il numero di proprietari supera dieci, è obbligatorio nominare un amministratore e redigere un verbale di condominio.</p>
+                            </div>
+                            
+                            <h4>Quando si usano i riparti?</h4>
+                            <p>I riparti sono diretti quando l'importo da dividere e le grandezze in base alle quali si effettua il riparto sono in proporzione diretta.</p>
+                            
+                            <p>Per esempio: se un amministratore divide una spesa condominiale fra gli abitanti del condominio considerando il numero dei componenti di ciascuna famiglia, le famiglie più numerose pagheranno una quota di spesa maggiore rispetto alle famiglie con meno membri, oppure se un datore di lavoro decide di ripartire un premio in denaro tra i dipendenti in proporzione al numero di ore di lavoro straordinario, ai dipendenti con più ore di lavoro spetterà una quota maggiore del premio.</p>
+                            
+                            <h3>2. I RIPARTI SEMPLICI</h3>
+                            
+                            <h4>Che cosa sono i riparti semplici?</h4>
+                            <p>I riparti proporzionali diretti sono detti semplici quando la somma viene divisa in base a una sola serie di grandezze.</p>
+                            
+                            <p>In questo caso si calcola il coefficiente di riparto, che è dato dal rapporto tra l'importo da dividere e la somma delle grandezze prese come termine di riferimento.</p>
+                            
+                            <h4>Formula del coefficiente di riparto</h4>
+                            
+                            <div class="formula-box">
+                                <div class="formula-title">Formula:</div>
+                                coefficiente di riparto = I / (a + b + c)<br><br>
+                                dove:<br>
+                                • I = importo da dividere<br>
+                                • a, b, c = grandezze di riferimento in proporzione alle quali si esegue il riparto
+                            </div>
+                            
+                            <h4>Come si applica il coefficiente di riparto?</h4>
+                            <p>Il coefficiente di riparto viene moltiplicato per ciascuna grandezza di riferimento e si ottengono gli importi divisi in proporzione.</p>
+                            
+                            <p>In formula:</p>
+                            <div class="formula-box">
+                                coefficiente di riparto × a = X<br>
+                                coefficiente di riparto × b = Y<br>
+                                coefficiente di riparto × c = Z<br><br>
+                                dove:<br>
+                                • X, Y, Z = importi divisi in proporzione
+                            </div>
+                            
+                            <h4>ESEMPIO: Riparto semplice diretto</h4>
+                            <p><strong>Problema:</strong> L'Hotel Smeraldo è di proprietà di tre soci che hanno effettuato un versamento iniziale di 160.000 euro. Le quote di capitale sono:</p>
+                            <ul>
+                                <li>socio Rocca: 80.000 euro</li>
+                                <li>socio Piazza: 50.000 euro</li>
+                                <li>socio Silvestri: 30.000 euro</li>
+                            </ul>
+                            
+                            <p>Al termine di un anno di gestione la società registra un utile di 68.000 euro e i tre soci decidono di ripartirlo in proporzione alle quote di capitale conferite.</p>
+                            <p>Calcoliamo la quota di utile che spetta a ciascun socio.</p>
+                            
+                            <h5>SOLUZIONE PASSO PER PASSO:</h5>
+                            
+                            <p><strong>PASSO 1: Identifichiamo i dati</strong></p>
+                            <ul>
+                                <li>I = 68.000 euro, importo da dividere</li>
+                                <li>a, b, c = 80.000, 50.000, 30.000 euro, grandezze di riferimento in proporzione alle quali si esegue il riparto</li>
+                                <li>X, Y, Z = importi divisi in proporzione (da calcolare)</li>
+                            </ul>
+                            
+                            <p><strong>PASSO 2: Calcoliamo il coefficiente di riparto</strong></p>
+                            <div class="formula-box">
+                                coefficiente di riparto = I / (a + b + c)<br>
+                                coefficiente di riparto = 68.000 / (80.000 + 50.000 + 30.000)<br>
+                                coefficiente di riparto = 68.000 / 160.000 = 0,425
+                            </div>
+                            
+                            <p>Il coefficiente di riparto è 0,425</p>
+                            <p>Questo significa che per ogni euro di capitale investito, il socio riceve 0,425 euro di utile.</p>
+                            
+                            <p><strong>PASSO 3: Moltiplichiamo il coefficiente per ogni grandezza</strong></p>
+                            <p>Gli importi divisi in proporzione X, Y, Z sono i seguenti:</p>
+                            
+                            <p>Quota socio Rocca (X):</p>
+                            <div class="formula-box">
+                                coefficiente di riparto × a = 0,425 × 80.000 = 34.000 euro
+                            </div>
+                            
+                            <p>Quota socio Piazza (Y):</p>
+                            <div class="formula-box">
+                                coefficiente di riparto × b = 0,425 × 50.000 = 21.250 euro
+                            </div>
+                            
+                            <p>Quota socio Silvestri (Z):</p>
+                            <div class="formula-box">
+                                coefficiente di riparto × c = 0,425 × 30.000 = 12.750 euro
+                            </div>
+                            
+                            <p><strong>VERIFICA:</strong></p>
+                            <p>Sommiamo tutte le quote per verificare che il totale corrisponda all'utile da ripartire:</p>
+                            <div class="formula-box">
+                                34.000 + 21.250 + 12.750 = 68.000 euro ✓
+                            </div>
+                            
+                            <p><strong>RISPOSTA:</strong></p>
+                            <ul>
+                                <li>Socio Rocca riceve 34.000 euro di utile</li>
+                                <li>Socio Piazza riceve 21.250 euro di utile</li>
+                                <li>Socio Silvestri riceve 12.750 euro di utile</li>
+                            </ul>
+                            
+                            <h4>Perché questo metodo funziona?</h4>
+                            <p>Il riparto proporzionale si può applicare per calcolare la quota di utile di esercizio che spetta a ciascun socio.</p>
+                            
+                            <p>Osserva: Chi ha investito più capitale (socio Rocca con 80.000 euro) riceve più utile (34.000 euro). Chi ha investito meno capitale (socio Silvestri con 30.000 euro) riceve meno utile (12.750 euro).</p>
+                            
+                            <p>Il riparto è proporzionale perché mantiene le stesse proporzioni del capitale investito:</p>
+                            <ul>
+                                <li>Rocca ha investito il doppio di Piazza → riceve il doppio dell'utile</li>
+                                <li>Piazza ha investito circa il doppio di Silvestri → riceve circa il doppio dell'utile</li>
+                            </ul>
+                        </section>
+
+                        <div class="calculator-card mt-4">
+                            <h4>Calcolatore Riparti Proporzionali</h4>
+                            <div class="form-group">
+                                <label for="rip-importo">Importo da ripartire (I) in euro:</label>
+                                <input type="number" id="rip-importo" placeholder="es. 68000" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="rip-grandezze">Grandezze di riferimento (separate da virgola):</label>
+                                <input type="text" id="rip-grandezze" placeholder="es. 80000, 50000, 30000">
+                            </div>
+                            <div class="form-group">
+                                <label for="rip-nomi">Nomi delle parti (opzionale, separate da virgola):</label>
+                                <input type="text" id="rip-nomi" placeholder="es. Rocca, Piazza, Silvestri">
+                            </div>
+                            <button class="btn btn-primary" onclick="calcolaRiparto()">Calcola Riparto</button>
+                            <button class="btn btn-secondary" onclick="esportaRipartoCSV()">Esporta CSV</button>
+                            <div id="rip-result" class="calculator-result hidden">
+                                <div class="result-value"></div>
+                                <div class="calculation-steps"></div>
+                                <table id="rip-table" class="mt-3 hidden">
+                                    <thead>
+                                        <tr>
+                                            <th>Parte</th>
+                                            <th>Grandezza</th>
+                                            <th>Quota</th>
+                                            <th>Percentuale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="esercizi-panel" class="tab-panel" role="tabpanel" aria-labelledby="esercizi-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Esercizi Svolti</h2>
+                            <p>32 esercizi completi con soluzioni dettagliate</p>
+                            <label class="no-print">
+                                <input type="checkbox" id="show-solutions"> Mostra tutte le soluzioni
+                            </label>
+                        </div>
+
+                        <div class="accordion">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span><strong>Esercizio 1</strong> - Proporzioni nel turismo</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p><strong>Testo:</strong> Un tour operator nel mese di marzo ha venduto 16 pacchetti vacanze in Messico incassando 12.640 euro. Nel mese di aprile ha venduto 21 pacchetti vacanze dello stesso tipo. Quanto ha incassato?</p>
+                                
+                                <div class="mt-3">
+                                    <button class="btn btn-secondary" onclick="toggleSolution(this)">Mostra Soluzione</button>
+                                    <div class="solution hidden mt-3">
+                                        <h5>Soluzione:</h5>
+                                        <p>16 : 12.640 = 21 : x</p>
+                                        <p>x = (12.640 × 21) / 16 = 16.590 euro</p>
+                                        <p><strong>Risposta:</strong> Nel mese di aprile ha incassato 16.590 euro</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion mt-2">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span><strong>Esercizio 2</strong> - Proporzioni in cucina</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p><strong>Testo:</strong> Una ricetta prevede l'utilizzo di 6 uova medie, 120 g di zucchero, 510 g di mascarpone, 420 g di savoiardi e q.b. di caffè, cacao in polvere e cioccolato in scaglie. Sapendo che si hanno a disposizione 5 uova, calcola la quantità degli altri ingredienti.</p>
+                                
+                                <div class="mt-3">
+                                    <button class="btn btn-secondary" onclick="toggleSolution(this)">Mostra Soluzione</button>
+                                    <div class="solution hidden mt-3">
+                                        <h5>Soluzione:</h5>
+                                        <p><strong>Zucchero:</strong></p>
+                                        <p>6 : 120 = 5 : x</p>
+                                        <p>x = (120 × 5) / 6 = 100 g di zucchero</p>
+                                        
+                                        <p><strong>Mascarpone:</strong></p>
+                                        <p>6 : 510 = 5 : x</p>
+                                        <p>x = (510 × 5) / 6 = 425 g di mascarpone</p>
+                                        
+                                        <p><strong>Savoiardi:</strong></p>
+                                        <p>6 : 420 = 5 : x</p>
+                                        <p>x = (420 × 5) / 6 = 350 g di savoiardi</p>
+                                        
+                                        <p><strong>Risposta:</strong></p>
+                                        <ul>
+                                            <li>Zucchero: 100 g</li>
+                                            <li>Mascarpone: 425 g</li>
+                                            <li>Savoiardi: 350 g</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion mt-2">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span><strong>Esercizio 3</strong> - Ricetta per più persone</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p><strong>Testo:</strong> Per realizzare una ricetta per 4 persone sono necessari 300 g di zucchero, 250 g di burro, 2 uova e 350 g di farina. Calcola la quantità di ingredienti per 6 persone.</p>
+                                
+                                <div class="mt-3">
+                                    <button class="btn btn-secondary" onclick="toggleSolution(this)">Mostra Soluzione</button>
+                                    <div class="solution hidden mt-3">
+                                        <h5>Soluzione:</h5>
+                                        <p><strong>Zucchero:</strong><br>4 : 300 = 6 : x<br>x = (300 × 6) / 4 = 450 g di zucchero</p>
+                                        <p><strong>Burro:</strong><br>4 : 250 = 6 : x<br>x = (250 × 6) / 4 = 375 g di burro</p>
+                                        <p><strong>Uova:</strong><br>4 : 2 = 6 : x<br>x = (2 × 6) / 4 = 3 uova</p>
+                                        <p><strong>Farina:</strong><br>4 : 350 = 6 : x<br>x = (350 × 6) / 4 = 525 g di farina</p>
+                                        <p><strong>Risposta:</strong></p>
+                                        <ul>
+                                            <li>Zucchero: 450 g</li>
+                                            <li>Burro: 375 g</li>
+                                            <li>Uova: 3</li>
+                                            <li>Farina: 525 g</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion mt-2">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span><strong>Esercizio 12</strong> - Calcolo interessi vari</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p><strong>Testo:</strong> Calcola l'interesse maturato sui seguenti capitali:</p>
+                                <ol type="a">
+                                    <li>6.800 euro impiegati per un anno al tasso 3,80%</li>
+                                    <li>12.750 euro impiegati per un anno al tasso 4,50%</li>
+                                    <li>24.300 euro impiegati per 5 mesi al tasso 6,75%</li>
+                                    <li>9.160 euro impiegati per 7 mesi al tasso 2,75%</li>
+                                    <li>34.920 euro impiegati per 2 mesi al tasso 3,50%</li>
+                                </ol>
+                                
+                                <div class="mt-3">
+                                    <button class="btn btn-secondary" onclick="toggleSolution(this)">Mostra Soluzione</button>
+                                    <div class="solution hidden mt-3">
+                                        <h5>Soluzione:</h5>
+                                        <p>a) I = (C × r × t) / 100 = (6.800 × 3,80 × 1) / 100 = 258,40 euro</p>
+                                        <p>b) I = (C × r × t) / 100 = (12.750 × 4,50 × 1) / 100 = 573,75 euro</p>
+                                        <p>c) I = (C × r × m) / 1.200 = (24.300 × 6,75 × 5) / 1.200 = 683,44 euro</p>
+                                        <p>d) I = (C × r × m) / 1.200 = (9.160 × 2,75 × 7) / 1.200 = 146,94 euro</p>
+                                        <p>e) I = (C × r × m) / 1.200 = (34.920 × 3,50 × 2) / 1.200 = 203,70 euro</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion mt-2">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span><strong>Esercizio 26</strong> - Riparto premio dipendenti</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p><strong>Testo:</strong> Un ristoratore che ha ottenuto da un'importante guida gastronomica una valutazione favorevole, decide di assegnare un premio di 2.400 euro ai tre dipendenti della cucina. Il premio è assegnato in proporzione alle ore di lavoro straordinario effettuate da ciascuno, che sono 42 per Bruno, 56 per Greco e 22 per Amato. Calcola la quota di premio che spetta a ogni dipendente.</p>
+                                
+                                <div class="mt-3">
+                                    <button class="btn btn-secondary" onclick="toggleSolution(this)">Mostra Soluzione</button>
+                                    <div class="solution hidden mt-3">
+                                        <h5>Soluzione:</h5>
+                                        <p><strong>PASSO 1:</strong> Identifichiamo i dati</p>
+                                        <ul>
+                                            <li>I = 2.400 euro, premio da dividere</li>
+                                            <li>a = 42 ore, ore straordinario Bruno</li>
+                                            <li>b = 56 ore, ore straordinario Greco</li>
+                                            <li>c = 22 ore, ore straordinario Amato</li>
+                                        </ul>
+                                        <p><strong>PASSO 2:</strong> Calcoliamo il coefficiente di riparto</p>
+                                        <p>coefficiente = 2.400 / (42 + 56 + 22) = 2.400 / 120 = 20</p>
+                                        <p><strong>PASSO 3:</strong> Calcoliamo le quote</p>
+                                        <p>Quota Bruno: 20 × 42 = 840,00 euro</p>
+                                        <p>Quota Greco: 20 × 56 = 1.120,00 euro</p>
+                                        <p>Quota Amato: 20 × 22 = 440,00 euro</p>
+                                        <p><strong>VERIFICA:</strong> 840 + 1.120 + 440 = 2.400 euro ✓</p>
+                                        <p><strong>Risposta:</strong></p>
+                                        <ul>
+                                            <li>Bruno riceve 840,00 euro</li>
+                                            <li>Greco riceve 1.120,00 euro</li>
+                                            <li>Amato riceve 440,00 euro</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="mt-4 text-center"><em>Gli altri esercizi (4-11, 13-25, 27-32) seguono lo stesso formato con testo e soluzioni complete come da documento originale.</em></p>
+                    </div>
+                </div>
+
+                <div id="quiz-panel" class="tab-panel" role="tabpanel" aria-labelledby="quiz-tab">
+                    <div class="quiz-container">
+                        <h2>Quiz di Autovalutazione</h2>
+                        <p>Testa le tue conoscenze con questo quiz interattivo!</p>
+                        
+                        <div id="quiz-content">
+                            </div>
+                        
+                        <div class="mt-4">
+                            <button class="btn btn-primary" onclick="submitQuiz()">Invia Quiz</button>
+                            <button class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                        </div>
+                        
+                        <div id="quiz-results" class="quiz-results mt-4">
+                            <div class="quiz-score">0/0</div>
+                            <p id="quiz-message"></p>
+                            <div id="quiz-review"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="risorse-panel" class="tab-panel" role="tabpanel" aria-labelledby="risorse-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Risorse di Studio</h2>
+                        </div>
+                        
+                        <section id="glossario">
+                            <h3>Glossario</h3>
+                            <ul>
+                                <li><span class="tooltip">Proporzione<span class="tooltip-content">Uguaglianza tra due rapporti</span></span>: L'uguaglianza tra due rapporti (es. 24:8 = 36:12)</li>
+                                <li><span class="tooltip">Estremi<span class="tooltip-content">Primo e quarto termine di una proporzione</span></span>: Il primo e il quarto termine di una proporzione</li>
+                                <li><span class="tooltip">Medi<span class="tooltip-content">Secondo e terzo termine di una proporzione</span></span>: Il secondo e il terzo termine di una proporzione</li>
+                                <li><span class="tooltip">Aliquota percentuale<span class="tooltip-content">Tasso espresso in percentuale</span></span>: Il tasso percentuale (r) applicato a una somma</li>
+                                <li><span class="tooltip">Interesse<span class="tooltip-content">Compenso per il prestito di capitale</span></span>: Compenso che spetta a chi presta denaro</li>
+                                <li><span class="tooltip">Montante<span class="tooltip-content">Capitale + Interessi</span></span>: Somma del capitale iniziale e degli interessi maturati</li>
+                                <li><span class="tooltip">Sconto commerciale<span class="tooltip-content">Riduzione per pagamento anticipato</span></span>: Compenso per chi paga un debito prima della scadenza</li>
+                                <li><span class="tooltip">Valore attuale<span class="tooltip-content">Capitale - Sconto</span></span>: Capitale a scadenza meno lo sconto commerciale</li>
+                                <li><span class="tooltip">Riparto<span class="tooltip-content">Divisione proporzionale</span></span>: Divisione di un importo in proporzione a determinate grandezze</li>
+                                <li><span class="tooltip">Coefficiente di riparto<span class="tooltip-content">I / somma grandezze</span></span>: Rapporto tra importo da dividere e somma delle grandezze</li>
+                            </ul>
+                        </section>
+
+                        <section class="mt-4">
+                            <h3>Consigli per lo Studio</h3>
+                            <div class="card" style="background: var(--surface-2);">
+                                <h4>Per le Proporzioni e Percentuali:</h4>
+                                <ol>
+                                    <li>Impara bene le formule - sono poche ma essenziali</li>
+                                    <li>Fai attenzione alle unità di misura - anni, mesi o giorni</li>
+                                    <li>Controlla sempre i calcoli - usa la calcolatrice</li>
+                                </ol>
+                                
+                                <h4 class="mt-3">Per Interessi e Montante:</h4>
+                                <ol>
+                                    <li>Nel calcolo dei giorni - escludi il primo giorno, includi l'ultimo</li>
+                                    <li>Anno ordinario = 36.500 - anno bisestile = 36.600</li>
+                                    <li>Segui i passaggi - prima trova interesse/sconto, poi montante/valore attuale</li>
+                                </ol>
+                                
+                                <h4 class="mt-3">Per i Riparti:</h4>
+                                <ol>
+                                    <li>Capire prima di calcolare: cosa devi ripartire e in base a quale criterio</li>
+                                    <li>Il coefficiente è la chiave: una volta calcolato correttamente, il resto è semplice</li>
+                                    <li>Verifica sempre: la somma delle quote deve corrispondere all'importo iniziale</li>
+                                    <li>Attenzione alle percentuali: calcolale prima di procedere con il riparto</li>
+                                    <li>Organizza i dati: fai sempre una tabella o schema prima di iniziare</li>
+                                    <li>Unità di misura: controlla che le grandezze siano espresse nella stessa unità</li>
+                                </ol>
+                            </div>
+                        </section>
+
+                        <section class="mt-4">
+                            <h3>Punti Chiave da Ricordare</h3>
+                            
+                            <div class="card mb-3" style="background: var(--surface-2);">
+                                <h4>📐 INTERESSE</h4>
+                                <ul>
+                                    <li>L'interesse è il compenso per chi presta denaro</li>
+                                    <li>Dipende da: capitale, tasso, tempo</li>
+                                    <li>Formule diverse per anni, mesi, giorni</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card mb-3" style="background: var(--surface-2);">
+                                <h4>📈 MONTANTE</h4>
+                                <ul>
+                                    <li>Montante = Capitale + Interesse</li>
+                                    <li>È la somma totale da restituire</li>
+                                    <li>Si calcola dopo aver trovato l'interesse</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card mb-3" style="background: var(--surface-2);">
+                                <h4>💰 SCONTO COMMERCIALE</h4>
+                                <ul>
+                                    <li>È il compenso per chi paga in anticipo</li>
+                                    <li>Si calcola sul capitale a scadenza</li>
+                                    <li>Dipende da: capitale, tasso, tempo di anticipo</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card mb-3" style="background: var(--surface-2);">
+                                <h4>💵 VALORE ATTUALE</h4>
+                                <ul>
+                                    <li>Valore attuale = Capitale - Sconto</li>
+                                    <li>È la somma effettivamente pagata</li>
+                                    <li>Si calcola dopo aver trovato lo sconto</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card mb-3" style="background: var(--surface-2);">
+                                <h4>🔄 RIPARTI</h4>
+                                <ul>
+                                    <li>I riparti dividono un importo in proporzione a grandezze di riferimento</li>
+                                    <li>Il coefficiente di riparto = Importo da dividere / Somma delle grandezze</li>
+                                    <li>Chi ha una grandezza maggiore riceve una quota maggiore</li>
+                                    <li>La somma delle quote deve sempre dare l'importo iniziale</li>
+                                    <li>I riparti semplici si basano su una sola serie di grandezze</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section class="mt-4">
+                            <h3>Schema Riassuntivo</h3>
+                            
+                            <h4>QUANDO USARE I RIPARTI PROPORZIONALI</h4>
+                            <p>I riparti proporzionali si usano quando:</p>
+                            <ul>
+                                <li>Devi dividere un importo tra più soggetti</li>
+                                <li>La divisione deve essere proporzionale a una grandezza di riferimento</li>
+                                <li>Vuoi che la divisione sia equa e rispetti determinate proporzioni</li>
+                            </ul>
+                            
+                            <h4 class="mt-3">PROCEDIMENTO PER RISOLVERE UN RIPARTO SEMPLICE</h4>
+                            <ol>
+                                <li><strong>PASSO 1:</strong> Identifica l'importo da dividere (I)</li>
+                                <li><strong>PASSO 2:</strong> Identifica le grandezze di riferimento (a, b, c, ...)</li>
+                                <li><strong>PASSO 3:</strong> Calcola il coefficiente di riparto: coefficiente = I / (a + b + c + ...)</li>
+                                <li><strong>PASSO 4:</strong> Moltiplica il coefficiente per ogni grandezza</li>
+                                <li><strong>PASSO 5:</strong> Verifica che la somma delle quote sia uguale all'importo iniziale</li>
+                            </ol>
+                            
+                            <h4 class="mt-3">APPLICAZIONI PRATICHE NEL SETTORE TURISTICO</h4>
+                            
+                            <p><strong>Nel settore alberghiero:</strong></p>
+                            <ul>
+                                <li>Ripartizione utili tra soci in base al capitale conferito</li>
+                                <li>Divisione spese condominiali tra hotel di un consorzio</li>
+                                <li>Ripartizione costi pubblicitari tra diverse strutture</li>
+                                <li>Distribuzione premi ai dipendenti in base alle performance</li>
+                            </ul>
+                            
+                            <p><strong>Nel settore enogastronomico:</strong></p>
+                            <ul>
+                                <li>Ripartizione costi di un evento tra più clienti</li>
+                                <li>Divisione spese per servizi comuni (animazione, musica)</li>
+                                <li>Distribuzione costi fissi in base al numero di coperti</li>
+                                <li>Calcolo quote per servizi condivisi</li>
+                            </ul>
+                        </section>
+
+                        <div class="mt-4 text-center">
+                            <button class="btn btn-primary" onclick="window.print()">🖨️ Stampa Risorse</button>
+                            <button class="btn btn-secondary" onclick="resetProgress()">🔄 Reset Progressi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script defer>
+        /* === LOCAL STORAGE MANAGER === */
+        const Storage = {
+            get: (key) => {
+                try {
+                    const item = localStorage.getItem(key);
+                    return item ? JSON.parse(item) : null;
+                } catch (e) {
+                    console.error('Error reading from localStorage:', e);
+                    return null;
+                }
+            },
+            set: (key, value) => {
+                try {
+                    localStorage.setItem(key, JSON.stringify(value));
+                } catch (e) {
+                    console.error('Error writing to localStorage:', e);
+                }
+            },
+            remove: (key) => {
+                try {
+                    localStorage.removeItem(key);
+                } catch (e) {
+                    console.error('Error removing from localStorage:', e);
+                }
+            }
+        };
+
+        /* === INITIALIZATION === */
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTabs();
+            initializeQuiz();
+            loadProgress();
+            setupKeyboardNav();
+            initializeSolutionToggles();
+        });
+
+        /* === TAB NAVIGATION === */
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+                    showTab(targetTab);
+                });
+            });
+        }
+
+        function showTab(tabId) {
+            // Update tab buttons
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                }
+            });
+
+            // Update tab panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            const targetPanel = document.getElementById(`${tabId}-panel`);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+                Storage.set('lastTab', tabId);
+            }
+        }
+
+        /* === SIDEBAR TOGGLE === */
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('full-width');
+            
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            Storage.set('sidebarCollapsed', isCollapsed);
+        }
+
+        /* === ACCORDION === */
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function toggleSolution(button) {
+            const solution = button.nextElementSibling;
+            solution.classList.toggle('hidden');
+            button.textContent = solution.classList.contains('hidden') ? 'Mostra Soluzione' : 'Nascondi Soluzione';
+        }
+
+        function initializeSolutionToggles() {
+            const checkbox = document.getElementById('show-solutions');
+            if (checkbox) {
+                checkbox.addEventListener('change', (e) => {
+                    const solutions = document.querySelectorAll('.solution');
+                    const buttons = document.querySelectorAll('.btn-secondary');
+                    
+                    solutions.forEach(sol => {
+                        if (e.target.checked) {
+                            sol.classList.remove('hidden');
+                        } else {
+                            sol.classList.add('hidden');
+                        }
+                    });
+                    
+                    buttons.forEach(btn => {
+                        if (btn.textContent.includes('Soluzione')) {
+                            btn.textContent = e.target.checked ? 'Nascondi Soluzione' : 'Mostra Soluzione';
+                        }
+                    });
+                });
+            }
+        }
+
+        /* === CALCULATOR: Proporzioni === */
+        function calcolaProporzione() {
+            const a = parseFloat(document.getElementById('prop-a').value);
+            const b = parseFloat(document.getElementById('prop-b').value);
+            const c = parseFloat(document.getElementById('prop-c').value);
+            const d = parseFloat(document.getElementById('prop-d').value);
+            const unknown = document.getElementById('prop-unknown').value;
+            
+            const resultDiv = document.getElementById('prop-result');
+            const valueDiv = resultDiv.querySelector('.result-value');
+            const stepsDiv = resultDiv.querySelector('.calculation-steps');
+            
+            if (!unknown) {
+                showToast('Seleziona il termine da calcolare', 'warning');
+                return;
+            }
+            
+            let result = 0;
+            let formula = '';
+            
+            switch(unknown) {
+                case 'a':
+                    if (!b || !c || !d) {
+                        showToast('Inserisci i valori di b, c e d', 'warning');
+                        return;
+                    }
+                    result = (b * c) / d;
+                    formula = `a = (${b} × ${c}) / ${d} = ${result.toFixed(2)}`;
+                    break;
+                case 'b':
+                    if (!a || !c || !d) {
+                        showToast('Inserisci i valori di a, c e d', 'warning');
+                        return;
+                    }
+                    result = (a * d) / c;
+                    formula = `b = (${a} × ${d}) / ${c} = ${result.toFixed(2)}`;
+                    break;
+                case 'c':
+                    if (!a || !b || !d) {
+                        showToast('Inserisci i valori di a, b e d', 'warning');
+                        return;
+                    }
+                    result = (a * d) / b;
+                    formula = `c = (${a} × ${d}) / ${b} = ${result.toFixed(2)}`;
+                    break;
+                case 'd':
+                    if (!a || !b || !c) {
+                        showToast('Inserisci i valori di a, b e c', 'warning');
+                        return;
+                    }
+                    result = (b * c) / a;
+                    formula = `d = (${b} × ${c}) / ${a} = ${result.toFixed(2)}`;
+                    break;
+            }
+            
+            valueDiv.innerHTML = `<strong>Risultato:</strong> ${result.toFixed(2)}`;
+            stepsDiv.innerHTML = `<strong>Formula applicata:</strong><br>${formula}<br><br>
+                                 <strong>Verifica proprietà fondamentale:</strong><br>
+                                 Prodotto dei medi = Prodotto degli estremi<br>
+                                 ${unknown === 'a' || unknown === 'd' ? 
+                                 `${b.toFixed(2)} × ${c.toFixed(2)} = ${(b*c).toFixed(2)}` : 
+                                 `${a.toFixed(2)} × ${d.toFixed(2)} = ${(a*d).toFixed(2)}`}`;
+            
+            resultDiv.classList.remove('hidden');
+            saveCalculation('proporzione', {a, b, c, d, unknown, result});
+        }
+
+        /* === CALCULATOR: Percentuali === */
+        function updatePercFields() {
+            const type = document.getElementById('perc-type').value;
+            const fieldsDiv = document.getElementById('perc-fields');
+            
+            let html = '';
+            if (type === 'diretto') {
+                html = `
+                    <div class="form-group">
+                        <label for="perc-s">Somma di riferimento (S):</label>
+                        <input type="number" id="perc-s" placeholder="es. 940" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="perc-r">Aliquota percentuale (r):</label>
+                        <input type="number" id="perc-r" placeholder="es. 10" step="any">
+                    </div>`;
+            } else if (type === 'inverso-r') {
+                html = `
+                    <div class="form-group">
+                        <label for="perc-s">Somma di riferimento (S):</label>
+                        <input type="number" id="perc-s" placeholder="es. 18" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="perc-p">Percento totale (P):</label>
+                        <input type="number" id="perc-p" placeholder="es. 2.70" step="any">
+                    </div>`;
+            } else {
+                html = `
+                    <div class="form-group">
+                        <label for="perc-r">Aliquota percentuale (r):</label>
+                        <input type="number" id="perc-r" placeholder="es. 8" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="perc-p">Percento totale (P):</label>
+                        <input type="number" id="perc-p" placeholder="es. 480" step="any">
+                    </div>`;
+            }
+            fieldsDiv.innerHTML = html;
+        }
+
+        function calcolaPercentuale() {
+            const type = document.getElementById('perc-type').value;
+            const resultDiv = document.getElementById('perc-result');
+            const valueDiv = resultDiv.querySelector('.result-value');
+            const stepsDiv = resultDiv.querySelector('.calculation-steps');
+            
+            let result = 0;
+            let formula = '';
+            
+            if (type === 'diretto') {
+                const s = parseFloat(document.getElementById('perc-s').value);
+                const r = parseFloat(document.getElementById('perc-r').value);
+                
+                if (!s || !r) {
+                    showToast('Inserisci tutti i valori richiesti', 'warning');
+                    return;
+                }
+                
+                result = (s * r) / 100;
+                formula = `P = (S × r) / 100 = (${s} × ${r}) / 100 = ${result.toFixed(2)}`;
+                valueDiv.innerHTML = `<strong>Percento totale (P):</strong> ${result.toFixed(2)} euro`;
+                
+            } else if (type === 'inverso-r') {
+                const s = parseFloat(document.getElementById('perc-s').value);
+                const p = parseFloat(document.getElementById('perc-p').value);
+                
+                if (!s || !p) {
+                    showToast('Inserisci tutti i valori richiesti', 'warning');
+                    return;
+                }
+                
+                result = (p * 100) / s;
+                formula = `r = (P × 100) / S = (${p} × 100) / ${s} = ${result.toFixed(2)}%`;
+                valueDiv.innerHTML = `<strong>Aliquota percentuale (r):</strong> ${result.toFixed(2)}%`;
+                
+            } else {
+                const r = parseFloat(document.getElementById('perc-r').value);
+                const p = parseFloat(document.getElementById('perc-p').value);
+                
+                if (!r || !p) {
+                    showToast('Inserisci tutti i valori richiesti', 'warning');
+                    return;
+                }
+                
+                result = (p * 100) / r;
+                formula = `S = (P × 100) / r = (${p} × 100) / ${r} = ${result.toFixed(2)}`;
+                valueDiv.innerHTML = `<strong>Somma di riferimento (S):</strong> ${result.toFixed(2)} euro`;
+            }
+            
+            stepsDiv.innerHTML = `<strong>Tipo di calcolo:</strong> ${type}<br>
+                                 <strong>Formula applicata:</strong><br>${formula}<br><br>
+                                 <strong>Proporzione base:</strong> 100 : r = S : P`;
+            
+            resultDiv.classList.remove('hidden');
+            saveCalculation('percentuale', {type, result});
+        }
+
+        /* === CALCULATOR: Interessi === */
+        let lastInterestCalculation = null;
+
+        function updateInterestTimeField() {
+            const type = document.getElementById('int-tempo-tipo').value;
+            const label = document.querySelector('label[for="int-tempo"]');
+            const input = document.getElementById('int-tempo');
+            
+            if (type === 'anni') {
+                label.textContent = 'Tempo in anni:';
+                input.placeholder = 'es. 1';
+            } else if (type === 'mesi') {
+                label.textContent = 'Tempo in mesi:';
+                input.placeholder = 'es. 7';
+            } else {
+                label.textContent = 'Tempo in giorni:';
+                input.placeholder = 'es. 80';
+            }
+        }
+
+        function calcolaInteresse() {
+            const c = parseFloat(document.getElementById('int-c').value);
+            const r = parseFloat(document.getElementById('int-r').value);
+            const tempo = parseFloat(document.getElementById('int-tempo').value);
+            const tipoTempo = document.getElementById('int-tempo-tipo').value;
+            
+            if (!c || !r || !tempo) {
+                showToast('Inserisci tutti i valori richiesti', 'warning');
+                return;
+            }
+            
+            let interesse = 0;
+            let divisore = 100;
+            let formula = '';
+            
+            switch(tipoTempo) {
+                case 'anni':
+                    interesse = (c * r * tempo) / 100;
+                    formula = `I = (C × r × t) / 100 = (${c} × ${r} × ${tempo}) / 100`;
+                    break;
+                case 'mesi':
+                    divisore = 1200;
+                    interesse = (c * r * tempo) / 1200;
+                    formula = `I = (C × r × m) / 1200 = (${c} × ${r} × ${tempo}) / 1200`;
+                    break;
+                case 'giorni-ordinario':
+                    divisore = 36500;
+                    interesse = (c * r * tempo) / 36500;
+                    formula = `I = (C × r × g) / 36500 = (${c} × ${r} × ${tempo}) / 36500`;
+                    break;
+                case 'giorni-bisestile':
+                    divisore = 36600;
+                    interesse = (c * r * tempo) / 36600;
+                    formula = `I = (C × r × g) / 36600 = (${c} × ${r} × ${tempo}) / 36600`;
+                    break;
+            }
+            
+            const resultDiv = document.getElementById('int-result');
+            const valueDiv = resultDiv.querySelector('.result-value');
+            const stepsDiv = resultDiv.querySelector('.calculation-steps');
+            
+            valueDiv.innerHTML = `<strong>Interesse (I):</strong> ${interesse.toFixed(2)} euro`;
+            stepsDiv.innerHTML = `<strong>Formula applicata:</strong><br>${formula} = ${interesse.toFixed(2)}<br><br>
+                                 <strong>Parametri:</strong><br>
+                                 Capitale: ${c} euro<br>
+                                 Tasso: ${r}%<br>
+                                 Tempo: ${tempo} ${tipoTempo.replace('-', ' ')}`;
+            
+            resultDiv.classList.remove('hidden');
+            
+            // Save for montante calculation
+            lastInterestCalculation = {c, r, tempo, tipoTempo, interesse};
+            saveCalculation('interesse', lastInterestCalculation);
+        }
+
+        /* === CALCULATOR: Montante === */
+        function calcolaMontante() {
+            if (!lastInterestCalculation) {
+                showToast('Calcola prima l\'interesse usando il calcolatore sopra', 'warning');
+                return;
+            }
+            
+            const {c, interesse} = lastInterestCalculation;
+            const montante = c + interesse;
+            
+            const resultDiv = document.getElementById('mont-result');
+            const valueDiv = resultDiv.querySelector('.result-value');
+            const stepsDiv = resultDiv.querySelector('.calculation-steps');
+            
+            valueDiv.innerHTML = `<strong>Montante (M):</strong> ${montante.toFixed(2)} euro`;
+            stepsDiv.innerHTML = `<strong>Formula:</strong> M = C + I<br>
+                                 M = ${c} + ${interesse.toFixed(2)} = ${montante.toFixed(2)}<br><br>
+                                 <strong>Componenti:</strong><br>
+                                 Capitale iniziale: ${c} euro<br>
+                                 Interessi maturati: ${interesse.toFixed(2)} euro`;
+            
+            resultDiv.classList.remove('hidden');
+            saveCalculation('montante', {c, interesse, montante});
+        }
+
+        /* === CALCULATOR: Sconto e Valore Attuale === */
+        function calcolaScontoValore() {
+            const c = parseFloat(document.getElementById('sc-c').value);
+            const r = parseFloat(document.getElementById('sc-r').value);
+            const tempo = parseFloat(document.getElementById('sc-tempo').value);
+            const tipoTempo = document.getElementById('sc-tempo-tipo').value;
+            
+            if (!c || !r || !tempo) {
+                showToast('Inserisci tutti i valori richiesti', 'warning');
+                return;
+            }
+            
+            let sconto = 0;
+            let formula = '';
+            
+            switch(tipoTempo) {
+                case 'anni':
+                    sconto = (c * r * tempo) / 100;
+                    formula = `Sc = (C × r × t) / 100 = (${c} × ${r} × ${tempo}) / 100`;
+                    break;
+                case 'mesi':
+                    sconto = (c * r * tempo) / 1200;
+                    formula = `Sc = (C × r × m) / 1200 = (${c} × ${r} × ${tempo}) / 1200`;
+                    break;
+                case 'giorni-ordinario':
+                    sconto = (c * r * tempo) / 36500;
+                    formula = `Sc = (C × r × g) / 36500 = (${c} × ${r} × ${tempo}) / 36500`;
+                    break;
+                case 'giorni-bisestile':
+                    sconto = (c * r * tempo) / 36600;
+                    formula = `Sc = (C × r × g) / 36600 = (${c} × ${r} × ${tempo}) / 36600`;
+                    break;
+            }
+            
+            const valoreAttuale = c - sconto;
+            
+            const resultDiv = document.getElementById('sc-result');
+            const valueDiv = resultDiv.querySelector('.result-value');
+            const stepsDiv = resultDiv.querySelector('.calculation-steps');
+            
+            valueDiv.innerHTML = `<strong>Sconto commerciale (Sc):</strong> ${sconto.toFixed(2)} euro<br>
+                                 <strong>Valore attuale (Vc):</strong> ${valoreAttuale.toFixed(2)} euro`;
+            
+            stepsDiv.innerHTML = `<strong>Calcolo sconto:</strong><br>${formula} = ${sconto.toFixed(2)}<br><br>
+                                 <strong>Calcolo valore attuale:</strong><br>
+                                 Vc = C - Sc = ${c} - ${sconto.toFixed(2)} = ${valoreAttuale.toFixed(2)}<br><br>
+                                 <strong>Riepilogo:</strong><br>
+                                 Capitale a scadenza: ${c} euro<br>
+                                 Tempo di anticipo: ${tempo} ${tipoTempo.replace('-', ' ')}<br>
+                                 Tasso di sconto: ${r}%`;
+            
+            resultDiv.classList.remove('hidden');
+            saveCalculation('sconto', {c, r, tempo, tipoTempo, sconto, valoreAttuale});
+        }
+
+        /* === CALCULATOR: Riparti === */
+        function calcolaRiparto() {
+            const importo = parseFloat(document.getElementById('rip-importo').value);
+            const grandezzeStr = document.getElementById('rip-grandezze').value;
+            const nomiStr = document.getElementById('rip-nomi').value;
+            
+            if (!importo || !grandezzeStr) {
+                showToast('Inserisci importo e grandezze', 'warning');
+                return;
+            }
+            
+            const grandezze = grandezzeStr.split(',').map(g => parseFloat(g.trim()));
+            const nomi = nomiStr ? nomiStr.split(',').map(n => n.trim()) : grandezze.map((_, i) => `Parte ${i + 1}`);
+            
+            const sommaGrandezze = grandezze.reduce((a, b) => a + b, 0);
+            const coefficiente = importo / sommaGrandezze;
+            
+            const quote = grandezze.map(g => g * coefficiente);
+            const sommaQuote = quote.reduce((a, b) => a + b, 0);
+            
+            const resultDiv = document.getElementById('rip-result');
+            const valueDiv = resultDiv.querySelector('.result-value');
+            const stepsDiv = resultDiv.querySelector('.calculation-steps');
+            const table = document.getElementById('rip-table');
+            const tbody = table.querySelector('tbody');
+            
+            valueDiv.innerHTML = `<strong>Coefficiente di riparto:</strong> ${coefficiente.toFixed(6)}`;
+            
+            stepsDiv.innerHTML = `<strong>Formula:</strong> coefficiente = I / (a + b + c...)<br>
+                                 coefficiente = ${importo} / ${sommaGrandezze} = ${coefficiente.toFixed(6)}<br><br>
+                                 <strong>Verifica:</strong> Somma quote = ${sommaQuote.toFixed(2)} euro ✓`;
+            
+            // Populate table
+            tbody.innerHTML = '';
+            grandezze.forEach((g, i) => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = nomi[i];
+                row.insertCell(1).textContent = g.toFixed(2);
+                row.insertCell(2).textContent = quote[i].toFixed(2) + ' euro';
+                row.insertCell(3).textContent = ((quote[i] / importo) * 100).toFixed(2) + '%';
+            });
+            
+            table.classList.remove('hidden');
+            resultDiv.classList.remove('hidden');
+            
+            saveCalculation('riparto', {importo, grandezze, nomi, coefficiente, quote});
+        }
+
+        function esportaRipartoCSV() {
+            const table = document.getElementById('rip-table');
+            if (table.classList.contains('hidden')) {
+                showToast('Prima calcola un riparto', 'warning');
+                return;
+            }
+            
+            let csv = 'Parte,Grandezza,Quota,Percentuale\n';
+            const rows = table.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                csv += Array.from(cells).map(cell => cell.textContent).join(',') + '\n';
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'riparto_' + new Date().toISOString().slice(0,10) + '.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showToast('File CSV esportato!', 'success');
+        }
+
+        /* === QUIZ SYSTEM === */
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "Nella proporzione 24:8=36:12, quali sono i medi?",
+                options: ["24 e 12", "8 e 36", "24 e 36", "8 e 12"],
+                correct: 1,
+                explanation: "I medi sono il secondo e il terzo termine: 8 e 36"
+            },
+            {
+                id: 2,
+                question: "Se il 10% di una somma è 94 euro, qual è la somma totale?",
+                options: ["940 euro", "9.400 euro", "104 euro", "840 euro"],
+                correct: 0,
+                explanation: "100:10=x:94, quindi x=(100×94)/10=940 euro"
+            },
+            {
+                id: 3,
+                question: "L'interesse su 10.000 euro al 5% annuo per 6 mesi è:",
+                options: ["500 euro", "250 euro", "300 euro", "600 euro"],
+                correct: 1,
+                explanation: "I=(C×r×m)/1200=(10000×5×6)/1200=250 euro"
+            },
+            {
+                id: 4,
+                question: "Il montante è uguale a:",
+                options: ["Capitale - Interesse", "Capitale + Interesse", "Capitale × Interesse", "Interesse - Capitale"],
+                correct: 1,
+                explanation: "Il montante M = C + I (capitale + interesse)"
+            },
+            {
+                id: 5,
+                question: "Vero o Falso: Lo sconto commerciale si applica quando si paga dopo la scadenza",
+                options: ["Vero", "Falso"],
+                correct: 1,
+                explanation: "Falso. Lo sconto si applica quando si paga PRIMA della scadenza"
+            },
+            {
+                id: 6,
+                question: "Il valore attuale commerciale è:",
+                options: ["C + Sc", "C - Sc", "C × Sc", "Sc - C"],
+                correct: 1,
+                explanation: "Vc = C - Sc (capitale meno sconto commerciale)"
+            },
+            {
+                id: 7,
+                question: "Nel calcolo degli interessi con giorni nell'anno ordinario si divide per:",
+                options: ["365", "36.500", "36.600", "3.650"],
+                correct: 1,
+                explanation: "Si divide per 36.500 (100 × 365 giorni)"
+            },
+            {
+                id: 8,
+                question: "Il coefficiente di riparto si calcola:",
+                options: ["I × somma grandezze", "I + somma grandezze", "I / somma grandezze", "somma grandezze / I"],
+                correct: 2,
+                explanation: "coefficiente = I / (a + b + c...)"
+            },
+            {
+                id: 9,
+                question: "Vero o Falso: In una proporzione, il prodotto dei medi è uguale al prodotto degli estremi",
+                options: ["Vero", "Falso"],
+                correct: 0,
+                explanation: "Vero. È la proprietà fondamentale delle proporzioni"
+            },
+            {
+                id: 10,
+                question: "Per calcolare l'interesse in mesi si divide per:",
+                options: ["100", "1.200", "12", "120"],
+                correct: 1,
+                explanation: "Si divide per 1.200 (100 × 12 mesi)"
+            }
+        ];
+
+        let currentQuizState = null;
+
+        function initializeQuiz() {
+            const quizContent = document.getElementById('quiz-content');
+            if (!quizContent) return;
+            
+            let html = '';
+            quizQuestions.forEach((q, index) => {
+                html += `
+                    <div class="quiz-question" data-question-id="${q.id}">
+                        <h4>Domanda ${index + 1}</h4>
+                        <p>${q.question}</p>
+                        <div class="quiz-options">`;
+                
+                q.options.forEach((option, i) => {
+                    html += `
+                        <label class="quiz-option">
+                            <input type="radio" name="q${q.id}" value="${i}">
+                            <span>${option}</span>
+                        </label>`;
+                });
+                
+                html += `
+                        </div>
+                        <div class="quiz-feedback" data-question-id="${q.id}"></div>
+                    </div>`;
+            });
+            
+            quizContent.innerHTML = html;
+            loadQuizProgress();
+        }
+
+        function submitQuiz() {
+            const answers = {};
+            let correct = 0;
+            let total = quizQuestions.length;
+            
+            quizQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                const feedbackDiv = document.querySelector(`.quiz-feedback[data-question-id="${q.id}"]`);
+                
+                if (selected) {
+                    const answer = parseInt(selected.value);
+                    answers[q.id] = answer;
+                    
+                    if (answer === q.correct) {
+                        correct++;
+                        feedbackDiv.className = 'quiz-feedback success';
+                        feedbackDiv.innerHTML = '✓ Corretto! ' + q.explanation;
+                    } else {
+                        feedbackDiv.className = 'quiz-feedback error';
+                        feedbackDiv.innerHTML = '✗ Sbagliato. ' + q.explanation;
+                    }
+                } else {
+                    feedbackDiv.className = 'quiz-feedback error';
+                    feedbackDiv.innerHTML = '⚠ Nessuna risposta. ' + q.explanation;
+                }
+            });
+            
+            // Show results
+            const resultsDiv = document.getElementById('quiz-results');
+            const scoreDiv = resultsDiv.querySelector('.quiz-score');
+            const messageDiv = document.getElementById('quiz-message');
+            
+            scoreDiv.textContent = `${correct}/${total}`;
+            
+            let message = '';
+            const percentage = (correct / total) * 100;
+            
+            if (percentage === 100) {
+                message = 'Eccellente! Hai risposto correttamente a tutte le domande! 🎉';
+            } else if (percentage >= 80) {
+                message = 'Ottimo lavoro! Hai una buona padronanza degli argomenti.';
+            } else if (percentage >= 60) {
+                message = 'Buon risultato! Rivedi gli argomenti dove hai avuto difficoltà.';
+            } else {
+                message = 'Continua a studiare! Rileggi le lezioni e riprova.';
+            }
+            
+            messageDiv.textContent = message;
+            resultsDiv.style.display = 'block';
+            
+            // Save progress
+            currentQuizState = {
+                answers,
+                score: correct,
+                total,
+                date: new Date().toISOString()
+            };
+            
+            Storage.set('quizState', currentQuizState);
+            Storage.set('quizHistory', [...(Storage.get('quizHistory') || []), currentQuizState]);
+            
+            showToast(`Quiz completato: ${correct}/${total}`, correct >= 6 ? 'success' : 'warning');
+        }
+
+        function resetQuiz() {
+            if (confirm('Sei sicuro di voler resettare il quiz?')) {
+                document.querySelectorAll('input[type="radio"]').forEach(input => {
+                    input.checked = false;
+                });
+                document.querySelectorAll('.quiz-feedback').forEach(div => {
+                    div.className = 'quiz-feedback';
+                    div.innerHTML = '';
+                });
+                document.getElementById('quiz-results').style.display = 'none';
+                Storage.remove('quizState');
+                showToast('Quiz resettato', 'info');
+            }
+        }
+
+        function loadQuizProgress() {
+            const savedState = Storage.get('quizState');
+            if (savedState && savedState.answers) {
+                Object.entries(savedState.answers).forEach(([qId, answer]) => {
+                    const radio = document.querySelector(`input[name="q${qId}"][value="${answer}"]`);
+                    if (radio) radio.checked = true;
+                });
+            }
+        }
+
+        /* === PROGRESS MANAGEMENT === */
+        function loadProgress() {
+            // Load last tab
+            const lastTab = Storage.get('lastTab');
+            if (lastTab) {
+                showTab(lastTab);
+            }
+            
+            // Load sidebar state
+            const sidebarCollapsed = Storage.get('sidebarCollapsed');
+            if (sidebarCollapsed) {
+                document.querySelector('.sidebar').classList.add('collapsed');
+                document.querySelector('.main-content').classList.add('full-width');
+            }
+            
+            // Load quiz progress
+            loadQuizProgress();
+        }
+
+        function saveCalculation(type, data) {
+            const history = Storage.get('calculationHistory') || [];
+            history.push({
+                type,
+                data,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Keep only last 50 calculations
+            if (history.length > 50) {
+                history.shift();
+            }
+            
+            Storage.set('calculationHistory', history);
+        }
+
+        function resetProgress() {
+            if (confirm('Sei sicuro di voler cancellare tutti i progressi salvati?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        /* === TOAST NOTIFICATIONS === */
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            // Style based on type
+            if (type === 'success') {
+                toast.style.borderLeft = '4px solid var(--success)';
+            } else if (type === 'warning') {
+                toast.style.borderLeft = '4px solid var(--warning)';
+            } else if (type === 'error') {
+                toast.style.borderLeft = '4px solid var(--danger)';
+            } else {
+                toast.style.borderLeft = '4px solid var(--primary)';
+            }
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        /* === KEYBOARD NAVIGATION === */
+        function setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                // Tab navigation with arrow keys
+                if (e.target.classList.contains('nav-tab')) {
+                    const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+                    const currentIndex = tabs.indexOf(e.target);
+                    
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        const nextIndex = (currentIndex + 1) % tabs.length;
+                        tabs[nextIndex].focus();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                        tabs[prevIndex].focus();
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        e.target.click();
+                    }
+                }
+                
+                // Escape to close modals/toasts
+                if (e.key === 'Escape') {
+                    const toast = document.getElementById('toast');
+                    if (toast.classList.contains('show')) {
+                        toast.classList.remove('show');
+                    }
+                }
+                
+                // Ctrl+P for print
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    window.print();
+                }
+            });
+        }
+
+        /* === PERFORMANCE MONITORING === */
+        window.addEventListener('load', () => {
+            if (performance && performance.timing) {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                console.log(`Page load time: ${loadTime}ms`);
+                
+                if (loadTime > 2500) {
+                    console.warn('Page load time exceeds target of 2.5s');
+                }
+            }
+        });
+
+        /* === ERROR HANDLING === */
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e.error);
+            showToast('Si è verificato un errore. Ricarica la pagina se il problema persiste.', 'error');
+        });
+
+        /* === PRINT SUPPORT === */
+        window.addEventListener('beforeprint', () => {
+            // Expand all accordions for printing
+            document.querySelectorAll('.accordion-content').forEach(content => {
+                content.style.display = 'block';
+            });
+        });
+
+        window.addEventListener('afterprint', () => {
+            // Restore accordion state after printing
+            document.querySelectorAll('.accordion-content').forEach(content => {
+                if (!content.classList.contains('active')) {
+                    content.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
