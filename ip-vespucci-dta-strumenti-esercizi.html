@@ -1,0 +1,3295 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TE980 - Strumenti di Lavoro - Esercitazioni Interattive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a3a52;
+            --secondary: #2c5aa0;
+            --accent: #d4af37;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --border: #bdc3c7;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #f5f5f5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* NAVIGATION */
+        nav {
+            background: white;
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        nav button:hover {
+            background: var(--light);
+            border-bottom-color: var(--accent);
+        }
+
+        nav button.active {
+            background: var(--primary);
+            color: white;
+            border-bottom-color: var(--accent);
+        }
+
+        /* PROGRESS */
+        .progress-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* CONTENT SECTIONS */
+        .lesson-section {
+            display: none;
+        }
+
+        .lesson-section.active {
+            display: block;
+        }
+
+        .lesson-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* EXERCISE */
+        .exercise {
+            background: white;
+            border-left: 4px solid var(--secondary);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .exercise:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .exercise-num {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .exercise-text {
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+
+        .exercise-text strong {
+            color: var(--secondary);
+        }
+
+        .exercise-input {
+            margin: 20px 0;
+        }
+
+        .exercise-input label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .exercise-input input,
+        .exercise-input textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-input input:focus,
+        .exercise-input textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(44, 90, 160, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-verify {
+            background: var(--secondary);
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-verify:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
+        }
+
+        .btn-solution {
+            background: var(--accent);
+            color: var(--primary);
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-solution:hover {
+            background: #e0c547;
+            transform: translateY(-2px);
+        }
+
+        .btn-steps {
+            background: var(--success);
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-steps:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+
+        /* FEEDBACK */
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success);
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--danger);
+        }
+
+        /* SOLUTION & STEPS */
+        .solution-box,
+        .steps-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .solution-box.show,
+        .steps-box.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solution-box h4,
+        .steps-box h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .solution-box p,
+        .steps-box p {
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .step {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            background: var(--secondary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        /* CALCULATOR */
+        .calculator-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--accent);
+        }
+
+        .calculator-section h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .calc-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .calc-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calc-field label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .calc-field input {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .calc-field input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* QUIZ */
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .quiz-question h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: var(--light);
+            border-color: var(--secondary);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: var(--success);
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: var(--danger);
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            nav, .progress-section, .button-group, .feedback, .solution-box, .steps-box {
+                display: none !important;
+            }
+
+            .exercise {
+                page-break-inside: avoid;
+                border: 1px solid var(--border);
+                box-shadow: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            header {
+                background: var(--primary);
+                margin-bottom: 20px;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav button {
+                min-width: 100px;
+                padding: 12px 15px;
+                font-size: 0.85rem;
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group button {
+                width: 100%;
+            }
+        }
+
+        /* ACCESSIBILITY */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        button:focus {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* FORMULA BOX */
+        .formula {
+            background: #f0f4ff;
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            color: var(--primary);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1.2rem;
+            z-index: 999;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>📊 TE980 - Strumenti di Lavoro</h1>
+        <p>Esercitazioni Interattive su Calcoli, Interesse e Riparti Proporzionali</p>
+    </div>
+</header>
+
+<div class="container">
+    <!-- PROGRESS -->
+    <div class="progress-section">
+        <div class="progress-label">
+            <span>Progresso Complessivo</span>
+            <span id="progress-text">0/36 Esercizi Completati</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <button class="nav-btn active" data-lesson="0">📐 Calcoli Percentuali</button>
+        <button class="nav-btn" data-lesson="1">💰 Interesse e Montante</button>
+        <button class="nav-btn" data-lesson="2">📊 Riparti Proporzionali</button>
+        <button class="nav-btn" data-lesson="3">📈 Tabelle e Grafici</button>
+        <button class="nav-btn" data-lesson="4">🧮 Calcolatrici</button>
+        <button class="nav-btn" data-lesson="5">❓ Quiz</button>
+    </nav>
+
+    <!-- LESSON 1: CALCOLI PERCENTUALI -->
+    <section class="lesson-section active" data-lesson="0">
+        <h2 class="lesson-title">Lezione 1 - I Calcoli Percentuali</h2>
+
+        <!-- EXERCISE 1 -->
+        <div class="exercise">
+            <div class="exercise-num">1</div>
+            <div class="exercise-text">
+                Un tour operator nel mese di marzo ha venduto <strong>16 pacchetti vacanze in Messico</strong> incassando <strong>12.640 euro</strong>. 
+                Nel mese di aprile ha venduto <strong>21 pacchetti vacanze dello stesso tipo</strong>. <strong>Quanto ha incassato?</strong>
+            </div>
+            <div class="formula">
+                16 : 12.640 = 21 : x
+            </div>
+            <div class="exercise-input">
+                <label for="ex1">Risposta (in euro):</label>
+                <input type="number" id="ex1" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(1, 16590)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(1)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(1)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-1"></div>
+            <div class="solution-box" id="solution-1">
+                <h4>✓ Soluzione</h4>
+                <p><strong>Risposta: 16.590 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-1">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Abbiamo una <strong>proporzione diretta</strong>: i pacchetti sono direttamente proporzionali all'incasso
+                </div>
+                <div class="step" data-step="2">
+                    Impostiamo la proporzione: 16 : 12.640 = 21 : x
+                </div>
+                <div class="step" data-step="3">
+                    Applichiamo la <strong>proprietà fondamentale delle proporzioni</strong>: il prodotto dei medi uguaglia il prodotto degli estremi
+                </div>
+                <div class="step" data-step="4">
+                    16 × x = 12.640 × 21
+                </div>
+                <div class="step" data-step="5">
+                    x = (12.640 × 21) / 16
+                </div>
+                <div class="step" data-step="6">
+                    x = 265.440 / 16 = <strong>16.590 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 2 -->
+        <div class="exercise">
+            <div class="exercise-num">2</div>
+            <div class="exercise-text">
+                Una ricetta prevede l'utilizzo di <strong>6 uova medie, 120 g di zucchero, 510 g di mascarpone, 420 g di savoiardi</strong> e q.b. di caffè, cacao e cioccolato. 
+                Sapendo che si hanno a disposizione <strong>5 uova</strong>, calcola la quantità degli altri ingredienti.
+            </div>
+            <div class="exercise-input">
+                <label for="ex2a">Zucchero (g):</label>
+                <input type="number" id="ex2a" placeholder="Inserisci quantità" step="0.01">
+                <label for="ex2b" style="margin-top: 10px;">Mascarpone (g):</label>
+                <input type="number" id="ex2b" placeholder="Inserisci quantità" step="0.01">
+                <label for="ex2c" style="margin-top: 10px;">Savoiardi (g):</label>
+                <input type="number" id="ex2c" placeholder="Inserisci quantità" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(2, [100, 425, 350])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(2)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(2)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-2"></div>
+            <div class="solution-box" id="solution-2">
+                <h4>✓ Soluzione</h4>
+                <p>Zucchero: <strong>100 g</strong></p>
+                <p>Mascarpone: <strong>425 g</strong></p>
+                <p>Savoiardi: <strong>350 g</strong></p>
+            </div>
+            <div class="steps-box" id="steps-2">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    La ricetta per 6 uova richiede: 120 g zucchero, 510 g mascarpone, 420 g savoiardi
+                </div>
+                <div class="step" data-step="2">
+                    Dobbiamo ridurla per 5 uova usando una proporzione diretta
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Per lo zucchero:</strong> 6 : 120 = 5 : x → x = (120 × 5) / 6 = 100 g
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Per il mascarpone:</strong> 6 : 510 = 5 : x → x = (510 × 5) / 6 = 425 g
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Per i savoiardi:</strong> 6 : 420 = 5 : x → x = (420 × 5) / 6 = 350 g
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 3 -->
+        <div class="exercise">
+            <div class="exercise-num">3</div>
+            <div class="exercise-text">
+                Per realizzare una ricetta per <strong>4 persone</strong> sono necessari <strong>300 g di zucchero, 250 g di burro, 2 uova e 350 g di farina</strong>. 
+                Calcola la quantità di ingredienti per <strong>6 persone</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex3a">Zucchero (g):</label>
+                <input type="number" id="ex3a" placeholder="Inserisci quantità" step="0.01">
+                <label for="ex3b" style="margin-top: 10px;">Burro (g):</label>
+                <input type="number" id="ex3b" placeholder="Inserisci quantità" step="0.01">
+                <label for="ex3c" style="margin-top: 10px;">Uova:</label>
+                <input type="number" id="ex3c" placeholder="Inserisci quantità" step="0.01">
+                <label for="ex3d" style="margin-top: 10px;">Farina (g):</label>
+                <input type="number" id="ex3d" placeholder="Inserisci quantità" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(3, [450, 375, 3, 525])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(3)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(3)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-3"></div>
+            <div class="solution-box" id="solution-3">
+                <h4>✓ Soluzione</h4>
+                <p>Zucchero: <strong>450 g</strong></p>
+                <p>Burro: <strong>375 g</strong></p>
+                <p>Uova: <strong>3</strong></p>
+                <p>Farina: <strong>525 g</strong></p>
+            </div>
+            <div class="steps-box" id="steps-3">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Aumentiamo le dosi da 4 a 6 persone (moltiplicatore: 6/4 = 1,5)
+                </div>
+                <div class="step" data-step="2">
+                    <strong>Zucchero:</strong> 300 × 1,5 = 450 g
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Burro:</strong> 250 × 1,5 = 375 g
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Uova:</strong> 2 × 1,5 = 3
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Farina:</strong> 350 × 1,5 = 525 g
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 4 -->
+        <div class="exercise">
+            <div class="exercise-num">4</div>
+            <div class="exercise-text">
+                Un prodotto alimentare acquistato da un ristoratore ha un <strong>peso lordo di 16 kg</strong> e una <strong>tara del 3% del peso lordo</strong>. 
+                <strong>Calcola il peso della tara in ettogrammi (hg)</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex4">Tara (in hg):</label>
+                <input type="number" id="ex4" placeholder="Inserisci il peso" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(4, 4.8)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(4)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(4)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-4"></div>
+            <div class="solution-box" id="solution-4">
+                <h4>✓ Soluzione</h4>
+                <p><strong>Tara = 0,48 kg = 4,8 hg</strong></p>
+            </div>
+            <div class="steps-box" id="steps-4">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Peso lordo = 16 kg
+                </div>
+                <div class="step" data-step="2">
+                    Tara = 3% del peso lordo
+                </div>
+                <div class="step" data-step="3">
+                    Calcoliamo il 3% di 16 kg: x = (3 × 16) / 100 = 0,48 kg
+                </div>
+                <div class="step" data-step="4">
+                    Convertiamo in ettogrammi: 0,48 kg = 4,8 hg (moltiplicare per 10)
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 5 -->
+        <div class="exercise">
+            <div class="exercise-num">5</div>
+            <div class="exercise-text">
+                Un'impresa del settore dolciario vende in un anno <strong>112.540 confezioni di biscotti</strong>. 
+                Sapendo che l'impresa vende il <strong>45% della produzione all'estero</strong>, <strong>quante confezioni sono state esportate?</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex5">Confezioni esportate:</label>
+                <input type="number" id="ex5" placeholder="Inserisci il numero" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(5, 50643)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(5)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(5)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-5"></div>
+            <div class="solution-box" id="solution-5">
+                <h4>✓ Soluzione</h4>
+                <p><strong>50.643 confezioni</strong></p>
+            </div>
+            <div class="steps-box" id="steps-5">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Produzione totale = 112.540 confezioni
+                </div>
+                <div class="step" data-step="2">
+                    Percentuale esportata = 45%
+                </div>
+                <div class="step" data-step="3">
+                    Calcolo con proporzione: 100 : 45 = 112.540 : x
+                </div>
+                <div class="step" data-step="4">
+                    x = (112.540 × 45) / 100 = 5.064.300 / 100 = <strong>50.643 confezioni</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 6 -->
+        <div class="exercise">
+            <div class="exercise-num">6</div>
+            <div class="exercise-text">
+                Un'ADV nel mese di maggio ha venduto <strong>50 pacchetti vacanze</strong> e a giugno ha venduto <strong>6 pacchetti in più</strong> rispetto al mese precedente. 
+                <strong>Qual è stata la percentuale di aumento?</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex6">Percentuale di aumento (%):</label>
+                <input type="number" id="ex6" placeholder="Inserisci la percentuale" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(6, 12)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(6)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(6)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-6"></div>
+            <div class="solution-box" id="solution-6">
+                <h4>✓ Soluzione</h4>
+                <p><strong>12% di aumento</strong></p>
+            </div>
+            <div class="steps-box" id="steps-6">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Maggio: 50 pacchetti
+                </div>
+                <div class="step" data-step="2">
+                    Giugno: 50 + 6 = 56 pacchetti
+                </div>
+                <div class="step" data-step="3">
+                    Incremento assoluto = 6 pacchetti
+                </div>
+                <div class="step" data-step="4">
+                    Proporzione: 100 : x = 50 : 6
+                </div>
+                <div class="step" data-step="5">
+                    x = (100 × 6) / 50 = 600 / 50 = <strong>12%</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 7 -->
+        <div class="exercise">
+            <div class="exercise-num">7</div>
+            <div class="exercise-text">
+                In una stazione termale, in un giorno sono stati emessi <strong>120 biglietti d'ingresso</strong> e il giorno successivo sono stati venduti <strong>18 biglietti in più</strong>. 
+                <strong>Qual è stata la percentuale di aumento</strong> rispetto ai biglietti d'ingresso del giorno precedente?
+            </div>
+            <div class="exercise-input">
+                <label for="ex7">Percentuale di aumento (%):</label>
+                <input type="number" id="ex7" placeholder="Inserisci la percentuale" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(7, 15)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(7)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(7)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-7"></div>
+            <div class="solution-box" id="solution-7">
+                <h4>✓ Soluzione</h4>
+                <p><strong>15% di aumento</strong></p>
+            </div>
+            <div class="steps-box" id="steps-7">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Giorno 1: 120 biglietti
+                </div>
+                <div class="step" data-step="2">
+                    Giorno 2: 120 + 18 = 138 biglietti
+                </div>
+                <div class="step" data-step="3">
+                    Incremento = 18 biglietti
+                </div>
+                <div class="step" data-step="4">
+                    Proporzione: 100 : x = 120 : 18
+                </div>
+                <div class="step" data-step="5">
+                    x = (100 × 18) / 120 = 1.800 / 120 = <strong>15%</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 8 -->
+        <div class="exercise">
+            <div class="exercise-num">8</div>
+            <div class="exercise-text">
+                In base a una ricerca di mercato, il <strong>32% dei turisti di una città d'arte viaggia in auto</strong>, il <strong>45% in aereo</strong> e il <strong>23% in treno</strong>. 
+                Sapendo che i turisti che viaggiano in auto sono <strong>240.000</strong>, 
+                calcola: <strong>1) quanti sono complessivamente i turisti? 2) Quanti viaggiano in aereo? 3) Quanti viaggiano in treno?</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex8a">Turisti totali:</label>
+                <input type="number" id="ex8a" placeholder="Inserisci il numero" step="0.01">
+                <label for="ex8b" style="margin-top: 10px;">Turisti in aereo:</label>
+                <input type="number" id="ex8b" placeholder="Inserisci il numero" step="0.01">
+                <label for="ex8c" style="margin-top: 10px;">Turisti in treno:</label>
+                <input type="number" id="ex8c" placeholder="Inserisci il numero" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(8, [750000, 337500, 172500])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(8)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(8)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-8"></div>
+            <div class="solution-box" id="solution-8">
+                <h4>✓ Soluzione</h4>
+                <p>Turisti totali: <strong>750.000</strong></p>
+                <p>Turisti in aereo: <strong>337.500</strong></p>
+                <p>Turisti in treno: <strong>172.500</strong></p>
+            </div>
+            <div class="steps-box" id="steps-8">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    32% viaggiano in auto = 240.000 turisti
+                </div>
+                <div class="step" data-step="2">
+                    Calcolo del totale: 100 : 32 = x : 240.000
+                </div>
+                <div class="step" data-step="3">
+                    x = (100 × 240.000) / 32 = 24.000.000 / 32 = <strong>750.000 turisti totali</strong>
+                </div>
+                <div class="step" data-step="4">
+                    Turisti in aereo (45%): (45 × 750.000) / 100 = <strong>337.500</strong>
+                </div>
+                <div class="step" data-step="5">
+                    Turisti in treno (23%): (23 × 750.000) / 100 = <strong>172.500</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 9 -->
+        <div class="exercise">
+            <div class="exercise-num">9</div>
+            <div class="exercise-text">
+                Il responsabile vendite di un tour operator decide gli sconti applicabili alle crociere di marzo. 
+                Calcola l'importo dello sconto per ciascun pacchetto. 
+                <br><br><strong>Tabella:</strong>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Pacchetto</th>
+                        <th>Prezzo (€)</th>
+                        <th>Sconto %</th>
+                        <th>Sconto (€)</th>
+                    </tr>
+                    <tr>
+                        <td>Isole Greche</td>
+                        <td>840,00</td>
+                        <td>6%</td>
+                        <td><input type="number" id="ex9a" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Fiordi Norvegesi</td>
+                        <td>1.355,00</td>
+                        <td>10%</td>
+                        <td><input type="number" id="ex9b" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Grecia e Turchia</td>
+                        <td>1.530,00</td>
+                        <td>8%</td>
+                        <td><input type="number" id="ex9c" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Caraibi</td>
+                        <td>5.735,00</td>
+                        <td>12%</td>
+                        <td><input type="number" id="ex9d" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(9, [50.40, 135.50, 122.40, 688.20])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(9)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(9)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-9"></div>
+            <div class="solution-box" id="solution-9">
+                <h4>✓ Soluzione</h4>
+                <p>Isole Greche: <strong>50,40 €</strong></p>
+                <p>Fiordi Norvegesi: <strong>135,50 €</strong></p>
+                <p>Grecia e Turchia: <strong>122,40 €</strong></p>
+                <p>Caraibi: <strong>688,20 €</strong></p>
+            </div>
+            <div class="steps-box" id="steps-9">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>Isole Greche:</strong> x = (6 × 840) / 100 = 50,40 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>Fiordi Norvegesi:</strong> x = (10 × 1.355) / 100 = 135,50 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Grecia e Turchia:</strong> x = (8 × 1.530) / 100 = 122,40 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Caraibi:</strong> x = (12 × 5.735) / 100 = 688,20 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 10 -->
+        <div class="exercise">
+            <div class="exercise-num">10</div>
+            <div class="exercise-text">
+                Una pizzeria vende un menu a <strong>7,50 euro</strong>, concedendo uno sconto dell'<strong>8% per acquisti superiori ai 10 menu</strong>. 
+                Il prezzo finale deve essere aumentato del <strong>5% in caso di trasporto a domicilio</strong>.
+                Calcola quanto paga un cliente che ha ordinato a domicilio <strong>12 menu</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex10">Importo totale (€):</label>
+                <input type="number" id="ex10" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(10, 86.94)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(10)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(10)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-10"></div>
+            <div class="solution-box" id="solution-10">
+                <h4>✓ Soluzione</h4>
+                <p><strong>86,94 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-10">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Prezzo lordo: 7,50 × 12 = 90,00 euro
+                </div>
+                <div class="step" data-step="2">
+                    Sconto 8%: (8 × 90) / 100 = 7,20 euro
+                </div>
+                <div class="step" data-step="3">
+                    Prezzo scontato: 90,00 - 7,20 = 82,80 euro
+                </div>
+                <div class="step" data-step="4">
+                    Trasporto (5%): (5 × 82,80) / 100 = 4,14 euro
+                </div>
+                <div class="step" data-step="5">
+                    Prezzo totale: 82,80 + 4,14 = <strong>86,94 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 11 -->
+        <div class="exercise">
+            <div class="exercise-num">11</div>
+            <div class="exercise-text">
+                Un tour operator vende un soggiorno di una settimana al prezzo di <strong>625 euro</strong>, concedendo lo sconto del <strong>30% per ragazzi fra i 3 e i 15 anni</strong>. 
+                Per i bambini con meno di tre anni il soggiorno è <strong>gratuito</strong>. 
+                Ogni partecipante paga una <strong>quota fissa di 25 euro per assicurazioni e gadget</strong>. 
+                <br><br>Calcola quanto deve spendere una famiglia composta da <strong>moglie, marito e tre figli rispettivamente di 12, 10 e 2 anni</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex11">Importo totale (€):</label>
+                <input type="number" id="ex11" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(11, 2250)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(11)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(11)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-11"></div>
+            <div class="solution-box" id="solution-11">
+                <h4>✓ Soluzione</h4>
+                <p><strong>2.250 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-11">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Sconto 30% per ragazzi (3-15 anni): 625 - (30 × 625 / 100) = 625 - 187,50 = 437,50 euro
+                </div>
+                <div class="step" data-step="2">
+                    <strong>Moglie:</strong> 625 euro (adulto)
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Marito:</strong> 625 euro (adulto)
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Figlio 12 anni:</strong> 437,50 euro (con sconto 30%)
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Figlio 10 anni:</strong> 437,50 euro (con sconto 30%)
+                </div>
+                <div class="step" data-step="6">
+                    <strong>Figlio 2 anni:</strong> 0 euro (gratuito)
+                </div>
+                <div class="step" data-step="7">
+                    Quota fissa: 25 × 5 persone = 125 euro
+                </div>
+                <div class="step" data-step="8">
+                    Totale: 625 + 625 + 437,50 + 437,50 + 0 + 125 = <strong>2.250 euro</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LESSON 2: INTERESSE E MONTANTE -->
+    <section class="lesson-section" data-lesson="1">
+        <h2 class="lesson-title">Lezione 2 - L'Interesse, il Montante, lo Sconto e il Valore Attuale</h2>
+
+        <!-- EXERCISE 12 -->
+        <div class="exercise">
+            <div class="exercise-num">12</div>
+            <div class="exercise-text">
+                Calcola l'interesse maturato sui seguenti capitali:
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Capitale</th>
+                        <th>Tempo</th>
+                        <th>Tasso</th>
+                        <th>Interesse (€)</th>
+                    </tr>
+                    <tr>
+                        <td>6.800 €</td>
+                        <td>1 anno</td>
+                        <td>3,80%</td>
+                        <td><input type="number" id="ex12a" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>12.750 €</td>
+                        <td>1 anno</td>
+                        <td>4,50%</td>
+                        <td><input type="number" id="ex12b" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>24.300 €</td>
+                        <td>5 mesi</td>
+                        <td>6,75%</td>
+                        <td><input type="number" id="ex12c" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>9.160 €</td>
+                        <td>7 mesi</td>
+                        <td>2,75%</td>
+                        <td><input type="number" id="ex12d" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>34.920 €</td>
+                        <td>2 mesi</td>
+                        <td>3,50%</td>
+                        <td><input type="number" id="ex12e" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Formula:</strong> I = (C × r × t) / 100 (per anni) | I = (C × r × m) / 1.200 (per mesi)
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(12, [258.40, 573.75, 683.44, 146.94, 203.70])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(12)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(12)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-12"></div>
+            <div class="solution-box" id="solution-12">
+                <h4>✓ Soluzione</h4>
+                <p>1) 258,40 €</p>
+                <p>2) 573,75 €</p>
+                <p>3) 683,44 €</p>
+                <p>4) 146,94 €</p>
+                <p>5) 203,70 €</p>
+            </div>
+            <div class="steps-box" id="steps-12">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>Capitale 1:</strong> I = (6.800 × 3,80 × 1) / 100 = 258,40 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>Capitale 2:</strong> I = (12.750 × 4,50 × 1) / 100 = 573,75 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Capitale 3 (5 mesi):</strong> I = (24.300 × 6,75 × 5) / 1.200 = 683,44 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Capitale 4 (7 mesi):</strong> I = (9.160 × 2,75 × 7) / 1.200 = 146,94 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Capitale 5 (2 mesi):</strong> I = (34.920 × 3,50 × 2) / 1.200 = 203,70 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 13 -->
+        <div class="exercise">
+            <div class="exercise-num">13</div>
+            <div class="exercise-text">
+                Calcola l'interesse maturato sui seguenti capitali (con giorni specifici):
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Capitale</th>
+                        <th>Giorni/Periodo</th>
+                        <th>Tasso</th>
+                        <th>Interesse (€)</th>
+                    </tr>
+                    <tr>
+                        <td>13.505 €</td>
+                        <td>210 giorni</td>
+                        <td>4,30%</td>
+                        <td><input type="number" id="ex13a" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>9.198 €</td>
+                        <td>35 giorni</td>
+                        <td>7%</td>
+                        <td><input type="number" id="ex13b" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>43.920 €</td>
+                        <td>14 gen - 31 mag (bisestile)</td>
+                        <td>3,90%</td>
+                        <td><input type="number" id="ex13c" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>21.170 €</td>
+                        <td>2 feb - 30 giu</td>
+                        <td>5%</td>
+                        <td><input type="number" id="ex13d" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>10.950 €</td>
+                        <td>20 set - 31 mag anno succ.</td>
+                        <td>3%</td>
+                        <td><input type="number" id="ex13e" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>63.510 €</td>
+                        <td>1 ott - 18 lug anno succ.</td>
+                        <td>5,25%</td>
+                        <td><input type="number" id="ex13f" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Formula (giorni):</strong> I = (C × r × g) / 36.500 (anno ordinario) | I = (C × r × g) / 36.600 (anno bisestile)
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(13, [334.11, 61.74, 645.84, 429.20, 227.70, 2649.15])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(13)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(13)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-13"></div>
+            <div class="solution-box" id="solution-13">
+                <h4>✓ Soluzione</h4>
+                <p>1) 334,11 €</p>
+                <p>2) 61,74 €</p>
+                <p>3) 645,84 €</p>
+                <p>4) 429,20 €</p>
+                <p>5) 227,70 €</p>
+                <p>6) 2.649,15 €</p>
+            </div>
+            <div class="steps-box" id="steps-13">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1)</strong> I = (13.505 × 4,30 × 210) / 36.500 = 334,11 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>2)</strong> I = (9.198 × 7 × 35) / 36.500 = 61,74 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>3)</strong> I = (43.920 × 3,90 × 138) / 36.600 = 645,84 € (138 giorni, bisestile)
+                </div>
+                <div class="step" data-step="4">
+                    <strong>4)</strong> I = (21.170 × 5 × 148) / 36.500 = 429,20 € (148 giorni)
+                </div>
+                <div class="step" data-step="5">
+                    <strong>5)</strong> I = (10.950 × 3 × 253) / 36.500 = 227,70 € (253 giorni)
+                </div>
+                <div class="step" data-step="6">
+                    <strong>6)</strong> I = (63.510 × 5,25 × 290) / 36.500 = 2.649,15 € (290 giorni)
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 14 -->
+        <div class="exercise">
+            <div class="exercise-num">14</div>
+            <div class="exercise-text">
+                La Corona Hotels il giorno <strong>27 aprile concede una dilazione di 30 giorni</strong> alla Ferrari Travel, che non è in grado di estinguere un debito di <strong>18.980 euro</strong>. 
+                <strong>Calcola gli interessi di dilazione al tasso 7,75% (anno ordinario)</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex14">Interessi di dilazione (€):</label>
+                <input type="number" id="ex14" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(14, 120.90)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(14)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(14)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-14"></div>
+            <div class="solution-box" id="solution-14">
+                <h4>✓ Soluzione</h4>
+                <p><strong>120,90 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-14">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Capitale = 18.980 euro
+                </div>
+                <div class="step" data-step="2">
+                    Tempo = 30 giorni
+                </div>
+                <div class="step" data-step="3">
+                    Tasso = 7,75%
+                </div>
+                <div class="step" data-step="4">
+                    Uso la formula: I = (C × r × g) / 36.500
+                </div>
+                <div class="step" data-step="5">
+                    I = (18.980 × 7,75 × 30) / 36.500 = 4.427.850 / 36.500 = <strong>120,90 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 15 -->
+        <div class="exercise">
+            <div class="exercise-num">15</div>
+            <div class="exercise-text">
+                L'Hotel Sforza di Milano ottiene il <strong>9 marzo un prestito di 15.000 euro</strong> dalla FinCredit srl e lo utilizza per pagare un debito verso il fornitore Mauro D'Eramo di <strong>14.640 euro scaduto il 31 gennaio</strong>.
+                <br><br>Sapendo che sul finanziamento la società applica il tasso <strong>6,80%</strong> e sul debito sono maturati interessi di mora al tasso <strong>8,50%</strong>, calcola (anno ordinario):
+                <br><br><strong>1) Interessi dovuti alla società finanziaria (scadenza 30 settembre)</strong>
+                <br><strong>2) Interessi di mora dovuti al fornitore (dal 31 gennaio al 9 marzo)</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex15a">Interessi finanziaria (€):</label>
+                <input type="number" id="ex15a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex15b" style="margin-top: 10px;">Interessi mora fornitore (€):</label>
+                <input type="number" id="ex15b" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(15, [572.88, 126.14])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(15)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(15)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-15"></div>
+            <div class="solution-box" id="solution-15">
+                <h4>✓ Soluzione</h4>
+                <p>Interessi finanziaria: <strong>572,88 euro</strong></p>
+                <p>Interessi mora: <strong>126,14 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-15">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>Per la finanziaria:</strong> dal 9 marzo al 30 settembre = 205 giorni
+                </div>
+                <div class="step" data-step="2">
+                    I = (15.000 × 6,80 × 205) / 36.500 = <strong>572,88 euro</strong>
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Per il fornitore (mora):</strong> dal 31 gennaio al 9 marzo = 37 giorni
+                </div>
+                <div class="step" data-step="4">
+                    I = (14.640 × 8,50 × 37) / 36.500 = <strong>126,14 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 16 -->
+        <div class="exercise">
+            <div class="exercise-num">16</div>
+            <div class="exercise-text">
+                Calcola il <strong>montante</strong> sui seguenti capitali impiegati alle scadenze indicate:
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Capitale (€)</th>
+                        <th>Tempo</th>
+                        <th>Tasso</th>
+                        <th>Montante (€)</th>
+                    </tr>
+                    <tr>
+                        <td>5.800</td>
+                        <td>4 mesi</td>
+                        <td>5,25%</td>
+                        <td><input type="number" id="ex16a" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>12.000</td>
+                        <td>10 mesi</td>
+                        <td>3,80%</td>
+                        <td><input type="number" id="ex16b" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>76.300</td>
+                        <td>1 anno</td>
+                        <td>4,50%</td>
+                        <td><input type="number" id="ex16c" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>44.500</td>
+                        <td>3 mesi</td>
+                        <td>6,80%</td>
+                        <td><input type="number" id="ex16d" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>9.736</td>
+                        <td>6 mesi</td>
+                        <td>2,50%</td>
+                        <td><input type="number" id="ex16e" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Formula:</strong> M = C + I (Montante = Capitale + Interesse)
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(16, [5901.50, 12380, 79773.50, 45256.50, 9857.70])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(16)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(16)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-16"></div>
+            <div class="solution-box" id="solution-16">
+                <h4>✓ Soluzione</h4>
+                <p>1) 5.901,50 €</p>
+                <p>2) 12.380,00 €</p>
+                <p>3) 79.773,50 €</p>
+                <p>4) 45.256,50 €</p>
+                <p>5) 9.857,70 €</p>
+            </div>
+            <div class="steps-box" id="steps-16">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1) 5.800 € per 4 mesi al 5,25%:</strong> I = (5.800 × 5,25 × 4) / 1.200 = 101,50 € → M = 5.800 + 101,50 = 5.901,50 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>2) 12.000 € per 10 mesi al 3,80%:</strong> I = (12.000 × 3,80 × 10) / 1.200 = 380 € → M = 12.000 + 380 = 12.380 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>3) 76.300 € per 1 anno al 4,50%:</strong> I = (76.300 × 4,50 × 1) / 100 = 3.433,50 € → M = 76.300 + 3.433,50 = 79.773,50 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>4) 44.500 € per 3 mesi al 6,80%:</strong> I = (44.500 × 6,80 × 3) / 1.200 = 756,50 € → M = 44.500 + 756,50 = 45.256,50 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>5) 9.736 € per 6 mesi al 2,50%:</strong> I = (9.736 × 2,50 × 6) / 1.200 = 121,70 € → M = 9.736 + 121,70 = 9.857,70 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 17 -->
+        <div class="exercise">
+            <div class="exercise-num">17</div>
+            <div class="exercise-text">
+                Il titolare dell'Hotel Duchessa il <strong>16 febbraio ottiene da UniCredit un finanziamento di 12.000 euro al tasso 6,25%</strong> per coprire alcune spese impreviste. 
+                <strong>Calcola il montante da versare alla scadenza (anno ordinario), sapendo che il finanziamento deve essere rimborsato il 31 dicembre</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex17">Montante (€):</label>
+                <input type="number" id="ex17" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(17, 12653.42)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(17)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(17)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-17"></div>
+            <div class="solution-box" id="solution-17">
+                <h4>✓ Soluzione</h4>
+                <p><strong>12.653,42 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-17">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Dal 16 febbraio al 31 dicembre = 318 giorni
+                </div>
+                <div class="step" data-step="2">
+                    Calcolo interesse: I = (12.000 × 6,25 × 318) / 36.500
+                </div>
+                <div class="step" data-step="3">
+                    I = 23.850.000 / 36.500 = 653,42 euro
+                </div>
+                <div class="step" data-step="4">
+                    Montante = 12.000 + 653,42 = <strong>12.653,42 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 18 -->
+        <div class="exercise">
+            <div class="exercise-num">18</div>
+            <div class="exercise-text">
+                Calcola lo <strong>sconto commerciale</strong> applicato per estinguere anticipatamente i seguenti debiti:
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Debito (€)</th>
+                        <th>Tempo Anticipo</th>
+                        <th>Tasso</th>
+                        <th>Sconto (€)</th>
+                    </tr>
+                    <tr>
+                        <td>31.780</td>
+                        <td>1 anno</td>
+                        <td>3,80%</td>
+                        <td><input type="number" id="ex18a" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>22.700</td>
+                        <td>3 mesi</td>
+                        <td>6,30%</td>
+                        <td><input type="number" id="ex18b" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>49.020</td>
+                        <td>7 mesi</td>
+                        <td>6%</td>
+                        <td><input type="number" id="ex18c" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>21.170</td>
+                        <td>130 giorni</td>
+                        <td>4,75%</td>
+                        <td><input type="number" id="ex18d" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>27.740</td>
+                        <td>45 giorni</td>
+                        <td>2,50%</td>
+                        <td><input type="number" id="ex18e" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>1.715,50</td>
+                        <td>9 ott - 4 apr</td>
+                        <td>6%</td>
+                        <td><input type="number" id="ex18f" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>40.515</td>
+                        <td>30 giu - 28 mar (bisestile)</td>
+                        <td>5%</td>
+                        <td><input type="number" id="ex18g" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Formula:</strong> Sc = (D × r × t) / 100 (per anni) | Sc = (D × r × m) / 1.200 (per mesi) | Sc = (D × r × g) / 36.500 (per giorni)
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(18, [1207.64, 357.53, 1715.70, 358.15, 85.50, 53.02, 520.27])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(18)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(18)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-18"></div>
+            <div class="solution-box" id="solution-18">
+                <h4>✓ Soluzione</h4>
+                <p>1) 1.207,64 €</p>
+                <p>2) 357,53 €</p>
+                <p>3) 1.715,70 €</p>
+                <p>4) 358,15 €</p>
+                <p>5) 85,50 €</p>
+                <p>6) 53,02 €</p>
+                <p>7) 520,27 €</p>
+            </div>
+            <div class="steps-box" id="steps-18">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1)</strong> Sc = (31.780 × 3,80 × 1) / 100 = 1.207,64 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>2)</strong> Sc = (22.700 × 6,30 × 3) / 1.200 = 357,53 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>3)</strong> Sc = (49.020 × 6 × 7) / 1.200 = 1.715,70 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>4)</strong> Sc = (21.170 × 4,75 × 130) / 36.500 = 358,15 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>5)</strong> Sc = (27.740 × 2,50 × 45) / 36.500 = 85,50 €
+                </div>
+                <div class="step" data-step="6">
+                    <strong>6)</strong> Sc = (1.715,50 × 6 × 188) / 36.500 = 53,02 € (188 giorni)
+                </div>
+                <div class="step" data-step="7">
+                    <strong>7)</strong> Sc = (40.515 × 5 × 94) / 36.600 = 520,27 € (94 giorni bisestile)
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 19 -->
+        <div class="exercise">
+            <div class="exercise-num">19</div>
+            <div class="exercise-text">
+                La Ferretti catering il <strong>16 marzo incassa un credito verso un cliente di 9.000 euro in scadenza il 30 maggio</strong>, 
+                concedendo lo <strong>sconto commerciale al tasso 4,50%</strong>. 
+                <strong>Calcola lo sconto commerciale con il procedimento dell'anno civile ordinario</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex19">Sconto commerciale (€):</label>
+                <input type="number" id="ex19" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(19, 83.22)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(19)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(19)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-19"></div>
+            <div class="solution-box" id="solution-19">
+                <h4>✓ Soluzione</h4>
+                <p><strong>83,22 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-19">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Dal 16 marzo al 30 maggio = 75 giorni
+                </div>
+                <div class="step" data-step="2">
+                    Credito = 9.000 euro, Tasso = 4,50%
+                </div>
+                <div class="step" data-step="3">
+                    Sc = (9.000 × 4,50 × 75) / 36.500
+                </div>
+                <div class="step" data-step="4">
+                    Sc = 3.037.500 / 36.500 = <strong>83,22 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 20 -->
+        <div class="exercise">
+            <div class="exercise-num">20</div>
+            <div class="exercise-text">
+                L'Hotel Firenze incassa il <strong>30 aprile un credito verso un Tour operator di 8.103 euro in scadenza il 15 giugno (anno ordinario)</strong>, 
+                concedendo lo <strong>sconto commerciale al tasso 5%</strong>.
+                <strong>Calcola lo sconto commerciale</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex20">Sconto commerciale (€):</label>
+                <input type="number" id="ex20" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(20, 51.06)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(20)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(20)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-20"></div>
+            <div class="solution-box" id="solution-20">
+                <h4>✓ Soluzione</h4>
+                <p><strong>51,06 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-20">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Dal 30 aprile al 15 giugno = 46 giorni
+                </div>
+                <div class="step" data-step="2">
+                    Credito = 8.103 euro, Tasso = 5%
+                </div>
+                <div class="step" data-step="3">
+                    Sc = (8.103 × 5 × 46) / 36.500 = <strong>51,06 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 21 -->
+        <div class="exercise">
+            <div class="exercise-num">21</div>
+            <div class="exercise-text">
+                Il titolare del Panificio Corradi il <strong>9 dicembre estingue un debito verso un fornitore di 4.380 euro che scade il 28 gennaio dell'anno successivo</strong>, 
+                ottenendo lo <strong>sconto commerciale al tasso 3,25%</strong>. 
+                <strong>Calcola lo sconto commerciale applicato (anno ordinario)</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex21">Sconto commerciale (€):</label>
+                <input type="number" id="ex21" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswer(21, 19.50)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(21)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(21)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-21"></div>
+            <div class="solution-box" id="solution-21">
+                <h4>✓ Soluzione</h4>
+                <p><strong>19,50 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-21">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Dal 9 dicembre al 28 gennaio dell'anno successivo = 50 giorni
+                </div>
+                <div class="step" data-step="2">
+                    Debito = 4.380 euro, Tasso = 3,25%
+                </div>
+                <div class="step" data-step="3">
+                    Sc = (4.380 × 3,25 × 50) / 36.500 = <strong>19,50 euro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 22 -->
+        <div class="exercise">
+            <div class="exercise-num">22</div>
+            <div class="exercise-text">
+                Calcola il <strong>valore attuale commerciale</strong> versato per estinguere anticipatamente i seguenti debiti al tempo e tasso indicati:
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Debito (€)</th>
+                        <th>Tempo Anticipo</th>
+                        <th>Tasso</th>
+                        <th>Valore Attuale (€)</th>
+                    </tr>
+                    <tr>
+                        <td>21.425</td>
+                        <td>1 anno</td>
+                        <td>7,30%</td>
+                        <td><input type="number" id="ex22a" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>3.240</td>
+                        <td>9 mesi</td>
+                        <td>4,90%</td>
+                        <td><input type="number" id="ex22b" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>39.090</td>
+                        <td>4 mesi</td>
+                        <td>6,20%</td>
+                        <td><input type="number" id="ex22c" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>9.125</td>
+                        <td>264 giorni</td>
+                        <td>8%</td>
+                        <td><input type="number" id="ex22d" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>7.740</td>
+                        <td>20 giu - 15 mar</td>
+                        <td>6,25%</td>
+                        <td><input type="number" id="ex22e" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                    <tr>
+                        <td>14.640</td>
+                        <td>9 apr - 18 feb (bisestile)</td>
+                        <td>7,75%</td>
+                        <td><input type="number" id="ex22f" placeholder="0" step="0.01" style="width:100%; padding:8px; border: 1px solid #ccc; border-radius: 4px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Formula:</strong> VA = D - Sc (Valore Attuale = Debito - Sconto)
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(22, [19860.98, 3120.93, 38282.14, 8597, 7611.44, 14481.90])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(22)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(22)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-22"></div>
+            <div class="solution-box" id="solution-22">
+                <h4>✓ Soluzione</h4>
+                <p>1) 19.860,98 €</p>
+                <p>2) 3.120,93 €</p>
+                <p>3) 38.282,14 €</p>
+                <p>4) 8.597,00 €</p>
+                <p>5) 7.611,44 €</p>
+                <p>6) 14.481,90 €</p>
+            </div>
+            <div class="steps-box" id="steps-22">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1)</strong> Sc = (21.425 × 7,30) / 100 = 1.564,03 € → VA = 21.425 - 1.564,03 = 19.860,98 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>2)</strong> Sc = (3.240 × 4,90 × 9) / 1.200 = 119,07 € → VA = 3.240 - 119,07 = 3.120,93 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>3)</strong> Sc = (39.090 × 6,20 × 4) / 1.200 = 807,86 € → VA = 39.090 - 807,86 = 38.282,14 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>4)</strong> Sc = (9.125 × 8 × 264) / 36.500 = 528 € → VA = 9.125 - 528 = 8.597 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>5)</strong> Sc = (7.740 × 6,25 × 97) / 36.500 = 128,56 € → VA = 7.740 - 128,56 = 7.611,44 €
+                </div>
+                <div class="step" data-step="6">
+                    <strong>6)</strong> Sc = (14.640 × 7,75 × 51) / 36.600 = 158,10 € → VA = 14.640 - 158,10 = 14.481,90 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 23 -->
+        <div class="exercise">
+            <div class="exercise-num">23</div>
+            <div class="exercise-text">
+                Il 10 giugno il TO Montemare Viaggi spa estingue anticipatamente i seguenti debiti verso l'Hotel Liguria di Savona: 
+                <br><strong>• 9.307,50 euro scadente il 12 luglio</strong>
+                <br><strong>• 12.410 euro scadente il 31 agosto</strong>
+                <br><br>Determina il <strong>valore attuale commerciale dei due debiti (anno ordinario) sui quali è stato applicato il tasso di sconto 3,40%</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex23a">Valore attuale 1° debito (€):</label>
+                <input type="number" id="ex23a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex23b" style="margin-top: 10px;">Valore attuale 2° debito (€):</label>
+                <input type="number" id="ex23b" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(23, [9279.76, 12315.21])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(23)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(23)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-23"></div>
+            <div class="solution-box" id="solution-23">
+                <h4>✓ Soluzione</h4>
+                <p>1° debito: <strong>9.279,76 euro</strong></p>
+                <p>2° debito: <strong>12.315,21 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-23">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1° debito:</strong> dal 10 giugno al 12 luglio = 32 giorni
+                </div>
+                <div class="step" data-step="2">
+                    Sc = (9.307,50 × 3,40 × 32) / 36.500 = 27,74 €
+                </div>
+                <div class="step" data-step="3">
+                    VA = 9.307,50 - 27,74 = 9.279,76 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>2° debito:</strong> dal 10 giugno al 31 agosto = 82 giorni
+                </div>
+                <div class="step" data-step="5">
+                    Sc = (12.410 × 3,40 × 82) / 36.500 = 94,79 €
+                </div>
+                <div class="step" data-step="6">
+                    VA = 12.410 - 94,79 = 12.315,21 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 24 -->
+        <div class="exercise">
+            <div class="exercise-num">24</div>
+            <div class="exercise-text">
+                Il 9 luglio l'Hotel Ballarò di Palermo riscuote anticipatamente dal TO Travelsud spa i seguenti crediti, applicando lo sconto commerciale al tasso <strong>5,50%</strong>:
+                <br><strong>• 3.285 euro scadente il 31 agosto</strong>
+                <br><strong>• 17.155 euro scadente il 25 settembre</strong>
+                <br><br>Il giorno stesso l'impresa utilizza parte della somma riscossa per estinguere anticipatamente un suo debito di <strong>18.250 euro che scade il 31 ottobre</strong>, sul quale ottiene lo sconto commerciale al tasso <strong>5%</strong>.
+                <br><br>Determina con il procedimento dell'anno civile:
+                <br><strong>1) L'importo complessivo incassato dall'hotel</strong>
+                <br><strong>2) L'importo pagato per l'estinzione anticipata del debito</strong>
+                <br><strong>3) La somma residua</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex24a">Importo complessivo incassato (€):</label>
+                <input type="number" id="ex24a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex24b" style="margin-top: 10px;">Importo pagato per estinzione (€):</label>
+                <input type="number" id="ex24b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex24c" style="margin-top: 10px;">Somma residua (€):</label>
+                <input type="number" id="ex24c" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(24, [20212.14, 17965, 2247.14])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(24)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(24)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-24"></div>
+            <div class="solution-box" id="solution-24">
+                <h4>✓ Soluzione</h4>
+                <p>Importo complessivo incassato: <strong>20.212,14 euro</strong></p>
+                <p>Importo pagato: <strong>17.965,00 euro</strong></p>
+                <p>Somma residua: <strong>2.247,14 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-24">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1° credito (dal 9 lug al 31 ago = 53 giorni):</strong> Sc = (3.285 × 5,50 × 53) / 36.500 = 26,24 €
+                </div>
+                <div class="step" data-step="2">
+                    VA 1° = 3.285 - 26,24 = 3.258,77 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>2° credito (dal 9 lug al 25 set = 78 giorni):</strong> Sc = (17.155 × 5,50 × 78) / 36.500 = 201,63 €
+                </div>
+                <div class="step" data-step="4">
+                    VA 2° = 17.155 - 201,63 = 16.953,37 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Importo complessivo incassato:</strong> 3.258,77 + 16.953,37 = 20.212,14 €
+                </div>
+                <div class="step" data-step="6">
+                    <strong>Debito (dal 9 lug al 31 ott = 114 giorni):</strong> Sc = (18.250 × 5 × 114) / 36.500 = 285 €
+                </div>
+                <div class="step" data-step="7">
+                    VA debito = 18.250 - 285 = 17.965 €
+                </div>
+                <div class="step" data-step="8">
+                    <strong>Somma residua:</strong> 20.212,14 - 17.965 = 2.247,14 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 25 -->
+        <div class="exercise">
+            <div class="exercise-num">25</div>
+            <div class="exercise-text">
+                Il 20 settembre l'Hotel La Sila di Catanzaro riscuote con <strong>73 giorni di anticipo un credito di 4.927,50 euro</strong> verso un TO, 
+                applicando lo <strong>sconto commerciale al tasso 5%</strong>. 
+                Contemporaneamente estingue un <strong>debito di 2.774 euro scaduto il 18 agosto</strong> sul quale sono maturati <strong>interessi di mora al tasso 8,75%</strong>.
+                <br><br>Determina considerando l'anno ordinario:
+                <br><strong>1) Lo sconto commerciale applicato al TO</strong>
+                <br><strong>2) Gli interessi di mora maturati sul debito e l'importo complessivo pagato</strong>
+                <br><strong>3) La somma in denaro che rimane all'hotel dopo la riscossione e il pagamento</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex25a">Sconto commerciale (€):</label>
+                <input type="number" id="ex25a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex25b" style="margin-top: 10px;">Interessi mora (€):</label>
+                <input type="number" id="ex25b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex25c" style="margin-top: 10px;">Somma residua (€):</label>
+                <input type="number" id="ex25c" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(25, [49.28, 21.95, 2082.27])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(25)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(25)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-25"></div>
+            <div class="solution-box" id="solution-25">
+                <h4>✓ Soluzione</h4>
+                <p>Sconto commerciale: <strong>49,28 euro</strong></p>
+                <p>Interessi mora: <strong>21,95 euro</strong></p>
+                <p>Somma residua: <strong>2.082,27 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-25">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>Sconto sul credito:</strong> Sc = (4.927,50 × 5 × 73) / 36.500 = 49,28 €
+                </div>
+                <div class="step" data-step="2">
+                    Credito netto = 4.927,50 - 49,28 = 4.878,22 €
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Mora (dal 18 ago al 20 set = 33 giorni):</strong> I = (2.774 × 8,75 × 33) / 36.500 = 21,95 €
+                </div>
+                <div class="step" data-step="4">
+                    Debito totale = 2.774 + 21,95 = 2.795,95 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Somma residua:</strong> 4.927,50 - 49,28 - 2.795,95 = 2.082,27 €
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LESSON 3: RIPARTI PROPORZIONALI -->
+    <section class="lesson-section" data-lesson="2">
+        <h2 class="lesson-title">Lezione 3 - I Riparti Proporzionali</h2>
+
+        <!-- EXERCISE 26 -->
+        <div class="exercise">
+            <div class="exercise-num">26</div>
+            <div class="exercise-text">
+                Un ristoratore che ha ottenuto da un'importante guida gastronomica una valutazione favorevole, decide di assegnare un <strong>premio di 2.400 euro</strong> ai tre dipendenti della cucina. 
+                Il premio è assegnato in <strong>proporzione alle ore di lavoro straordinario</strong> effettuate da ciascuno: <strong>42 per Bruno, 56 per Greco e 22 per Amato</strong>. 
+                <strong>Calcola la quota di premio che spetta a ogni dipendente</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex26a">Premio Bruno (€):</label>
+                <input type="number" id="ex26a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex26b" style="margin-top: 10px;">Premio Greco (€):</label>
+                <input type="number" id="ex26b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex26c" style="margin-top: 10px;">Premio Amato (€):</label>
+                <input type="number" id="ex26c" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Coefficiente di riparto:</strong> 2.400 / (42 + 56 + 22) = 2.400 / 120 = <strong>20</strong>
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(26, [840, 1120, 440])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(26)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(26)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-26"></div>
+            <div class="solution-box" id="solution-26">
+                <h4>✓ Soluzione</h4>
+                <p>Bruno: <strong>840,00 euro</strong></p>
+                <p>Greco: <strong>1.120,00 euro</strong></p>
+                <p>Amato: <strong>440,00 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-26">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Totale ore straordinarie = 42 + 56 + 22 = 120 ore
+                </div>
+                <div class="step" data-step="2">
+                    Coefficiente di riparto = 2.400 / 120 = 20 euro per ora
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Bruno:</strong> 20 × 42 = 840,00 euro
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Greco:</strong> 20 × 56 = 1.120,00 euro
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Amato:</strong> 20 × 22 = 440,00 euro
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 27 -->
+        <div class="exercise">
+            <div class="exercise-num">27</div>
+            <div class="exercise-text">
+                Una società che gestisce un rifugio alpino nel primo anno di attività subisce una <strong>perdita di 8.460 euro</strong>. 
+                I soci decidono di ripianare la perdita effettuando dei versamenti in <strong>proporzione alle quote di capitale conferite</strong>: 
+                <strong>40.000 euro per il socio Bernardi, 50.000 euro per il socio Fiore e 30.000 euro per il socio Messina</strong>. 
+                <strong>Calcola quanto deve versare ciascun socio</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex27a">Versamento Bernardi (€):</label>
+                <input type="number" id="ex27a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex27b" style="margin-top: 10px;">Versamento Fiore (€):</label>
+                <input type="number" id="ex27b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex27c" style="margin-top: 10px;">Versamento Messina (€):</label>
+                <input type="number" id="ex27c" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Coefficiente di riparto:</strong> 8.460 / (40.000 + 50.000 + 30.000) = 8.460 / 120.000 = 0,0705
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(27, [2820, 3525, 2115])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(27)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(27)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-27"></div>
+            <div class="solution-box" id="solution-27">
+                <h4>✓ Soluzione</h4>
+                <p>Bernardi: <strong>2.820,00 euro</strong></p>
+                <p>Fiore: <strong>3.525,00 euro</strong></p>
+                <p>Messina: <strong>2.115,00 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-27">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Totale capitale = 40.000 + 50.000 + 30.000 = 120.000 euro
+                </div>
+                <div class="step" data-step="2">
+                    Coefficiente di riparto = 8.460 / 120.000 = 0,0705
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Bernardi:</strong> 0,0705 × 40.000 = 2.820,00 euro
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Fiore:</strong> 0,0705 × 50.000 = 3.525,00 euro
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Messina:</strong> 0,0705 × 30.000 = 2.115,00 euro
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 28 -->
+        <div class="exercise">
+            <div class="exercise-num">28</div>
+            <div class="exercise-text">
+                L'Hotel Colombo, la Pensione Miramare e l'Albergo Parco Azzurro versano a un'animatrice che intrattiene gli ospiti in spiaggia una <strong>somma complessiva di 180 euro</strong>. 
+                La spesa è suddivisa in <strong>proporzione al numero di clienti</strong> di ogni struttura ricettiva: 
+                <strong>54 per l'Hotel Colombo, 48 per la Pensione Miramare e 18 per l'Albergo Parco Azzurro</strong>. 
+                <strong>Calcola la quota a carico di ciascuna struttura ricettiva</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex28a">Quota Hotel Colombo (€):</label>
+                <input type="number" id="ex28a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex28b" style="margin-top: 10px;">Quota Pensione Miramare (€):</label>
+                <input type="number" id="ex28b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex28c" style="margin-top: 10px;">Quota Albergo Parco Azzurro (€):</label>
+                <input type="number" id="ex28c" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Coefficiente di riparto:</strong> 180 / (54 + 48 + 18) = 180 / 120 = 1,5
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(28, [81, 72, 27])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(28)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(28)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-28"></div>
+            <div class="solution-box" id="solution-28">
+                <h4>✓ Soluzione</h4>
+                <p>Hotel Colombo: <strong>81,00 euro</strong></p>
+                <p>Pensione Miramare: <strong>72,00 euro</strong></p>
+                <p>Albergo Parco Azzurro: <strong>27,00 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-28">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Totale clienti = 54 + 48 + 18 = 120 clienti
+                </div>
+                <div class="step" data-step="2">
+                    Coefficiente di riparto = 180 / 120 = 1,5 euro per cliente
+                </div>
+                <div class="step" data-step="3">
+                    <strong>Hotel Colombo:</strong> 1,5 × 54 = 81,00 euro
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Pensione Miramare:</strong> 1,5 × 48 = 72,00 euro
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Albergo Parco Azzurro:</strong> 1,5 × 18 = 27,00 euro
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 29 -->
+        <div class="exercise">
+            <div class="exercise-num">29</div>
+            <div class="exercise-text">
+                L'Hotel Lungolago ha un <strong>capitale sociale di 140.000 euro</strong>, apportato per <strong>60.000 euro dal socio Mariani</strong> e per il resto in <strong>parti uguali dai soci Caruso e Serra</strong>. 
+                Alla fine di un anno di gestione la società rileva un <strong>utile di 62.400 euro</strong> e i soci decidono di destinare il <strong>9% dell'utile a riserva</strong> e di distribuire la parte restante in <strong>proporzione alle quote di capitale apportate</strong>. 
+                <strong>Calcola la quota di utile che spetta a ciascun socio</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex29a">Utile Mariani (€):</label>
+                <input type="number" id="ex29a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex29b" style="margin-top: 10px;">Utile Caruso (€):</label>
+                <input type="number" id="ex29b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex29c" style="margin-top: 10px;">Utile Serra (€):</label>
+                <input type="number" id="ex29c" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Passaggi:</strong> Utile a riserva = 62.400 × 9% = 5.616 € | Utile da distribuire = 62.400 - 5.616 = 56.784 €<br>
+                Coefficiente = 56.784 / 140.000 = 0,4056
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(29, [24336, 16224, 16224])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(29)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(29)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-29"></div>
+            <div class="solution-box" id="solution-29">
+                <h4>✓ Soluzione</h4>
+                <p>Mariani: <strong>24.336,00 euro</strong></p>
+                <p>Caruso: <strong>16.224,00 euro</strong></p>
+                <p>Serra: <strong>16.224,00 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-29">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Utile a riserva = 62.400 × 9% = 5.616 euro
+                </div>
+                <div class="step" data-step="2">
+                    Utile da distribuire = 62.400 - 5.616 = 56.784 euro
+                </div>
+                <div class="step" data-step="3">
+                    Mariani apporta: 60.000 euro; Caruso e Serra: (140.000 - 60.000) / 2 = 40.000 euro ciascuno
+                </div>
+                <div class="step" data-step="4">
+                    Coefficiente = 56.784 / 140.000 = 0,4056
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Mariani:</strong> 0,4056 × 60.000 = 24.336,00 euro
+                </div>
+                <div class="step" data-step="6">
+                    <strong>Caruso:</strong> 0,4056 × 40.000 = 16.224,00 euro
+                </div>
+                <div class="step" data-step="7">
+                    <strong>Serra:</strong> 0,4056 × 40.000 = 16.224,00 euro
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 30 -->
+        <div class="exercise">
+            <div class="exercise-num">30</div>
+            <div class="exercise-text">
+                Un tour operator calcola il costo complessivo di due pacchetti turistici di 7 giorni: il primo a <strong>Amsterdam</strong> e il secondo a <strong>Berlino</strong>. 
+                I <strong>costi sostenuti per i viaggi in aereo</strong> sono rispettivamente <strong>12.500 euro e 22.600 euro</strong> e i <strong>costi di pernottamento</strong> sono <strong>43.600 euro e 68.400 euro</strong>. 
+                <br>I <strong>costi generali commerciali e amministrativi</strong>, che sono stati sostenuti per tutti e due i pacchetti, ammontano a <strong>28.700 euro</strong> e vengono ripartiti in proporzione al <strong>numero di pacchetti venduti</strong> (115 per il soggiorno ad Amsterdam e 165 per il soggiorno a Berlino).
+                <br><strong>Calcola il costo unitario di ciascun pacchetto turistico</strong>.
+            </div>
+            <div class="exercise-input">
+                <label for="ex30a">Costo unitario Amsterdam (€):</label>
+                <input type="number" id="ex30a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex30b" style="margin-top: 10px;">Costo unitario Berlino (€):</label>
+                <input type="number" id="ex30b" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="formula" style="margin-top: 15px;">
+                <strong>Coefficiente:</strong> 28.700 / (115 + 165) = 28.700 / 280 = 102,50 euro per pacchetto
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(30, [590.33, 654.02])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(30)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(30)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-30"></div>
+            <div class="solution-box" id="solution-30">
+                <h4>✓ Soluzione</h4>
+                <p>Costo unitario Amsterdam: <strong>590,33 euro</strong></p>
+                <p>Costo unitario Berlino: <strong>654,02 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-30">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Costi diretti Amsterdam: 12.500 + 43.600 = 56.100 euro
+                </div>
+                <div class="step" data-step="2">
+                    Costi diretti Berlino: 22.600 + 68.400 = 91.000 euro
+                </div>
+                <div class="step" data-step="3">
+                    Coefficiente riparto = 28.700 / (115 + 165) = 28.700 / 280 = 102,50 euro/pacchetto
+                </div>
+                <div class="step" data-step="4">
+                    Costi generali Amsterdam: 102,50 × 115 = 11.787,50 euro
+                </div>
+                <div class="step" data-step="5">
+                    Costi generali Berlino: 102,50 × 165 = 16.912,50 euro
+                </div>
+                <div class="step" data-step="6">
+                    Costo complessivo Amsterdam: 56.100 + 11.787,50 = 67.887,50 euro
+                </div>
+                <div class="step" data-step="7">
+                    Costo complessivo Berlino: 91.000 + 16.912,50 = 107.912,50 euro
+                </div>
+                <div class="step" data-step="8">
+                    Costo unitario Amsterdam: 67.887,50 / 115 = 590,33 euro
+                </div>
+                <div class="step" data-step="9">
+                    Costo unitario Berlino: 107.912,50 / 165 = 654,02 euro
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 31 -->
+        <div class="exercise">
+            <div class="exercise-num">31</div>
+            <div class="exercise-text">
+                Un tour operator calcola il costo di due viaggi turistici organizzati a <strong>Roma e Venezia</strong>. I dati a disposizione sono esposti nella tabella seguente:
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Roma</th>
+                        <th>Venezia</th>
+                    </tr>
+                    <tr>
+                        <td>Numero di turisti</td>
+                        <td>38</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>Costi di gestione (€/turista)</td>
+                        <td>410</td>
+                        <td>560</td>
+                    </tr>
+                    <tr>
+                        <td>Costi di pubblicità complessivi</td>
+                        <td colspan="2">210 (da ripartire in base al numero di turisti)</td>
+                    </tr>
+                    <tr>
+                        <td>Costi di amministrazione</td>
+                        <td colspan="2">15% dei costi di gestione</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="exercise-input">
+                <label for="ex31a">Costo totale Roma (€):</label>
+                <input type="number" id="ex31a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex31b" style="margin-top: 10px;">Costo totale Venezia (€):</label>
+                <input type="number" id="ex31b" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(31, [18034.35, 19412.65])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(31)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(31)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-31"></div>
+            <div class="solution-box" id="solution-31">
+                <h4>✓ Soluzione</h4>
+                <p>Costo totale Roma: <strong>18.034,35 euro</strong></p>
+                <p>Costo totale Venezia: <strong>19.412,65 euro</strong></p>
+            </div>
+            <div class="steps-box" id="steps-31">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>Costi di gestione:</strong> Roma: 410 × 38 = 15.580 €; Venezia: 560 × 30 = 16.800 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>Riparto pubblicità:</strong> Coeff = 210 / (38 + 30) = 210 / 68 = 3,088...
+                </div>
+                <div class="step" data-step="3">
+                    Roma: 3,088 × 38 = 117,35 €; Venezia: 3,088 × 30 = 92,65 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Amministrazione (15%):</strong> Roma: (15 × 15.580) / 100 = 2.337 €; Venezia: (15 × 16.800) / 100 = 2.520 €
+                </div>
+                <div class="step" data-step="5">
+                    <strong>Costo totale Roma:</strong> 15.580 + 117,35 + 2.337 = 18.034,35 €
+                </div>
+                <div class="step" data-step="6">
+                    <strong>Costo totale Venezia:</strong> 16.800 + 92,65 + 2.520 = 19.412,65 €
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 32 -->
+        <div class="exercise">
+            <div class="exercise-num">32</div>
+            <div class="exercise-text">
+                Un ristorante riserva le sue sale ai clienti <strong>Minervini e Serra</strong> per due pranzi. I dati a disposizione sono esposti nella tabella seguente:
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Minervini</th>
+                        <th>Serra</th>
+                    </tr>
+                    <tr>
+                        <td>Numero di invitati</td>
+                        <td>60</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>Costo materie prime alimentari (€)</td>
+                        <td>900</td>
+                        <td>480</td>
+                    </tr>
+                    <tr>
+                        <td>Prezzo di vendita per invitato (€)</td>
+                        <td>45</td>
+                        <td>55</td>
+                    </tr>
+                    <tr>
+                        <td>Costi per il confezionamento dei pasti</td>
+                        <td colspan="2">800 (da ripartire in base al costo delle materie)</td>
+                    </tr>
+                    <tr>
+                        <td>Costi per il servizio in sala</td>
+                        <td colspan="2">600 (da ripartire in base al numero di invitati)</td>
+                    </tr>
+                    <tr>
+                        <td>Costi generali</td>
+                        <td colspan="2">25% del costo delle materie</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="exercise-input">
+                <label for="ex32a">Costo totale Minervini (€):</label>
+                <input type="number" id="ex32a" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex32b" style="margin-top: 10px;">Ricavo Minervini (€):</label>
+                <input type="number" id="ex32b" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex32c" style="margin-top: 10px;">Utile Minervini (€):</label>
+                <input type="number" id="ex32c" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex32d" style="margin-top: 10px;">Costo totale Serra (€):</label>
+                <input type="number" id="ex32d" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex32e" style="margin-top: 10px;">Ricavo Serra (€):</label>
+                <input type="number" id="ex32e" placeholder="Inserisci l'importo" step="0.01">
+                <label for="ex32f" style="margin-top: 10px;">Utile Serra (€):</label>
+                <input type="number" id="ex32f" placeholder="Inserisci l'importo" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(32, [2006.74, 2700, 693.26, 1118.26, 2200, 1081.74])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(32)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(32)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-32"></div>
+            <div class="solution-box" id="solution-32">
+                <h4>✓ Soluzione</h4>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Minervini</th>
+                        <th>Serra</th>
+                    </tr>
+                    <tr>
+                        <td>Costo totale</td>
+                        <td><strong>2.006,74 €</strong></td>
+                        <td><strong>1.118,26 €</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Ricavo di vendita</td>
+                        <td><strong>2.700,00 €</strong></td>
+                        <td><strong>2.200,00 €</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Utile</td>
+                        <td><strong>693,26 €</strong></td>
+                        <td><strong>1.081,74 €</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="steps-box" id="steps-32">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>Materie prime:</strong> Minervini 900 €, Serra 480 € | Totale 1.380 €
+                </div>
+                <div class="step" data-step="2">
+                    <strong>Confezionamento (800 €):</strong> Coeff = 800 / 1.380 = 0,5797
+                </div>
+                <div class="step" data-step="3">
+                    Minervini: 0,5797 × 900 = 521,74 €; Serra: 0,5797 × 480 = 278,26 €
+                </div>
+                <div class="step" data-step="4">
+                    <strong>Servizio sala (600 €):</strong> Coeff = 600 / (60 + 40) = 6
+                </div>
+                <div class="step" data-step="5">
+                    Minervini: 6 × 60 = 360 €; Serra: 6 × 40 = 240 €
+                </div>
+                <div class="step" data-step="6">
+                    <strong>Generali (25% materie):</strong> Minervini: 900 × 25% = 225 €; Serra: 480 × 25% = 120 €
+                </div>
+                <div class="step" data-step="7">
+                    <strong>Ricavi:</strong> Minervini: 45 × 60 = 2.700 €; Serra: 55 × 40 = 2.200 €
+                </div>
+                <div class="step" data-step="8">
+                    <strong>Utili:</strong> Minervini: 2.700 - 2.006,74 = 693,26 €; Serra: 2.200 - 1.118,26 = 1.081,74 €
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LESSON 4: TABELLE E GRAFICI -->
+    <section class="lesson-section" data-lesson="3">
+        <h2 class="lesson-title">Lezione 4 - Le Tabelle e i Grafici</h2>
+
+        <!-- EXERCISE 33 -->
+        <div class="exercise">
+            <div class="exercise-num">33</div>
+            <div class="exercise-text">
+                <strong>Vero o Falso?</strong> Rispondi alle seguenti domande:
+            </div>
+            <div class="quiz-options" style="margin: 20px 0;">
+                <label class="quiz-option">
+                    <input type="radio" name="ex33_1" value="false"> 1. I grafici lineari rappresentano l'andamento nel tempo di un oggetto di analisi. <strong>(F - Sono i grafici a linee spezzate)</strong>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="ex33_2" value="false"> 2. Le tabelle composte sono formate da più di due colonne. <strong>(F - Hanno più di due colonne e/o righe)</strong>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="ex33_3" value="true"> 3. Un istogramma è un grafico formato da barre rettangolari verticali. <strong>(V)</strong>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="ex33_4" value="true"> 4. Un grafico a torta rappresenta le parti di un tutto. <strong>(V)</strong>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="ex33_5" value="true"> 5. Una tabella semplice è formata da righe e colonne. <strong>(V)</strong>
+                </label>
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkQuizMultiple('ex33')">Verifica Risposta</button>
+            </div>
+            <div class="feedback" id="feedback-33"></div>
+        </div>
+
+        <!-- EXERCISE 34 -->
+        <div class="exercise">
+            <div class="exercise-num">34</div>
+            <div class="exercise-text">
+                Il grafico mostra la distinzione per sesso dei lavoratori della ristorazione in un certo anno.
+                <br><br><strong>Domanda 1: Che tipo di grafico la rappresenta?</strong>
+                <br><strong>Domanda 2: Sapendo che nel settore ristorazione ci sono in tutto 1.136.000 lavoratori, quanti sono i lavoratori di sesso maschile?</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex34a">Tipo di grafico:</label>
+                <input type="text" id="ex34a" placeholder="Inserisci il tipo" style="margin-bottom: 15px;">
+                <label for="ex34b">Lavoratori maschili:</label>
+                <input type="number" id="ex34b" placeholder="Inserisci il numero" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerGraph(34)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(34)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(34)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-34"></div>
+            <div class="solution-box" id="solution-34">
+                <h4>✓ Soluzione</h4>
+                <p>1) Un <strong>grafico a torta</strong></p>
+                <p>2) <strong>522.560 lavoratori</strong></p>
+            </div>
+            <div class="steps-box" id="steps-34">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Un grafico a torta (o grafico circolare) rappresenta le proporzioni delle parti rispetto al tutto
+                </div>
+                <div class="step" data-step="2">
+                    Dal grafico: Uomini 46%, Donne 54%
+                </div>
+                <div class="step" data-step="3">
+                    Lavoratori maschili = (46 × 1.136.000) / 100 = <strong>522.560</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 35 -->
+        <div class="exercise">
+            <div class="exercise-num">35</div>
+            <div class="exercise-text">
+                Il grafico mostra le nuove aperture e le cessazioni di attività dei bar in un anno. 
+                <br><br><strong>Domanda 1: Che tipo di grafico è?</strong>
+                <br><strong>Domanda 2: Come viene calcolato il saldo?</strong>
+                <br><strong>Domanda 3: Considerando che all'inizio dell'anno il numero complessivo di bar era 78.350, qual è il numero di bar alla fine dell'anno?</strong>
+            </div>
+            <div class="exercise-input">
+                <label for="ex35a">Tipo di grafico:</label>
+                <input type="text" id="ex35a" placeholder="Inserisci il tipo" style="margin-bottom: 15px;">
+                <label for="ex35b">Calcolo saldo:</label>
+                <input type="text" id="ex35b" placeholder="Descrivi il procedimento" style="margin-bottom: 15px;">
+                <label for="ex35c">Bar alla fine dell'anno:</label>
+                <input type="number" id="ex35c" placeholder="Inserisci il numero" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerGraph35(35)">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(35)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(35)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-35"></div>
+            <div class="solution-box" id="solution-35">
+                <h4>✓ Soluzione</h4>
+                <p>1) Un <strong>istogramma</strong></p>
+                <p>2) <strong>Iscrizioni - Cessazioni = Saldo</strong> (7.045 - 9.342 = -2.297)</p>
+                <p>3) <strong>76.053 bar</strong> (78.350 - 2.297)</p>
+            </div>
+            <div class="steps-box" id="steps-35">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    Un istogramma è un grafico composto da barre rettangolari
+                </div>
+                <div class="step" data-step="2">
+                    Dal grafico: Iscrizioni 7.045; Cessazioni 9.342
+                </div>
+                <div class="step" data-step="3">
+                    Saldo = 7.045 - 9.342 = -2.297 (diminuzione)
+                </div>
+                <div class="step" data-step="4">
+                    Bar fine anno = 78.350 - 2.297 = 76.053
+                </div>
+            </div>
+        </div>
+
+        <!-- EXERCISE 36 -->
+        <div class="exercise">
+            <div class="exercise-num">36</div>
+            <div class="exercise-text">
+                Analizza i due grafici che riportano i dati relativi al numero di alberghi italiani e al numero di camere suddivisi per categoria (stelle). 
+                <br><br>Rispondi alle seguenti domande:
+                <br><strong>1) Quanti sono gli alberghi in Italia?</strong>
+                <br><strong>2) Quante sono le camere in totale?</strong>
+                <br><strong>3) Quante camere ci sono, in media, negli alberghi italiani?</strong>
+                <br><strong>4) Quante camere ci sono, in media, negli alberghi a 1 stella?</strong>
+                <br><strong>5) Quante camere ci sono, in media, negli alberghi a 5 stelle?</strong>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Stelle</th>
+                        <th>Numero Alberghi</th>
+                        <th>Numero Camere</th>
+                    </tr>
+                    <tr>
+                        <td>★</td>
+                        <td>2.398</td>
+                        <td>30.816</td>
+                    </tr>
+                    <tr>
+                        <td>★★</td>
+                        <td>5.110</td>
+                        <td>84.371</td>
+                    </tr>
+                    <tr>
+                        <td>★★★</td>
+                        <td>14.837</td>
+                        <td>446.714</td>
+                    </tr>
+                    <tr>
+                        <td>★★★★</td>
+                        <td>6.217</td>
+                        <td>390.782</td>
+                    </tr>
+                    <tr>
+                        <td>★★★★★</td>
+                        <td>601</td>
+                        <td>41.224</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="exercise-input">
+                <label for="ex36a">Alberghi totali:</label>
+                <input type="number" id="ex36a" placeholder="Inserisci il numero" step="0.01" style="margin-bottom: 15px;">
+                <label for="ex36b">Camere totali:</label>
+                <input type="number" id="ex36b" placeholder="Inserisci il numero" step="0.01" style="margin-bottom: 15px;">
+                <label for="ex36c">Media camere (totale):</label>
+                <input type="number" id="ex36c" placeholder="Inserisci la media" step="0.01" style="margin-bottom: 15px;">
+                <label for="ex36d">Media camere 1 stella:</label>
+                <input type="number" id="ex36d" placeholder="Inserisci la media" step="0.01" style="margin-bottom: 15px;">
+                <label for="ex36e">Media camere 5 stelle:</label>
+                <input type="number" id="ex36e" placeholder="Inserisci la media" step="0.01">
+            </div>
+            <div class="button-group">
+                <button class="btn-verify" onclick="checkAnswerMultiple(36, [29163, 993907, 34, 13, 69])">Verifica Risposta</button>
+                <button class="btn-solution" onclick="toggleSolution(36)">Mostra Soluzione</button>
+                <button class="btn-steps" onclick="toggleSteps(36)">Mostra Svolgimento</button>
+            </div>
+            <div class="feedback" id="feedback-36"></div>
+            <div class="solution-box" id="solution-36">
+                <h4>✓ Soluzione</h4>
+                <p>1) <strong>29.163 alberghi</strong></p>
+                <p>2) <strong>993.907 camere</strong></p>
+                <p>3) <strong>34 camere (circa)</strong></p>
+                <p>4) <strong>13 camere (circa)</strong></p>
+                <p>5) <strong>69 camere (circa)</strong></p>
+            </div>
+            <div class="steps-box" id="steps-36">
+                <h4>📝 Svolgimento Dettagliato</h4>
+                <div class="step" data-step="1">
+                    <strong>1) Alberghi totali:</strong> 2.398 + 5.110 + 14.837 + 6.217 + 601 = 29.163
+                </div>
+                <div class="step" data-step="2">
+                    <strong>2) Camere totali:</strong> 30.816 + 84.371 + 446.714 + 390.782 + 41.224 = 993.907
+                </div>
+                <div class="step" data-step="3">
+                    <strong>3) Media generale:</strong> 993.907 / 29.163 ≈ 34 camere
+                </div>
+                <div class="step" data-step="4">
+                    <strong>4) Media 1 stella:</strong> 30.816 / 2.398 ≈ 13 camere
+                </div>
+                <div class="step" data-step="5">
+                    <strong>5) Media 5 stelle:</strong> 41.224 / 601 ≈ 69 camere
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCULATORS SECTION -->
+    <section class="lesson-section" data-lesson="4">
+        <h2 class="lesson-title">🧮 Calcolatrici Interattive</h2>
+
+        <!-- PROPORTION CALCULATOR -->
+        <div class="calculator-section">
+            <h3>📐 Calcolatrice Proporzioni</h3>
+            <p style="margin-bottom: 20px; color: #555;">Calcola il valore incognito in una proporzione: a : b = c : x</p>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="prop-a">a</label>
+                    <input type="number" id="prop-a" placeholder="Primo termine">
+                </div>
+                <div class="calc-field">
+                    <label for="prop-b">b</label>
+                    <input type="number" id="prop-b" placeholder="Secondo termine">
+                </div>
+            </div>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="prop-c">c</label>
+                    <input type="number" id="prop-c" placeholder="Terzo termine">
+                </div>
+            </div>
+            <button class="btn-verify" onclick="calculateProportion()" style="width: 100%; margin-top: 10px;">Calcola x</button>
+            <div class="calc-result" id="prop-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+
+        <!-- PERCENTAGE CALCULATOR -->
+        <div class="calculator-section">
+            <h3>% Calcolatrice Percentuali</h3>
+            <p style="margin-bottom: 20px; color: #555;">Calcola la percentuale: quale percentuale di un importo</p>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="perc-value">Importo</label>
+                    <input type="number" id="perc-value" placeholder="Inserisci importo" step="0.01">
+                </div>
+                <div class="calc-field">
+                    <label for="perc-percent">Percentuale (%)</label>
+                    <input type="number" id="perc-percent" placeholder="Inserisci %" step="0.01">
+                </div>
+            </div>
+            <button class="btn-verify" onclick="calculatePercentage()" style="width: 100%; margin-top: 10px;">Calcola</button>
+            <div class="calc-result" id="perc-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+
+        <!-- INTEREST CALCULATOR -->
+        <div class="calculator-section">
+            <h3>💰 Calcolatrice Interesse Semplice</h3>
+            <p style="margin-bottom: 20px; color: #555;">Formula: I = (C × r × t) / 100</p>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="int-capital">Capitale (€)</label>
+                    <input type="number" id="int-capital" placeholder="Inserisci capitale" step="0.01">
+                </div>
+                <div class="calc-field">
+                    <label for="int-rate">Tasso (%)</label>
+                    <input type="number" id="int-rate" placeholder="Inserisci tasso" step="0.01">
+                </div>
+            </div>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="int-time">Tempo</label>
+                    <select id="int-time" style="padding: 12px; border: 2px solid #bdc3c7; border-radius: 6px;">
+                        <option value="year">Anni</option>
+                        <option value="month">Mesi</option>
+                        <option value="day">Giorni</option>
+                    </select>
+                </div>
+                <div class="calc-field">
+                    <label for="int-amount">Quantità</label>
+                    <input type="number" id="int-amount" placeholder="Inserisci valore" step="0.01">
+                </div>
+            </div>
+            <button class="btn-verify" onclick="calculateInterest()" style="width: 100%; margin-top: 10px;">Calcola Interesse</button>
+            <div class="calc-result" id="int-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+
+        <!-- AMOUNT CALCULATOR -->
+        <div class="calculator-section">
+            <h3>📈 Calcolatrice Montante</h3>
+            <p style="margin-bottom: 20px; color: #555;">Montante = Capitale + Interesse</p>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="amt-capital">Capitale (€)</label>
+                    <input type="number" id="amt-capital" placeholder="Inserisci capitale" step="0.01">
+                </div>
+                <div class="calc-field">
+                    <label for="amt-interest">Interesse (€)</label>
+                    <input type="number" id="amt-interest" placeholder="Inserisci interesse" step="0.01">
+                </div>
+            </div>
+            <button class="btn-verify" onclick="calculateAmount()" style="width: 100%; margin-top: 10px;">Calcola Montante</button>
+            <div class="calc-result" id="amt-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+
+        <!-- DISCOUNT CALCULATOR -->
+        <div class="calculator-section">
+            <h3>🏷️ Calcolatrice Sconto Commerciale</h3>
+            <p style="margin-bottom: 20px; color: #555;">Formula: Sc = (D × r × t) / 100</p>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="disc-amount">Importo Debito (€)</label>
+                    <input type="number" id="disc-amount" placeholder="Inserisci debito" step="0.01">
+                </div>
+                <div class="calc-field">
+                    <label for="disc-rate">Tasso (%)</label>
+                    <input type="number" id="disc-rate" placeholder="Inserisci tasso" step="0.01">
+                </div>
+            </div>
+            <div class="calc-row">
+                <div class="calc-field">
+                    <label for="disc-time">Tempo di anticipo</label>
+                    <select id="disc-time" style="padding: 12px; border: 2px solid #bdc3c7; border-radius: 6px;">
+                        <option value="year">Anni</option>
+                        <option value="month">Mesi</option>
+                        <option value="day">Giorni</option>
+                    </select>
+                </div>
+                <div class="calc-field">
+                    <label for="disc-qty">Quantità</label>
+                    <input type="number" id="disc-qty" placeholder="Inserisci valore" step="0.01">
+                </div>
+            </div>
+            <button class="btn-verify" onclick="calculateDiscount()" style="width: 100%; margin-top: 10px;">Calcola Sconto</button>
+            <div class="calc-result" id="disc-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+
+        <!-- APPORTIONMENT CALCULATOR -->
+        <div class="calculator-section">
+            <h3>📊 Calcolatrice Riparti Proporzionali</h3>
+            <p style="margin-bottom: 20px; color: #555;">Riparte un importo in proporzione ai valori inseriti</p>
+            <div class="calc-row full">
+                <div class="calc-field">
+                    <label for="app-total">Importo Totale da Ripartire (€)</label>
+                    <input type="number" id="app-total" placeholder="Inserisci importo" step="0.01">
+                </div>
+            </div>
+            <div id="app-items">
+                <div class="calc-row">
+                    <div class="calc-field">
+                        <label>Valore 1</label>
+                        <input type="number" class="app-value" placeholder="Inserisci valore" step="0.01">
+                    </div>
+                    <div class="calc-field">
+                        <label>Valore 2</label>
+                        <input type="number" class="app-value" placeholder="Inserisci valore" step="0.01">
+                    </div>
+                </div>
+                <div class="calc-row">
+                    <div class="calc-field">
+                        <label>Valore 3 (opzionale)</label>
+                        <input type="number" class="app-value" placeholder="Inserisci valore" step="0.01">
+                    </div>
+                </div>
+            </div>
+            <button class="btn-verify" onclick="calculateApportionment()" style="width: 100%; margin-top: 10px;">Calcola Riparti</button>
+            <div id="app-result" style="display: none; margin-top: 15px;"></div>
+        </div>
+    </section>
+
+    <!-- QUIZ SECTION -->
+    <section class="lesson-section" data-lesson="5">
+        <h2 class="lesson-title">❓ Quiz di Verifica</h2>
+
+        <div class="quiz-question">
+            <h4>Domanda 1: Proporzioni</h4>
+            <p>Se 16 pacchetti costano 12.640 euro, quanto costano 21 pacchetti?</p>
+            <div class="quiz-options">
+                <label class="quiz-option">
+                    <input type="radio" name="quiz1" value="a"> A) 14.520 euro
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz1" value="b"> B) 16.590 euro (Corretto)
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz1" value="c"> C) 18.750 euro
+                </label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <h4>Domanda 2: Percentuali</h4>
+            <p>Quale percentuale di aumento rappresenta passare da 50 pacchetti a 56 pacchetti?</p>
+            <div class="quiz-options">
+                <label class="quiz-option">
+                    <input type="radio" name="quiz2" value="a"> A) 10%
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz2" value="b"> B) 12% (Corretto)
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz2" value="c"> C) 15%
+                </label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <h4>Domanda 3: Interesse</h4>
+            <p>Calcola l'interesse su un capitale di 6.800 euro impiegato per 1 anno al tasso del 3,80%</p>
+            <div class="quiz-options">
+                <label class="quiz-option">
+                    <input type="radio" name="quiz3" value="a"> A) 200,00 euro
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz3" value="b"> B) 258,40 euro (Corretto)
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz3" value="c"> C) 300,00 euro
+                </label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <h4>Domanda 4: Montante</h4>
+            <p>Un capitale di 12.000 euro genera un interesse di 600 euro. Qual è il montante?</p>
+            <div class="quiz-options">
+                <label class="quiz-option">
+                    <input type="radio" name="quiz4" value="a"> A) 12.000 euro
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz4" value="b"> B) 12.500 euro
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz4" value="c"> C) 12.600 euro (Corretto)
+                </label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <h4>Domanda 5: Riparti Proporzionali</h4>
+            <p>Si devono ripartire 2.400 euro tra 3 persone che hanno lavorato 42, 56 e 22 ore. Quanto spetta a chi ha lavorato 56 ore?</p>
+            <div class="quiz-options">
+                <label class="quiz-option">
+                    <input type="radio" name="quiz5" value="a"> A) 840 euro
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz5" value="b"> B) 1.120 euro (Corretto)
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz5" value="c"> C) 600 euro
+                </label>
+            </div>
+        </div>
+
+        <button class="btn-verify" onclick="submitQuiz()" style="width: 100%; margin-top: 20px; padding: 15px;">Invia Risposte Quiz</button>
+        <div class="feedback" id="feedback-quiz" style="margin-top: 20px;"></div>
+    </section>
+</div>
+
+<button class="back-to-top" onclick="scrollToTop()">↑</button>
+
+<script>
+    // ==================== STATE MANAGEMENT ====================
+    const state = {
+        progressCompleted: 0,
+        exerciseAnswers: {}
+    };
+
+    function saveProgress() {
+        localStorage.setItem('te980_progress', JSON.stringify(state));
+    }
+
+    function loadProgress() {
+        const saved = localStorage.getItem('te980_progress');
+        if (saved) {
+            Object.assign(state, JSON.parse(saved));
+            updateProgressBar();
+        }
+    }
+
+    // ==================== NAVIGATION ====================
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const lessonIndex = this.dataset.lesson;
+            showLesson(lessonIndex);
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    function showLesson(index) {
+        document.querySelectorAll('.lesson-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.querySelectorAll('[data-lesson="' + index + '"]').forEach(section => {
+            section.classList.add('active');
+        });
+        window.scrollTo(0, 0);
+    }
+
+    // ==================== ANSWER CHECKING ====================
+    function checkAnswer(exerciseNum, correctAnswer, tolerance = 0.01) {
+        const inputId = 'ex' + exerciseNum;
+        const input = document.getElementById(inputId);
+        const userAnswer = parseFloat(input.value);
+        const feedback = document.getElementById('feedback-' + exerciseNum);
+        
+        const isCorrect = Math.abs(userAnswer - correctAnswer) < tolerance;
+        
+        if (isCorrect) {
+            feedback.className = 'feedback show correct';
+            feedback.innerHTML = '✓ <strong>Corretto!</strong> Ottima risposta.';
+            state.exerciseAnswers[exerciseNum] = true;
+        } else {
+            feedback.className = 'feedback show incorrect';
+            feedback.innerHTML = `✗ <strong>Non corretto.</strong> La risposta corretta è ${correctAnswer}`;
+            state.exerciseAnswers[exerciseNum] = false;
+        }
+        updateProgressBar();
+        saveProgress();
+    }
+
+    function checkAnswerMultiple(exerciseNum, correctAnswers) {
+        const inputs = [];
+        for (let i = 0; i < correctAnswers.length; i++) {
+            const id = 'ex' + exerciseNum + String.fromCharCode(97 + i);
+            inputs.push({
+                id: id,
+                correct: correctAnswers[i],
+                value: parseFloat(document.getElementById(id).value)
+            });
+        }
+
+        const allCorrect = inputs.every(inp => Math.abs(inp.value - inp.correct) < 0.01);
+        const feedback = document.getElementById('feedback-' + exerciseNum);
+        
+        if (allCorrect) {
+            feedback.className = 'feedback show correct';
+            feedback.innerHTML = '✓ <strong>Tutte le risposte sono corrette!</strong>';
+            state.exerciseAnswers[exerciseNum] = true;
+        } else {
+            feedback.className = 'feedback show incorrect';
+            feedback.innerHTML = '✗ <strong>Alcune risposte non sono corrette.</strong> Controlla e riprova.';
+            state.exerciseAnswers[exerciseNum] = false;
+        }
+        updateProgressBar();
+        saveProgress();
+    }
+
+    function checkAnswerGraph(exerciseNum) {
+        const typeInput = document.getElementById('ex' + exerciseNum + 'a').value.toLowerCase();
+        const numInput = parseFloat(document.getElementById('ex' + exerciseNum + 'b').value);
+        const feedback = document.getElementById('feedback-' + exerciseNum);
+
+        const typeCorrect = typeInput.includes('torta') || typeInput.includes('circolare');
+        const numCorrect = Math.abs(numInput - 522560) < 1;
+
+        if (typeCorrect && numCorrect) {
+            feedback.className = 'feedback show correct';
+            feedback.innerHTML = '✓ <strong>Entrambe le risposte sono corrette!</strong>';
+            state.exerciseAnswers[exerciseNum] = true;
+        } else {
+            feedback.className = 'feedback show incorrect';
+            feedback.innerHTML = '✗ <strong>Rivedi le tue risposte.</strong> Grafico: torta | Lavoratori: 522.560';
+            state.exerciseAnswers[exerciseNum] = false;
+        }
+        updateProgressBar();
+        saveProgress();
+    }
+
+    function checkAnswerGraph35(exerciseNum) {
+        const typeInput = document.getElementById('ex35a').value.toLowerCase();
+        const saldeInput = document.getElementById('ex35b').value.toLowerCase();
+        const barInput = parseFloat(document.getElementById('ex35c').value);
+        const feedback = document.getElementById('feedback-35');
+
+        const typeCorrect = typeInput.includes('istogramma');
+        const saldeCorrect = saldeInput.includes('iscrizioni') && saldeInput.includes('cessazioni');
+        const barCorrect = Math.abs(barInput - 76053) < 1;
+
+        if (typeCorrect && saldeCorrect && barCorrect) {
+            feedback.className = 'feedback show correct';
+            feedback.innerHTML = '✓ <strong>Tutte le risposte sono corrette!</strong>';
+            state.exerciseAnswers[35] = true;
+        } else {
+            feedback.className = 'feedback show incorrect';
+            feedback.innerHTML = '✗ <strong>Rivedi le tue risposte.</strong>';
+            state.exerciseAnswers[35] = false;
+        }
+        updateProgressBar();
+        saveProgress();
+    }
+
+    function checkQuizMultiple(baseId) {
+        let correct = 0;
+        const total = 5;
+        
+        for (let i = 1; i <= total; i++) {
+            const selected = document.querySelector('input[name="' + baseId + '_' + i + '"]:checked');
+            if (selected && selected.value === 'true') {
+                correct++;
+            }
+        }
+
+        const feedback = document.getElementById('feedback-quiz');
+        const percentage = (correct / total) * 100;
+
+        if (percentage === 100) {
+            feedback.className = 'feedback show correct';
+            feedback.innerHTML = `✓ <strong>Perfetto! ${correct}/${total} risposte corrette!</strong>`;
+        } else if (percentage >= 60) {
+            feedback.className = 'feedback show incorrect';
+            feedback.innerHTML = `⚠️ <strong>Buono!</strong> Hai risposto correttamente a ${correct}/${total}. Continua così!`;
+        } else {
+            feedback.className = 'feedback show incorrect';
+            feedback.innerHTML = `✗ <strong>Rivedi gli argomenti.</strong> Hai risposto correttamente a ${correct}/${total}.`;
+        }
+    }
+
+    // ==================== TOGGLE FUNCTIONS ====================
+    function toggleSolution(exerciseNum) {
+        const solution = document.getElementById('solution-' + exerciseNum);
+        solution.classList.toggle('show');
+    }
+
+    function toggleSteps(exerciseNum) {
+        const steps = document.getElementById('steps-' + exerciseNum);
+        steps.classList.toggle('show');
+    }
+
+    // ==================== CALCULATORS ====================
+    function calculateProportion() {
+        const a = parseFloat(document.getElementById('prop-a').value);
+        const b = parseFloat(document.getElementById('prop-b').value);
+        const c = parseFloat(document.getElementById('prop-c').value);
+
+        if (!a || !b || !c) {
+            alert('Inserisci tutti i valori');
+            return;
+        }
+
+        const x = (b * c) / a;
+        const result = document.getElementById('prop-result');
+        result.innerHTML = `<strong>Risultato:</strong> a : b = c : x<br>
+                           ${a} : ${b} = ${c} : <strong>${x.toFixed(2)}</strong>`;
+        result.style.display = 'block';
+    }
+
+    function calculatePercentage() {
+        const value = parseFloat(document.getElementById('perc-value').value);
+        const percent = parseFloat(document.getElementById('perc-percent').value);
+
+        if (!value || !percent) {
+            alert('Inserisci tutti i valori');
+            return;
+        }
+
+        const result_val = (value * percent) / 100;
+        const result = document.getElementById('perc-result');
+        result.innerHTML = `<strong>${percent}% di ${value} €</strong><br>
+                           = <strong>${result_val.toFixed(2)} €</strong>`;
+        result.style.display = 'block';
+    }
+
+    function calculateInterest() {
+        const capital = parseFloat(document.getElementById('int-capital').value);
+        const rate = parseFloat(document.getElementById('int-rate').value);
+        const time_type = document.getElementById('int-time').value;
+        const amount = parseFloat(document.getElementById('int-amount').value);
+
+        if (!capital || !rate || !amount) {
+            alert('Inserisci tutti i valori');
+            return;
+        }
+
+        let interest;
+        if (time_type === 'year') {
+            interest = (capital * rate * amount) / 100;
+        } else if (time_type === 'month') {
+            interest = (capital * rate * amount) / 1200;
+        } else {
+            interest = (capital * rate * amount) / 36500;
+        }
+
+        const result = document.getElementById('int-result');
+        result.innerHTML = `<strong>Interesse calcolato</strong><br>
+                           I = (${capital} × ${rate} × ${amount}) / 100<br>
+                           = <strong>${interest.toFixed(2)} €</strong>`;
+        result.style.display = 'block';
+    }
+
+    function calculateAmount() {
+        const capital = parseFloat(document.getElementById('amt-capital').value);
+        const interest = parseFloat(document.getElementById('amt-interest').value);
+
+        if (isNaN(capital) || isNaN(interest)) {
+            alert('Inserisci tutti i valori');
+            return;
+        }
+
+        const amount = capital + interest;
+        const result = document.getElementById('amt-result');
+        result.innerHTML = `<strong>Montante</strong><br>
+                           M = ${capital} + ${interest}<br>
+                           = <strong>${amount.toFixed(2)} €</strong>`;
+        result.style.display = 'block';
+    }
+
+    function calculateDiscount() {
+        const amount = parseFloat(document.getElementById('disc-amount').value);
+        const rate = parseFloat(document.getElementById('disc-rate').value);
+        const time_type = document.getElementById('disc-time').value;
+        const qty = parseFloat(document.getElementById('disc-qty').value);
+
+        if (!amount || !rate || !qty) {
+            alert('Inserisci tutti i valori');
+            return;
+        }
+
+        let discount;
+        if (time_type === 'year') {
+            discount = (amount * rate * qty) / 100;
+        } else if (time_type === 'month') {
+            discount = (amount * rate * qty) / 1200;
+        } else {
+            discount = (amount * rate * qty) / 36500;
+        }
+
+        const net_value = amount - discount;
+        const result = document.getElementById('disc-result');
+        result.innerHTML = `<strong>Sconto Commerciale</strong><br>
+                           Sc = <strong>${discount.toFixed(2)} €</strong><br>
+                           <strong>Valore Attuale</strong><br>
+                           VA = ${amount} - ${discount.toFixed(2)} = <strong>${net_value.toFixed(2)} €</strong>`;
+        result.style.display = 'block';
+    }
+
+    function calculateApportionment() {
+        const total = parseFloat(document.getElementById('app-total').value);
+        const values = Array.from(document.querySelectorAll('.app-value'))
+            .map(v => parseFloat(v.value))
+            .filter(v => !isNaN(v) && v > 0);
+
+        if (!total || values.length < 2) {
+            alert('Inserisci l\'importo totale e almeno 2 valori');
+            return;
+        }
+
+        const sum_values = values.reduce((a, b) => a + b, 0);
+        const coefficient = total / sum_values;
+        const shares = values.map(v => v * coefficient);
+
+        const result_div = document.getElementById('app-result');
+        let html = `<strong>Coefficiente di riparto:</strong> ${total} / ${sum_values} = ${coefficient.toFixed(4)}<br><br>
+                  <strong>Riparti:</strong><br>`;
+        shares.forEach((share, i) => {
+            html += `Valore ${i+1}: ${values[i]} × ${coefficient.toFixed(4)} = <strong>${share.toFixed(2)} €</strong><br>`;
+        });
+
+        result_div.innerHTML = html;
+        result_div.style.display = 'block';
+    }
+
+    // ==================== PROGRESS BAR ====================
+    function updateProgressBar() {
+        const completed = Object.values(state.exerciseAnswers).filter(v => v === true).length;
+        state.progressCompleted = completed;
+        const progress = (completed / 36) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+        document.getElementById('progress-text').textContent = `${completed}/36 Esercizi Completati`;
+    }
+
+    // ==================== QUIZ SUBMISSION ====================
+    function submitQuiz() {
+        checkQuizMultiple('quiz');
+    }
+
+    // ==================== SCROLL TO TOP ====================
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', function() {
+        const btn = document.querySelector('.back-to-top');
+        if (window.scrollY > 300) {
+            btn.classList.add('show');
+        } else {
+            btn.classList.remove('show');
+        }
+    });
+
+    // ==================== INITIALIZATION ====================
+    loadProgress();
+</script>
+
+</body>
+</html>
