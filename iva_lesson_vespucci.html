@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Imposta sul Valore Aggiunto (IVA) - IP Vespucci Milano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #2a5298;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #2a5298;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        .formula {
+            background: #1e3c72;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        .exercise {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .exercise-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .solution {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .match-exercise {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .match-item {
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border: 2px solid #2196f3;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .calculation {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 3px solid #28a745;
+        }
+
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+
+            .match-exercise {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 L'Imposta sul Valore Aggiunto (IVA)</h1>
+            <p>Modulo 2 - I documenti della vendita</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Istituto Professionale Vespucci - Milano</p>
+        </header>
+
+        <nav>
+            <a href="#caratteristiche">📋 Caratteristiche</a>
+            <a href="#presupposti">✓ Presupposti</a>
+            <a href="#aliquote">💯 Aliquote</a>
+            <a href="#liquidazione">💰 Liquidazione</a>
+            <a href="#esercizi">✏️ Esercizi</a>
+        </nav>
+
+        <div class="content">
+            <!-- PARTE TEORICA -->
+            <section id="caratteristiche">
+                <h2><span class="emoji">📋</span>Le Caratteristiche dell'IVA</h2>
+                
+                <div class="highlight">
+                    <h3>Cos'è l'IVA?</h3>
+                    <p>L'<strong>Imposta sul Valore Aggiunto (IVA)</strong> è un'imposta che si applica a:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Vendite di beni</li>
+                        <li>Prestazioni di servizi</li>
+                    </ul>
+                    <p style="margin-top: 10px;">Effettuate da chi svolge <strong>attività di impresa, arte o professione</strong>, in <strong>territorio italiano</strong> e alle <strong>importazioni</strong>.</p>
+                </div>
+
+                <div class="note">
+                    <strong>⚠️ IMPORTANTE:</strong> L'IVA colpisce il <strong>consumatore finale</strong>, ma l'obbligo di versarla allo Stato è a carico delle <strong>aziende</strong>.
+                </div>
+
+                <div class="card">
+                    <h3>Caratteristiche dell'Imposta</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Caratteristica</th>
+                                <th>Descrizione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Generale</strong></td>
+                                <td>Colpisce tutti i contribuenti</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Indiretta</strong></td>
+                                <td>Si applica agli scambi di beni e servizi (manifestazioni indirette della capacità contributiva)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Proporzionale</strong></td>
+                                <td>Si calcola applicando una percentuale (aliquota) sul valore del bene o servizio</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Amministrativa</strong></td>
+                                <td>I soggetti passivi devono rispettare obblighi fiscali precisi</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sui consumi</strong></td>
+                                <td>Colpisce il consumatore finale</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="presupposti">
+                <h2><span class="emoji">✓</span>I Presupposti IVA</h2>
+                
+                <div class="highlight">
+                    <p>Affinché si applichi l'imposta, devono verificarsi <strong>contemporaneamente</strong> tre condizioni:</p>
+                </div>
+
+                <div class="card">
+                    <h3>1. Presupposto Oggettivo</h3>
+                    <p>Deve esserci una <strong>cessione di beni</strong> o una <strong>prestazione di servizi</strong>.</p>
+                    <p style="color: #28a745; margin-top: 10px;">➜ Esempio: vendita in un negozio o servizio di alloggio in un hotel</p>
+                </div>
+
+                <div class="card">
+                    <h3>2. Presupposto Soggettivo</h3>
+                    <p>L'operazione deve essere effettuata da un <strong>imprenditore o professionista</strong>.</p>
+                    <p style="color: #28a745; margin-top: 10px;">➜ Esempio: un avvocato, un elettricista o un'impresa commerciale</p>
+                </div>
+
+                <div class="card">
+                    <h3>3. Presupposto Territoriale</h3>
+                    <p>L'operazione deve essere effettuata <strong>nel territorio dello Stato italiano</strong>.</p>
+                </div>
+
+                <div class="highlight">
+                    <h3>🏨 ESEMPIO PRATICO - Hotel Cavaliere di Pisa</h3>
+                    <p>Carlo Urbani alloggia una notte all'Hotel Cavaliere di Pisa:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>✅ <strong>Presupposto oggettivo:</strong> pagamento di un servizio di alloggio</li>
+                        <li>✅ <strong>Presupposto soggettivo:</strong> l'hotel è un'impresa</li>
+                        <li>✅ <strong>Presupposto territoriale:</strong> servizio effettuato in Italia</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #28a745; font-weight: bold;">✅ Tutti e tre i presupposti sono presenti → L'operazione è soggetta a IVA al 10%</p>
+                </div>
+            </section>
+
+            <section id="aliquote">
+                <h2><span class="emoji">💯</span>Aliquote IVA</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aliquota</th>
+                            <th>Denominazione</th>
+                            <th>Applicazione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>4%</strong></td>
+                            <td>Aliquota minima</td>
+                            <td>Beni di prima necessità (pane, latte, pasta, alimenti base)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5%</strong></td>
+                            <td>Aliquota super ridotta</td>
+                            <td>Prodotti sanitari e servizi socio-assistenziali</td>
+                        </tr>
+                        <tr>
+                            <td><strong>10%</strong></td>
+                            <td>Aliquota ridotta</td>
+                            <td>Servizi alberghieri e ristorazione, carne, medicinali</td>
+                        </tr>
+                        <tr>
+                            <td><strong>22%</strong></td>
+                            <td>Aliquota ordinaria</td>
+                            <td>Tutti gli altri beni e servizi</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card">
+                    <h3>📊 Calcolo dell'IVA - Esempio</h3>
+                    <p>Il ristorante <em>Sapori di Mare</em> acquista 40 confezioni di portapane da 14,50 € ciascuna, IVA 22%.</p>
+                    
+                    <div class="calculation">
+                        💰 Importo imponibile = 40 × 14,50 = <strong>580,00 €</strong><br>
+                        📉 IVA = 580 × 22 / 100 = <strong>127,60 €</strong><br>
+                        💳 Totale da pagare = 580 + 127,60 = <strong>707,60 €</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 Scorporo dell'IVA</h3>
+                    <p>Lo <strong>scorporo</strong> serve a separare l'imposta dal prezzo quando questo è già comprensivo di IVA.</p>
+                    
+                    <div class="formula">
+                        IVA = (Prezzo comprensivo × Aliquota) / (100 + Aliquota)
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Esempio:</strong> Un commerciante vende merce a 88,40 € (IVA 4% inclusa)</p>
+                    <div class="calculation">
+                        IVA = 88,40 × 4 / 104 = <strong>3,40 €</strong><br>
+                        Imponibile = 88,40 - 3,40 = <strong>85,00 €</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section id="liquidazione">
+                <h2><span class="emoji">💰</span>Liquidazione e Versamento IVA</h2>
+                
+                <div class="highlight">
+                    <h3>🔁 Meccanismo del Credito-Debito</h3>
+                    <p><strong>1. Vendite</strong> → IVA riscossa dai clienti → <span style="color: red;">DEBITO verso lo Stato</span></p>
+                    <p><strong>2. Acquisti</strong> → IVA pagata ai fornitori → <span style="color: green;">CREDITO verso lo Stato</span></p>
+                </div>
+
+                <div class="formula">
+                    IVA a DEBITO - IVA a CREDITO = SALDO IVA
+                </div>
+
+                <div class="note">
+                    <p><strong>Se il saldo è a DEBITO:</strong> l'impresa deve versare allo Stato</p>
+                    <p><strong>Se il saldo è a CREDITO:</strong> può compensare o chiedere rimborso</p>
+                </div>
+
+                <div class="card">
+                    <h3>📅 Tipi di Contribuenti</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Scadenza Versamento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Mensili</strong></td>
+                                <td>Entro il 16 del mese successivo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trimestrali</strong></td>
+                                <td>Entro il 16 del secondo mese successivo al trimestre</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 15px;">➡️ Si utilizza il <strong>modello F24</strong> per il pagamento</p>
+                </div>
+
+                <div class="card">
+                    <h3>🔹 Esempio di Liquidazione</h3>
+                    <p><strong>Azienda Sella - Aprile</strong></p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div style="background: #ffe5e5; padding: 15px; border-radius: 10px;">
+                            <h4 style="color: #d32f2f;">IVA a DEBITO (Vendite)</h4>
+                            <div class="calculation">
+                                88.300 × 10% = 8.830 €<br>
+                                73.100 × 22% = 16.082 €<br>
+                                <strong>Totale = 24.912 €</strong>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #e5ffe5; padding: 15px; border-radius: 10px;">
+                            <h4 style="color: #388e3c;">IVA a CREDITO (Acquisti)</h4>
+                            <div class="calculation">
+                                51.200 × 10% = 5.120 €<br>
+                                43.200 × 22% = 9.504 €<br>
+                                <strong>Totale = 14.624 €</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="formula" style="margin-top: 20px;">
+                        SALDO = 24.912 - 14.624 = 10.288 € da versare
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Obblighi Fiscali delle Aziende</h3>
+                    <ol style="margin-left: 30px; line-height: 2;">
+                        <li>Trasmettere la Comunicazione Unica alla Camera di Commercio</li>
+                        <li>Emettere la fattura elettronica per ogni vendita o servizio</li>
+                        <li>Emettere il documento commerciale e trasmetterlo telematicamente</li>
+                        <li>Annotare le fatture nei registri IVA (acquisti e vendite)</li>
+                        <li>Effettuare la liquidazione IVA periodica</li>
+                        <li>Presentare la Comunicazione delle liquidazioni IVA periodiche</li>
+                        <li>Inviare elenchi riepilogativi (INTRASTAT) per operazioni UE</li>
+                        <li>Presentare la dichiarazione IVA annuale</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ESERCIZI -->
+            <section id="esercizi">
+                <h2><span class="emoji">✏️</span>Esercizi - TE980</h2>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 1 - Abbinamento</div>
+                    <p>Collega gli elementi della prima colonna con quelli della seconda:</p>
+                    
+                    <div class="match-exercise">
+                        <div>
+                            <div class="match-item">a. Attitudine di un contribuente a concorrere alle spese dello Stato</div>
+                            <div class="match-item">b. Acquisto di beni e servizi da Paesi esteri</div>
+                            <div class="match-item">c. Calcolo dell'importo IVA da versare</div>
+                            <div class="match-item">d. Operazioni estranee al campo di applicazione dell'IVA</div>
+                            <div class="match-item">e. Imposta che si applica agli scambi di beni e di servizi</div>
+                        </div>
+                        <div>
+                            <div class="match-item">1. Liquidazione</div>
+                            <div class="match-item">2. Capacità contributiva</div>
+                            <div class="match-item">3. Indiretta</div>
+                            <div class="match-item">4. Importazione</div>
+                            <div class="match-item">5. Non soggette</div>
+                        </div>
+                    </div>
+
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong><br>
+                        a - 2 | b - 4 | c - 1 | d - 5 | e - 3
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 2 - Termini mancanti</div>
+                    <p>Inserisci i termini mancanti scegliendo tra: <em>aliquota, credito, debito, differenza, F24, imposta, liquidazione, prelevamento, trimestrale, vendite, versamento</em></p>
+                    
+                    <p style="margin: 15px 0; line-height: 2;">
+                        <strong>1.</strong> La <u>&nbsp;&nbsp;&nbsp;&nbsp;liquidazione&nbsp;&nbsp;&nbsp;&nbsp;</u> IVA si effettua mediante il calcolo della <u>&nbsp;&nbsp;&nbsp;&nbsp;differenza&nbsp;&nbsp;&nbsp;&nbsp;</u> (o saldo) tra l'IVA a <u>&nbsp;&nbsp;&nbsp;&nbsp;debito&nbsp;&nbsp;&nbsp;&nbsp;</u> sulle <u>&nbsp;&nbsp;&nbsp;&nbsp;vendite&nbsp;&nbsp;&nbsp;&nbsp;</u> e l'IVA a <u>&nbsp;&nbsp;&nbsp;&nbsp;credito&nbsp;&nbsp;&nbsp;&nbsp;</u> sugli acquisti; questo calcolo viene effettuato con periodicità mensile o <u>&nbsp;&nbsp;&nbsp;&nbsp;trimestrale&nbsp;&nbsp;&nbsp;&nbsp;</u>.
+                    </p>
+                    <p style="margin: 15px 0; line-height: 2;">
+                        <strong>2.</strong> Se il saldo è a <u>&nbsp;&nbsp;&nbsp;&nbsp;debito&nbsp;&nbsp;&nbsp;&nbsp;</u> le aziende effettuano un <u>&nbsp;&nbsp;&nbsp;&nbsp;versamento&nbsp;&nbsp;&nbsp;&nbsp;</u> utilizzando il modello unificato di pagamento <u>&nbsp;&nbsp;&nbsp;&nbsp;F24&nbsp;&nbsp;&nbsp;&nbsp;</u>.
+                    </p>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 3 - Calcolo IVA</div>
+                    <p>L'azienda Commerciale spa acquista dalla Cavour catering srl n. 42 pasti completi al prezzo di 22,50 euro ciascuno, IVA 10%.</p>
+                    <p>Calcola la base imponibile, l'IVA e il totale da pagare.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            Base imponibile = 42 × 22,50 = <strong>945,00 €</strong><br>
+                            IVA = 945,00 × 10 / 100 = <strong>94,50 €</strong><br>
+                            Totale = 945,00 + 94,50 = <strong>1.039,50 €</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 4 - Scorporo IVA</div>
+                    <p>Un commerciante al dettaglio vende merci al prezzo di 1.769 euro, comprensivo di IVA 22%.</p>
+                    <p>Scorpora l'IVA e calcola la base imponibile.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            IVA = 1.769,00 × 22 / 122 = <strong>319,00 €</strong><br>
+                            Base imponibile = 1.769,00 - 319,00 = <strong>1.450,00 €</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 5 - Scorporo con aliquote multiple</div>
+                    <p>Un'azienda vende ai consumatori finali merci ai seguenti prezzi:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>634,40 euro, comprensivo di IVA 4%</li>
+                        <li>550 euro, comprensivo di IVA 10%</li>
+                        <li>1.012,60 euro, comprensivo di IVA 22%</li>
+                    </ul>
+                    <p>Scorpora l'IVA contenuta nei prezzi di vendita.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            IVA 4% = 634,40 × 4 / 104 = <strong>24,40 €</strong><br>
+                            IVA 10% = 550,00 × 10 / 110 = <strong>50,00 €</strong><br>
+                            IVA 22% = 1.012,60 × 22 / 122 = <strong>182,60 €</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 6 - Liquidazione mensile</div>
+                    <p>Il commerciante Mauro Ferretti nel mese di aprile ha effettuato:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Acquisti per 15.300 euro + IVA 22%</li>
+                        <li>Vendite per 22.500 euro + IVA 22%</li>
+                    </ul>
+                    <p>Procedi alla liquidazione IVA mensile e calcola l'importo da versare entro il 16 maggio.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            IVA a debito = 22.500 × 22% = <strong>4.950 €</strong><br>
+                            IVA a credito = 15.300 × 22% = <strong>3.366 €</strong><br>
+                            Saldo IVA = 4.950 - 3.366 = <strong>1.584 € da versare</strong><br>
+                            <em>(da effettuarsi entro il giorno 16 maggio)</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 7 - Liquidazione con aliquota 10%</div>
+                    <p>Nel mese di agosto la commerciante all'ingrosso Maria Corsi ha:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Venduto merci per 22.725 euro + IVA 10%</li>
+                        <li>Acquistato merci per 19.365 euro + IVA 10%</li>
+                    </ul>
+                    <p>Calcola l'importo dell'IVA da versare per il mese di agosto.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            IVA a debito = 22.725 × 10% = <strong>2.272,50 €</strong><br>
+                            IVA a credito = 19.365 × 10% = <strong>1.936,50 €</strong><br>
+                            Saldo IVA = 2.272,50 - 1.936,50 = <strong>366 € da versare</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 8 - Liquidazione con aliquote multiple</div>
+                    <p>La commerciante Giulia Sensini nel corso del mese di settembre ha effettuato:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Vendite 15.360 euro + IVA 10%</li>
+                        <li>Vendite 22.400 euro + IVA 22%</li>
+                        <li>Acquisti 3.250 euro + IVA 10%</li>
+                        <li>Acquisti 18.400 euro + IVA 22%</li>
+                    </ul>
+                    <p>Procedi alla liquidazione dell'IVA di settembre e calcola l'importo da versare entro il 16 ottobre.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            <strong>IVA a DEBITO:</strong><br>
+                            15.360 × 10% = 1.536 €<br>
+                            22.400 × 22% = 4.928 €<br>
+                            Totale debito = <strong>6.464 €</strong><br><br>
+                            
+                            <strong>IVA a CREDITO:</strong><br>
+                            3.250 × 10% = 325 €<br>
+                            18.400 × 22% = 4.048 €<br>
+                            Totale credito = <strong>4.373 €</strong><br><br>
+                            
+                            <strong>Saldo = 6.464 - 4.373 = 2.091 € da versare</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 9 - Liquidazione gennaio</div>
+                    <p>La commerciante Chiara Terzi nel corso del mese di gennaio ha effettuato:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Vendite 2.400 euro + IVA 4%</li>
+                        <li>Vendite 18.400 euro + IVA 22%</li>
+                        <li>Acquisti 4.300 euro + IVA 4%</li>
+                        <li>Acquisti 12.800 euro + IVA 22%</li>
+                    </ul>
+                    <p>Calcola l'IVA da versare per il mese di gennaio.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            <strong>IVA a DEBITO:</strong><br>
+                            2.400 × 4% = 96 €<br>
+                            18.400 × 22% = 4.048 €<br>
+                            Totale debito = <strong>4.144 €</strong><br><br>
+                            
+                            <strong>IVA a CREDITO:</strong><br>
+                            4.300 × 4% = 172 €<br>
+                            12.800 × 22% = 2.816 €<br>
+                            Totale credito = <strong>2.988 €</strong><br><br>
+                            
+                            <strong>Saldo = 4.144 - 2.988 = 1.156 € da versare</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 10 - Liquidazione con credito riportato</div>
+                    <p>Nel mese di novembre il commerciante Franco Dotti ha registrato:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Acquisti: 23.500 euro + IVA 4% e 15.500 euro + IVA 22%</li>
+                        <li>Vendite: 22.800 euro + IVA 4% e 13.600 euro + IVA 22%</li>
+                    </ul>
+                    <p>Procedi alla liquidazione dell'IVA di novembre, calcolando l'IVA da portare a credito nella liquidazione del mese successivo.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            <strong>IVA a DEBITO sugli acquisti:</strong><br>
+                            23.500 × 4% = 940 €<br>
+                            15.500 × 22% = 3.410 €<br>
+                            Totale = <strong>4.350 €</strong><br><br>
+                            
+                            <strong>IVA a CREDITO sulle vendite:</strong><br>
+                            22.800 × 4% = 912 €<br>
+                            13.600 × 22% = 2.992 €<br>
+                            Totale = <strong>3.904 €</strong><br><br>
+                            
+                            <strong>Saldo = 4.350 - 3.904 = 446 € a CREDITO</strong><br>
+                            <em>(da riportare nel mese successivo)</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <div class="exercise-title">ESERCIZIO 11 - Liquidazione complessa</div>
+                    <p>Nel mese di marzo la Simona Corallo & C. snc ha effettuato:</p>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li>Acquisti: 7.150 euro + IVA 4%; 11.556 euro + IVA 10%; 25.300 euro + IVA 22%</li>
+                        <li>Vendite: 6.240 euro + IVA 4%; 12.700 euro + IVA 10%; 28.400 euro + IVA 22%</li>
+                    </ul>
+                    <p>Calcola l'importo dell'IVA da versare entro il 16 aprile.</p>
+                    
+                    <div class="solution">
+                        <strong>✅ SOLUZIONE:</strong>
+                        <div class="calculation">
+                            <strong>IVA a DEBITO sulle vendite:</strong><br>
+                            6.240 × 4% = 249,60 €<br>
+                            12.700 × 10% = 1.270 €<br>
+                            28.400 × 22% = 6.248 €<br>
+                            Totale debito = <strong>7.767,60 €</strong><br><br>
+                            
+                            <strong>IVA a CREDITO sugli acquisti:</strong><br>
+                            7.150 × 4% = 286 €<br>
+                            11.556 × 10% = 1.155,60 €<br>
+                            25.300 × 22% = 5.566 €<br>
+                            Totale credito = <strong>7.007,60 €</strong><br><br>
+                            
+                            <strong>Saldo = 7.767,60 - 7.007,60 = 760 € da versare</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <h3>📚 Istituto Professionale Vespucci - Milano</h3>
+            <p>Modulo 2 - I documenti della vendita</p>
+            <p style="margin-top: 15px; font-size: 0.9em;">L'Imposta sul Valore Aggiunto (IVA)</p>
+        </footer>
+    </div>
+</body>
+</html>
