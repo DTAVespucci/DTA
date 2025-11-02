@@ -1,0 +1,2659 @@
+<!-- Lezione per 4B EN - IP Vespucci - docente: Bettino Camarda -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le scritture dell'impresa turistico-ristorativa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero h2 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .callout {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #ffd700;
+        }
+
+        /* NAVIGATION */
+        nav {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        nav h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* SECTIONS */
+        section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        section h3 {
+            color: #764ba2;
+            font-size: 1.6em;
+            margin: 30px 0 15px 0;
+        }
+
+        section h4 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+        }
+
+        /* CARDS */
+        .card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .card-warning {
+            border-left-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .card-info {
+            border-left-color: #3498db;
+            background: #f0f8ff;
+        }
+
+        .card-success {
+            border-left-color: #2ecc71;
+            background: #f0fff4;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .dare-col {
+            background: #fff8e1;
+        }
+
+        .avere-col {
+            background: #e8f5e9;
+        }
+
+        /* EXAMPLES */
+        .esempio {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .esempio h4 {
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .documento {
+            background: white;
+            padding: 20px;
+            border: 2px solid #2d3436;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .documento-header {
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 2px solid #2d3436;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* MINITEST */
+        .minitest {
+            background: #e3f2fd;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 2px solid #2196f3;
+        }
+
+        .minitest h4 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .options {
+            margin: 10px 0;
+        }
+
+        .option {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            background: #e0e0e0;
+            transform: translateX(5px);
+        }
+
+        .correct {
+            background: #c8e6c9 !important;
+            border: 2px solid #4caf50;
+        }
+
+        .solution {
+            display: none;
+            background: #fff9c4;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #fbc02d;
+        }
+
+        .show-solution-btn {
+            background: #2196f3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .show-solution-btn:hover {
+            background: #1976d2;
+            transform: scale(1.05);
+        }
+
+        /* EXERCISES */
+        .esercizio {
+            background: #f3e5f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border: 2px solid #9c27b0;
+        }
+
+        .esercizio h4 {
+            color: #7b1fa2;
+            margin-bottom: 15px;
+        }
+
+        /* ERROR BOX */
+        .errore-comune {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .errore-comune h4 {
+            color: #c62828;
+            margin-bottom: 10px;
+        }
+
+        .errore-comune::before {
+            content: "⚠️ ";
+            font-size: 1.5em;
+        }
+
+        /* TERMINOLOGY BOX */
+        .terminologia {
+            background: #e8f4f8;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .termine {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #b3d9e6;
+        }
+
+        .termine:last-child {
+            border-bottom: none;
+        }
+
+        .termine strong {
+            color: #0277bd;
+        }
+
+        /* BADGES */
+        .badge-attenzione {
+            display: inline-block;
+            background: #ff5722;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .badge-norma {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+            
+            nav ul {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            .termine {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* UTILITY */
+        .highlight {
+            background: #fff59d;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        strong {
+            color: #667eea;
+        }
+
+        .lista-elementi {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .lista-elementi li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HERO SECTION -->
+        <div class="hero">
+            <h1>Le scritture dell'impresa turistico-ristorativa</h1>
+            <h2>Conti, registri, magazzino e banche per hotel e ristoranti</h2>
+            <div class="badge">4B EN – IP Vespucci – Laboratorio amministrativo</div>
+            <div class="callout">
+                📚 <strong>Obiettivo della lezione:</strong> Comprendere come un ristorante, un hotel o un'impresa di catering registra le proprie operazioni contabili, dalla comanda del cliente alla gestione del magazzino, dai pagamenti ai fornitori fino al bilancio finale. Leggi attentamente, studia gli esempi pratici e poi mettiti alla prova con gli esercizi.
+            </div>
+        </div>
+
+        <!-- NAVIGATION -->
+        <nav>
+            <h3>📑 Indice della lezione</h3>
+            <ul>
+                <li><a href="#introduzione">Introduzione</a></li>
+                <li><a href="#conto">Il conto (Dare/Avere)</a></li>
+                <li><a href="#elementari">Scritture elementari</a></li>
+                <li><a href="#sezionali">Scritture sezionali</a></li>
+                <li><a href="#complesse">Scritture complesse</a></li>
+                <li><a href="#banche">Contabilità con le banche</a></li>
+                <li><a href="#acquisti">Contabilità degli acquisti</a></li>
+                <li><a href="#vendite">Contabilità delle vendite</a></li>
+                <li><a href="#partitario">Partitario fornitori/clienti</a></li>
+                <li><a href="#magazzino">Contabilità di magazzino</a></li>
+                <li><a href="#esercizi">Esercizi e minitest</a></li>
+            </ul>
+        </nav>
+
+        <!-- SEZIONE INTRODUZIONE -->
+        <section id="introduzione">
+            <h2>Introduzione: Perché la contabilità nel settore ristorativo?</h2>
+            
+            <p>Immaginate di gestire un ristorante: ogni giorno ricevete forniture di pesce, carne, verdure e bevande. I clienti ordinano piatti, bevono vino, pagano il conto. Pagate i fornitori, i dipendenti, le bollette. Come fate a sapere se state guadagnando o perdendo denaro? Come controllate che nessuna bottiglia di vino sparisca dal magazzino? Come sapete quanti soldi avete in banca?</p>
+            
+            <p>La risposta è: <strong>attraverso le scritture contabili</strong>. Le scritture contabili sono il sistema di registrazione che permette all'imprenditore di tenere traccia di tutte le operazioni aziendali, di controllare il magazzino, di verificare i debiti verso i fornitori e i crediti verso i clienti, e infine di calcolare se l'attività sta producendo un utile o una perdita.</p>
+            
+            <div class="card card-info">
+                <h4>Nel settore turistico-ristorativo le scritture contabili servono a:</h4>
+                <ul class="lista-elementi">
+                    <li><strong>Registrare le comande</strong> dei clienti e trasformarle in ricavi</li>
+                    <li><strong>Controllare il magazzino</strong> di cucina, cantina e bar</li>
+                    <li><strong>Gestire i rapporti</strong> con fornitori (acquisti di derrate) e clienti (servizi di ristorazione)</li>
+                    <li><strong>Monitorare i movimenti bancari</strong> (pagamenti, bonifici, prelievi)</li>
+                    <li><strong>Calcolare il patrimonio</strong> e il risultato economico dell'esercizio</li>
+                </ul>
+            </div>
+            
+            <p>In questa lezione studieremo passo dopo passo tutte le scritture contabili di un'impresa ristorativa, partendo dal concetto base di <strong>conto</strong>, passando per le scritture elementari (come il buono di prelievo o la comanda), le scritture sezionali (cassa, banche, acquisti, vendite, magazzino) e arrivando alle scritture complesse che formano la contabilità generale e il bilancio d'esercizio.</p>
+        </section>
+
+        <!-- SEZIONE IL CONTO -->
+        <section id="conto">
+            <h2>1. Il conto: la base della contabilità</h2>
+            
+            <h3>Che cos'è un conto?</h3>
+            <p>Il <strong>conto</strong> è lo strumento fondamentale della contabilità. Possiamo definirlo come l'insieme delle registrazioni riferite a un determinato oggetto (per esempio: la banca, i fornitori, le materie prime, i ricavi della sala). Il conto ha lo scopo di evidenziare la situazione iniziale di quell'oggetto e tutte le variazioni che subisce nel tempo.</p>
+            
+            <div class="card">
+                <p><strong>Definizione formale:</strong> Il conto è l'insieme delle scritture riferite a un determinato oggetto, al quale lo stesso conto viene intestato, in modo da evidenziarne la quantità iniziale e le variazioni successive.</p>
+            </div>
+            
+            <p><strong>Esempio pratico:</strong> Se un ristorante apre un conto chiamato "Banca UniCredit c/c", in questo conto registrerà tutti i movimenti del conto corrente bancario: versamenti, prelievi, bonifici ricevuti, bonifici inviati. Se apre un conto chiamato "Materie prime per cantina c/acquisti", registrerà tutti gli acquisti di vini e bevande.</p>
+            
+            <h3>Perché si intestano i conti?</h3>
+            <p>Intestare un conto significa dargli un nome specifico che identifica chiaramente l'oggetto di cui vogliamo tenere traccia. L'intestazione del conto permette di:</p>
+            <ul class="lista-elementi">
+                <li>Separare e distinguere le diverse operazioni aziendali</li>
+                <li>Controllare in modo specifico ogni aspetto della gestione</li>
+                <li>Calcolare facilmente il saldo (la situazione finale) di ogni elemento</li>
+            </ul>
+            
+            <h3>Terminologia dei conti: impariamo il linguaggio contabile</h3>
+            <p>Per lavorare con i conti, dobbiamo conoscere alcuni termini tecnici fondamentali. Ecco i più importanti:</p>
+            
+            <div class="terminologia">
+                <div class="termine">
+                    <strong>Intestare un conto</strong>
+                    <span>Attribuire al conto una denominazione (nome) ed eventualmente un codice numerico per identificarlo</span>
+                </div>
+                <div class="termine">
+                    <strong>Aprire/Accendere un conto</strong>
+                    <span>Annotare la prima operazione nel conto, dando inizio alle registrazioni</span>
+                </div>
+                <div class="termine">
+                    <strong>Tenere un conto</strong>
+                    <span>Rilevare in modo continuativo tutte le operazioni che riguardano quel conto</span>
+                </div>
+                <div class="termine">
+                    <strong>Addebitare un conto</strong>
+                    <span>Rilevare un valore o una quantità nella sezione <strong>sinistra</strong> del conto (chiamata <strong>Dare</strong>)</span>
+                </div>
+                <div class="termine">
+                    <strong>Accreditare un conto</strong>
+                    <span>Rilevare un valore o una quantità nella sezione <strong>destra</strong> del conto (chiamata <strong>Avere</strong>)</span>
+                </div>
+                <div class="termine">
+                    <strong>Chiudere/Spegnere un conto</strong>
+                    <span>Calcolare il saldo finale e far bilanciare le due sezioni Dare e Avere</span>
+                </div>
+            </div>
+            
+            <h3>La struttura del conto: Dare e Avere</h3>
+            <p>Ogni conto è diviso in due sezioni:</p>
+            <ul class="lista-elementi">
+                <li><strong>DARE</strong> (sezione di sinistra): qui si registrano determinati tipi di operazioni</li>
+                <li><strong>AVERE</strong> (sezione di destra): qui si registrano altri tipi di operazioni</li>
+            </ul>
+            
+            <p>La regola per decidere se una registrazione va in Dare o in Avere dipende dal tipo di conto. Per esempio:</p>
+            <ul class="lista-elementi">
+                <li>Nel conto <strong>Banca</strong>: i versamenti vanno in Dare, i prelievi in Avere</li>
+                <li>Nel conto <strong>Costi</strong> (come acquisti di derrate): i costi vanno in Dare</li>
+                <li>Nel conto <strong>Ricavi</strong> (come vendite di pasti): i ricavi vanno in Avere</li>
+            </ul>
+            
+            <h3>Il saldo del conto: calcolo e significato</h3>
+            <p>Alla fine del periodo (mese, trimestre, anno), ogni conto viene <strong>chiuso</strong> calcolando il <strong>saldo</strong>. Il saldo è la differenza tra il totale della sezione Dare e il totale della sezione Avere.</p>
+            
+            <div class="card card-info">
+                <h4>Regola fondamentale per la chiusura del conto:</h4>
+                <p><strong>Il saldo viene sempre iscritto nella sezione dove il totale risulta minore</strong>, in modo che le due sezioni si pareggino e il conto possa essere chiuso.</p>
+            </div>
+            
+            <p><strong>Perché il saldo si mette nella parte minore?</strong> Perché così facendo le due sezioni raggiungono lo stesso totale e il conto risulta "in pareggio". Questo non significa che le operazioni sono uguali, ma solo che il conto è bilanciato e il saldo rappresenta la differenza effettiva.</p>
+            
+            <div class="esempio">
+                <h4>ESEMPIO PRATICO: Conto "Materie prime per cantina c/acquisti"</h4>
+                
+                <p><strong>Situazione:</strong> Il ristorante "Stella del Nord" di Giorgio Lucenti acquista durante l'anno vini e bevande per la cantina. Tutte le fatture di acquisto vengono registrate in questo conto. I costi di acquisto vanno sempre in <strong>Dare</strong> perché rappresentano uscite di denaro.</p>
+                
+                <p><strong>Movimenti dell'anno:</strong></p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Materie prime per cantina c/acquisti</th>
+                        </tr>
+                        <tr>
+                            <th class="dare-col">DARE</th>
+                            <th class="avere-col">AVERE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="dare-col">2.160,00</td>
+                            <td class="avere-col">—</td>
+                        </tr>
+                        <tr>
+                            <td class="dare-col">3.640,00</td>
+                            <td class="avere-col">—</td>
+                        </tr>
+                        <tr>
+                            <td class="dare-col">4.220,00</td>
+                            <td class="avere-col">—</td>
+                        </tr>
+                        <tr>
+                            <td class="dare-col">1.860,00</td>
+                            <td class="avere-col">—</td>
+                        </tr>
+                        <tr>
+                            <td class="dare-col">6.170,00</td>
+                            <td class="avere-col">—</td>
+                        </tr>
+                        <tr style="font-weight: bold; background: #f0f0f0;">
+                            <td class="dare-col">Totale Dare = 18.050,00</td>
+                            <td class="avere-col">Totale Avere = 0,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p><strong>Calcolo del saldo:</strong></p>
+                <p>Somma della sezione Dare: 2.160 + 3.640 + 4.220 + 1.860 + 6.170 = <span class="highlight">18.050 euro</span></p>
+                <p>Somma della sezione Avere: <span class="highlight">0 euro</span> (in questo conto non ci sono registrazioni in Avere)</p>
+                <p>Saldo = 18.050 - 0 = <strong>18.050 euro</strong></p>
+                
+                <p><strong>Chiusura del conto:</strong></p>
+                <p>Il conto presenta un'<strong>eccedenza Dare</strong> (il totale del Dare è maggiore del totale dell'Avere). Per chiudere il conto, il saldo di 18.050 euro viene iscritto nella sezione <strong>Avere</strong> (la sezione dove il totale risulta minore), in modo che entrambe le sezioni raggiungano lo stesso totale.</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Materie prime per cantina c/acquisti - CHIUSO</th>
+                        </tr>
+                        <tr>
+                            <th class="dare-col">DARE</th>
+                            <th class="avere-col">AVERE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="dare-col">2.160,00<br>3.640,00<br>4.220,00<br>1.860,00<br>6.170,00</td>
+                            <td class="avere-col" style="vertical-align: bottom;"><strong>Saldo: 18.050,00</strong></td>
+                        </tr>
+                        <tr style="font-weight: bold; background: #4caf50; color: white;">
+                            <td>TOTALE = 18.050,00</td>
+                            <td>TOTALE = 18.050,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p><strong>Interpretazione:</strong> Il ristorante ha sostenuto costi per acquisti di vini e bevande per un totale di 18.050 euro durante l'anno. Questo valore rappresenta un <strong>costo</strong> che andrà a ridurre l'utile dell'esercizio nel bilancio finale.</p>
+            </div>
+            
+            <div class="errore-comune">
+                <h4>ERRORE COMUNE #1: Mettere il saldo nella parte sbagliata</h4>
+                <p>Molti studenti fanno l'errore di mettere il saldo nella sezione dove il totale è maggiore. Questo è sbagliato! Ricordate: <strong>il saldo va sempre nella sezione dove il totale è MINORE</strong>, così le due parti si pareggiano.</p>
+                <p><strong>Esempio sbagliato:</strong> Se il Dare ha totale 18.050 e l'Avere ha totale 0, NON dovete mettere il saldo in Dare (dove è già maggiore). Dovete metterlo in Avere per pareggiare.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE SCRITTURE ELEMENTARI -->
+        <section id="elementari">
+            <h2>2. Scritture elementari: i documenti base del ristorante</h2>
+            
+            <p>Le <strong>scritture elementari</strong> sono le scritture più semplici dell'impresa. Sono chiamate "elementari" perché si riferiscono a singoli oggetti esaminati isolatamente, senza tenere conto dei rapporti con altri elementi della gestione. Nel settore ristorativo, queste scritture sono fondamentali per la gestione quotidiana dell'attività.</p>
+            
+            <h3>Caratteristiche delle scritture elementari</h3>
+            <ul class="lista-elementi">
+                <li>Sono scritture <strong>semplici e immediate</strong></li>
+                <li>Riguardano un <strong>singolo aspetto</strong> dell'attività (prelievo di merce, ordinazione di un cliente, ecc.)</li>
+                <li>Servono a <strong>preparare, analizzare e completare</strong> le altre scritture più complesse</li>
+                <li>Spesso sono la <strong>base documentale</strong> per le registrazioni contabili successive</li>
+            </ul>
+            
+            <h3>Principali scritture elementari nel settore ristorativo</h3>
+            
+            <h4>1. La prima nota</h4>
+            <p>La <strong>prima nota</strong> è un registro che elenca, in ordine cronologico (per data), tutte le operazioni aziendali a scopo di memoria. Non è una scrittura obbligatoria per legge, ma è molto utile per avere un promemoria di tutto ciò che accade nell'impresa.</p>
+            
+            <div class="card">
+                <p><strong>Esempio di prima nota di un ristorante:</strong></p>
+                <p>15/09: Ricevuta fattura fornitore Ittica Mare per acquisto pesce fresco 850 euro<br>
+                15/09: Incassati 1.240 euro da pranzo di gruppo azienda Rossi<br>
+                15/09: Pagata bolletta Enel 320 euro tramite bonifico bancario<br>
+                16/09: Prelevati dal magazzino 24 bottiglie di Prosecco per servizio sera</p>
+            </div>
+            
+            <p>Nei moderni sistemi informatici, la prima nota viene elaborata automaticamente dal software gestionale ogni volta che si registra un'operazione.</p>
+            
+            <h4>2. Buoni di prelievo dal magazzino</h4>
+            <p>I <strong>buoni di prelievo</strong> (o buoni di scarico) sono documenti interni che certificano il prelievo di merci dal magazzino per l'utilizzo in cucina o in sala. Servono per tenere traccia di tutto ciò che esce dal magazzino e per aggiornare le giacenze.</p>
+            
+            <div class="esempio">
+                <h4>ESEMPIO: Buono di prelievo vini – Hotel Farinelli</h4>
+                
+                <p><strong>Situazione:</strong> Il 22 luglio, lo chef di cucina Rino Fogli dell'Hotel Farinelli spa di Genova deve preparare un banchetto e ordina il prelievo di vini e bevande dalla cantina dell'hotel.</p>
+                
+                <div class="documento">
+                    <div class="documento-header">
+                        <strong>HOTEL FARINELLI spa</strong><br>
+                        Via dell'Acquario, 14 - 16100 GENOVA<br>
+                        Codice Fiscale e P.IVA: 03126480106<br>
+                        <br>
+                        <strong>BUONO DI PRELIEVO DI GENERI ALIMENTARI DAL MAGAZZINO</strong>
+                    </div>
+                    
+                    <p><strong>Richiedente:</strong> Chef Rino Fogli - Cucina</p>
+                    <p><strong>Data:</strong> 22/07/2024</p>
+                    
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Quantità</th>
+                                <th>Generi ritirati</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>n. 40</td><td>bottiglie vino rosso</td></tr>
+                            <tr><td>n. 20</td><td>bottiglie vino bianco</td></tr>
+                            <tr><td>n. 8</td><td>bottiglie vino rosato</td></tr>
+                            <tr><td>n. 50</td><td>bottiglie acqua minerale naturale</td></tr>
+                            <tr><td>n. 20</td><td>bottiglie acqua minerale gassata</td></tr>
+                            <tr><td>n. 32</td><td>bottiglie di birra</td></tr>
+                            <tr><td>n. 3</td><td>bottiglie di spumante</td></tr>
+                            <tr><td>n. 44</td><td>lattine di bibite analcoliche</td></tr>
+                        </tbody>
+                    </table>
+                    
+                    <p style="margin-top: 20px;">
+                        <strong>Firma richiedente:</strong> ________________<br>
+                        <strong>Firma magazziniere:</strong> ________________
+                    </p>
+                </div>
+                
+                <div class="card card-info" style="margin-top: 15px;">
+                    <h4>📊 A cosa serve dal punto di vista contabile</h4>
+                    <p><strong>Funzione contabile del buono di prelievo:</strong></p>
+                    <ul class="lista-elementi">
+                        <li>Documenta lo <strong>scarico di merci dal magazzino</strong> (diminuzione delle giacenze)</li>
+                        <li>Permette di aggiornare le <strong>schede di magazzino</strong> per ogni articolo</li>
+                        <li>Consente di calcolare il <strong>costo delle materie prime consumate</strong> in cucina</li>
+                        <li>Serve per il <strong>controllo interno</strong>: tutto ciò che esce dal magazzino deve essere tracciato</li>
+                    </ul>
+                    <p>Il buono viene compilato in <strong>tre copie</strong>: una per lo chef (per avere la merce richiesta), una per il magazziniere (per scaricare la merce), una per l'ufficio amministrativo (per aggiornare la contabilità di magazzino).</p>
+                </div>
+            </div>
+            
+            <h4>3. Le comande di sala</h4>
+            <p>La <strong>comanda</strong> è il documento compilato dal cameriere che riporta l'ordinazione del cliente. È fondamentale sia per la cucina (che deve preparare i piatti) sia per la cassa (che deve preparare il conto finale).</p>
+            
+            <div class="esempio">
+                <h4>ESEMPIO: Comanda ristorante Tharros – tavolo 14</h4>
+                
+                <p><strong>Situazione:</strong> Il 12 dicembre, il cameriere Paolo Falcini del ristorante Tharros srl di Oristano riceve un'ordinazione dal tavolo numero 14.</p>
+                
+                <div class="documento">
+                    <div class="documento-header">
+                        <strong>Ristorante THARROS srl</strong><br>
+                        Via del Mare, 45 - ORISTANO<br>
+                        Partita IVA: 00854710795<br>
+                        <br>
+                        <strong>COMANDA</strong>
+                    </div>
+                    
+                    <table style="width: 100%; margin-top: 10px;">
+                        <tr>
+                            <td><strong>Data:</strong> 12/12/2024</td>
+                            <td><strong>Tavolo n.:</strong> 14</td>
+                            <td><strong>Persone n.:</strong> 3</td>
+                        </tr>
+                    </table>
+                    
+                    <p style="margin-top: 15px;"><strong>Ordinazione:</strong></p>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li>• n. 3 antipasti di mare</li>
+                        <li>• n. 3 spaghetti allo scoglio</li>
+                        <li>• n. 2 fritture di calamari</li>
+                        <li>• n. 3 insalate miste</li>
+                        <li>• n. 2 creme catalane</li>
+                        <li>• n. 3 caffè</li>
+                        <li>• n. 1 bottiglia di acqua minerale naturale da 1,5 l</li>
+                        <li>• n. 1 bottiglia di vino bianco Nuragus da 0,75 l</li>
+                    </ul>
+                    
+                    <p style="margin-top: 20px;"><strong>Cameriere:</strong> Paolo Falcini</p>
+                </div>
+                
+                <div class="card card-info" style="margin-top: 15px;">
+                    <h4>📊 A cosa serve dal punto di vista contabile</h4>
+                    <p><strong>Funzione contabile della comanda:</strong></p>
+                    <ul class="lista-elementi">
+                        <li>È il <strong>documento di origine</strong> della vendita: certifica che il cliente ha ordinato (e quindi dovrà pagare)</li>
+                        <li>Permette di calcolare l'<strong>importo del conto finale</strong> del cliente</li>
+                        <li>Consente di registrare i <strong>ricavi della sala</strong> nel registro delle vendite</li>
+                        <li>Serve per il <strong>controllo dei coperti</strong> (numero di persone servite)</li>
+                        <li>Nei sistemi informatizzati, la comanda genera automaticamente la fattura o lo scontrino fiscale</li>
+                    </ul>
+                    <p>La comanda viene emessa in <strong>due o tre copie</strong>: una per il cameriere, una per la cucina, ed eventualmente una terza per la cassa.</p>
+                </div>
+            </div>
+            
+            <h4>4. Altri documenti elementari</h4>
+            <p>Nelle imprese ricettive (hotel, agriturismo con camere) esistono altre scritture elementari specifiche:</p>
+            <ul class="lista-elementi">
+                <li><strong>Registro delle prenotazioni:</strong> registra le prenotazioni delle camere</li>
+                <li><strong>Piano delle camere (planning):</strong> mostra lo stato di occupazione delle camere</li>
+                <li><strong>Scheda di notificazione:</strong> documento obbligatorio da inviare alla Questura con i dati degli ospiti</li>
+                <li><strong>Conto d'albergo:</strong> riepilogo di tutte le spese del cliente (camera, colazione, minibar, ecc.)</li>
+                <li><strong>Maincourante:</strong> registro giornaliero che rileva gli ospiti per camera e i consumi extra</li>
+            </ul>
+            
+            <div class="card card-success">
+                <h4>💡 Sintesi: Le scritture elementari nella pratica quotidiana</h4>
+                <p><strong>In un ristorante, ogni giorno:</strong></p>
+                <ol class="lista-elementi">
+                    <li>La <strong>prima nota</strong> registra tutto ciò che accade cronologicamente</li>
+                    <li>I <strong>buoni di prelievo</strong> documentano cosa esce dal magazzino per la cucina</li>
+                    <li>Le <strong>comande</strong> registrano le ordinazioni dei clienti</li>
+                    <li>I <strong>conti finali</strong> chiudono il servizio e generano i ricavi</li>
+                </ol>
+                <p>Tutte queste scritture elementari sono poi la base per le registrazioni nelle scritture sezionali (cassa, banche, vendite, magazzino) che studieremo nei prossimi paragrafi.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE SCRITTURE SEZIONALI -->
+        <section id="sezionali">
+            <h2>3. Scritture sezionali: la contabilità per settori</h2>
+            
+            <p>Le <strong>scritture sezionali</strong> (o contabilità sezionali) rilevano le operazioni di singoli settori dell'impresa e sono integrate e collegate alla contabilità generale, di cui rappresentano una parte. Ogni contabilità sezionale si occupa di un aspetto specifico della gestione: i movimenti di cassa, i rapporti con le banche, gli acquisti, le vendite, il magazzino, il personale, l'IVA.</p>
+            
+            <p>Nel settore turistico-ristorativo, le contabilità sezionali sono essenziali per avere il controllo di ogni area operativa. Vediamole una per una con esempi pratici.</p>
+            
+            <h3>Panoramica delle contabilità sezionali</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Contabilità sezionale</th>
+                        <th>Cosa rileva nel contesto ristorativo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Contabilità di cassa</strong></td>
+                        <td>Entrate e uscite di denaro contante: incassi dai clienti che pagano in contanti, versamenti in banca, pagamenti ai fornitori in contanti, prelievi per spese minute</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contabilità con le banche</strong></td>
+                        <td>Movimenti dei conti correnti bancari: bonifici a fornitori, incassi da clienti, pagamenti utenze (luce, gas, acqua), prelievi Bancomat, addebiti carte di credito</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contabilità degli acquisti</strong></td>
+                        <td>Fatture di acquisto delle derrate alimentari, bevande, forniture per la cucina; gestione debiti verso fornitori di pesce, carne, ortofrutta, vini</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contabilità delle vendite</strong></td>
+                        <td>Fatture di vendita emesse verso clienti (catering, banchetti, gruppi turistici); gestione crediti verso tour operator, aziende, clienti con pagamento differito</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contabilità di magazzino</strong></td>
+                        <td>Carichi e scarichi del magazzino derrate, cantina vini, magazzino bar; controllo giacenze per evitare rotture di stock o sprechi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contabilità del personale</strong></td>
+                        <td>Calcolo stipendi di cuochi, camerieri, baristi, receptionist; contributi INPS; versamenti delle ritenute fiscali</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contabilità IVA</strong></td>
+                        <td>Registri IVA obbligatori (registro acquisti e registro vendite); calcolo delle liquidazioni periodiche dell'IVA da versare all'Erario</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maincourante e giornale d'albergo</strong></td>
+                        <td>Solo per hotel: rileva gli ospiti per camera, l'arrangiamento (tipo di trattamento) e gli extra consumati giornalmente (minibar, telefono, lavanderia)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Approfondimento: ogni contabilità sezionale nel dettaglio</h3>
+            
+            <h4>Contabilità di cassa</h4>
+            <p>La <strong>cassa</strong> è il cuore dei pagamenti in contanti del ristorante. Nel registro di cassa si annotano tutte le entrate di denaro contante (pagamenti dei clienti che non usano carte di credito) e tutte le uscite (versamenti in banca del contante incassato, piccole spese, pagamenti a fornitori in contanti).</p>
+            <p><strong>Esempio pratico:</strong> Un ristorante incassa 1.500 euro in contanti da clienti durante il servizio serale, spende 80 euro per acquistare fiori freschi per le tavole, e versa 1.200 euro in banca. Tutte queste operazioni vanno registrate nella contabilità di cassa.</p>
+            
+            <h4>Contabilità con le banche</h4>
+            <p>Questa contabilità (che approfondiremo nella sezione successiva) gestisce tutti i movimenti bancari. Nel settore ristorativo, la maggior parte dei pagamenti a fornitori avviene tramite bonifico bancario, e molti incassi da clienti aziendali arrivano sul conto corrente.</p>
+            <p><strong>Esempio pratico:</strong> Un hotel riceve un bonifico di 8.500 euro da un tour operator per un gruppo di turisti, e nello stesso giorno paga tramite bonifico 3.200 euro al fornitore di carne.</p>
+            
+            <h4>Contabilità degli acquisti</h4>
+            <p>Ogni volta che il ristorante riceve una fattura da un fornitore (pesce, carne, verdure, vini, ecc.), questa viene registrata nel <strong>registro delle fatture di acquisto</strong>. Parallelamente, si aggiorna il <strong>partitario fornitori</strong> per tenere traccia dei debiti verso ciascun fornitore.</p>
+            <p><strong>Esempio pratico:</strong> Il ristorante riceve fattura da "Ortofrutta Toscana" per 420 euro, da "Ittica Adriatica" per 850 euro, da "Cantine Chianti" per 1.200 euro. Tutte vanno nel registro acquisti, e i debiti verso questi tre fornitori vengono aggiornati nei rispettivi conti del partitario.</p>
+            
+            <h4>Contabilità delle vendite</h4>
+            <p>Quando il ristorante emette fatture verso clienti (soprattutto nel caso di catering per aziende, banchetti, forniture a mense o gruppi turistici), queste vengono registrate nel <strong>registro delle fatture di vendita</strong> e si aggiorna il <strong>partitario clienti</strong> per monitorare i crediti.</p>
+            <p><strong>Esempio pratico:</strong> Un'impresa di catering emette fattura per un matrimonio di 6.500 euro verso gli sposi, e fattura per una cena aziendale di 2.800 euro verso la società "Tech Solutions srl".</p>
+            
+            <h4>Contabilità di magazzino</h4>
+            <p>È fondamentale per controllare le scorte. Si registrano i carichi (quando arriva merce dai fornitori) e gli scarichi (quando la merce viene prelevata per la cucina). Serve per evitare che si esaurisca un prodotto importante o che ci siano sprechi per merce scaduta.</p>
+            <p><strong>Esempio pratico:</strong> Il magazzino riceve 50 kg di farina, 30 kg di zucchero, 100 bottiglie di vino. Durante la settimana, la cucina preleva 12 kg di farina, 8 kg di zucchero e 25 bottiglie di vino. Tutte queste operazioni vengono annotate nelle schede di magazzino.</p>
+            
+            <h4>Contabilità del personale</h4>
+            <p>Gestisce i rapporti con i dipendenti: stipendi, contributi, ferie, malattie. Nel settore ristorativo, spesso il personale è numeroso (cuochi, aiuto cuochi, camerieri, lavapiatti, baristi) e la gestione delle paghe è complessa.</p>
+            <p><strong>Esempio pratico:</strong> Un ristorante ha 2 cuochi, 4 camerieri e 1 barista. Ogni mese l'ufficio amministrativo calcola gli stipendi, versa i contributi INPS e registra tutto nella contabilità del personale.</p>
+            
+            <h4>Contabilità IVA</h4>
+            <p>Ogni impresa ristorativa deve tenere i registri IVA obbligatori: <strong>registro fatture di acquisto</strong> e <strong>registro fatture di vendita</strong>. Periodicamente (mensile o trimestrale) si calcola la liquidazione IVA: la differenza tra l'IVA sulle vendite (da versare allo Stato) e l'IVA sugli acquisti (detraibile) determina l'importo da pagare.</p>
+            <p><strong>Esempio pratico:</strong> Nel mese di settembre, un ristorante ha incassato IVA per 2.400 euro sulle vendite e ha pagato IVA per 800 euro sugli acquisti. La differenza (1.600 euro) è l'IVA da versare all'Erario entro il 16 del mese successivo.</p>
+            
+            <h4>Maincourante (solo per hotel e strutture ricettive)</h4>
+            <p>Il <strong>maincourante</strong> è il registro giornaliero degli alberghi che rileva per ogni camera: il numero di ospiti, il tipo di trattamento (solo pernottamento, mezza pensione, pensione completa), gli extra consumati (minibar, telefono, servizio lavanderia, massaggi). Serve per predisporre il conto finale dell'ospite al momento del check-out.</p>
+            <p><strong>Esempio pratico:</strong> Camera 205: 2 ospiti, mezza pensione, hanno consumato 2 bottiglie di acqua dal minibar (4 euro) e hanno fatto una chiamata internazionale (12 euro). Tutto viene annotato nel maincourante e addebitat sul conto finale.</p>
+            
+            <div class="card card-success">
+                <h4><span class="badge-norma">NORMA</span> Riferimento normativo: Art. 2214 Codice Civile</h4>
+                <p>L'articolo 2214 del Codice Civile stabilisce che l'imprenditore che esercita un'attività commerciale deve tenere:</p>
+                <ul class="lista-elementi">
+                    <li>Il <strong>libro giornale</strong>: registra cronologicamente tutte le operazioni</li>
+                    <li>Il <strong>libro degli inventari</strong>: evidenzia il patrimonio dell'impresa all'inizio e alla fine di ogni esercizio</li>
+                    <li>Le <strong>altre scritture contabili</strong> richieste dalla natura e dalle dimensioni dell'impresa (tra cui le contabilità sezionali)</li>
+                </ul>
+                <p>Per le imprese ristorative e ricettive, le scritture obbligatorie comprendono anche i registri IVA, il libro unico del lavoro per i dipendenti, e (per gli alberghi) la scheda di notificazione per la Questura.</p>
+            </div>
+            
+            <div class="errore-comune">
+                <h4>ERRORE COMUNE #2: Confondere cassa e banca</h4>
+                <p>Molti studenti confondono i movimenti di cassa con quelli di banca. Ricordate:</p>
+                <ul class="lista-elementi">
+                    <li><strong>CASSA</strong> = denaro contante (banconote e monete)</li>
+                    <li><strong>BANCA</strong> = denaro depositato sul conto corrente bancario</li>
+                </ul>
+                <p><strong>Esempio:</strong> Se un cliente paga in contanti, l'operazione riguarda la <strong>cassa</strong>. Se poi versiamo quei contanti in banca, l'operazione riguarda sia la cassa (diminuzione) sia la banca (aumento).</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE SCRITTURE COMPLESSE -->
+        <section id="complesse">
+            <h2>4. Scritture complesse: la contabilità generale</h2>
+            
+            <p>Le <strong>scritture complesse</strong> raccolgono i dati relativi all'intera gestione aziendale per determinare il patrimonio dell'impresa e il risultato economico dell'esercizio (utile o perdita). Costituiscono la <strong>contabilità generale</strong> e formano un insieme di rilevazioni tra loro coordinate e collegate.</p>
+            
+            <p>Mentre le scritture elementari e sezionali si occupano di aspetti parziali (una comanda, un pagamento, un fornitore), le scritture complesse hanno una visione d'insieme e permettono di rispondere alla domanda fondamentale: <strong>"L'impresa sta guadagnando o perdendo denaro?"</strong></p>
+            
+            <h3>Due tipi di scritture complesse</h3>
+            
+            <h4>1. Scritture cronologiche: il libro giornale</h4>
+            <p>Il <strong>libro giornale</strong> rileva tutte le operazioni di gestione <strong>in ordine di data</strong>, una dopo l'altra, giorno per giorno. È come un diario dell'impresa: ogni operazione viene registrata nel momento in cui avviene.</p>
+            
+            <div class="card">
+                <p><strong>Esempio di registrazioni nel libro giornale di un ristorante:</strong></p>
+                <p><em>Data 15/03/2024</em><br>
+                Acquisto di carne bovina da "Macelleria Toscana" per euro 850,00 + IVA 10% = 935,00<br>
+                <br>
+                <em>Data 15/03/2024</em><br>
+                Incasso servizio ristorazione per gruppo turistico euro 1.200,00 + IVA 10% = 1.320,00<br>
+                <br>
+                <em>Data 16/03/2024</em><br>
+                Pagamento bolletta Enel tramite bonifico bancario euro 480,00</p>
+            </div>
+            
+            <p>Il libro giornale, insieme alla prima nota, è una <strong>scrittura cronologica</strong>: elenca le operazioni nell'ordine temporale in cui si verificano.</p>
+            
+            <h4>2. Scritture sistematiche: i conti di mastro</h4>
+            <p>I <strong>conti di mastro</strong> sono l'insieme di tutti i conti utilizzati dall'impresa. A differenza del libro giornale che registra per data, i conti di mastro classificano le operazioni <strong>per oggetto</strong> (per tipo di conto).</p>
+            
+            <div class="card card-info">
+                <p><strong>Differenza fondamentale:</strong></p>
+                <ul class="lista-elementi">
+                    <li><strong>Libro giornale</strong> = ordine cronologico (quando è successo)</li>
+                    <li><strong>Mastro</strong> = ordine sistematico (cosa è successo)</li>
+                </ul>
+            </div>
+            
+            <p><strong>Esempio pratico:</strong> Nel libro giornale tutte le operazioni del 15 marzo sono registrate insieme, anche se riguardano cose diverse. Nel mastro, invece, tutti gli acquisti di derrate sono raccolti nel conto "Acquisti materie prime", tutti i ricavi nel conto "Ricavi di sala", tutti i pagamenti bancari nel conto "Banca UniCredit c/c", ecc.</p>
+            
+            <h3>Il collegamento al bilancio d'esercizio</h3>
+            <p>Le scritture complesse sono fondamentali perché <strong>forniscono i dati per redigere il bilancio d'esercizio</strong>. Il bilancio è il documento contabile che, alla fine dell'anno, mostra:</p>
+            <ul class="lista-elementi">
+                <li>Il <strong>patrimonio</strong> dell'impresa (cosa possiede e cosa deve)</li>
+                <li>Il <strong>risultato economico</strong> (utile o perdita)</li>
+            </ul>
+            
+            <p>Senza una corretta tenuta della contabilità generale, non è possibile redigere il bilancio, e l'imprenditore non saprebbe se la sua attività sta funzionando o è in crisi.</p>
+            
+            <div class="esempio">
+                <h4>ESEMPIO PRATICO: Perché è importante registrare tutto in contabilità generale</h4>
+                
+                <p><strong>Situazione:</strong> Un ristorante registra tutte le comande dei clienti, ma il responsabile di sala dimentica di trasferire questi dati alla contabilità generale. A fine anno, i ricavi non risultano nelle scritture complesse.</p>
+                
+                <p><strong>Conseguenza:</strong> Quando l'amministrazione prepara il bilancio, i ricavi del ristorante risultano molto più bassi della realtà, perché mancano le registrazioni delle comande. Il bilancio mostrerà una <strong>perdita</strong> invece che un <strong>utile</strong>, dando una visione completamente sbagliata dell'andamento dell'impresa.</p>
+                
+                <p><strong>Conclusione:</strong> Se registro le comande ma non le porto in contabilità generale, i ricavi non escono a fine anno. È come se quei servizi non fossero mai stati venduti, dal punto di vista contabile. Per questo è fondamentale che ogni operazione elementare (comanda, buono di prelievo, fattura) venga trasferita nelle scritture complesse.</p>
+            </div>
+            
+            <h3>Scritture facoltative vs scritture obbligatorie</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo di scrittura</th>
+                        <th>Obbligatorietà</th>
+                        <th>Esempi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Scritture facoltative</strong></td>
+                        <td>Non imposte per legge, ma utili per la gestione</td>
+                        <td>Prima nota, buoni di prelievo interni, alcune schede di magazzino</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scritture obbligatorie</strong></td>
+                        <td>Imposte dal Codice Civile o da leggi fiscali</td>
+                        <td>Libro giornale, libro inventari, registri IVA, libro unico del lavoro, scheda di notificazione (per alberghi)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Le imprese turistico-ristorative devono obbligatoriamente tenere:</p>
+            <ul class="lista-elementi">
+                <li><strong>Libro giornale</strong> e <strong>libro degli inventari</strong> (Codice Civile art. 2214)</li>
+                <li><strong>Registri IVA</strong>: registro fatture di acquisto e registro fatture di vendita</li>
+                <li><strong>Libro unico del lavoro</strong> per i dipendenti</li>
+                <li><strong>Scheda di notificazione</strong> per la Questura (solo per alberghi e strutture ricettive)</li>
+            </ul>
+            
+            <div class="card card-success">
+                <h4>💡 Riepilogo: Il percorso dalla comanda al bilancio</h4>
+                <ol class="lista-elementi">
+                    <li>Il cameriere compila una <strong>comanda</strong> (scrittura elementare)</li>
+                    <li>La comanda viene registrata nel <strong>registro delle vendite</strong> (contabilità sezionale)</li>
+                    <li>I dati passano al <strong>libro giornale</strong> (scrittura cronologica) e al conto <strong>"Ricavi di sala"</strong> nel mastro (scrittura sistematica)</li>
+                    <li>A fine anno, i ricavi totali confluiscono nel <strong>bilancio d'esercizio</strong></li>
+                </ol>
+                <p>Questo percorso garantisce che ogni singola operazione sia tracciata e contribuisca al calcolo del risultato finale dell'impresa.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE BANCHE -->
+        <section id="banche">
+            <h2>5. Contabilità con le banche: gestire i conti correnti</h2>
+            
+            <p>La <strong>contabilità con le banche</strong> è una delle contabilità sezionali più importanti per le imprese ristorative e alberghiere. Rileva gli aumenti e le diminuzioni di liquidità nei conti correnti bancari. La maggior parte dei pagamenti a fornitori e degli incassi da clienti aziendali passa attraverso il conto corrente, quindi è fondamentale tenere traccia precisa di tutti i movimenti.</p>
+            
+            <h3>Il conto Banca: struttura Dare/Avere</h3>
+            <p>Il conto intestato a una banca (es. "Banca UniCredit c/c", "Intesa Sanpaolo c/c") rileva:</p>
+            <ul class="lista-elementi">
+                <li><strong>In DARE</strong>: gli aumenti di liquidità sul conto corrente (versamenti, bonifici ricevuti, riscossioni)</li>
+                <li><strong>In AVERE</strong>: le diminuzioni di liquidità (prelievi, bonifici inviati, pagamenti utenze)</li>
+            </ul>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Banca X c/c</th>
+                    </tr>
+                    <tr>
+                        <th class="dare-col">DARE<br>(Aumenti di liquidità)</th>
+                        <th class="avere-col">AVERE<br>(Diminuzioni di liquidità)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="dare-col">
+                            • Versamenti di denaro<br>
+                            • Versamenti di assegni<br>
+                            • Bonifici ricevuti da clienti<br>
+                            • Giroconti in entrata<br>
+                            • Riscossioni di cambiali (Ri.Ba.)<br>
+                            • Interessi attivi maturati
+                        </td>
+                        <td class="avere-col">
+                            • Emissione di assegni bancari<br>
+                            • Richiesta di assegni circolari<br>
+                            • Prelievi di contante (Bancomat)<br>
+                            • Bonifici a favore dei fornitori<br>
+                            • Pagamenti di utenze<br>
+                            • Pagamenti di cambiali<br>
+                            • Acquisti con carte di debito/credito<br>
+                            • Interessi passivi e costi bancari
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Il fido bancario e lo scoperto di conto</h3>
+            <p>A differenza del conto Cassa (che non può mai andare in negativo: non si possono spendere più contanti di quelli che si hanno), il conto Banca <strong>può avere eccedenze in Avere</strong> quando l'impresa dispone di un <strong>fido bancario</strong>.</p>
+            
+            <div class="card card-info">
+                <h4>Che cos'è il fido bancario?</h4>
+                <p>Il <strong>fido</strong> (o <strong>affidamento</strong>) è una somma di denaro che la banca concede all'impresa come linea di credito. L'impresa può operare con uno <strong>scoperto di conto corrente</strong>, cioè può spendere più di quanto ha depositato, fino al limite del fido concesso.</p>
+                <p><strong>Esempio:</strong> Un hotel ha sul conto corrente 5.000 euro, ma la banca gli ha concesso un fido di 25.000 euro. Questo significa che l'hotel può effettuare pagamenti fino a 30.000 euro (5.000 di saldo + 25.000 di fido). Se spende 20.000 euro, il conto andrà in scoperto di 15.000 euro, ma sarà comunque nei limiti del fido concesso.</p>
+            </div>
+            
+            <p><strong>Come si riflette nel conto?</strong> Quando il conto va in scoperto (si spende più di quanto c'è sul conto), il totale della sezione Avere diventa maggiore del totale della sezione Dare, e il saldo del conto risulta in Avere, indicando un <strong>debito verso la banca</strong>.</p>
+            
+            <h3>Il metodo del segno per calcolare il saldo</h3>
+            <p>Nella scheda di conto corrente tenuta dall'impresa, si usa spesso il <strong>metodo del segno</strong> per calcolare il saldo dopo ogni operazione. Questo metodo è particolarmente utile quando si lavora con il fido bancario.</p>
+            
+            <div class="card">
+                <h4>Come funziona il metodo del segno:</h4>
+                <ul class="lista-elementi">
+                    <li><strong>D</strong> (Dare) = saldo a nostro credito (abbiamo soldi in banca)</li>
+                    <li><strong>A</strong> (Avere) = saldo a nostro debito (siamo in scoperto, abbiamo usato il fido)</li>
+                </ul>
+                <p><strong>Regole di calcolo:</strong></p>
+                <ul class="lista-elementi">
+                    <li>Se le operazioni sono di <strong>segno uguale</strong> → si sommano</li>
+                    <li>Se le operazioni sono di <strong>segno opposto</strong> → si sottraggono</li>
+                    <li>Se l'importo sottratto è <strong>maggiore</strong> dell'altro → il segno cambia</li>
+                </ul>
+            </div>
+            
+            <div class="esempio">
+                <h4>ESEMPIO COMPLETO: Hotel/ristorante Il Campo di Siena</h4>
+                
+                <p><strong>Situazione:</strong> L'Hotel Il Campo spa di Siena ha un conto corrente presso la banca Monte dei Paschi di Siena, con un fido di 25.000 euro. Durante il mese di settembre, l'hotel effettua diverse operazioni bancarie. Vediamo come si registrano e come si calcola il saldo dopo ogni movimento.</p>
+                
+                <div class="documento">
+                    <div class="documento-header">
+                        <strong>Monte dei Paschi di Siena</strong><br>
+                        IBAN: IT20U0103014200000000003244<br>
+                        Intestatario: Hotel Il Campo spa - Siena<br>
+                        Fido concesso: € 25.000,00
+                    </div>
+                    
+                    <table style="font-size: 0.9em; margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrizione operazione</th>
+                                <th>Dare</th>
+                                <th>Avere</th>
+                                <th>Segno</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/09</td>
+                                <td>Ripresa saldo mese precedente</td>
+                                <td>2.230,00</td>
+                                <td>—</td>
+                                <td>D</td>
+                                <td>2.230,00</td>
+                            </tr>
+                            <tr>
+                                <td>04/09</td>
+                                <td>Bonifico a D'Ascoli Francesco per s.f. n. 132 (fornitura arredamento camere)</td>
+                                <td>—</td>
+                                <td>9.906,40</td>
+                                <td>A</td>
+                                <td>7.676,40</td>
+                            </tr>
+                            <tr>
+                                <td>08/09</td>
+                                <td>Estinto pagherò fav. STE.MA. spa</td>
+                                <td>—</td>
+                                <td>5.160,00</td>
+                                <td>A</td>
+                                <td>12.836,40</td>
+                            </tr>
+                            <tr>
+                                <td>10/09</td>
+                                <td>Versamento denaro contante tramite cassa continua</td>
+                                <td>4.100,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>8.736,40</td>
+                            </tr>
+                            <tr>
+                                <td>16/09</td>
+                                <td>Utenza telefonica TIM spa</td>
+                                <td>—</td>
+                                <td>550,00</td>
+                                <td>A</td>
+                                <td>9.286,40</td>
+                            </tr>
+                            <tr>
+                                <td>18/09</td>
+                                <td>Addebito società gestione carta di credito (acquisti agosto)</td>
+                                <td>—</td>
+                                <td>880,00</td>
+                                <td>A</td>
+                                <td>10.166,40</td>
+                            </tr>
+                            <tr>
+                                <td>20/09</td>
+                                <td>Richiesta assegno circolare fav. Il Pascolo snc (Antonio Marti)</td>
+                                <td>—</td>
+                                <td>4.224,00</td>
+                                <td>A</td>
+                                <td>14.390,40</td>
+                            </tr>
+                            <tr>
+                                <td>23/09</td>
+                                <td>Bonifico da Il Palio Viaggi snc per s.f. n. 18 (gruppo turistico)</td>
+                                <td>10.425,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>3.965,40</td>
+                            </tr>
+                            <tr>
+                                <td>25/09</td>
+                                <td>Prelevamento allo sportello</td>
+                                <td>—</td>
+                                <td>1.500,00</td>
+                                <td>A</td>
+                                <td>5.465,40</td>
+                            </tr>
+                            <tr>
+                                <td>28/09</td>
+                                <td>Versamento assegno bancario CREDEM (cliente conto d'albergo)</td>
+                                <td>300,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>5.165,40</td>
+                            </tr>
+                            <tr>
+                                <td>30/09</td>
+                                <td>Riscossa Ri.Ba. su Barel spa (soggiorni dipendenti)</td>
+                                <td>5.915,00</td>
+                                <td>—</td>
+                                <td>D</td>
+                                <td>749,60</td>
+                            </tr>
+                            <tr style="font-weight: bold; background: #e8f5e9;">
+                                <td colspan="2">Totale movimenti settembre</td>
+                                <td>22.970,00</td>
+                                <td>22.220,40</td>
+                                <td colspan="2">Saldo finale a nostro credito: € 749,60</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card card-success" style="margin-top: 20px;">
+                    <h4>📊 Spiegazione del calcolo con il metodo del segno</h4>
+                    
+                    <p><strong>01/09:</strong> Saldo iniziale 2.230,00 D (abbiamo soldi in banca)</p>
+                    
+                    <p><strong>04/09:</strong> Paghiamo 9.906,40 con un bonifico. Il saldo era D (positivo), togliamo 9.906,40:<br>
+                    2.230,00 - 9.906,40 = -7.676,40<br>
+                    Il risultato è negativo, quindi il segno cambia da D ad A. Saldo: 7.676,40 A (siamo in scoperto)</p>
+                    
+                    <p><strong>08/09:</strong> Paghiamo un pagherò di 5.160,00. Il saldo era A (negativo), sommiamo (stesso segno):<br>
+                    7.676,40 + 5.160,00 = 12.836,40 A (lo scoperto aumenta)</p>
+                    
+                    <p><strong>10/09:</strong> Versiamo 4.100,00 contanti. Il saldo era A, togliamo (segno opposto):<br>
+                    12.836,40 - 4.100,00 = 8.736,40 A (lo scoperto diminuisce)</p>
+                    
+                    <p><strong>23/09:</strong> Riceviamo bonifico di 10.425,00. Il saldo era A (8.736,40), togliamo (segno opposto):<br>
+                    10.425,00 - 8.736,40 = 1.688,60... ma aspetta! 10.425 è maggiore di 8.736,40, quindi il segno cambia di nuovo!<br>
+                    Prima calcolo: 10.425,00 - 8.736,40 = 1.688,60... errore nel documento originale, rivediamo:<br>
+                    Saldo era A 14.390,40 (dopo il 20/09), riceviamo 10.425,00:<br>
+                    14.390,40 - 10.425,00 = 3.965,40 A (lo scoperto si riduce ma siamo ancora in negativo)</p>
+                    
+                    <p><strong>30/09:</strong> Riceviamo Ri.Ba. di 5.915,00. Il saldo era A 5.165,40, togliamo:<br>
+                    5.915,00 - 5.165,40 = 749,60, e siccome 5.915 è maggiore, il segno cambia da A a D.<br>
+                    Saldo finale: 749,60 D (siamo tornati in positivo!)</p>
+                    
+                    <p><strong>Conclusione:</strong> L'hotel ha iniziato il mese con 2.230 euro sul conto, è andato in scoperto fino a un massimo di 14.390 euro (sempre entro il fido di 25.000 euro concesso dalla banca), e ha chiuso il mese con un saldo positivo di 749,60 euro.</p>
+                </div>
+            </div>
+            
+            <h3>L'estratto conto bancario</h3>
+            <p>Periodicamente (di solito ogni mese), la banca invia al cliente un <strong>estratto conto</strong> che riepiloga tutte le operazioni effettuate. L'impresa deve confrontare il saldo dell'estratto conto con il saldo del proprio conto Banca tenuto in contabilità: i due saldi devono corrispondere. Se non corrispondono, bisogna verificare se ci sono errori o operazioni non ancora registrate.</p>
+            
+            <div class="errore-comune">
+                <h4>ERRORE COMUNE #3: Non aggiornare il conto Banca</h4>
+                <p>Alcuni ristoratori controllano il saldo sul sito della banca online, ma dimenticano di registrare le operazioni nella contabilità aziendale. Questo porta a:</p>
+                <ul class="lista-elementi">
+                    <li>Perdita di controllo sui movimenti bancari</li>
+                    <li>Impossibilità di quadrare i conti a fine mese</li>
+                    <li>Difficoltà nel redigere il bilancio</li>
+                </ul>
+                <p><strong>Soluzione:</strong> Ogni movimento bancario deve essere registrato tempestivamente nel conto Banca della contabilità aziendale, in modo da avere sempre sotto controllo la situazione.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE ACQUISTI -->
+        <section id="acquisti">
+            <h2>6. Contabilità degli acquisti: gestire i fornitori</h2>
+            
+            <p>La <strong>contabilità degli acquisti</strong> riguarda la gestione delle operazioni di acquisto ed evidenzia i rapporti dell'impresa con i suoi fornitori. Per un ristorante o un hotel, i fornitori sono fondamentali: fornitori di pesce, carne, ortofrutta, vini, bevande, prodotti per la pulizia, biancheria, ecc.</p>
+            
+            <h3>I documenti della contabilità degli acquisti</h3>
+            <p>I documenti su cui si basa questa contabilità sono:</p>
+            <ul class="lista-elementi">
+                <li><strong>Fatture dei fornitori</strong>: documenti che certificano l'acquisto di beni o servizi</li>
+                <li><strong>Documenti di pagamento</strong>: assegni, bonifici, cambiali, ricevute bancarie</li>
+            </ul>
+            
+            <p>In base a questi documenti vengono compilati:</p>
+            <ul class="lista-elementi">
+                <li><strong>Registro delle fatture di acquisto</strong>: elenca tutte le fatture ricevute dai fornitori</li>
+                <li><strong>Partitario dei fornitori</strong>: tiene traccia dei debiti verso ciascun fornitore</li>
+            </ul>
+            
+            <h3>Il registro delle fatture di acquisto</h3>
+            <p>Nel <strong>registro delle fatture di acquisto</strong> (anche chiamato registro IVA acquisti) sono annotate tutte le fatture ricevute dai fornitori, in ordine cronologico. Per ogni fattura si indicano: data, numero fattura, fornitore, imponibile, IVA, totale.</p>
+            
+            <div class="card">
+                <h4>Esempio di registro fatture di acquisto per un ristorante:</h4>
+                <table style="font-size: 0.85em;">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>N. Fatt.</th>
+                            <th>Fornitore</th>
+                            <th>Imponibile</th>
+                            <th>IVA 10%</th>
+                            <th>Totale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10/01</td>
+                            <td>F/132</td>
+                            <td>Ittica Adriatica</td>
+                            <td>750,00</td>
+                            <td>75,00</td>
+                            <td>825,00</td>
+                        </tr>
+                        <tr>
+                            <td>12/01</td>
+                            <td>F/85</td>
+                            <td>Ortofrutta Toscana</td>
+                            <td>420,00</td>
+                            <td>42,00</td>
+                            <td>462,00</td>
+                        </tr>
+                        <tr>
+                            <td>15/01</td>
+                            <td>F/201</td>
+                            <td>Cantine Chianti srl</td>
+                            <td>1.200,00</td>
+                            <td>120,00</td>
+                            <td>1.320,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3>Il partitario dei fornitori</h3>
+            <p>Il <strong>partitario dei fornitori</strong> è l'insieme dei conti accesi ai singoli fornitori. A ciascun fornitore viene intestato un conto personale dove si registrano:</p>
+            <ul class="lista-elementi">
+                <li><strong>In AVERE</strong>: i debiti derivanti dagli acquisti (fatture ricevute)</li>
+                <li><strong>In DARE</strong>: le diminuzioni dei debiti (pagamenti effettuati, resi di merce)</li>
+            </ul>
+            
+            <div class="card card-warning">
+                <p><span class="badge-attenzione">ATTENZIONE</span></p>
+                <h4>Nel partitario fornitori il saldo è di solito a nostro DEBITO</h4>
+                <p>Questo significa che il saldo del conto fornitore risulta normalmente in <strong>Avere</strong>, perché rappresenta quanto dobbiamo ancora pagare a quel fornitore. Il saldo non può mai essere a favore dell'impresa (cioè in Dare), a meno che non abbiamo pagato in anticipo o ci sia stato un reso superiore agli acquisti.</p>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Schema del conto Fornitore</th>
+                    </tr>
+                    <tr>
+                        <th class="dare-col">DARE</th>
+                        <th class="avere-col">AVERE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="dare-col">
+                            Diminuzioni di debiti:<br>
+                            • Pagamenti con bonifico<br>
+                            • Pagamenti con assegni<br>
+                            • Estinzione cambiali<br>
+                            • Resi di merce
+                        </td>
+                        <td class="avere-col">
+                            Debiti iniziali<br>
+                            Aumenti di debiti:<br>
+                            • Fatture di acquisto<br>
+                            • Note di debito<br>
+                            <br>
+                            <strong>Saldo finale (Debito verso fornitore)</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="esempio">
+                <h4>ESEMPIO: Partitario del fornitore "Allevamenti Maremmani spa"</h4>
+                
+                <p><strong>Situazione:</strong> L'impresa di catering "Flash Food spa" di Roma acquista regolarmente carne (suina, bovina, agnello) dal fornitore "Allevamenti Maremmani spa" di Grosseto. Nel primo trimestre dell'anno effettua le seguenti operazioni:</p>
+                
+                <ul class="lista-elementi">
+                    <li><strong>01/01:</strong> Debito residuo del trimestre precedente: 12.650 euro</li>
+                    <li><strong>10/01:</strong> Ricevuta fattura n. 3 del 09/01 per acquisto di carne suina: 15.820 euro + IVA 10% = 17.402 euro</li>
+                    <li><strong>30/01:</strong> Pagato con bonifico alla BNL il debito del trimestre precedente (12.650 euro)</li>
+                    <li><strong>15/02:</strong> Ricevuta fattura n. 28 del 14/02 per acquisto di carne bovina: 18.678 euro + IVA 10% = 20.545,80 euro</li>
+                    <li><strong>28/02:</strong> Pagato con bonifico bancario metà importo della fattura n. 3 (17.402 / 2 = 8.701 euro)</li>
+                    <li><strong>06/03:</strong> Ricevuta fattura n. 44 del 05/03 per acquisto di carne d'agnello: 7.850 euro + IVA 10% = 8.635 euro</li>
+                    <li><strong>20/03:</strong> Pagato con bonifico alla BNL la restante metà della fattura n. 3 (8.701 euro)</li>
+                    <li><strong>31/03:</strong> Estinta presso la BNL una Ri.Ba. a favore di Allevamenti Maremmani a saldo fattura n. 28 (20.545,80 euro)</li>
+                </ul>
+                
+                <p><strong>Presentiamo il conto di partitario intestato al fornitore:</strong></p>
+                
+                <div class="documento">
+                    <div class="documento-header">
+                        <strong>Fornitore: Allevamenti Maremmani spa</strong><br>
+                        Via dell'Agricoltura, 290 - 58100 GROSSETO<br>
+                        Conto n. 14.01.08 - Partita IVA: 00651420532
+                    </div>
+                    
+                    <table style="margin-top: 15px; font-size: 0.9em;">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrizione operazione</th>
+                                <th>Dare</th>
+                                <th>Avere</th>
+                                <th>Segno</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/01</td>
+                                <td>Ripresa saldo trimestre precedente</td>
+                                <td>—</td>
+                                <td>12.650,00</td>
+                                <td>A</td>
+                                <td>12.650,00</td>
+                            </tr>
+                            <tr>
+                                <td>10/01</td>
+                                <td>Fattura n. 3 del 09/01 (carne suina)</td>
+                                <td>—</td>
+                                <td>17.402,00</td>
+                                <td>A</td>
+                                <td>30.052,00</td>
+                            </tr>
+                            <tr>
+                                <td>30/01</td>
+                                <td>Bonifico BNL a saldo debito trim. prec.</td>
+                                <td>12.650,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>17.402,00</td>
+                            </tr>
+                            <tr>
+                                <td>15/02</td>
+                                <td>Fattura n. 28 del 14/02 (carne bovina)</td>
+                                <td>—</td>
+                                <td>20.545,80</td>
+                                <td>A</td>
+                                <td>37.947,80</td>
+                            </tr>
+                            <tr>
+                                <td>28/02</td>
+                                <td>Bonifico BNL in conto fattura n. 3</td>
+                                <td>8.701,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>29.246,80</td>
+                            </tr>
+                            <tr>
+                                <td>06/03</td>
+                                <td>Fattura n. 44 del 05/03 (carne agnello)</td>
+                                <td>—</td>
+                                <td>8.635,00</td>
+                                <td>A</td>
+                                <td>37.881,80</td>
+                            </tr>
+                            <tr>
+                                <td>20/03</td>
+                                <td>Bonifico BNL a saldo fattura n. 3</td>
+                                <td>8.701,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>29.180,80</td>
+                            </tr>
+                            <tr>
+                                <td>31/03</td>
+                                <td>Estinta Ri.Ba. a saldo fattura n. 28</td>
+                                <td>20.545,80</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>8.635,00</td>
+                            </tr>
+                            <tr style="font-weight: bold; background: #ffebee;">
+                                <td colspan="2">Totale movimenti gen.-feb.-mar.</td>
+                                <td>50.597,80</td>
+                                <td>59.232,80</td>
+                                <td colspan="2"><strong>Saldo a nostro debito: € 8.635,00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card card-info" style="margin-top: 15px;">
+                    <h4>📊 Interpretazione del partitario fornitore</h4>
+                    <p><strong>Cosa ci dice questo conto:</strong></p>
+                    <ul class="lista-elementi">
+                        <li>All'inizio del trimestre dovevamo al fornitore 12.650 euro</li>
+                        <li>Durante il trimestre abbiamo ricevuto 3 nuove fatture per un totale di 46.582,80 euro</li>
+                        <li>Abbiamo effettuato pagamenti per 50.597,80 euro</li>
+                        <li>A fine trimestre dobbiamo ancora 8.635 euro (corrispondente alla fattura n. 44 non ancora pagata)</li>
+                    </ul>
+                    <p>Il saldo è in <strong>Avere</strong> (segno A), come deve essere per un fornitore: indica un nostro debito. L'ultima colonna mostra sempre quanto dobbiamo dopo ogni operazione, permettendo un controllo costante della posizione debitoria.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE VENDITE -->
+        <section id="vendite">
+            <h2>7. Contabilità delle vendite: gestire i clienti</h2>
+            
+            <p>La <strong>contabilità delle vendite</strong> riguarda la gestione delle operazioni di vendita ed evidenzia i rapporti dell'impresa con i suoi clienti. Per un ristorante o un servizio di catering, i "clienti" in senso contabile sono soprattutto aziende, tour operator, enti pubblici che ordinano servizi di ristorazione con pagamento differito (non immediato).</p>
+            
+            <h3>Quando si usa la contabilità delle vendite?</h3>
+            <p>La contabilità delle vendite diventa importante quando:</p>
+            <ul class="lista-elementi">
+                <li>Un <strong>tour operator</strong> prenota pasti per un gruppo turistico e paga dopo 30-60 giorni</li>
+                <li>Un'<strong>azienda</strong> ordina un servizio di catering per un evento e riceve fattura con pagamento a scadenza</li>
+                <li>Un <strong>ente pubblico</strong> commissiona la gestione di una mensa con fatturazione mensile</li>
+                <li>Un <strong>hotel</strong> fornisce servizi di ristorazione a gruppi organizzati con pagamento posticipato</li>
+            </ul>
+            
+            <p>Quando invece il cliente privato paga subito in contanti o con carta di credito (il cliente "normale" del ristorante), non si crea un credito e quindi non serve il partitario clienti: si registra semplicemente l'incasso immediato.</p>
+            
+            <h3>I documenti della contabilità delle vendite</h3>
+            <ul class="lista-elementi">
+                <li><strong>Fatture emesse</strong> ai clienti</li>
+                <li><strong>Documenti di incasso</strong>: bonifici ricevuti, assegni incassati, cambiali riscosse</li>
+            </ul>
+            
+            <p>In base a questi documenti vengono compilati:</p>
+            <ul class="lista-elementi">
+                <li><strong>Registro delle fatture di vendita</strong> (registro IVA vendite)</li>
+                <li><strong>Partitario dei clienti</strong></li>
+            </ul>
+            
+            <h3>Il partitario dei clienti</h3>
+            <p>Il <strong>partitario dei clienti</strong> è l'insieme dei conti accesi ai singoli clienti. A ciascun cliente viene intestato un conto dove si registrano:</p>
+            <ul class="lista-elementi">
+                <li><strong>In DARE</strong>: i crediti derivanti dalle vendite (fatture emesse)</li>
+                <li><strong>In AVERE</strong>: le diminuzioni dei crediti (incassi effettuati, resi di merce)</li>
+            </ul>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Schema del conto Cliente</th>
+                    </tr>
+                    <tr>
+                        <th class="dare-col">DARE</th>
+                        <th class="avere-col">AVERE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="dare-col">
+                            Crediti iniziali<br>
+                            Aumenti di crediti:<br>
+                            • Fatture di vendita<br>
+                            • Note di addebito<br>
+                            <br>
+                            <strong>Saldo finale (Credito verso cliente)</strong>
+                        </td>
+                        <td class="avere-col">
+                            Diminuzioni di crediti:<br>
+                            • Incassi con bonifico<br>
+                            • Incassi con assegni<br>
+                            • Riscossione cambiali/Ri.Ba.<br>
+                            • Resi di merce
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="card card-success">
+                <h4>Differenza fondamentale: Fornitori vs Clienti</h4>
+                <table style="font-size: 0.9em;">
+                    <tr>
+                        <th></th>
+                        <th>Partitario FORNITORI</th>
+                        <th>Partitario CLIENTI</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Rappresenta</strong></td>
+                        <td>I nostri DEBITI</td>
+                        <td>I nostri CREDITI</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fatture in</strong></td>
+                        <td>AVERE (aumentano il debito)</td>
+                        <td>DARE (aumentano il credito)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pagamenti/Incassi in</strong></td>
+                        <td>DARE (diminuiscono il debito)</td>
+                        <td>AVERE (diminuiscono il credito)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Saldo normale</strong></td>
+                        <td>AVERE (a nostro debito)</td>
+                        <td>DARE (a nostro credito)</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="esempio">
+                <h4>ESEMPIO: Partitario del cliente "TO Calabria Viaggi srl"</h4>
+                
+                <p><strong>Situazione:</strong> Il ristorante "Al porto" di Marco Rozzi a Bari ha come cliente il tour operator "Calabria Viaggi srl" di Catanzaro, che acquista pasti per i turisti dei suoi pacchetti in Puglia. Durante il terzo trimestre dell'anno avvengono le seguenti operazioni:</p>
+                
+                <ul class="lista-elementi">
+                    <li><strong>01/07:</strong> Credito residuo del trimestre precedente: 3.560 euro</li>
+                    <li><strong>08/07:</strong> Emessa fattura n. 14 per servizi di ristorazione di giugno: 3.750 euro + IVA 10% = 4.125 euro</li>
+                    <li><strong>15/07:</strong> Ricevuto bonifico del Banco BPM a saldo del credito del trimestre precedente (3.560 euro)</li>
+                    <li><strong>04/08:</strong> Emessa fattura n. 18 per servizi di ristorazione di luglio. Calcolo: n. 366 pasti × 15 euro/pasto = 5.490 euro + IVA 10% = 6.039 euro</li>
+                    <li><strong>20/08:</strong> Ricevuto assegno circolare a saldo fattura n. 14 (4.125 euro)</li>
+                    <li><strong>05/09:</strong> Emessa fattura n. 24 per servizi di ristorazione di agosto: 6.190 euro + IVA 10% = 6.809 euro</li>
+                    <li><strong>18/09:</strong> Ricevuto bonifico del Banco BPM di 3.294 euro in conto fattura n. 18</li>
+                </ul>
+                
+                <div class="documento">
+                    <div class="documento-header">
+                        <strong>Cliente: Calabria Viaggi srl</strong><br>
+                        Via dei Due Mari, 166 - 88100 CATANZARO<br>
+                        Conto n. 05.01.06 - Partita IVA: 00854110795
+                    </div>
+                    
+                    <table style="margin-top: 15px; font-size: 0.9em;">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrizione operazione</th>
+                                <th>Dare</th>
+                                <th>Avere</th>
+                                <th>Segno</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/07</td>
+                                <td>Ripresa saldo trimestre precedente</td>
+                                <td>3.560,00</td>
+                                <td>—</td>
+                                <td>D</td>
+                                <td>3.560,00</td>
+                            </tr>
+                            <tr>
+                                <td>08/07</td>
+                                <td>Fattura n. 14 del 08/07 (servizi giugno)</td>
+                                <td>4.125,00</td>
+                                <td>—</td>
+                                <td>D</td>
+                                <td>7.685,00</td>
+                            </tr>
+                            <tr>
+                                <td>15/07</td>
+                                <td>Bonifico Banco BPM a saldo credito trim. prec.</td>
+                                <td>—</td>
+                                <td>3.560,00</td>
+                                <td>D</td>
+                                <td>4.125,00</td>
+                            </tr>
+                            <tr>
+                                <td>04/08</td>
+                                <td>Fattura n. 18 del 04/08 (366 pasti luglio)</td>
+                                <td>6.039,00</td>
+                                <td>—</td>
+                                <td>D</td>
+                                <td>10.164,00</td>
+                            </tr>
+                            <tr>
+                                <td>20/08</td>
+                                <td>Ricevuto a/c a saldo fattura n. 14</td>
+                                <td>—</td>
+                                <td>4.125,00</td>
+                                <td>D</td>
+                                <td>6.039,00</td>
+                            </tr>
+                            <tr>
+                                <td>05/09</td>
+                                <td>Fattura n. 24 del 05/09 (servizi agosto)</td>
+                                <td>6.809,00</td>
+                                <td>—</td>
+                                <td>D</td>
+                                <td>12.848,00</td>
+                            </tr>
+                            <tr>
+                                <td>18/09</td>
+                                <td>Bonifico Banco BPM in conto fattura n. 18</td>
+                                <td>—</td>
+                                <td>3.294,00</td>
+                                <td>D</td>
+                                <td>9.554,00</td>
+                            </tr>
+                            <tr style="font-weight: bold; background: #e8f5e9;">
+                                <td colspan="2">Totale movimenti lug.-ago.-sett.</td>
+                                <td>20.533,00</td>
+                                <td>10.979,00</td>
+                                <td colspan="2"><strong>Saldo a nostro credito: € 9.554,00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card card-info" style="margin-top: 15px;">
+                    <h4>📊 Interpretazione del partitario cliente</h4>
+                    <p><strong>Situazione a fine trimestre:</strong></p>
+                    <ul class="lista-elementi">
+                        <li>Il ristorante vanta un credito di 9.554 euro verso il tour operator</li>
+                        <li>Questo credito è composto da: fattura n. 18 parzialmente pagata (6.039 - 3.294 = 2.745 euro) + fattura n. 24 interamente da incassare (6.809 euro)</li>
+                        <li>Il saldo è in <strong>Dare</strong> (segno D), come deve essere per un cliente: indica un nostro credito</li>
+                        <li>Il ristorante deve monitorare le scadenze di pagamento per sollecitare eventuali ritardi</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE PARTITARIO -->
+        <section id="partitario">
+            <h2>8. Approfondimento: il partitario fornitori e clienti</h2>
+            
+            <p>Abbiamo visto negli esempi precedenti i partitari di fornitori e clienti. Approfondiamo ora la loro struttura e il loro utilizzo nella gestione quotidiana di un ristorante o hotel.</p>
+            
+            <h3>Che cos'è il partitario?</h3>
+            <p>Il <strong>partitario</strong> (o mastro dei conti) è un insieme di schede, una per ogni fornitore o cliente, che permettono di tenere traccia di tutti i rapporti di debito e credito.</p>
+            
+            <div class="card">
+                <p><strong>Definizione:</strong> Il partitario fornitori è l'insieme dei conti accesi ai singoli fornitori. Il partitario clienti è l'insieme dei conti accesi ai singoli clienti.</p>
+            </div>
+            
+            <h3>Struttura di una scheda di partitario</h3>
+            <p>Ogni scheda contiene:</p>
+            <ul class="lista-elementi">
+                <li><strong>Intestazione:</strong> nome del fornitore/cliente, indirizzo, Partita IVA, codice conto</li>
+                <li><strong>Colonne operative:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Data dell'operazione</li>
+                        <li>Descrizione (tipo di documento, numero)</li>
+                        <li>Importo in Dare</li>
+                        <li>Importo in Avere</li>
+                        <li>Saldo progressivo</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Utilizzo pratico nel ristorante</h3>
+            
+            <h4>Partitario fornitori: controllo dei debiti</h4>
+            <p>Il ristoratore utilizza il partitario fornitori per:</p>
+            <ul class="lista-elementi">
+                <li>Sapere <strong>quanto deve</strong> a ciascun fornitore in ogni momento</li>
+                <li>Verificare le <strong>scadenze di pagamento</strong> per programmare i bonifici</li>
+                <li>Controllare che le fatture ricevute <strong>corrispondano</strong> alle merci effettivamente ricevute</li>
+                <li>Gestire eventuali <strong>contestazioni</strong> o resi di merce</li>
+            </ul>
+            
+            <p><strong>Esempio pratico:</strong> Il fornitore "Ittica Adriatica" telefona chiedendo il pagamento di una fattura. Il ristoratore apre la scheda del partitario di quel fornitore e verifica immediatamente: quale fattura non è stata pagata, da quanto tempo, quanto si deve esattamente.</p>
+            
+            <h4>Partitario clienti: controllo dei crediti</h4>
+            <p>Il ristoratore utilizza il partitario clienti per:</p>
+            <ul class="lista-elementi">
+                <li>Sapere <strong>quanto deve ricevere</strong> da ciascun cliente</li>
+                <li>Monitorare i clienti <strong>morosi</strong> (che pagano in ritardo)</li>
+                <li>Decidere se <strong>concedere ulteriore credito</strong> a un cliente o richiedere pagamento anticipato</li>
+                <li>Inviare <strong>solleciti di pagamento</strong> per fatture scadute</li>
+            </ul>
+            
+            <div class="card card-warning">
+                <h4>⚠️ Regola importante sul saldo del partitario</h4>
+                <p><strong>Partitario FORNITORI:</strong> il saldo NON può mai essere a favore dell'impresa (cioè in Dare). Il saldo normale è in Avere (nostro debito). Può essere zero se abbiamo pagato tutto.</p>
+                <p><strong>Partitario CLIENTI:</strong> il saldo è sempre a favore dell'impresa (in Dare, nostro credito). Può essere zero se il cliente ha pagato tutto.</p>
+                <p>Se il saldo è "al contrario" significa che c'è un errore di registrazione o una situazione anomala (ad esempio: abbiamo pagato un fornitore in anticipo, o un cliente ci ha pagato per una fornitura non ancora effettuata).</p>
+            </div>
+            
+            <h3>Riconciliazione con gli estratti conto</h3>
+            <p>Periodicamente, fornitori e clienti inviano estratti conto che riepilogano i movimenti del periodo. È importante <strong>riconciliare</strong> questi estratti con il proprio partitario per verificare che non ci siano discordanze.</p>
+            
+            <div class="errore-comune">
+                <h4>ERRORE COMUNE #4: Non controllare il partitario regolarmente</h4>
+                <p>Alcuni ristoratori trascurano il controllo del partitario e si trovano con:</p>
+                <ul class="lista-elementi">
+                    <li>Fornitori arrabbiati per mancati pagamenti di cui non erano a conoscenza</li>
+                    <li>Crediti verso clienti dimenticati e mai incassati</li>
+                    <li>Errori nelle fatture non rilevati per mesi</li>
+                </ul>
+                <p><strong>Soluzione:</strong> Dedicare almeno una volta a settimana del tempo al controllo del partitario, verificando scadenze e saldi.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE MAGAZZINO -->
+        <section id="magazzino">
+            <h2>9. Contabilità di magazzino: controllare le scorte</h2>
+            
+            <p>La <strong>contabilità di magazzino</strong> è fondamentale per un ristorante, un hotel o un'impresa di catering. Serve per controllare i movimenti in entrata (carichi) e in uscita (scarichi) delle merci e verificare, in ogni momento, la consistenza delle scorte.</p>
+            
+            <p><strong>Perché è così importante?</strong> Perché garantisce che:</p>
+            <ul class="lista-elementi">
+                <li>La cucina non resti <strong>senza ingredienti</strong> essenziali durante il servizio</li>
+                <li>Non ci siano <strong>sprechi</strong> per merce scaduta o deteriorata</li>
+                <li>Non ci siano <strong>furti</strong> o ammanchi di merce</li>
+                <li>Si possano calcolare correttamente i <strong>costi delle materie prime</strong> consumate</li>
+            </ul>
+            
+            <h3>Composizione della contabilità di magazzino</h3>
+            
+            <h4>1. Il giornale di magazzino (scrittura cronologica)</h4>
+            <p>Il <strong>giornale di magazzino</strong> registra tutti i movimenti in entrata e uscita <strong>in ordine cronologico</strong>, cioè nell'ordine di data in cui avvengono. È come il "diario" del magazzino.</p>
+            
+            <div class="card">
+                <p><strong>Esempio di giornale di magazzino:</strong></p>
+                <table style="font-size: 0.85em;">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Nominativo</th>
+                            <th>Causale</th>
+                            <th>Articolo</th>
+                            <th>Carico</th>
+                            <th>Prelievo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>05/10</td>
+                            <td>Ittica Mare srl</td>
+                            <td>Fattura n. 165</td>
+                            <td>Pesce fresco</td>
+                            <td>25 kg</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>05/10</td>
+                            <td>Chef Rossi</td>
+                            <td>Buono prelievo n. 44</td>
+                            <td>Vino rosso</td>
+                            <td>—</td>
+                            <td>12 bott.</td>
+                        </tr>
+                        <tr>
+                            <td>06/10</td>
+                            <td>Ortofrutta snc</td>
+                            <td>Fattura n. 287</td>
+                            <td>Verdure miste</td>
+                            <td>40 kg</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h4>2. Le schede di magazzino (scritture sistematiche)</h4>
+            <p>Le <strong>schede di magazzino</strong> sono un insieme di scritture sistematiche: c'è una scheda per ogni singolo articolo trattato. In ogni scheda si registrano, per quello specifico articolo:</p>
+            <ul class="lista-elementi">
+                <li><strong>Esistenza iniziale:</strong> quanto c'era all'inizio del periodo</li>
+                <li><strong>Carichi:</strong> quanto è entrato (acquisti, produzioni interne)</li>
+                <li><strong>Scarichi:</strong> quanto è uscito (prelievi per la cucina, vendite)</li>
+                <li><strong>Rimanenza finale:</strong> quanto resta a disposizione</li>
+            </ul>
+            
+            <h3>Rilevazioni a quantità fisiche o a valori</h3>
+            <p>Le registrazioni possono essere effettuate:</p>
+            <ul class="lista-elementi">
+                <li><strong>A quantità fisiche:</strong> si registra solo la quantità (es: 50 bottiglie, 20 kg, 100 pezzi)</li>
+                <li><strong>A quantità fisiche e valori:</strong> si registra sia la quantità che il valore economico (es: 50 bottiglie × 8 euro = 400 euro)</li>
+            </ul>
+            
+            <p>La valutazione degli articoli avviene di solito al <strong>costo di acquisto</strong>.</p>
+            
+            <h3>Concetti fondamentali: scorta di sicurezza e livello di riordino</h3>
+            
+            <div class="card card-info">
+                <h4>📦 Due concetti chiave per evitare problemi</h4>
+                
+                <p><strong>LIVELLO DI RIORDINO:</strong> È la quantità di scorte al verificarsi della quale l'ufficio acquisti deve inviare l'ordine al fornitore.</p>
+                <p><em>Esempio:</em> Per il vino bianco, il livello di riordino è fissato a 30 bottiglie. Quando nel magazzino rimangono 30 bottiglie, scatta l'ordine al fornitore.</p>
+                
+                <p style="margin-top: 15px;"><strong>SCORTA DI SICUREZZA:</strong> È la quantità minima al di sotto della quale non bisogna assolutamente scendere, tenendo conto del tempo di riapprovvigionamento (tempo che il fornitore impiega per consegnare).</p>
+                <p><em>Esempio:</em> Per il vino bianco, la scorta di sicurezza è 10 bottiglie. Anche se ordiniamo quando arriviamo a 30, dobbiamo avere margine per il tempo che il fornitore impiega a consegnare (magari 3-4 giorni). Se scendiamo sotto le 10 bottiglie, rischiamo di restare senza.</p>
+            </div>
+            
+            <div class="esempio">
+                <h4>ESEMPIO COMPLETO: Cantina di un ristorante</h4>
+                
+                <p><strong>Situazione:</strong> Adattiamo l'esempio del libro al contesto di un ristorante. Il ristorante "Stella del Mare" ha una cantina con vari tipi di vini e bevande. All'inizio del mese di ottobre, il magazzino presenta le seguenti giacenze:</p>
+                
+                <ul class="lista-elementi">
+                    <li>Vino rosso della casa: 180 bottiglie da 0,75 l</li>
+                    <li>Vino bianco Vermentino: 120 bottiglie da 0,75 l</li>
+                    <li>Acqua minerale naturale: 240 bottiglie da 1 l</li>
+                    <li>Birra chiara: 96 bottiglie da 0,33 l</li>
+                </ul>
+                
+                <p><strong>Movimenti del mese di ottobre:</strong></p>
+                
+                <div class="documento">
+                    <h4 style="text-align: center; margin-bottom: 15px;">GIORNALE DI MAGAZZINO - Ottobre 2024</h4>
+                    
+                    <table style="font-size: 0.85em;">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Nominativo/Causale</th>
+                                <th>Art.</th>
+                                <th>Carico</th>
+                                <th>Prelievo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/10</td>
+                                <td>Esistenze iniziali</td>
+                                <td>VR</td>
+                                <td>180</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>VB</td>
+                                <td>120</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>ACQ</td>
+                                <td>240</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>BIR</td>
+                                <td>96</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>05/10</td>
+                                <td>Servizio serale - Buono n. 12</td>
+                                <td>VR</td>
+                                <td>—</td>
+                                <td>18</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>VB</td>
+                                <td>—</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>ACQ</td>
+                                <td>—</td>
+                                <td>35</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>BIR</td>
+                                <td>—</td>
+                                <td>24</td>
+                            </tr>
+                            <tr>
+                                <td>10/10</td>
+                                <td>Cantine Liguri - Fatt. n. 334</td>
+                                <td>VR</td>
+                                <td>120</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>VB</td>
+                                <td>100</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>12/10</td>
+                                <td>Servizio pranzo - Buono n. 13</td>
+                                <td>VR</td>
+                                <td>—</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>ACQ</td>
+                                <td>—</td>
+                                <td>28</td>
+                            </tr>
+                            <tr>
+                                <td>15/10</td>
+                                <td>Bevande Italia - Fatt. n. 891</td>
+                                <td>ACQ</td>
+                                <td>200</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>BIR</td>
+                                <td>120</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>20/10</td>
+                                <td>Banchetto privato - Buono n. 14</td>
+                                <td>VR</td>
+                                <td>—</td>
+                                <td>45</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>VB</td>
+                                <td>—</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>ACQ</td>
+                                <td>—</td>
+                                <td>80</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>BIR</td>
+                                <td>—</td>
+                                <td>40</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p style="margin-top: 10px;"><small>Legenda: VR=Vino Rosso, VB=Vino Bianco, ACQ=Acqua, BIR=Birra</small></p>
+                </div>
+                
+                <p style="margin-top: 25px;"><strong>Ora compiliamo le schede di magazzino per ciascun articolo:</strong></p>
+                
+                <div class="documento" style="margin-top: 15px;">
+                    <h4 style="text-align: center;">SCHEDA DI MAGAZZINO - Vino Rosso</h4>
+                    
+                    <table style="font-size: 0.85em; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Causale</th>
+                                <th>Carico</th>
+                                <th>Prelievo</th>
+                                <th>Rimanenza</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/10</td>
+                                <td>Esistenza iniziale</td>
+                                <td>180</td>
+                                <td>—</td>
+                                <td>180</td>
+                            </tr>
+                            <tr>
+                                <td>05/10</td>
+                                <td>Buono prelievo n. 12</td>
+                                <td>—</td>
+                                <td>18</td>
+                                <td>162</td>
+                            </tr>
+                            <tr>
+                                <td>10/10</td>
+                                <td>Fatt. n. 334 Cantine Liguri</td>
+                                <td>120</td>
+                                <td>—</td>
+                                <td>282</td>
+                            </tr>
+                            <tr>
+                                <td>12/10</td>
+                                <td>Buono prelievo n. 13</td>
+                                <td>—</td>
+                                <td>15</td>
+                                <td>267</td>
+                            </tr>
+                            <tr>
+                                <td>20/10</td>
+                                <td>Buono prelievo n. 14</td>
+                                <td>—</td>
+                                <td>45</td>
+                                <td>222</td>
+                            </tr>
+                            <tr style="font-weight: bold; background: #e8f5e9;">
+                                <td colspan="2">TOTALI</td>
+                                <td>300</td>
+                                <td>78</td>
+                                <td>222</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="documento" style="margin-top: 15px;">
+                    <h4 style="text-align: center;">SCHEDA DI MAGAZZINO - Vino Bianco Vermentino</h4>
+                    
+                    <table style="font-size: 0.85em; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Causale</th>
+                                <th>Carico</th>
+                                <th>Prelievo</th>
+                                <th>Rimanenza</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/10</td>
+                                <td>Esistenza iniziale</td>
+                                <td>120</td>
+                                <td>—</td>
+                                <td>120</td>
+                            </tr>
+                            <tr>
+                                <td>05/10</td>
+                                <td>Buono prelievo n. 12</td>
+                                <td>—</td>
+                                <td>12</td>
+                                <td>108</td>
+                            </tr>
+                            <tr>
+                                <td>10/10</td>
+                                <td>Fatt. n. 334 Cantine Liguri</td>
+                                <td>100</td>
+                                <td>—</td>
+                                <td>208</td>
+                            </tr>
+                            <tr>
+                                <td>20/10</td>
+                                <td>Buono prelievo n. 14</td>
+                                <td>—</td>
+                                <td>30</td>
+                                <td>178</td>
+                            </tr>
+                            <tr style="font-weight: bold; background: #e8f5e9;">
+                                <td colspan="2">TOTALI</td>
+                                <td>220</td>
+                                <td>42</td>
+                                <td>178</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card card-success" style="margin-top: 20px;">
+                    <h4>💡 Analisi delle schede di magazzino</h4>
+                    <p><strong>Vino Rosso:</strong></p>
+                    <ul class="lista-elementi">
+                        <li>Esistenza iniziale: 180 bottiglie</li>
+                        <li>Totale caricato nel mese: 120 bottiglie</li>
+                        <li>Totale prelevato nel mese: 78 bottiglie</li>
+                        <li>Rimanenza finale: 222 bottiglie</li>
+                    </ul>
+                    <p><strong>Verifica matematica:</strong> 180 + 120 - 78 = 222 ✓</p>
+                    
+                    <p style="margin-top: 15px;"><strong>Vino Bianco:</strong></p>
+                    <ul class="lista-elementi">
+                        <li>Esistenza iniziale: 120 bottiglie</li>
+                        <li>Totale caricato: 100 bottiglie</li>
+                        <li>Totale prelevato: 42 bottiglie</li>
+                        <li>Rimanenza finale: 178 bottiglie</li>
+                    </ul>
+                    <p><strong>Verifica:</strong> 120 + 100 - 42 = 178 ✓</p>
+                </div>
+            </div>
+            
+            <h3>Differenza tra giornale e schede di magazzino</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Giornale di magazzino</th>
+                        <th>Schede di magazzino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tipo</strong></td>
+                        <td>Scrittura <strong>cronologica</strong></td>
+                        <td>Scrittura <strong>sistematica</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Organizzazione</strong></td>
+                        <td>Per <strong>data</strong></td>
+                        <td>Per <strong>articolo</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cosa contiene</strong></td>
+                        <td>Tutti i movimenti di tutti gli articoli, giorno per giorno</td>
+                        <td>Tutti i movimenti di un singolo articolo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Utilità</strong></td>
+                        <td>Vedere cosa è successo in una certa data</td>
+                        <td>Conoscere la situazione di uno specifico articolo</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="errore-comune">
+                <h4>ERRORE COMUNE #5: Magazzino non aggiornato</h4>
+                <p>Molti ristoranti trascurano l'aggiornamento del magazzino e si trovano con:</p>
+                <ul class="lista-elementi">
+                    <li>Scorte esaurite nel momento del bisogno</li>
+                    <li>Merce scaduta dimenticata in magazzino</li>
+                    <li>Difficoltà a calcolare il costo effettivo delle materie prime</li>
+                    <li>Impossibilità di individuare furti o ammanchi</li>
+                </ul>
+                <p><strong>Soluzione:</strong> Aggiornare le schede di magazzino ogni volta che si riceve merce o si fa un prelievo. Fare un inventario fisico (conteggio reale) almeno una volta al mese per verificare che le giacenze contabili corrispondano a quelle reali.</p>
+            </div>
+        </section>
+
+        <!-- SEZIONE ESERCIZI -->
+        <section id="esercizi">
+            <h2>10. Esercizi e minitest: mettiti alla prova!</h2>
+            
+            <p>Ora che hai studiato tutti gli argomenti, è il momento di verificare quanto hai imparato. Prova a rispondere ai minitest e a svolgere gli esercizi pratici.</p>
+            
+            <!-- MINITEST 1 -->
+            <div class="minitest">
+                <h4>MINITEST 1: Il conto e la terminologia contabile</h4>
+                
+                <div class="question">
+                    <p><strong>Domanda:</strong> Quando si dice che un conto viene "addebitato", significa che:</p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, false)">A) Si registra un valore nella sezione Avere</div>
+                        <div class="option" onclick="selectOption(this, true)">B) Si registra un valore nella sezione Dare</div>
+                        <div class="option" onclick="selectOption(this, false)">C) Si calcola il saldo del conto</div>
+                        <div class="option" onclick="selectOption(this, false)">D) Si chiude il conto</div>
+                    </div>
+                    <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                    <div class="solution">
+                        <strong>Risposta corretta: B</strong><br>
+                        <strong>Spiegazione:</strong> Addebitare un conto significa rilevare un importo nella sezione di sinistra, chiamata DARE. Al contrario, accreditare significa registrare in AVERE (sezione di destra).
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MINITEST 2 -->
+            <div class="minitest">
+                <h4>MINITEST 2: Le scritture elementari</h4>
+                
+                <div class="question">
+                    <p><strong>Domanda:</strong> Il buono di prelievo dal magazzino serve principalmente per:</p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, false)">A) Ordinare merce ai fornitori</div>
+                        <div class="option" onclick="selectOption(this, true)">B) Documentare lo scarico di merce dal magazzino e aggiornare le giacenze</div>
+                        <div class="option" onclick="selectOption(this, false)">C) Calcolare il prezzo di vendita dei piatti</div>
+                        <div class="option" onclick="selectOption(this, false)">D) Registrare i pagamenti ai fornitori</div>
+                    </div>
+                    <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                    <div class="solution">
+                        <strong>Risposta corretta: B</strong><br>
+                        <strong>Spiegazione:</strong> Il buono di prelievo è una scrittura elementare che documenta il prelievo di merci dal magazzino (ad esempio, lo chef preleva vini dalla cantina). Serve per aggiornare le schede di magazzino, diminuendo le giacenze.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MINITEST 3 -->
+            <div class="minitest">
+                <h4>MINITEST 3: Scritture sezionali</h4>
+                
+                <div class="question">
+                    <p><strong>Domanda:</strong> Quale delle seguenti NON è una contabilità sezionale?</p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, false)">A) Contabilità di cassa</div>
+                        <div class="option" onclick="selectOption(this, false)">B) Contabilità degli acquisti</div>
+                        <div class="option" onclick="selectOption(this, true)">C) Bilancio d'esercizio</div>
+                        <div class="option" onclick="selectOption(this, false)">D) Contabilità di magazzino</div>
+                    </div>
+                    <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                    <div class="solution">
+                        <strong>Risposta corretta: C</strong><br>
+                        <strong>Spiegazione:</strong> Il bilancio d'esercizio non è una contabilità sezionale, ma è il documento finale che sintetizza il patrimonio e il risultato economico dell'impresa. Le contabilità sezionali (cassa, banche, acquisti, vendite, magazzino, personale, IVA) sono invece registrazioni di settori specifici della gestione.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MINITEST 4 -->
+            <div class="minitest">
+                <h4>MINITEST 4: Contabilità con le banche</h4>
+                
+                <div class="question">
+                    <p><strong>Domanda:</strong> Nel conto Banca, un bonifico inviato a un fornitore viene registrato:</p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, false)">A) In Dare, perché è un aumento di liquidità</div>
+                        <div class="option" onclick="selectOption(this, true)">B) In Avere, perché è una diminuzione di liquidità</div>
+                        <div class="option" onclick="selectOption(this, false)">C) Solo nel partitario fornitori</div>
+                        <div class="option" onclick="selectOption(this, false)">D) Non viene registrato nel conto Banca</div>
+                    </div>
+                    <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                    <div class="solution">
+                        <strong>Risposta corretta: B</strong><br>
+                        <strong>Spiegazione:</strong> Nel conto Banca, il Dare registra gli aumenti di liquidità (versamenti, bonifici ricevuti) mentre l'Avere registra le diminuzioni (prelievi, bonifici inviati, pagamenti). Un bonifico a un fornitore fa uscire denaro dal conto corrente, quindi va in Avere.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MINITEST 5 -->
+            <div class="minitest">
+                <h4>MINITEST 5: Partitario fornitori e clienti</h4>
+                
+                <div class="question">
+                    <p><strong>Domanda:</strong> Nel partitario fornitori, il saldo è normalmente:</p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, false)">A) In Dare (a nostro credito)</div>
+                        <div class="option" onclick="selectOption(this, true)">B) In Avere (a nostro debito)</div>
+                        <div class="option" onclick="selectOption(this, false)">C) Sempre zero</div>
+                        <div class="option" onclick="selectOption(this, false)">D) Dipende dal tipo di fornitore</div>
+                    </div>
+                    <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                    <div class="solution">
+                        <strong>Risposta corretta: B</strong><br>
+                        <strong>Spiegazione:</strong> Il partitario fornitori registra i nostri DEBITI verso i fornitori. Le fatture di acquisto aumentano il debito (Avere), i pagamenti lo diminuiscono (Dare). Il saldo normale è quindi in Avere, indicando quanto dobbiamo ancora pagare. Il saldo NON può mai essere a nostro favore (Dare), salvo casi eccezionali di pagamenti anticipati.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MINITEST 6 -->
+            <div class="minitest">
+                <h4>MINITEST 6: Contabilità di magazzino</h4>
+                
+                <div class="question">
+                    <p><strong>Domanda:</strong> La "scorta di sicurezza" è:</p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, false)">A) La quantità massima che può contenere il magazzino</div>
+                        <div class="option" onclick="selectOption(this, false)">B) La quantità da ordinare ogni volta al fornitore</div>
+                        <div class="option" onclick="selectOption(this, true)">C) La quantità minima al di sotto della quale non si deve scendere per evitare interruzioni dell'attività</div>
+                        <div class="option" onclick="selectOption(this, false)">D) La quantità che viene prelevata ogni giorno dalla cucina</div>
+                    </div>
+                    <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                    <div class="solution">
+                        <strong>Risposta corretta: C</strong><br>
+                        <strong>Spiegazione:</strong> La scorta di sicurezza è la quantità minima che deve sempre rimanere in magazzino per evitare che l'attività si fermi per mancanza di materie prime. Tiene conto del tempo necessario per il riapprovvigionamento da parte del fornitore.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ESERCIZIO PRATICO 1 -->
+            <div class="esercizio">
+                <h4>ESERCIZIO PRATICO 1: Calcolo del saldo e chiusura di un conto</h4>
+                
+                <p><strong>Traccia:</strong> Ricostruisci il conto "Materie prime per cantina c/acquisti" registrando i seguenti costi sostenuti dal ristorante per acquisti di vini e bevande:</p>
+                <ul class="lista-elementi">
+                    <li>2.160,00 euro</li>
+                    <li>3.640,00 euro</li>
+                    <li>4.220,00 euro</li>
+                    <li>1.860,00 euro</li>
+                    <li>6.170,00 euro</li>
+                </ul>
+                
+                <p><strong>Richieste:</strong></p>
+                <ol class="lista-elementi">
+                    <li>Disegna il conto con le due sezioni Dare e Avere</li>
+                    <li>Registra tutti i valori nella sezione corretta (i costi vanno in Dare)</li>
+                    <li>Calcola il saldo totale</li>
+                    <li>Chiudi il conto inserendo il saldo nella sezione dove il totale è minore</li>
+                    <li>Spiega perché il saldo va in quella sezione</li>
+                </ol>
+                
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                <div class="solution">
+                    <strong>SOLUZIONE:</strong>
+                    
+                    <table style="margin: 15px 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Materie prime per cantina c/acquisti</th>
+                            </tr>
+                            <tr>
+                                <th style="background: #fff8e1;">DARE</th>
+                                <th style="background: #e8f5e9;">AVERE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="background: #fff8e1;">
+                                    2.160,00<br>
+                                    3.640,00<br>
+                                    4.220,00<br>
+                                    1.860,00<br>
+                                    6.170,00
+                                </td>
+                                <td style="background: #e8f5e9; vertical-align: bottom;">
+                                    <strong>Saldo: 18.050,00</strong>
+                                </td>
+                            </tr>
+                            <tr style="font-weight: bold;">
+                                <td style="background: #4caf50; color: white;">18.050,00</td>
+                                <td style="background: #4caf50; color: white;">18.050,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p><strong>Calcolo del saldo:</strong><br>
+                    Somma della sezione Dare: 2.160 + 3.640 + 4.220 + 1.860 + 6.170 = 18.050 euro<br>
+                    Somma della sezione Avere: 0 euro (non ci sono registrazioni)<br>
+                    Saldo = 18.050 - 0 = 18.050 euro</p>
+                    
+                    <p><strong>Spiegazione:</strong> Il saldo va nella sezione <strong>Avere</strong> perché è la sezione dove il totale risulta minore (0 euro). Inserendo il saldo in Avere, le due sezioni raggiungono lo stesso totale (18.050) e il conto può essere chiuso. Questo non significa che le operazioni sono uguali, ma che il conto è bilanciato e il saldo (18.050 euro) rappresenta il costo totale sostenuto per acquisti di cantina.</p>
+                </div>
+            </div>
+            
+            <!-- ESERCIZIO PRATICO 2 -->
+            <div class="esercizio">
+                <h4>ESERCIZIO PRATICO 2: Partitario fornitore</h4>
+                
+                <p><strong>Traccia:</strong> Compila il partitario del fornitore "Allevamenti Maremmani spa" con le seguenti operazioni:</p>
+                
+                <ul class="lista-elementi">
+                    <li><strong>01/09:</strong> Saldo iniziale a debito: 8.500 euro</li>
+                    <li><strong>10/09:</strong> Ricevuta fattura n. 125 per acquisto carne suina: 3.200 euro + IVA 10% = 3.520 euro</li>
+                    <li><strong>18/09:</strong> Pagato con bonifico bancario il saldo iniziale (8.500 euro)</li>
+                    <li><strong>25/09:</strong> Ricevuta fattura n. 138 per acquisto carne bovina: 4.800 euro + IVA 10% = 5.280 euro</li>
+                    <li><strong>30/09:</strong> Pagato con bonifico la metà della fattura n. 125 (3.520 / 2 = 1.760 euro)</li>
+                </ul>
+                
+                <p><strong>Richieste:</strong></p>
+                <ol class="lista-elementi">
+                    <li>Compila la scheda di partitario con colonne: Data, Descrizione, Dare, Avere, Segno, Saldo</li>
+                    <li>Calcola il saldo progressivo dopo ogni operazione</li>
+                    <li>Calcola il saldo finale a fine mese</li>
+                    <li>Indica se il saldo è a nostro debito o credito</li>
+                </ol>
+                
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                <div class="solution">
+                    <strong>SOLUZIONE:</strong>
+                    
+                    <table style="margin: 15px 0; font-size: 0.9em; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th colspan="6" style="background: #667eea; color: white;">Allevamenti Maremmani spa - Grosseto</th>
+                            </tr>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrizione</th>
+                                <th>Dare</th>
+                                <th>Avere</th>
+                                <th>Segno</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/09</td>
+                                <td>Saldo iniziale</td>
+                                <td>—</td>
+                                <td>8.500,00</td>
+                                <td>A</td>
+                                <td>8.500,00</td>
+                            </tr>
+                            <tr>
+                                <td>10/09</td>
+                                <td>Fattura n. 125</td>
+                                <td>—</td>
+                                <td>3.520,00</td>
+                                <td>A</td>
+                                <td>12.020,00</td>
+                            </tr>
+                            <tr>
+                                <td>18/09</td>
+                                <td>Bonifico a saldo iniziale</td>
+                                <td>8.500,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>3.520,00</td>
+                            </tr>
+                            <tr>
+                                <td>25/09</td>
+                                <td>Fattura n. 138</td>
+                                <td>—</td>
+                                <td>5.280,00</td>
+                                <td>A</td>
+                                <td>8.800,00</td>
+                            </tr>
+                            <tr>
+                                <td>30/09</td>
+                                <td>Bonifico in conto fatt. 125</td>
+                                <td>1.760,00</td>
+                                <td>—</td>
+                                <td>A</td>
+                                <td>7.040,00</td>
+                            </tr>
+                            <tr style="font-weight: bold; background: #ffebee;">
+                                <td colspan="2">TOTALI</td>
+                                <td>10.260,00</td>
+                                <td>17.300,00</td>
+                                <td colspan="2">Saldo a nostro DEBITO: 7.040,00 €</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p><strong>Spiegazione:</strong> Il saldo finale è 7.040 euro in Avere (segno A), che indica un nostro debito verso il fornitore. Questo debito è composto da: fattura n. 125 parzialmente pagata (1.760 euro ancora da pagare) + fattura n. 138 non ancora pagata (5.280 euro) = 7.040 euro totali da pagare.</p>
+                </div>
+            </div>
+            
+            <!-- ESERCIZIO SITUAZIONALE -->
+            <div class="esercizio">
+                <h4>ESERCIZIO SITUAZIONALE: Dal servizio di sala alla contabilità</h4>
+                
+                <p><strong>Situazione:</strong> Sei responsabile di sala del ristorante "Marechiaro" a Napoli. Durante il servizio serale del sabato ricevi tre comande:</p>
+                
+                <div class="card" style="background: #f0f8ff; margin: 15px 0;">
+                    <p><strong>COMANDA 1 - Tavolo 5 (2 persone):</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li>2 antipasti napoletani</li>
+                        <li>2 spaghetti alle vongole</li>
+                        <li>1 orata al forno</li>
+                        <li>1 frittura mista</li>
+                        <li>1 bottiglia di vino bianco Falanghina</li>
+                        <li>1 bottiglia di acqua minerale</li>
+                    </ul>
+                </div>
+                
+                <div class="card" style="background: #f0f8ff; margin: 15px 0;">
+                    <p><strong>COMANDA 2 - Tavolo 12 (4 persone):</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li>4 insalate di mare</li>
+                        <li>4 paccheri ai frutti di mare</li>
+                        <li>2 branzini al sale</li>
+                        <li>2 grigliate miste di pesce</li>
+                        <li>2 bottiglie di vino bianco Greco di Tufo</li>
+                        <li>2 bottiglie di acqua minerale</li>
+                    </ul>
+                </div>
+                
+                <div class="card" style="background: #f0f8ff; margin: 15px 0;">
+                    <p><strong>COMANDA 3 - Tavolo 8 (6 persone, gruppo aziendale con fattura):</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li>6 antipasti misti</li>
+                        <li>6 risotti alla pescatora</li>
+                        <li>3 orate alla griglia</li>
+                        <li>3 fritture di paranza</li>
+                        <li>3 bottiglie di vino bianco</li>
+                        <li>3 bottiglie di acqua minerale</li>
+                        <li>Cliente richiede fattura a nome "Tech Solutions srl"</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Domande:</strong></p>
+                <ol class="lista-elementi">
+                    <li>Quali scritture contabili nascono da queste tre comande?</li>
+                    <li>Per quali tavoli si crea un credito da registrare nel partitario clienti?</li>
+                    <li>In che modo queste comande influenzano il magazzino?</li>
+                    <li>Dove confluiscono i ricavi di queste vendite?</li>
+                </ol>
+                
+                <button class="show-solution-btn" onclick="toggleSolution(this)">Mostra soluzione</button>
+                <div class="solution">
+                    <strong>SOLUZIONE:</strong>
+                    
+                    <p><strong>1. Scritture contabili che nascono:</strong></p>
+                    <ul class="lista-elementi">
+                        <li><strong>Scritture elementari:</strong> Le tre comande sono documenti elementari che certificano le ordinazioni dei clienti</li>
+                        <li><strong>Scritture sezionali - Cassa:</strong> Per i tavoli 5 e 12, che presumibilmente pagheranno in contanti o carta al termine del pasto, si registra l'incasso immediato nella contabilità di cassa</li>
+                        <li><strong>Scritture sezionali - Vendite:</strong> Per il tavolo 8, si emette fattura a "Tech Solutions srl" che viene registrata nel registro fatture di vendita</li>
+                        <li><strong>Scritture sezionali - Partitario clienti:</strong> Si apre (o si aggiorna) il conto di "Tech Solutions srl" nel partitario clienti, registrando il credito in Dare</li>
+                        <li><strong>Scritture complesse:</strong> Tutte le operazioni confluiscono nel libro giornale (cronologica) e nei conti di mastro (sistematica), in particolare nel conto "Ricavi ristorazione"</li>
+                    </ul>
+                    
+                    <p><strong>2. Credito nel partitario clienti:</strong></p>
+                    <p>Solo il <strong>tavolo 8</strong> genera un credito da registrare nel partitario clienti, perché richiede fattura con pagamento differito. I tavoli 5 e 12 pagano immediatamente, quindi non si crea un rapporto di credito/debito da monitorare.</p>
+                    
+                    <p><strong>3. Influenza sul magazzino:</strong></p>
+                    <p>Le comande generano <strong>prelievi dal magazzino</strong>:</p>
+                    <ul class="lista-elementi">
+                        <li>Dalla cantina: vengono prelevate 6 bottiglie di vino bianco e 6 bottiglie di acqua</li>
+                        <li>Dal magazzino derrate: viene scaricato pesce fresco per preparare i piatti</li>
+                        <li>Questi prelievi devono essere documentati con buoni di prelievo e registrati nelle schede di magazzino, aggiornando le giacenze</li>
+                    </ul>
+                    
+                    <p><strong>4. Destinazione dei ricavi:</strong></p>
+                    <p>I ricavi delle tre comande confluiscono in:</p>
+                    <ul class="lista-elementi">
+                        <li><strong>Registro delle fatture di vendita</strong> (per il tavolo 8 con fattura)</li>
+                        <li><strong>Registro dei corrispettivi giornalieri</strong> (per i tavoli 5 e 12 con pagamento immediato)</li>
+                        <li><strong>Conto "Ricavi servizio ristorazione"</strong> nel mastro</li>
+                        <li><strong>Bilancio d'esercizio</strong> a fine anno, dove contribuiscono a formare l'utile dell'impresa</li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px;"><strong>Conclusione:</strong> Anche un semplice servizio serale genera una catena di scritture contabili che partono dalle comande elementari e arrivano fino al bilancio finale, passando attraverso le contabilità sezionali (cassa, vendite, magazzino) e le scritture complesse (libro giornale e mastro).</p>
+                </div>
+            </div>
+            
+            <!-- BOX FINALE -->
+            <div class="card card-success" style="margin-top: 30px; padding: 30px;">
+                <h3 style="color: #2ecc71; text-align: center;">🎓 Complimenti!</h3>
+                <p style="text-align: center; font-size: 1.1em;">Hai completato la lezione sulle scritture dell'impresa turistico-ristorativa.</p>
+                <p style="text-align: center; margin-top: 15px;">Ora sei in grado di:</p>
+                <ul class="lista-elementi">
+                    <li>✅ Comprendere la struttura e il funzionamento dei conti (Dare/Avere)</li>
+                    <li>✅ Riconoscere e utilizzare le scritture elementari (comande, buoni di prelievo)</li>
+                    <li>✅ Gestire le contabilità sezionali (cassa, banche, acquisti, vendite, magazzino)</li>
+                    <li>✅ Compilare il partitario fornitori e clienti</li>
+                    <li>✅ Tenere la contabilità di magazzino e controllare le scorte</li>
+                    <li>✅ Collegare tutte le scritture al bilancio d'esercizio</li>
+                </ul>
+                <p style="text-align: center; margin-top: 20px; font-size: 1.1em; color: #667eea;">
+                    <strong>Continua a esercitarti e buono studio!</strong>
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Smooth scroll per i link di navigazione
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Funzione per selezionare un'opzione nei minitest
+        function selectOption(element, isCorrect) {
+            // Rimuovi eventuali selezioni precedenti
+            const options = element.parentElement.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.classList.remove('correct');
+                opt.style.background = '#f5f5f5';
+            });
+            
+            // Evidenzia la risposta selezionata
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.style.background = '#ffcdd2';
+                // Trova e mostra la risposta corretta
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        setTimeout(() => {
+                            opt.classList.add('correct');
+                        }, 500);
+                    }
+                });
+            }
+        }
+
+        // Funzione per mostrare/nascondere le soluzioni
+        function toggleSolution(button) {
+            const solution = button.nextElementSibling;
+            if (solution.style.display === 'none' || solution.style.display === '') {
+                solution.style.display = 'block';
+                button.textContent = 'Nascondi soluzione';
+                button.style.background = '#f44336';
+            } else {
+                solution.style.display = 'none';
+                button.textContent = 'Mostra soluzione';
+                button.style.background = '#2196f3';
+            }
+        }
+
+        // Evidenzia la sezione attiva durante lo scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.fontWeight = 'normal';
+                if (link.getAttribute('href') === '#' + current) {
+                    link.style.fontWeight = 'bold';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
