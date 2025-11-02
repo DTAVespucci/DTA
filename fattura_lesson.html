@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Fattura - Guida Completa | IPSSEOA Vespucci</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            border-bottom: 4px solid #ff6b00;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #0066ff, #00d4ff);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 2.2rem;
+            box-shadow: 0 8px 32px rgba(0, 102, 255, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .header-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .header-text p {
+            color: #b0b8c8;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .class-badges {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #0066ff, #00d4ff);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 150px auto 2rem;
+            padding: 0 2.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1.8rem;
+            border-radius: 22px;
+            border: 3px solid rgba(0, 102, 255, 0.4);
+        }
+
+        .tab {
+            padding: 1.2rem 2rem;
+            background: rgba(26, 31, 58, 0.9);
+            border: 3px solid rgba(0, 102, 255, 0.5);
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            transition: all 0.4s;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .tab:hover {
+            background: rgba(0, 102, 255, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0, 102, 255, 0.6);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #0066ff, #00d4ff);
+            transform: scale(1.08);
+            box-shadow: 0 12px 45px rgba(0, 212, 255, 0.9);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.7s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-card {
+            background: rgba(26, 31, 58, 0.8);
+            padding: 3rem;
+            border-radius: 22px;
+            margin-bottom: 2.5rem;
+            border: 3px solid rgba(0, 102, 255, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .content-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            padding-left: 1.8rem;
+            border-left: 8px solid #ff6b00;
+            background: linear-gradient(to right, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .content-card h3 {
+            font-size: 1.9rem;
+            margin: 2.5rem 0 1.5rem;
+            color: #00d4ff;
+            font-weight: 900;
+        }
+
+        .content-card h4 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1.2rem;
+            color: #ff9500;
+            font-weight: 800;
+        }
+
+        .content-card p,
+        .content-card li {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.9;
+            color: #e8eaed;
+        }
+
+        .content-card ul, .content-card ol {
+            padding-left: 2.5rem;
+        }
+
+        .content-card li {
+            margin-bottom: 1rem;
+        }
+
+        .content-card strong {
+            color: #00d4ff;
+            font-weight: 900;
+        }
+
+        .box {
+            padding: 2.5rem;
+            border-radius: 18px;
+            margin: 2.5rem 0;
+            border-left: 8px solid;
+            border: 3px solid;
+            transition: all 0.3s;
+        }
+
+        .box:hover {
+            transform: translateX(10px);
+        }
+
+        .box-definizione {
+            background: rgba(0, 102, 255, 0.25);
+            border-color: #0066ff;
+        }
+
+        .box-esempio {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+        }
+
+        .box-attenzione {
+            background: rgba(255, 149, 0, 0.25);
+            border-color: #ff9500;
+        }
+
+        .box-importante {
+            background: rgba(255, 0, 68, 0.25);
+            border-color: #ff0044;
+        }
+
+        .box-title {
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.5), rgba(0, 212, 255, 0.5));
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            font-weight: 900;
+        }
+
+        .interactive-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .diagram-card {
+            background: rgba(26, 31, 58, 0.9);
+            padding: 2.5rem;
+            border-radius: 18px;
+            text-align: center;
+            transition: all 0.4s;
+            border: 4px solid rgba(0, 102, 255, 0.4);
+            cursor: pointer;
+        }
+
+        .diagram-card:hover {
+            background: rgba(0, 102, 255, 0.35);
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 18px 45px rgba(0, 102, 255, 0.7);
+        }
+
+        .diagram-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .diagram-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #00d4ff;
+            font-weight: 900;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            padding: 2.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 18px;
+            border: 3px solid rgba(0, 102, 255, 0.4);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: rgba(26, 31, 58, 0.9);
+            border-radius: 12px;
+            border: 3px solid rgba(0, 102, 255, 0.4);
+            transition: all 0.3s;
+        }
+
+        .flow-step:hover {
+            background: rgba(0, 102, 255, 0.3);
+            transform: translateX(15px);
+        }
+
+        .flow-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0066ff, #00d4ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .flow-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+            color: #00d4ff;
+        }
+
+        .flow-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5rem 0;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 18px;
+            overflow: hidden;
+            border: 3px solid rgba(0, 102, 255, 0.4);
+        }
+
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 2px solid rgba(0, 102, 255, 0.3);
+            font-size: 1.1rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, #0066ff, #00d4ff);
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        tr:hover {
+            background: rgba(0, 102, 255, 0.2);
+        }
+
+        .esempio-fattura {
+            background: rgba(0, 255, 136, 0.15);
+            padding: 2.5rem;
+            border-radius: 18px;
+            margin: 2.5rem 0;
+            border: 3px solid rgba(0, 255, 136, 0.4);
+        }
+
+        .fattura-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        .parte-descrittiva, .parte-tabellare {
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .parte-descrittiva {
+            background: rgba(0, 102, 255, 0.2);
+            border: 3px solid #0066ff;
+        }
+
+        .parte-tabellare {
+            background: rgba(0, 212, 255, 0.2);
+            border: 3px solid #00d4ff;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            margin: 2rem 0;
+            border: 3px solid rgba(0, 102, 255, 0.5);
+            font-size: 1.2rem;
+            color: #00ff88;
+            line-height: 1.8;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .comparison-card {
+            background: rgba(26, 31, 58, 0.9);
+            padding: 2rem;
+            border-radius: 18px;
+            border: 3px solid rgba(0, 102, 255, 0.4);
+        }
+
+        .comparison-card h4 {
+            color: #00d4ff;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .esercizio {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 18px;
+            margin: 2.5rem 0;
+            border: 4px solid rgba(0, 212, 255, 0.5);
+        }
+
+        .esercizio h4 {
+            color: #00d4ff;
+            font-size: 1.6rem;
+            margin-bottom: 1.8rem;
+            font-weight: 900;
+        }
+
+        .esercizio-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid rgba(0, 102, 255, 0.5);
+            color: #ffffff;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .esercizio-input:focus {
+            outline: none;
+            border-color: #0066ff;
+            box-shadow: 0 0 25px rgba(0, 102, 255, 0.9);
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #000000;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-top: 1.2rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.7);
+        }
+
+        .result {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            font-weight: 900;
+            font-size: 1.2rem;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result.correct {
+            background: rgba(0, 255, 136, 0.35);
+            color: #00ff88;
+            border: 4px solid #00ff88;
+        }
+
+        .result.incorrect {
+            background: rgba(255, 0, 68, 0.35);
+            color: #ff0044;
+            border: 4px solid #ff0044;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 3rem;
+            text-align: center;
+            margin-top: 5rem;
+            border-top: 4px solid #ff6b00;
+        }
+
+        .back-to-top {
+            background: linear-gradient(135deg, #ff6b00, #ff9500);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .header-text h1 { font-size: 1.6rem; }
+            .tabs { flex-direction: column; padding: 1rem; }
+            .tab { width: 100%; padding: 1rem; }
+            .content-card { padding: 1.5rem; }
+            .fattura-header { grid-template-columns: 1fr; }
+            .logo { width: 60px; height: 60px; font-size: 1.5rem; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">2</div>
+                <div class="header-text">
+                    <h1>Lezione 2 - La Fattura</h1>
+                    <p>Guida Completa e Approfondita</p>
+                </div>
+            </div>
+            <div class="class-badges">
+                <div class="badge">3A_AS</div>
+                <div class="badge">3A_EN</div>
+                <div class="badge">3C_EN</div>
+                <div class="badge">3H</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('caratteristiche')">① Caratteristiche</button>
+            <button class="tab" onclick="showTab('elettronica')">② Fattura Elettronica</button>
+            <button class="tab" onclick="showTab('sdi')">③ Sistema SdI</button>
+            <button class="tab" onclick="showTab('contenuto')">④ Contenuto Dettagliato</button>
+            <button class="tab" onclick="showTab('formati')">⑤ Formati PA/B2B/B2C</button>
+            <button class="tab" onclick="showTab('semplificata')">⑥ Fattura Semplificata</button>
+            <button class="tab" onclick="showTab('esercizi')">📝 Esercizi</button>
+        </div>
+
+        <!-- TAB 1: CARATTERISTICHE -->
+        <div id="caratteristiche" class="tab-content active">
+            <div class="content-card">
+                <h2>① Le caratteristiche della fattura</h2>
+                
+                <div class="box box-definizione">
+                    <div class="box-title">📋 COS'È LA FATTURA</div>
+                    <p>La <strong>fattura</strong> è il documento emesso dal venditore in seguito alla stipulazione di un contratto di vendita.</p>
+                    <p>È un documento <span class="highlight">obbligatorio ai fini IVA</span> (Imposta sul Valore Aggiunto) che ha funzioni diverse per venditore e compratore:</p>
+                    <ul>
+                        <li><strong>Per il venditore:</strong> prova l'esecuzione del contratto e il diritto a riscuotere il prezzo</li>
+                        <li><strong>Per il compratore:</strong> riepiloga gli obblighi di pagamento secondo tempi e modalità stabiliti</li>
+                    </ul>
+                </div>
+
+                <h3>⏱️ I due tipi di fattura</h3>
+                
+                <div class="interactive-diagram">
+                    <div class="diagram-card">
+                        <div class="diagram-icon">⚡</div>
+                        <h4>Fattura Immediata</h4>
+                        <p>Emessa entro <strong>12 giorni</strong> dalla consegna o spedizione della merce o dalla riscossione del prezzo per le prestazioni di servizi</p>
+                        <p style="margin-top: 1rem; font-size: 1rem; color: #00ff88;">✓ Più comune nel settore ristorazione e servizi</p>
+                    </div>
+                    <div class="diagram-card">
+                        <div class="diagram-icon">📅</div>
+                        <h4>Fattura Differita</h4>
+                        <p>Emessa entro il <strong>15 del mese successivo</strong> alla consegna o spedizione</p>
+                        <p style="margin-top: 1rem; font-size: 1rem; color: #ff9500;">⚠️ Richiede l'emissione del DDT prima della consegna</p>
+                    </div>
+                </div>
+
+                <div class="box box-esempio">
+                    <div class="box-title">💼 ESEMPIO PRATICO - Mobilificio Stella</div>
+                    <p><strong>Scenario:</strong> Il 14 marzo il <strong>Mobilificio Stella spa</strong> vende all'<strong>hotel Cristallo</strong> arredamento per <strong>11.200 euro + IVA 22%</strong>, con consegna il giorno stesso.</p>
+                    
+                    <h4 style="color: #00ff88; margin-top: 1.5rem;">Con fatturazione immediata:</h4>
+                    <p>✓ Fattura emessa entro 12 giorni dalla consegna → <strong>entro il 26 marzo</strong></p>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">Con fatturazione differita:</h4>
+                    <p>✓ Prima emette il DDT il 14 marzo (giorno della consegna)<br>
+                    ✓ Poi emette la fattura entro il 15 del mese successivo → <strong>entro il 15 aprile</strong></p>
+                </div>
+
+                <div class="box box-attenzione">
+                    <div class="box-title">📋 FATTURA RIEPILOGATIVA</div>
+                    <p>La fattura differita può essere usata anche per <strong>documentare tutte le vendite</strong> verso lo stesso cliente effettuate in uno stesso mese solare.</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Esempio pratico nel settore turistico:</strong></p>
+                    <p>Un fornitore di prodotti alimentari che consegna quotidianamente a un hotel può:</p>
+                    <ul>
+                        <li>Emettere un DDT per ogni consegna (es. 20 consegne nel mese)</li>
+                        <li>Emettere un'unica fattura riepilogativa entro il 15 del mese successivo che riepiloga tutte le 20 consegne</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Per i servizi:</strong></p>
+                    <p>Vale anche per le <strong>prestazioni di servizi</strong> effettuate nello stesso mese verso lo stesso cliente, a condizione che:</p>
+                    <ul>
+                        <li>I servizi siano <span class="highlight">individuabili</span> con idonea documentazione</li>
+                        <li>I relativi prezzi siano <span class="highlight">già stati riscossi</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: FATTURA ELETTRONICA -->
+        <div id="elettronica" class="tab-content">
+            <div class="content-card">
+                <h2>② La fattura elettronica - Approfondimento completo</h2>
+                
+                <div class="box box-definizione">
+                    <div class="box-title">💻 COS'È LA FATTURA ELETTRONICA</div>
+                    <p>Negli scambi commerciali, con l'eccezione di pochi casi, è <strong>obbligatoria</strong> l'emissione della fattura elettronica.</p>
+                    <p><strong>La fattura elettronica</strong> è memorizzata su supporto elettronico e prodotta nel formato digitale <span class="highlight">XML</span> (<em>eXtensible Markup Language</em>).</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>⚠️ NON È una semplice PDF:</strong></p>
+                    <p>La fattura elettronica è un file strutturato con dati organizzati secondo uno schema preciso che permette ai computer di leggere automaticamente tutte le informazioni.</p>
+                </div>
+
+                <h3>📋 Il flusso completo della fatturazione elettronica</h3>
+                
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <div class="flow-number">1</div>
+                        <div class="flow-content">
+                            <h4>Il venditore crea la fattura</h4>
+                            <p>Il <strong>venditore (emittente)</strong> genera un file XML usando:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Software gestionale aziendale</li>
+                                <li>Portale gratuito dell'Agenzia delle Entrate</li>
+                                <li>Software commercialista</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">2</div>
+                        <div class="flow-content">
+                            <h4>Firma digitale</h4>
+                            <p>Il file viene <strong>firmato digitalmente</strong> per garantire:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>✓ Autenticità (chi l'ha emessa)</li>
+                                <li>✓ Integrità (non è stata modificata)</li>
+                                <li>✓ Non ripudio (non si può negare di averla emessa)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">3</div>
+                        <div class="flow-content">
+                            <h4>Invio al Sistema di Interscambio</h4>
+                            <p>La fattura viene inviata tramite:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li><strong>PEC</strong> - email certificata</li>
+                                <li><strong>Web service</strong> - collegamento automatico</li>
+                                <li><strong>Portale web</strong> - caricamento manuale</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">4</div>
+                        <div class="flow-content">
+                            <h4>Controlli automatici del SdI</h4>
+                            <p>Il Sistema di Interscambio verifica:</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>✓ Correttezza formale del file XML</li>
+                                <li>✓ Validità di Partite IVA e Codici Fiscali</li>
+                                <li>✓ Validità della firma digitale</li>
+                                <li>✓ Coerenza dei calcoli IVA</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">5</div>
+                        <div class="flow-content">
+                            <h4>Ricevuta al venditore</h4>
+                            <p>Il SdI invia una <strong>ricevuta di consegna</strong> (se tutto ok) o una <strong>notifica di scarto</strong> (se ci sono errori)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">6</div>
+                        <div class="flow-content">
+                            <h4>Recapito al compratore</h4>
+                            <p>Il SdI consegna la fattura al <strong>compratore</strong> tramite il suo canale (codice destinatario o PEC)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box box-importante">
+                    <div class="box-title">🎯 PERCHÉ LA FATTURA ELETTRONICA</div>
+                    <p><strong>Finalità principale:</strong> Permettere all'<span class="highlight">Amministrazione Finanziaria dello Stato</span> di contrastare l'evasione fiscale.</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Come funziona il controllo:</strong></p>
+                    <ul>
+                        <li>Lo Stato riceve TUTTE le fatture in tempo reale</li>
+                        <li>Può incrociare i dati: se A vende a B, entrambi devono dichiarare la stessa operazione</li>
+                        <li>Identifica automaticamente incongruenze e possibili evasioni</li>
+                        <li>Riduce il "nero" e le fatture false</li>
+                    </ul>
+                </div>
+
+                <div class="box box-esempio">
+                    <div class="box-title">🏨 ESEMPIO PRATICO - Hotel che emette fattura</div>
+                    <p><strong>Hotel Vista Mare</strong> - check-out di un cliente aziendale</p>
+                    
+                    <p><strong>Ore 11:00</strong> - Cliente fa check-out, il receptionist:</p>
+                    <ul>
+                        <li>Inserisce i dati nel gestionale</li>
+                        <li>Clicca "Genera fattura"</li>
+                        <li>Il software crea automaticamente il file XML</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Ore 11:05</strong> - Il gestionale:</p>
+                    <ul>
+                        <li>Firma digitalmente il file</li>
+                        <li>Lo invia automaticamente al SdI via web service</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Ore 11:10</strong> - Il SdI:</p>
+                    <ul>
+                        <li>Controlla il file (5 minuti di verifica)</li>
+                        <li>Invia ricevuta di consegna all'hotel</li>
+                        <li>Consegna la fattura all'azienda cliente</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem; color: #00ff88;"><strong>✓ Tempo totale: 10 minuti</strong> (contro i giorni necessari con la fattura cartacea)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: SISTEMA SDI -->
+        <div id="sdi" class="tab-content">
+            <div class="content-card">
+                <h2>③ Il Sistema di Interscambio (SdI) - Guida completa</h2>
+                
+                <div class="box box-definizione">
+                    <div class="box-title">🖥️ COS'È IL SISTEMA DI INTERSCAMBIO</div>
+                    <p>Il <span class="highlight">Sistema di Interscambio (SdI)</span> è l'infrastruttura informatica gestita dall'Agenzia delle Entrate che fa da "postino digitale" per TUTTE le fatture elettroniche italiane.</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>In parole semplici:</strong></p>
+                    <p>È come un ufficio postale super intelligente che:</p>
+                    <ul>
+                        <li>📥 Riceve le fatture dai mittenti</li>
+                        <li>🔍 Le controlla per verificare che siano corrette</li>
+                        <li>📤 Le recapita ai destinatari giusti</li>
+                        <li>✉️ Invia ricevute a mittente e destinatario</li>
+                    </ul>
+                </div>
+
+                <h3>🔍 I controlli del SdI - Spiegazione dettagliata</h3>
+                
+                <div class="box box-importante">
+                    <div class="box-title">✓ COSA CONTROLLA IL SDI</div>
+                    <p>Il Sistema di Interscambio effettua controlli automatici in pochi secondi:</p>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">1. Controllo del file XML</h4>
+                    <p>Verifica che il file sia un XML valido e segua lo schema ufficiale</p>
+                    <ul>
+                        <li>✓ Il file si apre correttamente</li>
+                        <li>✓ Ha tutti i campi obbligatori</li>
+                        <li>✓ I campi sono nel formato giusto (es. data in gg/mm/aaaa)</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">2. Validazione Partite IVA e Codici Fiscali</h4>
+                    <p>Controlla che i dati fiscali siano corretti:</p>
+                    <ul>
+                        <li>✓ La Partita IVA del venditore esiste ed è attiva</li>
+                        <li>✓ Il Codice Fiscale è formalmente corretto</li>
+                        <li>✓ I dati sono presenti nell'Anagrafe Tributaria</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">3. Firma digitale</h4>
+                    <p>Verifica l'autenticità del documento:</p>
+                    <ul>
+                        <li>✓ La firma digitale è valida</li>
+                        <li>✓ Non è scaduta</li>
+                        <li>✓ Appartiene realmente al venditore</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">4. Codice destinatario</h4>
+                    <p>Controlla che il destinatario sia raggiungibile:</p>
+                    <ul>
+                        <li>✓ Il codice univoco (7 caratteri) è valido</li>
+                        <li>✓ Oppure la PEC esiste ed è attiva</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">5. Coerenza matematica</h4>
+                    <p>Verifica che i calcoli siano corretti:</p>
+                    <ul>
+                        <li>✓ Base imponibile × Aliquota IVA = Importo IVA</li>
+                        <li>✓ La somma dei totali corrisponde</li>
+                    </ul>
+                </div>
+
+                <h3>📬 Le ricevute del SdI - Cosa significano</h3>
+                
+                <table>
+                    <tr>
+                        <th>Codice</th>
+                        <th>Nome</th>
+                        <th>Cosa significa</th>
+                        <th>Cosa fare</th>
+                    </tr>
+                    <tr>
+                        <td><strong>RC</strong></td>
+                        <td>Ricevuta di Consegna</td>
+                        <td>✅ La fattura è stata consegnata correttamente al destinatario</td>
+                        <td style="color: #00ff88;">Nessuna azione - tutto ok!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NS</strong></td>
+                        <td>Notifica di Scarto</td>
+                        <td>❌ La fattura ha degli errori ed è stata rifiutata</td>
+                        <td style="color: #ff0044;">URGENTE: correggere l'errore e reinviare</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MC</strong></td>
+                        <td>Mancata Consegna</td>
+                        <td>⚠️ Il destinatario non è raggiungibile (codice errato)</td>
+                        <td style="color: #ff9500;">Verificare il codice destinatario/PEC</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AT</strong></td>
+                        <td>Attestazione Trasmissione</td>
+                        <td>📨 Il SdI ha ricevuto la fattura e sta processando</td>
+                        <td>Attendere le ricevute successive (RC, NS o MC)</td>
+                    </tr>
+                </table>
+
+                <div class="box box-esempio">
+                    <div class="box-title">🏨 ESEMPIO - Gestione errore fattura hotel</div>
+                    <p><strong>Situazione:</strong> Hotel emette fattura ma sbaglia la Partita IVA del cliente</p>
+                    
+                    <div style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+                        <p><strong>Ore 10:00</strong> - Receptionist invia la fattura</p>
+                        <p><strong>Ore 10:05</strong> - Riceve <span style="color: #ff0044;">Notifica di Scarto (NS)</span></p>
+                        <p style="color: #ff9500;">Errore: "Codice 00404 - Partita IVA destinatario non valida"</p>
+                        
+                        <p style="margin-top: 1rem;"><strong>Ore 10:10</strong> - Receptionist:</p>
+                        <ul>
+                            <li>Controlla i dati del cliente nell'anagrafica</li>
+                            <li>Trova l'errore (ha digitato 04820510500 invece di 04820510501)</li>
+                            <li>Corregge la P.IVA nel gestionale</li>
+                        </ul>
+                        
+                        <p style="margin-top: 1rem;"><strong>Ore 10:15</strong> - Reinvia la fattura <strong>con lo stesso numero</strong> (n. 245/2025)</p>
+                        <p style="color: #00ff88;">→ È corretto! Quando correggi uno scarto usi lo stesso numero</p>
+                        
+                        <p style="margin-top: 1rem;"><strong>Ore 10:20</strong> - Riceve <span style="color: #00ff88;">Ricevuta di Consegna (RC)</span></p>
+                        <p style="color: #00ff88;">✓ Problema risolto!</p>
+                    </div>
+                </div>
+
+                <h3>🔐 Codice Destinatario - Spiegazione pratica</h3>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>📍 Codice Destinatario</h4>
+                        <p><strong>Cos'è:</strong> Un codice di 7 caratteri alfanumerici</p>
+                        <p style="margin-top: 1rem;"><strong>Esempio:</strong> ABCD123</p>
+                        <p style="margin-top: 1rem;"><strong>A cosa serve:</strong> Identifica il "canale" del destinatario per ricevere le fatture direttamente nel suo software gestionale</p>
+                        <p style="margin-top: 1rem; color: #00ff88;"><strong>Vantaggio:</strong> Il destinatario riceve la fattura automaticamente nel suo gestionale</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h4>📧 PEC</h4>
+                        <p><strong>Cos'è:</strong> Posta Elettronica Certificata</p>
+                        <p style="margin-top: 1rem;"><strong>Esempio:</strong> azienda@pec.esempio.it</p>
+                        <p style="margin-top: 1rem;"><strong>A cosa serve:</strong> Se non hai un codice destinatario, puoi ricevere la fattura via PEC come allegato XML</p>
+                        <p style="margin-top: 1rem; color: #00d4ff;"><strong>Uso:</strong> Devi poi scaricare l'allegato e caricarlo nel tuo gestionale</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h4>👤 Codice per privati</h4>
+                        <p><strong>Codice speciale:</strong> 0000000 (sette zeri)</p>
+                        <p style="margin-top: 1rem;"><strong>Quando si usa:</strong> Per consumatori privati che non hanno né codice destinatario né PEC</p>
+                        <p style="margin-top: 1rem; color: #ff9500;"><strong>Dove va la fattura:</strong> Nell'area riservata del portale dell'Agenzia delle Entrate</p>
+                        <p style="margin-top: 1rem;"><strong>Come la recupera:</strong> Il privato accede con SPID o CIE</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: CONTENUTO -->
+        <div id="contenuto" class="tab-content">
+            <div class="content-card">
+                <h2>④ Il contenuto della fattura - Analisi dettagliata</h2>
+                
+                <div class="box box-definizione">
+                    <div class="box-title">📄 STRUTTURA: HEADER E BODY</div>
+                    <p>La fattura elettronica si divide in <strong>due parti principali</strong>:</p>
+                    <ul>
+                        <li><span class="highlight">HEADER (intestazione)</span> - Chi vende e chi compra</li>
+                        <li><span class="highlight">BODY (corpo)</span> - Cosa si vende, quanto costa, come si paga</li>
+                    </ul>
+                </div>
+
+                <h3>📋 HEADER - L'intestazione (Chi sono i protagonisti)</h3>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🏢 Dati del VENDITORE</h4>
+                        <ul style="text-align: left; padding-left: 1.5rem; margin-top: 1rem;">
+                            <li><strong>Partita IVA</strong> - Es: IT01234567890</li>
+                            <li><strong>Codice Fiscale</strong> - Se diverso dalla P.IVA</li>
+                            <li><strong>Denominazione/Ragione sociale</strong> - Es: Hotel Vista Mare SRL</li>
+                            <li><strong>Regime fiscale</strong> - RF01 (ordinario), RF19 (forfettario), ecc.</li>
+                            <li><strong>Indirizzo completo</strong> - Via, CAP, Comune, Provincia</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h4>👥 Dati del COMPRATORE</h4>
+                        <ul style="text-align: left; padding-left: 1.5rem; margin-top: 1rem;">
+                            <li><strong>Partita IVA</strong> - Se è un'azienda</li>
+                            <li><strong>Codice Fiscale</strong> - Sempre obbligatorio</li>
+                            <li><strong>Denominazione</strong> - Nome azienda o nome e cognome</li>
+                            <li><strong>Indirizzo</strong> - Sede legale o domicilio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>📦 BODY - Il corpo (Cosa si vende)</h3>
+                
+                <div class="box box-esempio">
+                    <div class="box-title">📝 COSA CONTIENE IL BODY</div>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1rem;">1️⃣ Identificazione del documento</h4>
+                    <ul>
+                        <li><strong>Tipo documento</strong> - TD01 (fattura ordinaria), TD24 (fattura differita), TD07 (semplificata)</li>
+                        <li><strong>Numero</strong> - Progressivo annuale (es. 245/2025)</li>
+                        <li><strong>Data emissione</strong> - gg/mm/aaaa</li>
+                        <li><strong>Codice destinatario SdI</strong> o PEC</li>
+                        <li><strong>Numero DDT</strong> - Se fattura differita</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">2️⃣ Descrizione beni/servizi (riga per riga)</h4>
+                    <ul>
+                        <li><strong>Quantità</strong> - Numero di pezzi/unità</li>
+                        <li><strong>Descrizione dettagliata</strong> - Cosa si vende</li>
+                        <li><strong>Prezzo unitario</strong> - Prezzo di un'unità (senza IVA)</li>
+                        <li><strong>Sconti/maggiorazioni</strong> - Eventuali riduzioni o aumenti</li>
+                        <li><strong>Prezzo totale riga</strong> - Quantità × Prezzo (con sconti)</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">3️⃣ Calcoli finali</h4>
+                    <ul>
+                        <li><strong>Imballaggi e costi accessori</strong> - Trasporto, montaggio, ecc.</li>
+                        <li><strong>Base imponibile IVA</strong> - Totale al netto IVA</li>
+                        <li><strong>Aliquota IVA</strong> - 4%, 10%, 22%, ecc.</li>
+                        <li><strong>Importo IVA</strong> - Base imponibile × Aliquota</li>
+                        <li><strong>TOTALE FATTURA</strong> - Imponibile + IVA + costi</li>
+                    </ul>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">4️⃣ Dati di pagamento</h4>
+                    <ul>
+                        <li><strong>Modalità</strong> - MP05 (bonifico), MP08 (carta), MP01 (contanti)</li>
+                        <li><strong>Condizioni</strong> - Immediato, 30gg, 60gg, ecc.</li>
+                        <li><strong>IBAN</strong> - Per bonifici</li>
+                        <li><strong>Scadenza</strong> - Data di pagamento</li>
+                    </ul>
+                </div>
+
+                <h3>📋 Parte descrittiva vs Parte tabellare - Guida pratica</h3>
+                
+                <div class="parte-descrittiva">
+                    <h4 style="color: #ffffff; margin-bottom: 1rem;">📝 PARTE DESCRITTIVA</h4>
+                    <p><strong>Cosa contiene:</strong></p>
+                    <ul>
+                        <li>Dati completi del venditore (denominazione, indirizzo, P.IVA)</li>
+                        <li>Dati completi del compratore</li>
+                        <li>Numero e data della fattura</li>
+                        <li>Condizioni contrattuali in forma testuale</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Esempio pratico:</strong></p>
+                    <div style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+                        <p><strong>Bio saponi spa</strong><br>
+                        Via del Castellon n. 88 - 41125 Modena (MO)<br>
+                        Partita IVA: 01500510367</p>
+                        
+                        <p style="margin-top: 1rem;"><strong>Hotel Parco d'Este srl</strong><br>
+                        Viale Adriatica n. 23 - 48123 Ravenna (RA)<br>
+                        P.IVA: 01230580390</p>
+                        
+                        <p style="margin-top: 1rem;"><strong>Fattura n. 622 del 10/07/2024</strong><br>
+                        Imballaggio gratuito – Consegna immediata – Pagamento bonifico</p>
+                    </div>
+                </div>
+
+                <div class="parte-tabellare">
+                    <h4 style="color: #ffffff; margin-bottom: 1rem;">📊 PARTE TABELLARE</h4>
+                    <p><strong>Cosa contiene:</strong></p>
+                    <ul>
+                        <li>Elenco dettagliato dei prodotti/servizi venduti</li>
+                        <li>Quantità, descrizioni, prezzi unitari</li>
+                        <li>Calcoli: imponibili, IVA, totali</li>
+                        <li>Tutto in formato tabella per facile lettura</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Esempio pratico (tabella semplificata):</strong></p>
+                    <table style="margin-top: 0.5rem; font-size: 1rem;">
+                        <tr>
+                            <th>Qt.</th>
+                            <th>Descrizione</th>
+                            <th>Prezzo unit.</th>
+                            <th>Totale</th>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>Detergente pavimenti DB168</td>
+                            <td>14,20</td>
+                            <td>568,00</td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>Detergente tappezzeria DB322</td>
+                            <td>16,40</td>
+                            <td>492,00</td>
+                        </tr>
+                        <tr style="background: rgba(0,102,255,0.3);">
+                            <td colspan="3"><strong>Totale imponibile</strong></td>
+                            <td><strong>1.060,00</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">IVA 22%</td>
+                            <td>233,20</td>
+                        </tr>
+                        <tr style="background: rgba(0,212,255,0.4);">
+                            <td colspan="3"><strong>TOTALE FATTURA</strong></td>
+                            <td><strong>1.293,20</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box box-attenzione">
+                    <div class="box-title">💡 DIFFERENZA CHIAVE</div>
+                    <p><strong>In parole semplici:</strong></p>
+                    <ul>
+                        <li>La <span class="highlight">parte descrittiva</span> risponde alle domande: <strong>CHI?</strong> (venditore/compratore), <strong>QUANDO?</strong> (data), <strong>COME?</strong> (condizioni)</li>
+                        <li>La <span class="highlight">parte tabellare</span> risponde alle domande: <strong>COSA?</strong> (prodotti), <strong>QUANTO?</strong> (prezzi), <strong>QUANTO TOTALE?</strong> (calcoli)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1.5rem; color: #00ff88;"><strong>✓ Entrambe sono obbligatorie!</strong> La fattura deve avere sia la parte descrittiva che quella tabellare per essere valida.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: FORMATI -->
+        <div id="formati" class="tab-content">
+            <div class="content-card">
+                <h2>⑤ I formati: PA, B2B, B2C - Guida completa</h2>
+                
+                <div class="box box-definizione">
+                    <div class="box-title">🔍 FORMATI MINISTERIALE vs ASW</div>
+                    <p>Le fatture elettroniche possono essere visualizzate in due formati diversi:</p>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">Formato Ministeriale (SdI-Standard)</h4>
+                    <p>✓ Elaborato secondo il tracciato ufficiale dell'Agenzia delle Entrate<br>
+                    ✓ Struttura a elenco verticale<br>
+                    ✓ <strong>Obbligatorio</strong> per l'invio al SdI</p>
+                    
+                    <h4 style="color: #00d4ff; margin-top: 1.5rem;">Formato ASW (AssoSoftware)</h4>
+                    <p>✓ Elaborato da AssoSoftware<br>
+                    ✓ Struttura a modulo orizzontale (tipo fattura cartacea)<br>
+                    ✓ Più leggibile ma <strong>NON inviabile</strong> al SdI<br>
+                    ✓ Usato solo internamente tra software gestionali</p>
+                </div>
+
+                <h3>🏢 Tipologie di destinatari</h3>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🏛️ PA - Pubblica Amministrazione</h4>
+                        <p><strong>Chi è:</strong> Enti pubblici (Comuni, Ospedali, Scuole, Ministeri, ecc.)</p>
+                        <p style="margin-top: 1rem;"><strong>Codice destinatario:</strong> Codice univoco di 6 caratteri (es: ABCDEF)</p>
+                        <p style="margin-top: 1rem;"><strong>Dove trovarlo:</strong> Sul sito IndicePA (www.indicepa.gov.it)</p>
+                        <p style="margin-top: 1rem; color: #00ff88;"><strong>Particolarità:</strong> Spesso richiedono dati aggiuntivi specifici (CIG, CUP, ecc.)</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h4>🏢 B2B - Business to Business</h4>
+                        <p><strong>Chi è:</strong> Aziende, professionisti, ditte individuali con P.IVA</p>
+                        <p style="margin-top: 1rem;"><strong>Codice destinatario:</strong> Codice di 7 caratteri o PEC aziendale</p>
+                        <p style="margin-top: 1rem;"><strong>Come lo chiedi:</strong> Al cliente al momento dell'ordine</p>
+                        <p style="margin-top: 1rem; color: #00d4ff;"><strong>Esempio settore turistico:</strong> Hotel → Fornitore alimentare</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h4>👤 B2C - Business to Consumer</h4>
+                        <p><strong>Chi è:</strong> Consumatori privati senza P.IVA</p>
+                        <p style="margin-top: 1rem;"><strong>Codice destinatario:</strong> 0000000 (sette zeri)</p>
+                        <p style="margin-top: 1rem;"><strong>Dove va la fattura:</strong> Area riservata portale Agenzia Entrate</p>
+                        <p style="margin-top: 1rem; color: #ff9500;"><strong>Esempio settore turistico:</strong> Hotel → Turista privato</p>
+                    </div>
+                </div>
+
+                <h3>🧼 ESEMPIO COMPLETO - Bio saponi spa</h3>
+                
+                <div class="box box-esempio">
+                    <div class="box-title">📝 SCENARIO DAL LIBRO</div>
+                    <p>Il <strong>10 luglio</strong> la <strong>Bio saponi spa di Modena</strong> vende all'<strong>hotel Parco d'Este di Ravenna</strong>:</p>
+                    <ul>
+                        <li>40 confezioni di detergente bio per pavimenti a € 14,20 cad.</li>
+                        <li>30 confezioni di detergente bio per tappezzeria a € 16,40 cad.</li>
+                    </ul>
+                    <p><strong>Condizioni:</strong> Imballaggio gratuito, consegna immediata con automezzo del venditore, pagamento immediato con bonifico bancario. IVA 22%.</p>
+                </div>
+
+                <h4>📊 Schema di calcolo</h4>
+                <table>
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Detergente bio per pavimenti</td>
+                        <td>40</td>
+                        <td>€ 14,20</td>
+                        <td>€ 568,00</td>
+                    </tr>
+                    <tr>
+                        <td>Detergente bio per tappezzeria</td>
+                        <td>30</td>
+                        <td>€ 16,40</td>
+                        <td>€ 492,00</td>
+                    </tr>
+                    <tr style="background: rgba(0, 102, 255, 0.2);">
+                        <td colspan="3"><strong>Base imponibile IVA</strong></td>
+                        <td><strong>€ 1.060,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">IVA 22% su 1.060,00 euro</td>
+                        <td>€ 233,20</td>
+                    </tr>
+                    <tr style="background: rgba(0, 212, 255, 0.3);">
+                        <td colspan="3"><strong>Totale fattura</strong></td>
+                        <td><strong>€ 1.293,20</strong></td>
+                    </tr>
+                </table>
+
+                <div class="esempio-fattura">
+                    <h4>📄 Copia cartacea (Fattura di cortesia)</h4>
+                    
+                    <div class="fattura-header">
+                        <div>
+                            <p><strong>Bio saponi spa</strong><br>
+                            Via del Castellon n. 88<br>
+                            41125 Modena (MO)<br>
+                            Partita IVA: 01500510367</p>
+                        </div>
+                        <div>
+                            <p><strong>Hotel Parco d'Este srl</strong><br>
+                            Viale Adriatica n. 23<br>
+                            48123 Ravenna (RA)<br>
+                            P.IVA: 01230580390</p>
+                        </div>
+                    </div>
+
+                    <p style="background: rgba(255, 107, 0, 0.2); padding: 1rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <strong>Fattura n. 622 del 10/07/2024</strong><br>
+                        Imballaggio gratuito – Consegna immediata – Trasporto ns automezzo – Pagamento immediato con bonifico bancario
+                    </p>
+
+                    <table>
+                        <tr>
+                            <th>Qt.</th>
+                            <th>Descrizione</th>
+                            <th>Prezzo unit.</th>
+                            <th>Importo</th>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>Detergente bio pavimenti cod. DB168</td>
+                            <td>14,20</td>
+                            <td>568,00</td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>Detergente bio tappezzeria cod. DB322</td>
+                            <td>16,40</td>
+                            <td>492,00</td>
+                        </tr>
+                        <tr style="background: rgba(0, 102, 255, 0.2);">
+                            <td colspan="3"><strong>Totale imponibile</strong></td>
+                            <td><strong>1.060,00</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">IVA 22% su 1.060,00 euro</td>
+                            <td>233,20</td>
+                        </tr>
+                        <tr style="background: rgba(0, 212, 255, 0.3);">
+                            <td colspan="3"><strong>Totale fattura</strong></td>
+                            <td><strong>1.293,20</strong></td>
+                        </tr>
+                    </table>
+                    <p style="text-align: center; font-style: italic; margin-top: 1rem;">Contributo ambientale CONAI assolto</p>
+                </div>
+
+                <div class="box box-attenzione">
+                    <div class="box-title">📋 FATTURA DI CORTESIA</div>
+                    <p>Dopo aver inviato la fattura elettronica al SdI, le aziende possono stampare una <span class="highlight">copia più leggibile</span> detta <strong>fattura di cortesia</strong>.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Quando si usa:</strong></p>
+                    <ul>
+                        <li>Si consegna al cliente consumatore finale (B2C)</li>
+                        <li>Per avere una copia cartacea/PDF più facile da leggere</li>
+                        <li>Per l'archivio aziendale interno</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem; color: #ff9500;"><strong>⚠️ Non ha valore fiscale!</strong> Il documento fiscale ufficiale è solo la fattura elettronica XML inviata al SdI.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: SEMPLIFICATA -->
+        <div id="semplificata" class="tab-content">
+            <div class="content-card">
+                <h2>⑥ La fattura semplificata</h2>
+                
+                <div class="box box-definizione">
+                    <div class="box-title">⚡ COS'È LA FATTURA SEMPLIFICATA</div>
+                    <p><strong>La fattura semplificata</strong> è una versione "ridotta" della fattura elettronica, usata per velocizzare le operazioni di piccolo importo.</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Limite massimo:</strong> <span class="highlight">400 euro IVA inclusa</span></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Perché "semplificata"?</strong></p>
+                    <p>Richiede meno dati rispetto alla fattura ordinaria → più veloce da compilare</p>
+                </div>
+
+                <h3>✅ Elementi obbligatori</h3>
+                <div class="box box-esempio">
+                    <p>Per essere valida, la fattura semplificata deve contenere:</p>
+                    <ul>
+                        <li>✓ <strong>Numero e data</strong> di emissione</li>
+                        <li>✓ <strong>Dati del venditore</strong> (denominazione, P.IVA, indirizzo)</li>
+                        <li>✓ <strong>Codice Fiscale o P.IVA del compratore</strong></li>
+                        <li>✓ <strong>Descrizione</strong> dei beni/servizi</li>
+                        <li>✓ <strong>Totale fattura</strong> e importo IVA inclusa</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1.5rem; color: #ff9500;"><strong>⚠️ Cosa NON serve (a differenza della fattura ordinaria):</strong></p>
+                    <ul>
+                        <li>✗ Indirizzo completo del compratore</li>
+                        <li>✗ Dettaglio per ogni singolo prodotto</li>
+                        <li>✗ Alcuni dati del pagamento</li>
+                    </ul>
+                </div>
+
+                <h3>🧮 Lo scorporo dell'IVA</h3>
+                <div class="box box-importante">
+                    <div class="box-title">🔢 COS'È LO SCORPORO</div>
+                    <p>Quando il prezzo è <strong>già comprensivo di IVA</strong>, per calcolare quanto è l'IVA si usa l'operazione di <span class="highlight">scorporo</span>.</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Formula generale:</strong></p>
+                    <div class="code-block">IVA = (Prezzo totale × Aliquota) / (100 + Aliquota)</div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Con IVA al 10%:</strong></p>
+                    <div class="code-block">IVA = (Prezzo × 10) / 110
+
+Esempio: 264 euro (con IVA 10%)
+IVA = (264 × 10) / 110 = 24 euro</div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Con IVA al 22%:</strong></p>
+                    <div class="code-block">IVA = (Prezzo × 22) / 122
+
+Esempio: 244 euro (con IVA 22%)
+IVA = (244 × 22) / 122 = 44 euro</div>
+                </div>
+
+                <h3>🏨 ESEMPIO COMPLETO - Hotel Pratesi spa</h3>
+                
+                <div class="box box-esempio">
+                    <div class="box-title">🌴 SCENARIO DAL LIBRO</div>
+                    <p>L'<strong>Hotel Pratesi spa di Sorrento</strong> vende a <strong>Massimo Ferraris</strong> un soggiorno di <strong>2 notti a 132 euro a notte</strong> con prima colazione (B&B).</p>
+                    <p>Il prezzo è <strong>comprensivo di IVA 10%</strong>.</p>
+                    <p>C'è anche un'<strong>imposta di soggiorno di 6 euro</strong> (non soggetta a IVA).</p>
+                    <p>Emettiamo la fattura semplificata n. 1134 del 12 settembre.</p>
+                </div>
+
+                <h4>📊 Calcoli passo per passo</h4>
+                
+                <div style="background: rgba(0,0,0,0.4); padding: 2rem; border-radius: 12px; margin: 1.5rem 0;">
+                    <p><strong>PASSO 1:</strong> Calcolare il prezzo totale del soggiorno</p>
+                    <div class="code-block">2 notti × 132 euro/notte = 264 euro
+(comprensivo di IVA 10%)</div>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>PASSO 2:</strong> Scorporare l'IVA</p>
+                    <div class="code-block">IVA = (264 × 10) / 110 = 24 euro
+
+Verifica: 264 - 24 = 240 euro (imponibile)
+         240 × 10% = 24 euro (IVA) ✓</div>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>PASSO 3:</strong> Aggiungere l'imposta di soggiorno</p>
+                    <div class="code-block">264 euro (soggiorno) + 6 euro (imposta) = 270 euro
+
+TOTALE FATTURA = 270 euro</div>
+                </div>
+
+                <div class="esempio-fattura">
+                    <h4>📄 Fattura semplificata n. 1134</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0;">
+                        <div>
+                            <p><strong>Dati del venditore</strong><br>
+                            Hotel Pratesi spa<br>
+                            P.IVA: 03502210651<br>
+                            Via del mare n. 212<br>
+                            84125 SORRENTO (SA)</p>
+                        </div>
+                        <div>
+                            <p><strong>Dati del cliente</strong><br>
+                            Massimo Ferraris<br>
+                            CF: FRRRMSM80H14F839M</p>
+                        </div>
+                    </div>
+
+                    <p style="margin: 1.5rem 0;"><strong>Numero:</strong> 1134 | <strong>Data:</strong> 12/09/2024</p>
+
+                    <table>
+                        <tr>
+                            <th>Descrizione</th>
+                            <th>Importo</th>
+                        </tr>
+                        <tr>
+                            <td>Pernottamento 2 notti a 132,00 euro a notte, B&B</td>
+                            <td>€ 264,00</td>
+                        </tr>
+                        <tr>
+                            <td>Imposta di soggiorno</td>
+                            <td>€ 6,00</td>
+                        </tr>
+                        <tr>
+                            <td><em>di cui IVA 10%</em></td>
+                            <td><em>€ 24,00</em></td>
+                        </tr>
+                        <tr style="background: rgba(0, 212, 255, 0.3);">
+                            <td><strong>Totale fattura</strong></td>
+                            <td><strong>€ 270,00</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box box-attenzione">
+                    <div class="box-title">💡 QUANDO USARE LA FATTURA SEMPLIFICATA</div>
+                    
+                    <p><strong>✓ Quando conviene:</strong></p>
+                    <ul>
+                        <li>Operazioni sotto i 400 euro (IVA inclusa)</li>
+                        <li>Vendite a consumatori finali (B2C)</li>
+                        <li>Settore turistico: camere hotel, ristoranti, bar</li>
+                        <li>Quando serve velocità nella compilazione</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>✗ Quando NON usarla:</strong></p>
+                    <ul>
+                        <li>Importo superiore a 400 euro</li>
+                        <li>Quando il cliente richiede una fattura completa</li>
+                        <li>Per operazioni complesse con molti prodotti diversi</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: ESERCIZI -->
+        <div id="esercizi" class="tab-content">
+            <div class="content-card">
+                <h2>📝 Esercizi Pratici</h2>
+
+                <div class="esercizio">
+                    <h4>Esercizio 14 - Completa la fattura immediata</h4>
+                    <p><strong>Euroforniture spa</strong> (Viale America n. 144, 50125 FIRENZE, P.IVA: 01401450489)</p>
+                    <p>vende al <strong>Ristorante Sapori antichi</strong> (Piazza Guicciardini n. 18, 56121 Pisa, P.IVA: 04820510500):</p>
+                    <ul>
+                        <li>1 Forno elettrico professionale cod. FE145 a € 1.352,00</li>
+                        <li>4 Carrelli Inox cod. CI310 a € 280,00 cadauno</li>
+                    </ul>
+                    <p><strong>Fattura n. 421 del 24/11/2024</strong> - IVA 22%<br>
+                    Imballaggio gratuito – Consegna immediata – Trasporto ns automezzo – Pagamento a 30 giorni con bonifico bancario</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Calcola:</strong></p>
+                    <p>Totale imponibile: <input type="number" class="esercizio-input" id="es14-base" step="0.01" placeholder="0.00"> €</p>
+                    <p>IVA 22%: <input type="number" class="esercizio-input" id="es14-iva" step="0.01" placeholder="0.00"> €</p>
+                    <p>Totale fattura: <input type="number" class="esercizio-input" id="es14-tot" step="0.01" placeholder="0.00"> €</p>
+                    <button class="check-btn" onclick="checkEs14()">Verifica Risposta</button>
+                    <div id="result-es14"></div>
+                </div>
+
+                <div class="esercizio">
+                    <h4>Esercizio 19 - Fattura semplificata con scorporo IVA 10%</h4>
+                    <p><strong>Sonetti eventi srl</strong> emette fattura semplificata n. 214 del 22 marzo ad <strong>Avv. Marta Stefanelli</strong>.</p>
+                    <p><strong>Servizio:</strong> n. 8 pasti completi a 33,00 euro a pasto</p>
+                    <p>Il prezzo è <strong>comprensivo di IVA 10%</strong></p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Calcolo prezzo totale:</strong></p>
+                    <div class="code-block">8 × 33,00 = 264,00 euro (con IVA 10%)</div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Formula scorporo:</strong></p>
+                    <div class="code-block">IVA = (264,00 × 10) / 110 = ?</div>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Inserisci i risultati:</strong></p>
+                    <p>IVA 10%: <input type="number" class="esercizio-input" id="es19-iva" step="0.01" placeholder="0.00"> €</p>
+                    <p>Totale fattura: <input type="number" class="esercizio-input" id="es19-tot" step="0.01" placeholder="0.00"> €</p>
+                    <button class="check-btn" onclick="checkEs19()">Verifica Risposta</button>
+                    <div id="result-es19"></div>
+                </div>
+
+                <div class="esercizio">
+                    <h4>Esercizio 20 - Scorporo IVA 22%</h4>
+                    <p><strong>Stella Ferramenta srl</strong> (Cagliari, P.IVA: 06701810926)</p>
+                    <p>vende a <strong>Roberto Corte</strong> (CF: CRTRRT76H16B354C):</p>
+                    <p><strong>n. 2 bidoni</strong> di idropittura lavabile per interni a <strong>122,00 euro a bidone</strong></p>
+                    <p>Il prezzo è <strong>comprensivo di IVA 22%</strong></p>
+                    <p>Fattura semplificata n. 228 del 15/06/2024</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Calcolo prezzo totale:</strong></p>
+                    <div class="code-block">2 × 122,00 = 244,00 euro (con IVA 22%)</div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Formula scorporo:</strong></p>
+                    <div class="code-block">IVA = (244,00 × 22) / 122 = ?</div>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Inserisci i risultati:</strong></p>
+                    <p>di cui IVA 22%: <input type="number" class="esercizio-input" id="es20-iva" step="0.01" placeholder="0.00"> €</p>
+                    <p>Totale fattura: <input type="number" class="esercizio-input" id="es20-tot" step="0.01" placeholder="0.00"> €</p>
+                    <button class="check-btn" onclick="checkEs20()">Verifica Risposta</button>
+                    <div id="result-es20"></div>
+                </div>
+
+                <div class="esercizio">
+                    <h4>Esercizio 21 - B&B con scorporo IVA 10% + imposta soggiorno</h4>
+                    <p><strong>B&B Il giardino fiorito</strong> (Perugia, P.IVA: 00402210548)</p>
+                    <p>vende a <strong>Francesco Pozzo</strong> (CF: PZZFNC75B01H501Q):</p>
+                    <p>Soggiorno di <strong>2 notti a 71,50 euro a notte</strong> (comprensivo di IVA 10%)</p>
+                    <p>+ <strong>Imposta di soggiorno: 1 euro</strong> (non soggetta a IVA)</p>
+                    <p>Fattura semplificata n. 15 del 14/03/2024</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Calcolo prezzo soggiorno:</strong></p>
+                    <div class="code-block">2 × 71,50 = 143,00 euro (con IVA 10%)</div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Scorporo IVA:</strong></p>
+                    <div class="code-block">IVA = (143,00 × 10) / 110 = ?</div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Totale finale:</strong></p>
+                    <div class="code-block">143,00 + 1,00 (imposta) = ?</div>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Inserisci i risultati:</strong></p>
+                    <p>di cui IVA 10%: <input type="number" class="esercizio-input" id="es21-iva" step="0.01" placeholder="0.00"> €</p>
+                    <p>Totale fattura: <input type="number" class="esercizio-input" id="es21-tot" step="0.01" placeholder="0.00"> €</p>
+                    <button class="check-btn" onclick="checkEs21()">Verifica Risposta</button>
+                    <div id="result-es21"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Torna all'inizio</button>
+        <p style="color: #b0b8c8; font-size: 1.1rem; margin-bottom: 0.5rem;">IPSSEOA Vespucci Milano</p>
+        <p style="color: #808896; font-size: 0.9rem;">Lezione 2: La Fattura - Guida Completa © 2025</p>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function checkEs14() {
+            const base = parseFloat(document.getElementById('es14-base').value);
+            const iva = parseFloat(document.getElementById('es14-iva').value);
+            const tot = parseFloat(document.getElementById('es14-tot').value);
+            
+            const resultDiv = document.getElementById('result-es14');
+            
+            if (Math.abs(base - 2472.00) < 0.01 && 
+                Math.abs(iva - 543.84) < 0.01 && 
+                Math.abs(tot - 3015.84) < 0.01) {
+                resultDiv.innerHTML = '<div class="result correct">✅ CORRETTO! Ottimo lavoro!<br>Base: €2.472,00 (1.352 + 4×280) | IVA: €543,84 | Totale: €3.015,84</div>';
+            } else {
+                resultDiv.innerHTML = '<div class="result incorrect">❌ Riprova! Suggerimento: Base imponibile = 1.352 + (4 × 280) = ?</div>';
+            }
+        }
+
+        function checkEs19() {
+            const iva = parseFloat(document.getElementById('es19-iva').value);
+            const tot = parseFloat(document.getElementById('es19-tot').value);
+            
+            const resultDiv = document.getElementById('result-es19');
+            
+            if (Math.abs(iva - 24.00) < 0.01 && Math.abs(tot - 264.00) < 0.01) {
+                resultDiv.innerHTML = '<div class="result correct">✅ PERFETTO! Hai capito lo scorporo!<br>IVA: €24,00 | Totale: €264,00</div>';
+            } else {
+                resultDiv.innerHTML = '<div class="result incorrect">❌ Riprova! Ricorda: (264 × 10) / 110 = ?</div>';
+            }
+        }
+
+        function checkEs20() {
+            const iva = parseFloat(document.getElementById('es20-iva').value);
+            const tot = parseFloat(document.getElementById('es20-tot').value);
+            
+            const resultDiv = document.getElementById('result-es20');
+            
+            if (Math.abs(iva - 44.00) < 0.01 && Math.abs(tot - 244.00) < 0.01) {
+                resultDiv.innerHTML = '<div class="result correct">✅ ESATTO! Sei bravissimo con lo scorporo IVA 22%!<br>IVA: €44,00 | Totale: €244,00</div>';
+            } else {
+                resultDiv.innerHTML = '<div class="result incorrect">❌ Riprova! Formula: (244 × 22) / 122 = ?</div>';
+            }
+        }
+
+        function checkEs21() {
+            const iva = parseFloat(document.getElementById('es21-iva').value);
+            const tot = parseFloat(document.getElementById('es21-tot').value);
+            
+            const resultDiv = document.getElementById('result-es21');
+            
+            if (Math.abs(iva - 13.00) < 0.01 && Math.abs(tot - 144.00) < 0.01) {
+                resultDiv.innerHTML = '<div class="result correct">✅ ECCELLENTE! Hai gestito perfettamente scorporo + imposta di soggiorno!<br>IVA: €13,00 | Totale: €144,00</div>';
+            } else {
+                resultDiv.innerHTML = '<div class="result incorrect">❌ Riprova! Formula scorporo: (143 × 10) / 110 = ? Poi aggiungi imposta soggiorno</div>';
+            }
+        }
+    </script>
+</body>
+</html>
