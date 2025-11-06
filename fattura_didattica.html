@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Base Imponibile e il Totale Fattura | IIS Vespucci Milano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1e3d 0%, #1a3a5c 100%);
+            color: #fff;
+            line-height: 1.9;
+            font-size: 19px;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f2642, #1a4d7a, #2563a8);
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 25px;
+            margin-bottom: 50px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            border: 4px solid #00d4ff;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
+            color: #00d4ff;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #5dade2;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        .school-info {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #7fb3d5;
+            font-weight: 500;
+        }
+
+        .section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #1a1a1a;
+            padding: 50px;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            border-left: 12px solid #2563a8;
+            animation: slideIn 0.7s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #0f2642;
+            font-size: 2.5em;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 5px solid #2563a8;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 700;
+        }
+
+        .numero {
+            background: linear-gradient(135deg, #2563a8, #1a4d7a);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.4em;
+            box-shadow: 0 4px 15px rgba(37, 99, 168, 0.4);
+        }
+
+        h3 {
+            color: #1a4d7a;
+            font-size: 1.8em;
+            margin: 35px 0 20px;
+            padding-left: 20px;
+            border-left: 6px solid #00d4ff;
+            font-weight: 700;
+        }
+
+        h4 {
+            color: #0f2642;
+            font-size: 1.5em;
+            margin: 25px 0 15px;
+            font-weight: 700;
+        }
+
+        .definizione {
+            background: linear-gradient(135deg, #2563a8 0%, #1a4d7a 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-size: 1.15em;
+            box-shadow: 0 8px 30px rgba(37, 99, 168, 0.5);
+            border: 3px solid #00d4ff;
+            line-height: 2;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #00d4ff 0%, #0a8fd4 100%);
+            color: #0f2642;
+            padding: 40px;
+            border-radius: 18px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: 700;
+            box-shadow: 0 10px 35px rgba(0, 212, 255, 0.5);
+            border: 4px solid #0f2642;
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3em;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(15, 38, 66, 0.15);
+            border-radius: 10px;
+            font-weight: 800;
+        }
+
+        .esempio {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 4px solid #0f2642;
+            box-shadow: 0 8px 30px rgba(23, 162, 184, 0.4);
+        }
+
+        .esempio h4 {
+            color: #fff;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+            padding-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1a4d7a, #0f2642);
+            color: white;
+            padding: 22px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.15em;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 2px solid #e0e0e0;
+            font-size: 1.05em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f5f7fa;
+        }
+
+        tr:hover {
+            background-color: #d6eaf8;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #00d4ff, #5dade2);
+            color: #0f2642;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+        }
+
+        .alert {
+            background: linear-gradient(135deg, #ff6b35 0%, #f05a28 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 8px solid #0f2642;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #a8dadc 0%, #81c4c8 100%);
+            padding: 35px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px solid #1a4d7a;
+            color: #0f2642;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(168, 218, 220, 0.4);
+        }
+
+        .lista-elementi {
+            list-style: none;
+            padding: 0;
+        }
+
+        .lista-elementi li {
+            padding: 20px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #d6eaf8, #aed6f1);
+            border-radius: 10px;
+            border-left: 6px solid #2563a8;
+            font-size: 1.1em;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 500;
+        }
+
+        .lista-elementi li:hover {
+            transform: translateX(15px);
+            box-shadow: 0 5px 20px rgba(37, 99, 168, 0.3);
+        }
+
+        .lista-elementi li::before {
+            content: "✓";
+            color: #2563a8;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-right: 18px;
+        }
+
+        .schema {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 4px solid #2563a8;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .freccia {
+            font-size: 2.5em;
+            color: #2563a8;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .box-calcolo {
+            display: inline-block;
+            background: linear-gradient(135deg, #2563a8, #1a4d7a);
+            color: white;
+            padding: 25px 40px;
+            margin: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(37, 99, 168, 0.4);
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 17px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            table {
+                font-size: 0.95em;
+            }
+
+            th, td {
+                padding: 12px;
+            }
+
+            .box-calcolo {
+                display: block;
+                margin: 12px 0;
+            }
+        }
+
+        .totale-row {
+            background: linear-gradient(135deg, #00d4ff, #5dade2) !important;
+            font-weight: 800;
+            font-size: 1.3em !important;
+            color: #0f2642 !important;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border-left: 8px solid #0f2642;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+        }
+
+        .importante {
+            background: linear-gradient(135deg, #ffa500, #ff8c00);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 3px solid #0f2642;
+            font-weight: 700;
+            box-shadow: 0 6px 25px rgba(255, 165, 0, 0.4);
+        }
+
+        .confronto {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .confronto-box {
+            background: linear-gradient(135deg, #a8dadc, #81c4c8);
+            padding: 30px;
+            border-radius: 12px;
+            border: 3px solid #1a4d7a;
+            color: #0f2642;
+            font-weight: 600;
+        }
+
+        @media (max-width: 992px) {
+            .confronto {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .esercizio {
+            background: linear-gradient(135deg, #e8f4f8, #cfe9f3);
+            color: #0f2642;
+            padding: 35px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 3px solid #2563a8;
+            box-shadow: 0 5px 20px rgba(37, 99, 168, 0.2);
+        }
+
+        .esercizio-title {
+            background: #2563a8;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        .calcolo-step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #17a2b8;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .nota-bene {
+            background: linear-gradient(135deg, #ff6b35, #f05a28);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 3px solid #0f2642;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .approfondimento {
+            background: linear-gradient(135deg, #1a4d7a, #0f2642);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 4px solid #00d4ff;
+            box-shadow: 0 8px 30px rgba(26, 77, 122, 0.5);
+        }
+
+        strong {
+            color: #0f2642;
+            font-weight: 700;
+        }
+
+        .esempio strong {
+            color: #fff;
+        }
+
+        .approfondimento strong {
+            color: #00d4ff;
+        }
+
+        .step strong {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 LEZIONE 5</h1>
+            <div class="subtitle">La Base Imponibile e il Totale Fattura</div>
+            <div class="subtitle">Guida Completa e Approfondita</div>
+            <div class="school-info">IIS Vespucci - Milano | Economia Aziendale | Anno Scolastico 2025/26</div>
+        </header>
+
+        <!-- SEZIONE INTRODUZIONE GENERALE -->
+        <div class="section">
+            <h2><span class="numero">📌</span> Introduzione: Cos'è una Fattura?</h2>
+            
+            <div class="definizione">
+                <strong>🎯 DEFINIZIONE FONDAMENTALE:</strong> La <span class="highlight">FATTURA</span> è il documento fiscale che il venditore (cedente) emette al compratore (cessionario) per certificare l'avvenuta vendita di beni o prestazione di servizi. Questo documento serve a:<br><br>
+                ✓ Certificare l'operazione commerciale<br>
+                ✓ Calcolare l'IVA dovuta allo Stato<br>
+                ✓ Determinare l'importo totale che il cliente deve pagare<br>
+                ✓ Fornire prova fiscale e contabile dell'operazione
+            </div>
+
+            <div class="importante">
+                <strong>⚠️ IMPORTANTE DA SAPERE:</strong><br>
+                Dal 1° gennaio 2019, in Italia è obbligatoria la <span class="highlight">FATTURAZIONE ELETTRONICA</span> per tutte le operazioni tra soggetti con Partita IVA (operazioni B2B e B2C). Le fatture devono essere inviate tramite il Sistema di Interscambio (SDI) dell'Agenzia delle Entrate.
+            </div>
+
+            <h3>🔧 Le Aliquote IVA in Italia nel 2025</h3>
+            
+            <div class="info-box">
+                In Italia esistono <strong>4 aliquote IVA principali</strong>:
+            </div>
+
+            <table>
+                <tr>
+                    <th>Aliquota IVA</th>
+                    <th>Percentuale</th>
+                    <th>Applicazione</th>
+                    <th>Esempi</th>
+                </tr>
+                <tr>
+                    <td><strong>MINIMA</strong></td>
+                    <td>4%</td>
+                    <td>Beni di prima necessità</td>
+                    <td>Pane, pasta, latte, frutta, verdura, libri, giornali</td>
+                </tr>
+                <tr>
+                    <td><strong>RIDOTTA</strong></td>
+                    <td>5%</td>
+                    <td>Specifici alimenti e servizi</td>
+                    <td>Alimenti speciali, apparecchiature mediche</td>
+                </tr>
+                <tr>
+                    <td><strong>RIDOTTA</strong></td>
+                    <td>10%</td>
+                    <td>Servizi e beni particolari</td>
+                    <td>Energia elettrica, gas, medicinali, servizi turistici, ristoranti</td>
+                </tr>
+                <tr>
+                    <td><strong>ORDINARIA</strong></td>
+                    <td>22%</td>
+                    <td>Tutti gli altri beni e servizi</td>
+                    <td>Abbigliamento, elettronica, mobili, automobili</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SEZIONE 1: BASE IMPONIBILE -->
+        <div class="section">
+            <h2><span class="numero">1</span> La Base Imponibile IVA</h2>
+            
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE COMPLETA:</strong><br><br>
+                La <span class="highlight">BASE IMPONIBILE IVA</span> è l'importo totale su cui nella fattura si applica l'aliquota percentuale dell'IVA. Rappresenta il valore economico dell'operazione commerciale al netto di eventuali sconti incondizionati.<br><br>
+                <strong>In altre parole:</strong> è la somma di denaro sulla quale si calcola l'IVA da versare allo Stato.
+            </div>
+
+            <h3>🔧 Gli elementi che FORMANO la base imponibile</h3>
+            
+            <div class="info-box">
+                <strong>La base imponibile è composta da TRE elementi fondamentali:</strong>
+            </div>
+
+            <ul class="lista-elementi">
+                <li><strong>1. IMPORTO DELLE MERCI</strong> - Il prezzo dei beni venduti al NETTO degli eventuali sconti incondizionati. Se il venditore ha concesso uno sconto che non dipende da condizioni, questo va sottratto prima di calcolare la base imponibile.</li>
+                
+                <li><strong>2. IMBALLAGGIO FATTURATO</strong> - Il costo degli imballaggi venduti definitivamente al cliente (non a rendere). Questi imballaggi diventano proprietà del compratore e fanno parte del prezzo totale della merce.</li>
+                
+                <li><strong>3. COSTI ACCESSORI NON DOCUMENTATI</strong> - Sono i servizi accessori prestati DIRETTAMENTE dal venditore e addebitati al compratore. Esempi: trasporto eseguito dal venditore, montaggio fatto dal venditore, installazione a cura del venditore. Questi costi NON hanno una fattura separata da un terzo fornitore.</li>
+            </ul>
+
+            <div class="formula-box">
+                <div>FORMULA DELLA BASE IMPONIBILE:</div>
+                <div class="formula">
+                    IMPORTO MERCI<br>
+                    (al netto sconti incondizionati)<br>
+                    +<br>
+                    IMBALLAGGIO FATTURATO<br>
+                    +<br>
+                    COSTI ACCESSORI NON DOCUMENTATI<br>
+                    =<br>
+                    BASE IMPONIBILE IVA
+                </div>
+            </div>
+
+            <div class="approfondimento">
+                <h4 style="color: #00d4ff;">💡 APPROFONDIMENTO: Perché questi elementi formano la base imponibile?</h4>
+                
+                <p style="margin: 15px 0; line-height: 2;">
+                    <strong>Secondo l'articolo 13 del DPR 633/1972</strong>, la base imponibile è costituita dall'ammontare complessivo dei corrispettivi dovuti secondo le condizioni contrattuali. Questo significa che tutto ciò che il venditore fa direttamente per il cliente e che viene pagato dal cliente deve essere tassato con l'IVA.
+                </p>
+
+                <p style="margin: 15px 0; line-height: 2;">
+                    <strong>Perché i costi accessori NON documentati?</strong><br>
+                    Se il venditore stesso fornisce il servizio (es. trasporto con i propri mezzi), questo è parte del suo business e quindi soggetto a IVA. Se invece un terzo fornisce il servizio e il venditore lo anticipa per conto del cliente, allora l'IVA è già stata pagata dal terzo e non si deve applicare nuovamente.
+                </p>
+            </div>
+        </div>
+
+        <!-- SEZIONE 2: TOTALE FATTURA -->
+        <div class="section">
+            <h2><span class="numero">2</span> Il Totale Fattura</h2>
+            
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE COMPLETA:</strong><br><br>
+                Il <span class="highlight">TOTALE FATTURA</span> è l'importo complessivo finale che il compratore deve pagare al venditore. Include la base imponibile, l'IVA e tutti gli altri elementi previsti dal contratto che NON formano la base imponibile ma devono comunque essere pagati dal cliente.<br><br>
+                <strong>È l'importo che troverete nell'ultima riga della fattura con la dicitura "TOTALE A PAGARE".</strong>
+            </div>
+
+            <h3>🔧 Gli elementi che FORMANO il totale fattura</h3>
+
+            <ul class="lista-elementi">
+                <li><strong>1. BASE IMPONIBILE IVA</strong> - L'importo calcolato come spiegato nella sezione precedente</li>
+                
+                <li><strong>2. IVA</strong> - L'imposta sul valore aggiunto calcolata applicando l'aliquota percentuale sulla base imponibile (es. 22% di base imponibile)</li>
+                
+                <li><strong>3. COSTI ACCESSORI DOCUMENTATI</strong> - Servizi prestati da TERZI che il venditore ha anticipato per conto del compratore. Hanno una fattura separata da un altro fornitore. Esempi: spese di trasporto pagate dal venditore a una società di trasporti, spese di installazione pagate dal venditore a un tecnico esterno</li>
+                
+                <li><strong>4. CAUZIONE PER IMBALLAGGIO A RENDERE</strong> - Deposito cauzionale per imballaggi che restano di proprietà del venditore e dovranno essere restituiti. Quando il cliente restituisce l'imballaggio, gli viene rimborsata la cauzione</li>
+                
+                <li><strong>5. INTERESSI DI DILAZIONE</strong> - Interessi addebitati al cliente se paga in modo dilazionato (pagamento posticipato). Sono ESENTI da IVA ma vanno aggiunti al totale</li>
+                
+                <li><strong>6. IMPOSTA DI BOLLO</strong> - Se in fattura ci sono importi NON soggetti a IVA superiori a 77,47 euro, si deve aggiungere l'imposta di bollo (attualmente 2,00 euro)</li>
+            </ul>
+
+            <div class="formula-box">
+                <div>FORMULA DEL TOTALE FATTURA:</div>
+                <div class="formula">
+                    BASE IMPONIBILE IVA<br>
+                    +<br>
+                    IVA<br>
+                    +<br>
+                    COSTI ACCESSORI DOCUMENTATI<br>
+                    +<br>
+                    CAUZIONE IMBALLAGGIO A RENDERE<br>
+                    +<br>
+                    INTERESSI DI DILAZIONE<br>
+                    +<br>
+                    IMPOSTA DI BOLLO<br>
+                    =<br>
+                    TOTALE FATTURA
+                </div>
+            </div>
+
+            <div class="importante">
+                <strong>⚠️ DIFFERENZA FONDAMENTALE:</strong><br><br>
+                Gli elementi della BASE IMPONIBILE sono soggetti a IVA.<br>
+                Gli elementi che si aggiungono DOPO l'IVA per formare il TOTALE FATTURA NON sono soggetti a IVA (perché l'IVA è già stata pagata da altri o sono esenti).
+            </div>
+        </div>
+
+        <!-- SEZIONE 3: GLI SCONTI MERCANTILI -->
+        <div class="section">
+            <h2><span class="numero">3</span> Gli Sconti Mercantili: Guida Completa</h2>
+
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE:</strong><br><br>
+                Gli <span class="highlight">SCONTI MERCANTILI</span> (o sconti commerciali) sono riduzioni del prezzo della merce che il venditore concede al compratore. Si calcolano moltiplicando il prezzo della merce per la percentuale di sconto.<br><br>
+                <strong>Formula:</strong> SCONTO = Prezzo × Percentuale sconto ÷ 100
+            </div>
+
+            <h3>📊 Tipologia di Sconti: INCONDIZIONATI vs CONDIZIONATI</h3>
+
+            <div class="confronto">
+                <div class="confronto-box">
+                    <h4 style="color: #0f2642; margin-bottom: 15px;">✅ SCONTI INCONDIZIONATI</h4>
+                    <p><strong>Definizione:</strong> Sconti che vengono applicati SEMPRE, senza che debba verificarsi alcuna condizione particolare.</p>
+                    <p><strong>Quando:</strong> Si applicano al momento della vendita, prima dell'emissione della fattura.</p>
+                    <p><strong>Esempi:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Sconto quantità (acquisti oltre una certa quantità)</li>
+                        <li>Sconto promozionale (campagna pubblicitaria)</li>
+                        <li>Sconto listino (prezzo ridotto per tutti)</li>
+                        <li>Sconto fedeltà (clienti abituali)</li>
+                    </ul>
+                    <p><strong>In fattura:</strong> DEVONO essere indicati e riducono la base imponibile</p>
+                    <p><strong>IVA:</strong> Si calcola sul prezzo AL NETTO dello sconto</p>
+                </div>
+
+                <div class="confronto-box">
+                    <h4 style="color: #0f2642; margin-bottom: 15px;">⏱️ SCONTI CONDIZIONATI</h4>
+                    <p><strong>Definizione:</strong> Sconti che vengono applicati SOLO se si verifica una determinata condizione DOPO l'emissione della fattura.</p>
+                    <p><strong>Quando:</strong> Si applicano dopo l'emissione della fattura, al verificarsi della condizione.</p>
+                    <p><strong>Esempi:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Sconto pronta cassa (pagamento immediato)</li>
+                        <li>Sconto fine anno (raggiungimento volume acquisti)</li>
+                        <li>Sconto fedeltà posticipato</li>
+                    </ul>
+                    <p><strong>In fattura:</strong> NON devono essere indicati nella fattura originale</p>
+                    <p><strong>IVA:</strong> Si calcola sul prezzo pieno. Se si verifica la condizione, si emette una nota di credito</p>
+                </div>
+            </div>
+
+            <h3>🔢 Come si calcolano gli Sconti Multipli (in cascata)</h3>
+
+            <div class="info-box">
+                <strong>ATTENZIONE:</strong> Quando ci sono più sconti (es. 15% + 8%), NON si sommano le percentuali!<br>
+                Gli sconti si applicano IN CASCATA, cioè il secondo sconto si calcola sull'importo già scontato.
+            </div>
+
+            <div class="step">
+                <strong>METODO DI CALCOLO SCONTI MULTIPLI:</strong><br><br>
+                <strong>PASSO 1:</strong> Calcola il primo sconto sull'importo totale<br>
+                <strong>PASSO 2:</strong> Sottrai il primo sconto dall'importo totale<br>
+                <strong>PASSO 3:</strong> Calcola il secondo sconto sul nuovo importo (già scontato)<br>
+                <strong>PASSO 4:</strong> Sottrai il secondo sconto per ottenere l'importo finale
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO GUIDATO 1: Calcolo con Sconti Multipli</div>
+                
+                <p><strong>TESTO:</strong> Il ristorante Osteria Ferretti acquista 3 lavapiatti al prezzo di 1.700 euro ciascuno, IVA 22%. Le clausole contrattuali prevedono lo sconto promozionale del 15% e lo sconto quantità dell'8%.</p>
+                
+                <h4>RISOLUZIONE PASSO PER PASSO:</h4>
+                
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Calcolo importo merce</strong><br>
+                    3 lavapiatti × 1.700 euro = <strong>5.100,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Primo sconto (15% promozionale)</strong><br>
+                    Sconto = 5.100 × 15% = 5.100 × 0,15 = <strong>765,00 euro</strong><br>
+                    Importo dopo primo sconto = 5.100 - 765 = <strong>4.335,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: Secondo sconto (8% quantità) - ATTENZIONE: si calcola su 4.335!</strong><br>
+                    Sconto = 4.335 × 8% = 4.335 × 0,08 = <strong>346,80 euro</strong><br>
+                    Importo dopo secondo sconto = 4.335 - 346,80 = <strong>3.988,20 euro</strong><br>
+                    ⭐ Questa è la BASE IMPONIBILE IVA
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: Calcolo IVA (22%)</strong><br>
+                    IVA = 3.988,20 × 22% = 3.988,20 × 0,22 = <strong>877,40 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 5: Totale fattura</strong><br>
+                    Totale = Base imponibile + IVA = 3.988,20 + 877,40 = <strong>4.865,60 euro</strong>
+                </div>
+
+                <h4 style="margin-top: 30px;">FATTURA COMPLETA:</h4>
+                <table>
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Aliquota IVA 4%</th>
+                        <th>Aliquota IVA 10%</th>
+                        <th>Totale</th>
+                    </tr>
+                    <tr>
+                        <td>Scamorza affumicata (70 × 3)</td>
+                        <td>210,00</td>
+                        <td></td>
+                        <td>210,00</td>
+                    </tr>
+                    <tr>
+                        <td>Caciocavallo (20 × 36)</td>
+                        <td>720,00</td>
+                        <td></td>
+                        <td>720,00</td>
+                    </tr>
+                    <tr>
+                        <td>Salumi tipici (50 × 12,60)</td>
+                        <td></td>
+                        <td>630,00</td>
+                        <td>630,00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale merce</strong></td>
+                        <td><strong>930,00</strong></td>
+                        <td><strong>630,00</strong></td>
+                        <td><strong>1.560,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Costi trasporto documentati</td>
+                        <td>13,95</td>
+                        <td>9,45</td>
+                        <td>23,40</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile</strong></td>
+                        <td><strong>943,95</strong></td>
+                        <td><strong>639,45</strong></td>
+                        <td><strong>1.583,40</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA</td>
+                        <td>37,76</td>
+                        <td>63,95</td>
+                        <td>101,71</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td><strong>981,71</strong></td>
+                        <td><strong>703,40</strong></td>
+                        <td><strong>1.685,11</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 45: Hotel Corso (PIÙ ALIQUOTE)</div>
+                
+                <p><strong>TESTO:</strong> L'hotel Corso acquista da un rivenditore le seguenti merci:<br>
+                • n. 500 confezioni di mandorle sgusciate e salate per frigobar al prezzo di 1,50 euro ciascuna, IVA 4%;<br>
+                • n. 50 cestini gettacarte al prezzo di 5,50 euro ciascuno, IVA 22%;<br>
+                • n. 800 set di cortesia per bagno al prezzo di 4,50 euro ciascuno, IVA 22%.<br>
+                Il trasporto è effettuato dal venditore con addebito di costi forfettari per 37 euro.</p>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Calcolo importi merci</strong><br>
+                    <strong>Merci IVA 4%:</strong><br>
+                    • Mandorle: 500 × 1,50 = <strong>750,00 euro</strong><br><br>
+                    <strong>Merci IVA 22%:</strong><br>
+                    • Cestini: 50 × 5,50 = 275,00 euro<br>
+                    • Set cortesia: 800 × 4,50 = 3.600,00 euro<br>
+                    <strong>Totale IVA 22%: 3.875,00 euro</strong><br><br>
+                    <strong>TOTALE MERCI: 4.625,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Coefficiente di riparto</strong><br>
+                    Coefficiente = 37,00 ÷ 4.625,00 = <strong>0,008</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: Riparto costi</strong><br>
+                    • Costi per IVA 4%: 0,008 × 750,00 = <strong>6,00 euro</strong><br>
+                    • Costi per IVA 22%: 0,008 × 3.875,00 = <strong>31,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: Basi imponibili</strong><br>
+                    • Base IVA 4%: 750,00 + 6,00 = <strong>756,00 euro</strong><br>
+                    • Base IVA 22%: 3.875,00 + 31,00 = <strong>3.906,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 5: IVA e Totale</strong><br>
+                    • IVA 4%: 756,00 × 0,04 = <strong>30,24 euro</strong><br>
+                    • IVA 22%: 3.906,00 × 0,22 = <strong>859,32 euro</strong><br>
+                    • Totale 4%: 786,24 euro<br>
+                    • Totale 22%: 4.765,32 euro<br>
+                    <strong>TOTALE FATTURA: 5.551,56 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Aliquota IVA 4%</th>
+                        <th>Aliquota IVA 22%</th>
+                        <th>Totale</th>
+                    </tr>
+                    <tr>
+                        <td>Mandorle sgusciate e salate (500 × 1,50)</td>
+                        <td>750,00</td>
+                        <td></td>
+                        <td>750,00</td>
+                    </tr>
+                    <tr>
+                        <td>Cestini gettacarte (50 × 5,50)</td>
+                        <td></td>
+                        <td>275,00</td>
+                        <td>275,00</td>
+                    </tr>
+                    <tr>
+                        <td>Set cortesia per bagno (800 × 4,50)</td>
+                        <td></td>
+                        <td>3.600,00</td>
+                        <td>3.600,00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale merce</strong></td>
+                        <td><strong>750,00</strong></td>
+                        <td><strong>3.875,00</strong></td>
+                        <td><strong>4.625,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Costi trasporto documentati</td>
+                        <td>6,00</td>
+                        <td>31,00</td>
+                        <td>37,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile</strong></td>
+                        <td><strong>756,00</strong></td>
+                        <td><strong>3.906,00</strong></td>
+                        <td><strong>4.662,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA</td>
+                        <td>30,24</td>
+                        <td>859,32</td>
+                        <td>889,56</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td><strong>786,24</strong></td>
+                        <td><strong>4.765,32</strong></td>
+                        <td><strong>5.551,56</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEZIONE 9: ESERCIZI RIASSUNTIVI -->
+        <div class="section">
+            <h2><span class="numero">9</span> Esercizi Riassuntivi Completi</h2>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 36: Ristorante Sapori Antichi</div>
+                
+                <p><strong>TESTO:</strong> Il ristorante Sapori Antichi acquista le seguenti attrezzature da cucina:<br>
+                • 6 casseruole alte, al prezzo unitario di 12 euro;<br>
+                • 8 colini a rete, al prezzo unitario di 18 euro;<br>
+                • 10 colafritti professionali, al prezzo unitario di 20 euro;<br>
+                • 6 taglieri in polietilene, al prezzo unitario di 24 euro.<br>
+                Calcola la base imponibile e il totale fattura, sapendo che le attrezzature sono soggette a IVA 22%.</p>
+
+                <div class="calcolo-step">
+                    <strong>CALCOLI COMPLETI:</strong><br>
+                    • Casseruole: 6 × 12 = 72,00 euro<br>
+                    • Colini: 8 × 18 = 144,00 euro<br>
+                    • Colafritti: 10 × 20 = 200,00 euro<br>
+                    • Taglieri: 6 × 24 = 144,00 euro<br>
+                    <strong>Base imponibile IVA: 560,00 euro</strong><br>
+                    IVA 22%: 560,00 × 0,22 = <strong>123,20 euro</strong><br>
+                    <strong>TOTALE FATTURA: 683,20 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Casseruole alte</td>
+                        <td>6</td>
+                        <td>12,00</td>
+                        <td>72,00</td>
+                    </tr>
+                    <tr>
+                        <td>Colini a rete</td>
+                        <td>8</td>
+                        <td>18,00</td>
+                        <td>144,00</td>
+                    </tr>
+                    <tr>
+                        <td>Colafritti professionali</td>
+                        <td>10</td>
+                        <td>20,00</td>
+                        <td>200,00</td>
+                    </tr>
+                    <tr>
+                        <td>Taglieri in polietilene</td>
+                        <td>6</td>
+                        <td>24,00</td>
+                        <td>144,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>560,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 560,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>123,20</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>683,20</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEZIONE FINALE: RIEPILOGO -->
+        <div class="section">
+            <h2><span class="numero">📚</span> Riepilogo Completo e Schema Finale</h2>
+
+            <div class="schema">
+                <h3 style="color: #2563a8; margin-bottom: 40px; font-size: 2em;">🎯 Schema Completo della Fattura</h3>
+                
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #17a2b8, #138496);">IMPORTO MERCI</div>
+                <div class="freccia">↓</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #17a2b8, #138496);">– SCONTI INCONDIZIONATI</div>
+                <div class="freccia">↓</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #17a2b8, #138496);">= IMPORTO MERCI AL NETTO</div>
+                <div class="freccia">↓ AGGIUNGI</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #17a2b8, #138496);">+ IMBALLAGGIO FATTURATO</div>
+                <div class="freccia">↓ AGGIUNGI</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #17a2b8, #138496);">+ COSTI ACCESSORI NON DOCUMENTATI</div>
+                <div class="freccia">↓ UGUALE</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #00d4ff, #0a8fd4); font-size: 1.4em; padding: 30px 50px;">= BASE IMPONIBILE IVA</div>
+                <div class="freccia">↓ CALCOLA</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #2563a8, #1a4d7a);">× ALIQUOTA IVA (4%, 5%, 10%, 22%)</div>
+                <div class="freccia">↓ UGUALE</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #2563a8, #1a4d7a);">= IVA</div>
+                <div class="freccia">↓ AGGIUNGI</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #2563a8, #1a4d7a);">+ COSTI ACCESSORI DOCUMENTATI</div>
+                <div class="freccia">↓ AGGIUNGI</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #2563a8, #1a4d7a);">+ CAUZIONE IMBALLAGGIO A RENDERE</div>
+                <div class="freccia">↓ AGGIUNGI</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #2563a8, #1a4d7a);">+ INTERESSI DI DILAZIONE</div>
+                <div class="freccia">↓ AGGIUNGI</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #2563a8, #1a4d7a);">+ IMPOSTA DI BOLLO (se necessaria)</div>
+                <div class="freccia">↓ UGUALE</div>
+                <div class="box-calcolo" style="background: linear-gradient(135deg, #ffa500, #ff8c00); color: #0f2642; font-size: 1.5em; padding: 35px 60px;">= TOTALE FATTURA A PAGARE</div>
+            </div>
+
+            <h3 style="margin-top: 50px;">📋 Tabella Riassuntiva: Cosa Forma la Base Imponibile e il Totale Fattura</h3>
+
+            <table style="margin-top: 30px;">
+                <tr>
+                    <th>ELEMENTO</th>
+                    <th>FORMA BASE IMPONIBILE?</th>
+                    <th>SOGGETTO A IVA?</th>
+                    <th>FORMA TOTALE FATTURA?</th>
+                    <th>QUANDO SI INDICA?</th>
+                </tr>
+                <tr>
+                    <td><strong>Importo merci (netto sconti)</strong></td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>Prima dell'IVA</td>
+                </tr>
+                <tr>
+                    <td><strong>Sconti incondizionati</strong></td>
+                    <td style="background: #fff3cd;">⚠️ Riducono la base</td>
+                    <td style="background: #d4edda;">✅ SÌ (sul netto)</td>
+                    <td style="background: #d4edda;">✅ SÌ</td>
+                    <td>Vanno indicati in fattura</td>
+                </tr>
+                <tr>
+                    <td><strong>Sconti condizionati</strong></td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #f8d7da;">❌ NO</td>
+                    <td style="background: #f8d7da;">❌ NO</td>
+                    <td>NON in fattura originale</td>
+                </tr>
+                <tr>
+                    <td><strong>Imballaggio fatturato</strong></td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>Prima dell'IVA</td>
+                </tr>
+                <tr>
+                    <td><strong>Imballaggio a rendere (cauzione)</strong></td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>DOPO l'IVA</td>
+                </tr>
+                <tr>
+                    <td><strong>Costi accessori NON documentati</strong></td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>Prima dell'IVA</td>
+                </tr>
+                <tr>
+                    <td><strong>Costi accessori DOCUMENTATI</strong></td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>DOPO l'IVA</td>
+                </tr>
+                <tr>
+                    <td><strong>IVA</strong></td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #fff3cd;">⚠️ È l'IVA stessa</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>Dopo la base imponibile</td>
+                </tr>
+                <tr>
+                    <td><strong>Interessi di dilazione</strong></td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO (esenti)</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>DOPO l'IVA</td>
+                </tr>
+                <tr>
+                    <td><strong>Imposta di bollo</strong></td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #f8d7da; font-weight: bold;">❌ NO</td>
+                    <td style="background: #d4edda; font-weight: bold;">✅ SÌ</td>
+                    <td>DOPO l'IVA</td>
+                </tr>
+            </table>
+
+            <div class="alert" style="margin-top: 40px; font-size: 1.2em;">
+                <strong>⚠️ REGOLE D'ORO DA RICORDARE SEMPRE:</strong><br><br>
+                
+                <div style="line-height: 2.2;">
+                1️⃣ <strong>SCONTI:</strong> Incondizionati = SEMPRE in fattura e riducono base imponibile | Condizionati = MAI in fattura originale<br><br>
+                
+                2️⃣ <strong>IMBALLAGGI:</strong> Fatturato = nella base imponibile | A rendere = dopo l'IVA (solo cauzione)<br><br>
+                
+                3️⃣ <strong>COSTI ACCESSORI:</strong> NON documentati = soggetti a IVA | Documentati = NON soggetti a IVA<br><br>
+                
+                4️⃣ <strong>INTERESSI:</strong> Sempre ESENTI da IVA, sempre DOPO l'IVA in fattura<br><br>
+                
+                5️⃣ <strong>PIÙ ALIQUOTE:</strong> Usa il riparto proporzionale per i costi accessori (coefficiente = costi ÷ totale merci)<br><br>
+                
+                6️⃣ <strong>SCONTI MULTIPLI:</strong> Si calcolano IN CASCATA, non si sommano le percentuali!<br><br>
+                
+                7️⃣ <strong>IMPOSTA DI BOLLO:</strong> Solo se importi NON IVA > 77,47 euro (importo: 2,00 euro)<br><br>
+                
+                8️⃣ <strong>ALIQUOTE IVA 2025:</strong> 4% (prima necessità) | 5% (specifici) | 10% (ridotta) | 22% (ordinaria)
+                </div>
+            </div>
+
+            <div class="approfondimento" style="margin-top: 40px;">
+                <h3 style="color: #00d4ff; font-size: 1.8em; margin-bottom: 25px;">💡 Consigli per lo Studio e l'Esame</h3>
+                
+                <div style="line-height: 2.2; font-size: 1.1em;">
+                <strong>1. METODO DI STUDIO:</strong><br>
+                • Studia prima la teoria, poi fai gli esercizi<br>
+                • Rifai gli esercizi spiegati senza guardare<br>
+                • Crea una tabella riassuntiva personale<br>
+                • Ripeti ad alta voce le definizioni<br><br>
+                
+                <strong>2. DURANTE L'ESERCIZIO:</strong><br>
+                • Leggi il testo DUE volte con attenzione<br>
+                • Sottolinea i dati importanti<br>
+                • Scrivi TUTTI i passaggi, anche i più semplici<br>
+                • Verifica sempre che la somma torni<br>
+                • Controlla le aliquote IVA (sono corrette?)<br><br>
+                
+                <strong>3. ERRORI COMUNI DA EVITARE:</strong><br>
+                ❌ Dimenticare di sottrarre gli sconti<br>
+                ❌ Sommare le percentuali degli sconti multipli<br>
+                ❌ Mettere i costi documentati nella base imponibile<br>
+                ❌ Dimenticare l'IVA sui costi NON documentati<br>
+                ❌ Indicare la cauzione prima dell'IVA<br>
+                ❌ Applicare l'IVA agli interessi di dilazione<br>
+                ❌ Non ripartire i costi accessori con più aliquote<br><br>
+                
+                <strong>4. CONTROLLO FINALE:</strong><br>
+                ✓ Hai calcolato tutti gli sconti?<br>
+                ✓ Hai sommato correttamente la base imponibile?<br>
+                ✓ L'IVA è calcolata sulla base imponibile corretta?<br>
+                ✓ Gli elementi dopo l'IVA sono al posto giusto?<br>
+                ✓ Il totale fattura include tutto?<br>
+                ✓ Hai arrotondato correttamente ai centesimi?
+                </div>
+            </div>
+
+            <div class="importante" style="margin-top: 40px; font-size: 1.3em; text-align: center; padding: 40px;">
+                <strong>✨ Hai completato lo studio della Lezione 5! ✨</strong><br><br>
+                Ora sei in grado di:<br>
+                ✅ Calcolare la base imponibile IVA<br>
+                ✅ Determinare il totale fattura<br>
+                ✅ Gestire sconti incondizionati e condizionati<br>
+                ✅ Trattare correttamente imballaggi e costi accessori<br>
+                ✅ Risolvere fatture con più aliquote IVA<br><br>
+                <strong>💪 Continua ad esercitarti e avrai successo!</strong>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 50px; color: #fff; background: linear-gradient(135deg, #0f2642, #1a4d7a);">
+            <p style="font-size: 1.4em; margin-bottom: 15px; font-weight: 700;">📚 IIS Vespucci - Milano</p>
+            <p style="font-size: 1.1em; margin-bottom: 10px;">Economia Aziendale | Prof. Economia Aziendale</p>
+            <p style="font-size: 1em;">Anno Scolastico 2025/26</p>
+            <p style="font-size: 0.9em; margin-top: 20px; color: #7fb3d5;">Materiale didattico completo per studenti BES e DVA</p>
+        </footer>
+    </div>
+</body>
+</html> COMPLETA:</h4>
+                <table>
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Lavapiatti</td>
+                        <td>3</td>
+                        <td>1.700,00</td>
+                        <td>5.100,00</td>
+                    </tr>
+                    <tr>
+                        <td>– sconto 15% su 5.100,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>765,00</td>
+                    </tr>
+                    <tr>
+                        <td>Importo della merce al netto del primo sconto</td>
+                        <td></td>
+                        <td></td>
+                        <td>4.335,00</td>
+                    </tr>
+                    <tr>
+                        <td>– sconto 8% su 4.335,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>346,80</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>3.988,20</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 3.988,20 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>877,40</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>4.865,60</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="nota-bene">
+                ⚠️ NOTA BENE: Se gli sconti fossero 15% + 8% = 23%?<br>
+                NO! 5.100 × 23% = 1.173 euro di sconto → Importo finale = 3.927 euro<br>
+                Ma con il metodo corretto in cascata otteniamo 3.988,20 euro<br>
+                <strong>La differenza è di 61,20 euro! Ecco perché è importante calcolare gli sconti in cascata!</strong>
+            </div>
+        </div>
+
+        <!-- SEZIONE 4: ESERCIZI SCONTI -->
+        <div class="section">
+            <h2><span class="numero">4</span> Esercizi Risolti sugli Sconti</h2>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 37: Pizzeria Moretti</div>
+                
+                <p><strong>TESTO:</strong> La pizzeria Moretti acquista da un fornitore 50 litri di olio d'oliva al prezzo di 7,50 euro al litro. Calcola la base imponibile e il totale fattura, sapendo che è stato concesso lo sconto 10% e che la merce è soggetta a IVA 4%.</p>
+
+                <div class="calcolo-step">
+                    <strong>DATI:</strong><br>
+                    • Quantità: 50 litri<br>
+                    • Prezzo unitario: 7,50 euro<br>
+                    • Sconto: 10% (incondizionato)<br>
+                    • IVA: 4%
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Importo merce</strong><br>
+                    50 litri × 7,50 euro = <strong>375,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Sconto 10%</strong><br>
+                    Sconto = 375,00 × 10% = <strong>37,50 euro</strong><br>
+                    Importo netto = 375,00 - 37,50 = <strong>337,50 euro</strong><br>
+                    ⭐ BASE IMPONIBILE IVA = <strong>337,50 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: IVA 4%</strong><br>
+                    IVA = 337,50 × 4% = <strong>13,50 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: Totale fattura</strong><br>
+                    Totale = 337,50 + 13,50 = <strong>351,00 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Olio d'oliva</td>
+                        <td>50 l</td>
+                        <td>7,50</td>
+                        <td>375,00</td>
+                    </tr>
+                    <tr>
+                        <td>– sconto 10% su 375,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>37,50</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>337,50</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 4% su 337,50 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>13,50</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>351,00</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 38: Birreria Fanucci</div>
+                
+                <p><strong>TESTO:</strong> La Birreria artigianale Fanucci acquista da un fornitore n. 100 confezioni di luppolo da 200 g a 10,50 euro a confezione, IVA 10%. Le clausole contrattuali prevedono lo sconto promozionale e sconto quantità 10% + 3%.</p>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Importo merce</strong><br>
+                    100 confezioni × 10,50 euro = <strong>1.050,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Primo sconto (10%)</strong><br>
+                    Sconto = 1.050,00 × 10% = <strong>105,00 euro</strong><br>
+                    Importo dopo primo sconto = 1.050,00 - 105,00 = <strong>945,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: Secondo sconto (3% su 945,00)</strong><br>
+                    Sconto = 945,00 × 3% = <strong>28,35 euro</strong><br>
+                    Importo dopo secondo sconto = 945,00 - 28,35 = <strong>916,65 euro</strong><br>
+                    ⭐ BASE IMPONIBILE IVA = <strong>916,65 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: IVA 10%</strong><br>
+                    IVA = 916,65 × 10% = <strong>91,67 euro</strong> (arrotondato)
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 5: Totale fattura</strong><br>
+                    Totale = 916,65 + 91,67 = <strong>1.008,32 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Confezioni di luppolo da 200 g</td>
+                        <td>100</td>
+                        <td>10,50</td>
+                        <td>1.050,00</td>
+                    </tr>
+                    <tr>
+                        <td>– sconto 10% su 1.050,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>105,00</td>
+                    </tr>
+                    <tr>
+                        <td>Importo della merce al netto del primo sconto</td>
+                        <td></td>
+                        <td></td>
+                        <td>945,00</td>
+                    </tr>
+                    <tr>
+                        <td>– sconto 3% su 945,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>28,35</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>916,65</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 10% su 916,65 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>91,67</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>1.008,32</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEZIONE 5: COSTI ACCESSORI -->
+        <div class="section">
+            <h2><span class="numero">5</span> I Costi Accessori</h2>
+
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE:</strong><br><br>
+                I <span class="highlight">COSTI ACCESSORI</span> sono servizi collegati alla vendita della merce ma che non costituiscono la merce stessa. I più comuni sono:<br><br>
+                ✓ Trasporto<br>
+                ✓ Montaggio<br>
+                ✓ Installazione<br>
+                ✓ Collaudo<br>
+                ✓ Configurazione
+            </div>
+
+            <h3>📦 Due Tipologie di Costi Accessori</h3>
+
+            <div class="confronto">
+                <div class="confronto-box">
+                    <h4 style="color: #0f2642; margin-bottom: 15px;">🔧 COSTI ACCESSORI NON DOCUMENTATI</h4>
+                    <p><strong>Cosa sono:</strong> Servizi forniti DIRETTAMENTE dal venditore</p>
+                    <p><strong>Chi li svolge:</strong> Il venditore con i propri mezzi/personale</p>
+                    <p><strong>Documentazione:</strong> NON hanno una fattura separata</p>
+                    <p><strong>Trattamento IVA:</strong> ✅ SOGGETTI A IVA</p>
+                    <p><strong>Base imponibile:</strong> ✅ FORMANO la base imponibile</p>
+                    <p><strong>Esempio:</strong> Il negozio di mobili consegna il divano con il proprio furgone e addebita 50 euro per il trasporto</p>
+                </div>
+
+                <div class="confronto-box">
+                    <h4 style="color: #0f2642; margin-bottom: 15px;">📋 COSTI ACCESSORI DOCUMENTATI</h4>
+                    <p><strong>Cosa sono:</strong> Servizi prestati da TERZI, anticipati dal venditore</p>
+                    <p><strong>Chi li svolge:</strong> Un'altra azienda (società di trasporti, tecnici esterni)</p>
+                    <p><strong>Documentazione:</strong> ✅ Hanno una fattura separata dal terzo fornitore</p>
+                    <p><strong>Trattamento IVA:</strong> ❌ NON soggetti a IVA (già pagata dal terzo)</p>
+                    <p><strong>Base imponibile:</strong> ❌ NON formano la base imponibile</p>
+                    <p><strong>Totale fattura:</strong> ✅ CONCORRONO a formare il totale fattura</p>
+                    <p><strong>Esempio:</strong> Il venditore paga un corriere espresso 80 euro per la consegna e addebita questa spesa al cliente</p>
+                </div>
+            </div>
+
+            <div class="approfondimento">
+                <h4 style="color: #00d4ff;">💡 PERCHÉ questa differenza?</h4>
+                <p style="line-height: 2; margin: 15px 0;">
+                    <strong>Motivo fiscale:</strong> L'IVA si paga una sola volta! Se il venditore stesso fornisce il servizio, deve applicare l'IVA perché è parte della sua attività commerciale. Se invece un terzo fornisce il servizio, l'IVA è già stata pagata da quel terzo quando ha emesso la sua fattura. Il venditore fa solo da "intermediario" per il pagamento, non deve applicare nuovamente l'IVA.
+                </p>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 39: Bonini Catering</div>
+                
+                <p><strong>TESTO:</strong> La Bonini Catering vende i seguenti menu da asporto soggetti a IVA 10%:<br>
+                • 125 menu coffee break, al prezzo di 7,50 euro ciascuno;<br>
+                • 125 menu completi, al prezzo di 18 euro ciascuno.<br>
+                Calcola la base imponibile e il totale fattura, sapendo che il trasporto è stato eseguito con automezzo del venditore che addebita 33,50 euro di spese forfettarie.</p>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Menu coffee break</strong><br>
+                    125 × 7,50 = <strong>937,50 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Menu completi</strong><br>
+                    125 × 18,00 = <strong>2.250,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: Totale merce</strong><br>
+                    937,50 + 2.250,00 = <strong>3.187,50 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: Costi di trasporto NON documentati</strong><br>
+                    Il trasporto è eseguito dal venditore stesso = <strong>33,50 euro</strong><br>
+                    ⚠️ Questi costi FORMANO la base imponibile!
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 5: Base imponibile IVA</strong><br>
+                    3.187,50 + 33,50 = <strong>3.221,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 6: IVA 10%</strong><br>
+                    3.221,00 × 10% = <strong>322,10 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 7: Totale fattura</strong><br>
+                    3.221,00 + 322,10 = <strong>3.543,10 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Menu coffee break</td>
+                        <td>125</td>
+                        <td>7,50</td>
+                        <td>937,50</td>
+                    </tr>
+                    <tr>
+                        <td>Menu completi</td>
+                        <td>125</td>
+                        <td>18,00</td>
+                        <td>2.250,00</td>
+                    </tr>
+                    <tr>
+                        <td>Totale merce</td>
+                        <td></td>
+                        <td></td>
+                        <td>3.187,50</td>
+                    </tr>
+                    <tr>
+                        <td>Costi di trasporto non documentati</td>
+                        <td></td>
+                        <td></td>
+                        <td>33,50</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>3.221,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 10% su 3.221,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>322,10</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>3.543,10</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 40: American Fast Food</div>
+                
+                <p><strong>TESTO:</strong> L'American Fast food acquista i seguenti prodotti in plastica soggetti a IVA 22%:<br>
+                • 50 confezioni da 50 pezzi di forchettine per dolce, al prezzo unitario di 12 euro a confezione;<br>
+                • 40 set degustazioni, al prezzo di 18 euro ciascuno;<br>
+                • 40 vassoi decorati con ciotola, al prezzo unitario di 11 euro ciascuno;<br>
+                • 20 insalatiere grandi, al prezzo di 9 euro ciascuna.<br>
+                Il trasporto è eseguito dal venditore che addebita in fattura spese forfettarie di 28 euro.</p>
+
+                <div class="calcolo-step">
+                    <strong>CALCOLI:</strong><br>
+                    • Forchettine: 50 × 12 = 600,00 euro<br>
+                    • Set degustazioni: 40 × 18 = 720,00 euro<br>
+                    • Vassoi decorati: 40 × 11 = 440,00 euro<br>
+                    • Insalatiere: 20 × 9 = 180,00 euro<br>
+                    <strong>Totale merce: 1.940,00 euro</strong><br><br>
+                    Costi trasporto non documentati: 28,00 euro<br>
+                    <strong>Base imponibile: 1.940,00 + 28,00 = 1.968,00 euro</strong><br>
+                    IVA 22%: 1.968,00 × 0,22 = 432,96 euro<br>
+                    <strong>TOTALE FATTURA: 2.400,96 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Confezioni da 50 pezzi di forchettine per dolce</td>
+                        <td>50</td>
+                        <td>12,00</td>
+                        <td>600,00</td>
+                    </tr>
+                    <tr>
+                        <td>Set degustazioni</td>
+                        <td>40</td>
+                        <td>18,00</td>
+                        <td>720,00</td>
+                    </tr>
+                    <tr>
+                        <td>Vassoi decorati con ciotola</td>
+                        <td>40</td>
+                        <td>11,00</td>
+                        <td>440,00</td>
+                    </tr>
+                    <tr>
+                        <td>Insalatiere grandi</td>
+                        <td>20</td>
+                        <td>9,00</td>
+                        <td>180,00</td>
+                    </tr>
+                    <tr>
+                        <td>Totale merce</td>
+                        <td></td>
+                        <td></td>
+                        <td>1.940,00</td>
+                    </tr>
+                    <tr>
+                        <td>Costi di trasporto non documentati</td>
+                        <td></td>
+                        <td></td>
+                        <td>28,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>1.968,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 1.968,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>432,96</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>2.400,96</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEZIONE 6: IMBALLAGGI -->
+        <div class="section">
+            <h2><span class="numero">6</span> Gli Imballaggi</h2>
+
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE:</strong><br><br>
+                Gli <span class="highlight">IMBALLAGGI</span> si utilizzano per contenere merci, proteggerle, consentirne la manipolazione e assicurarne la presentazione. Possono essere scatole, casse, pallet, fusti, contenitori, ecc.
+            </div>
+
+            <h3>📦 Due Tipologie di Imballaggi</h3>
+
+            <div class="confronto">
+                <div class="confronto-box">
+                    <h4 style="color: #0f2642; margin-bottom: 15px;">📦 IMBALLAGGI FATTURATI</h4>
+                    <p><strong>Cosa sono:</strong> Imballaggi venduti definitivamente al compratore</p>
+                    <p><strong>Proprietà:</strong> Diventa del COMPRATORE</p>
+                    <p><strong>Restituzione:</strong> NON si restituiscono</p>
+                    <p><strong>Trattamento IVA:</strong> ✅ SOGGETTI A IVA</p>
+                    <p><strong>Base imponibile:</strong> ✅ FORMANO la base imponibile</p>
+                    <p><strong>In fattura:</strong> Si indicano separatamente dalle merci prima dell'IVA</p>
+                    <p><strong>Esempio:</strong> Scatole di cartone per la spedizione, buste, contenitori monouso</p>
+                </div>
+
+                <div class="confronto-box">
+                    <h4 style="color: #0f2642; margin-bottom: 15px;">🔄 IMBALLAGGI A RENDERE</h4>
+                    <p><strong>Cosa sono:</strong> Imballaggi che restano di proprietà del venditore</p>
+                    <p><strong>Proprietà:</strong> Resta del VENDITORE</p>
+                    <p><strong>Restituzione:</strong> ✅ Si restituiscono dopo l'uso</p>
+                    <p><strong>Cauzione:</strong> Il compratore versa una CAUZIONE che gli verrà restituita quando riconsegna l'imballaggio</p>
+                    <p><strong>Trattamento IVA:</strong> ❌ La cauzione NON è soggetta a IVA</p>
+                    <p><strong>Base imponibile:</strong> ❌ NON forma la base imponibile</p>
+                    <p><strong>Totale fattura:</strong> ✅ La cauzione forma il totale fattura</p>
+                    <p><strong>In fattura:</strong> Si indica DOPO l'IVA</p>
+                    <p><strong>Esempio:</strong> Fusti per olio, bottiglie di vetro per vino, pallet in legno riutilizzabili</p>
+                </div>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO: Hotel Borgo (Imballaggi Fatturati)</div>
+                
+                <p><strong>TESTO:</strong> L'hotel Borgo acquista per la hall dell'albergo n. 2 mobili espositori di prodotti tipici locali in vetro al prezzo di 475 euro ciascuno, imballaggio fatturato 40 euro, IVA 22%.</p>
+
+                <div class="calcolo-step">
+                    <strong>CALCOLI:</strong><br>
+                    • Espositori: 2 × 475 = <strong>950,00 euro</strong><br>
+                    • Imballaggio fatturato: <strong>40,00 euro</strong><br>
+                    ⚠️ L'imballaggio FORMA la base imponibile!<br>
+                    <strong>Base imponibile: 950,00 + 40,00 = 990,00 euro</strong><br>
+                    • IVA 22%: 990,00 × 0,22 = <strong>217,80 euro</strong><br>
+                    <strong>TOTALE FATTURA: 1.207,80 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Espositori di prodotti in vetro</td>
+                        <td>2</td>
+                        <td>475,00</td>
+                        <td>950,00</td>
+                    </tr>
+                    <tr>
+                        <td>Imballaggio fatturato</td>
+                        <td></td>
+                        <td></td>
+                        <td>40,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>990,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 990,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>217,80</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>1.207,80</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO: Ristorante Pescatore (Imballaggi a Rendere)</div>
+                
+                <p><strong>TESTO:</strong> Il ristorante pescatore acquista n. 12 contenitori di olio d'oliva da 5 litri al prezzo di 85 euro a contenitore e il fornitore ha anticipato l'importo, addebitando in fattura 85,40 euro di spese documentate e l'imposta di bollo di 2 euro. Presenta il calcolo della base imponibile e del totale della fattura.</p>
+
+                <div class="nota-bene">
+                    ⚠️ ATTENZIONE: L'esercizio menziona "cauzione" ma nel testo originale si parla di un ristorante che acquista contenitori per olio d'oliva. Seguiamo la versione dell'imballaggio a rendere con cauzione di 12 euro come nell'esempio della teoria.
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>SOLUZIONE CORRETTA (con cauzione a rendere):</strong><br>
+                    • Contenitori olio: 12 × 85 = <strong>1.020,00 euro</strong><br>
+                    <strong>Base imponibile IVA: 1.020,00 euro</strong><br>
+                    • IVA 4%: 1.020,00 × 0,04 = <strong>40,80 euro</strong><br>
+                    • Totale: 1.020,00 + 40,80 = <strong>1.060,80 euro</strong><br>
+                    • Cauzione imballaggio a rendere: <strong>12,00 euro</strong><br>
+                    ⚠️ La cauzione va DOPO l'IVA!<br>
+                    <strong>TOTALE FATTURA: 1.060,80 + 12,00 = 1.072,80 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Contenitori di olio d'oliva da 5 litri</td>
+                        <td>12</td>
+                        <td>85,00</td>
+                        <td>1.020,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>1.020,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 4% su 1.020,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>40,80</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>1.060,80</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Cauzione per imballaggio a rendere</td>
+                        <td></td>
+                        <td></td>
+                        <td>12,00</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>1.072,80</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEZIONE 7: INTERESSI E IMPOSTA BOLLO -->
+        <div class="section">
+            <h2><span class="numero">7</span> Interessi di Dilazione e Imposta di Bollo</h2>
+
+            <h3>💰 Gli Interessi di Dilazione</h3>
+
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE:</strong><br><br>
+                Gli <span class="highlight">INTERESSI DI DILAZIONE</span> sono a carico del compratore quando le parti si accordano su un pagamento POSTICIPATO del prezzo (pagamento dilazionato nel tempo).<br><br>
+                Si tratta di una sorta di "compenso" che il compratore paga al venditore per poter pagare in un secondo momento invece che subito.
+            </div>
+
+            <div class="importante">
+                <strong>⚠️ REGOLE FISCALI FONDAMENTALI:</strong><br><br>
+                1️⃣ Gli interessi di dilazione sono <span class="highlight">ESENTI da IVA</span><br>
+                2️⃣ <strong>NON formano</strong> la base imponibile<br>
+                3️⃣ <strong>DEVONO essere indicati</strong> in fattura<br>
+                4️⃣ <strong>CONCORRONO</strong> a formare il totale fattura<br>
+                5️⃣ Si indicano <strong>DOPO l'IVA</strong>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 41: Moretti Cocktail Bar</div>
+                
+                <p><strong>TESTO:</strong> Il Moretti Cocktail Bar acquista i seguenti articoli:<br>
+                • 15 shake maker, al prezzo di 12 euro l'uno;<br>
+                • 8 portasalatini in due ciotole, al prezzo di 22 euro l'uno;<br>
+                • 20 portatovaglioli in acciaio, al prezzo di 3,50 euro l'uno;<br>
+                • 15 dosatori di zucchero, al prezzo di 9,50 euro l'uno.<br>
+                Calcola la base imponibile e il totale fattura, sapendo che gli articoli sono soggetti a IVA 22% e che è previsto il pagamento posticipato con interessi di dilazione per 10,20 euro.</p>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Calcolo importo merci</strong><br>
+                    • Shake maker: 15 × 12 = 180,00 euro<br>
+                    • Portasalatini: 8 × 22 = 176,00 euro<br>
+                    • Portatovaglioli: 20 × 3,50 = 70,00 euro<br>
+                    • Dosatori: 15 × 9,50 = 142,50 euro<br>
+                    <strong>Totale merce: 568,50 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Base imponibile IVA</strong><br>
+                    Base imponibile = 568,50 euro<br>
+                    (gli interessi NON entrano nella base imponibile!)
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: IVA 22%</strong><br>
+                    IVA = 568,50 × 22% = <strong>125,07 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: Totale prima degli interessi</strong><br>
+                    Totale = 568,50 + 125,07 = <strong>693,57 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 5: Aggiunta interessi di dilazione</strong><br>
+                    Interessi di dilazione = <strong>10,20 euro</strong><br>
+                    ⚠️ Gli interessi si aggiungono DOPO l'IVA!<br>
+                    <strong>TOTALE FATTURA: 693,57 + 10,20 = 703,77 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Shake maker</td>
+                        <td>15</td>
+                        <td>12,00</td>
+                        <td>180,00</td>
+                    </tr>
+                    <tr>
+                        <td>Portasalatini in due ciotole</td>
+                        <td>8</td>
+                        <td>22,00</td>
+                        <td>176,00</td>
+                    </tr>
+                    <tr>
+                        <td>Portatovaglioli in acciaio</td>
+                        <td>20</td>
+                        <td>3,50</td>
+                        <td>70,00</td>
+                    </tr>
+                    <tr>
+                        <td>Dosatori di zucchero</td>
+                        <td>15</td>
+                        <td>9,50</td>
+                        <td>142,50</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>568,50</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 568,50 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>125,07</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>693,57</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Interessi di dilazione</td>
+                        <td></td>
+                        <td></td>
+                        <td>10,20</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>703,77</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>📋 L'Imposta di Bollo</h3>
+
+            <div class="definizione">
+                <strong>📌 QUANDO SI APPLICA:</strong><br><br>
+                L'<span class="highlight">IMPOSTA DI BOLLO</span> si applica quando in fattura sono presenti importi NON soggetti a IVA superiori a <span class="highlight">77,47 euro</span>.<br><br>
+                <strong>Importo dell'imposta di bollo: 2,00 euro</strong>
+            </div>
+
+            <div class="info-box">
+                <strong>ESEMPI DI QUANDO SI APPLICA:</strong><br><br>
+                • Fattura con operazioni esenti da IVA superiori a 77,47 euro<br>
+                • Fattura con operazioni fuori campo IVA superiori a 77,47 euro<br>
+                • Nota di credito superiore a 77,47 euro
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 42: ADV Europa Travel</div>
+                
+                <p><strong>TESTO:</strong> L'ADV Europa travel acquista n. 2 mobili per ufficio al prezzo di 2.670 euro ciascuno; il trasporto è stato eseguito da un vettore e il fornitore ha anticipato l'importo, addebitando in fattura 85,40 euro di spese documentate e l'imposta di bollo di 2 euro.</p>
+
+                <div class="calcolo-step">
+                    <strong>CALCOLI:</strong><br>
+                    • Mobili: 2 × 2.670 = <strong>5.340,00 euro</strong><br>
+                    <strong>Base imponibile IVA: 5.340,00 euro</strong><br>
+                    • IVA 22%: 5.340,00 × 0,22 = <strong>1.174,80 euro</strong><br>
+                    • Totale: 5.340,00 + 1.174,80 = <strong>6.514,80 euro</strong><br>
+                    • Spese documentate: <strong>85,40 euro</strong> (NON soggette a IVA)<br>
+                    • Imposta di bollo: <strong>2,00 euro</strong><br>
+                    <strong>TOTALE FATTURA: 6.514,80 + 85,40 + 2,00 = 6.602,20 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Mobili per ufficio</td>
+                        <td>2</td>
+                        <td>2.670,00</td>
+                        <td>5.340,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile IVA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>5.340,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 5.340,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>1.174,80</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>6.514,80</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Spese documentate</td>
+                        <td></td>
+                        <td></td>
+                        <td>85,40</td>
+                    </tr>
+                    <tr>
+                        <td>Imposta di bollo</td>
+                        <td></td>
+                        <td></td>
+                        <td>2,00</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>6.602,20</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 43: Hotel Terme</div>
+                
+                <p><strong>TESTO:</strong> L'hotel Terme acquista n. 6 divani a tre posti al prezzo di 825 euro a divano. Le condizioni contrattuali prevedono il trasporto eseguito dal venditore che addebita spese non documentate per 140 euro e il pagamento a 60 giorni con interessi di dilazione per 82,80 euro, imposta di bollo 2 euro.</p>
+
+                <div class="calcolo-step">
+                    <strong>RISOLUZIONE COMPLETA:</strong><br><br>
+                    <strong>PASSO 1:</strong> Divani: 6 × 825 = <strong>4.950,00 euro</strong><br>
+                    <strong>PASSO 2:</strong> Costi trasporto NON documentati: <strong>140,00 euro</strong><br>
+                    <strong>PASSO 3:</strong> Base imponibile: 4.950,00 + 140,00 = <strong>5.090,00 euro</strong><br>
+                    <strong>PASSO 4:</strong> IVA 22%: 5.090,00 × 0,22 = <strong>1.119,80 euro</strong><br>
+                    <strong>PASSO 5:</strong> Totale: 5.090,00 + 1.119,80 = <strong>6.209,80 euro</strong><br>
+                    <strong>PASSO 6:</strong> Interessi dilazione: <strong>82,80 euro</strong><br>
+                    <strong>PASSO 7:</strong> Imposta bollo: <strong>2,00 euro</strong><br>
+                    <strong>TOTALE FATTURA: 6.209,80 + 82,80 + 2,00 = 6.294,60 euro</strong>
+                </div>
+
+                <table style="margin-top: 20px;">
+                    <tr>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo unitario</th>
+                        <th>Importo</th>
+                    </tr>
+                    <tr>
+                        <td>Divani a tre posti</td>
+                        <td>6</td>
+                        <td>825,00</td>
+                        <td>4.950,00</td>
+                    </tr>
+                    <tr>
+                        <td>Costi di trasporto non documentati</td>
+                        <td></td>
+                        <td></td>
+                        <td>140,00</td>
+                    </tr>
+                    <tr style="background: #d6eaf8;">
+                        <td><strong>Base imponibile</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>5.090,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td>IVA 22% su 5.090,00 euro</td>
+                        <td></td>
+                        <td></td>
+                        <td>1.119,80</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Totale</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>6.209,80</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Interessi di dilazione</td>
+                        <td></td>
+                        <td></td>
+                        <td>82,80</td>
+                    </tr>
+                    <tr>
+                        <td>Imposta di bollo</td>
+                        <td></td>
+                        <td></td>
+                        <td>2,00</td>
+                    </tr>
+                    <tr class="totale-row">
+                        <td><strong>TOTALE FATTURA</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>6.294,60</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEZIONE 8: FATTURE CON PIÙ ALIQUOTE -->
+        <div class="section">
+            <h2><span class="numero">8</span> La Fattura con Più Aliquote IVA</h2>
+
+            <div class="definizione">
+                <strong>📌 DEFINIZIONE:</strong><br><br>
+                La <span class="highlight">FATTURA CON PIÙ ALIQUOTE IVA</span> si compila quando l'operazione di vendita ha per oggetto merci soggette a più aliquote IVA diverse tra loro.<br><br>
+                <strong>Esempio:</strong> Un ristorante acquista sia alimentari (IVA 4%) che bevande (IVA 10%) nella stessa fattura.
+            </div>
+
+            <div class="importante">
+                <strong>⚠️ REGOLA FONDAMENTALE:</strong><br><br>
+                Nella fattura con più aliquote IVA devono essere indicate SEPARATAMENTE:<br><br>
+                1️⃣ Le ALIQUOTE IVA dei beni venduti<br>
+                2️⃣ Le diverse BASI IMPONIBILI<br>
+                3️⃣ L'IVA calcolata con le diverse aliquote
+            </div>
+
+            <h3>🔧 Il Riparto Proporzionale dei Costi Accessori</h3>
+
+            <div class="info-box">
+                <strong>PROBLEMA:</strong> Se ci sono costi accessori (es. trasporto) per merci con aliquote diverse, come si ripartiscono?<br><br>
+                <strong>SOLUZIONE:</strong> Si usa il <span class="highlight">RIPARTO PROPORZIONALE</span>!<br><br>
+                I costi accessori devono essere suddivisi in modo direttamente proporzionale all'importo delle merci soggette alle diverse aliquote IVA.
+            </div>
+
+            <div class="formula-box">
+                <div>FORMULA COEFFICIENTE DI RIPARTO:</div>
+                <div class="formula">
+                    Coefficiente di riparto = <br>
+                    Costi di trasporto ÷ Importo totale merci
+                </div>
+            </div>
+
+            <div class="step">
+                <strong>METODO PASSO-PASSO PER IL RIPARTO:</strong><br><br>
+                <strong>PASSO 1:</strong> Calcola il coefficiente di riparto dividendo i costi accessori per l'importo totale delle merci<br>
+                <strong>PASSO 2:</strong> Moltiplica il coefficiente per l'importo delle merci con aliquota IVA 4% (o la prima aliquota)<br>
+                <strong>PASSO 3:</strong> Moltiplica il coefficiente per l'importo delle merci con aliquota IVA 10% (o la seconda aliquota)<br>
+                <strong>PASSO 4:</strong> Verifica che la somma dei costi ripartiti sia uguale al costo accessorio totale
+            </div>
+
+            <div class="esercizio">
+                <div class="esercizio-title">📝 ESERCIZIO 44: Ristorante Casale Rosso (PIÙ ALIQUOTE)</div>
+                
+                <p><strong>TESTO:</strong> Il ristorante Casale rosso acquista da un'azienda agricola le seguenti merci:<br>
+                • n. 70 confezioni di scamorza affumicata al prezzo di 3 euro ciascuna, IVA 4%;<br>
+                • n. 20 confezioni di caciocavallo al prezzo di 36 euro ciascuna, IVA 4%;<br>
+                • n. 50 confezioni di salumi tipici al prezzo di 12,60 euro ciascuna, IVA 10%.<br>
+                Presenta il calcolo delle basi imponibili e del totale fattura, sapendo che il venditore addebita 23,40 euro di spese di trasporto non documentate.</p>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 1: Calcolo importi merci per aliquota</strong><br>
+                    <strong>Merci IVA 4%:</strong><br>
+                    • Scamorza: 70 × 3 = 210,00 euro<br>
+                    • Caciocavallo: 20 × 36 = 720,00 euro<br>
+                    <strong>Totale IVA 4%: 930,00 euro</strong><br><br>
+                    <strong>Merci IVA 10%:</strong><br>
+                    • Salumi: 50 × 12,60 = 630,00 euro<br>
+                    <strong>Totale IVA 10%: 630,00 euro</strong><br><br>
+                    <strong>TOTALE GENERALE MERCI: 930,00 + 630,00 = 1.560,00 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 2: Calcolo coefficiente di riparto</strong><br>
+                    Coefficiente = Costi trasporto ÷ Importo merci<br>
+                    Coefficiente = 23,40 ÷ 1.560,00 = <strong>0,015</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 3: Riparto costi di trasporto</strong><br>
+                    <strong>Costi trasporto per merci IVA 4%:</strong><br>
+                    0,015 × 930,00 = <strong>13,95 euro</strong><br><br>
+                    <strong>Costi trasporto per merci IVA 10%:</strong><br>
+                    0,015 × 630,00 = <strong>9,45 euro</strong><br><br>
+                    <strong>VERIFICA:</strong> 13,95 + 9,45 = 23,40 ✓
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 4: Calcolo basi imponibili</strong><br>
+                    <strong>Base imponibile IVA 4%:</strong><br>
+                    930,00 + 13,95 = <strong>943,95 euro</strong><br><br>
+                    <strong>Base imponibile IVA 10%:</strong><br>
+                    630,00 + 9,45 = <strong>639,45 euro</strong><br><br>
+                    <strong>TOTALE BASI IMPONIBILI: 1.583,40 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 5: Calcolo IVA</strong><br>
+                    <strong>IVA al 4%:</strong> 943,95 × 4% = <strong>37,76 euro</strong><br>
+                    <strong>IVA al 10%:</strong> 639,45 × 10% = <strong>63,95 euro</strong><br>
+                    <strong>TOTALE IVA: 101,71 euro</strong>
+                </div>
+
+                <div class="calcolo-step">
+                    <strong>PASSO 6: Calcolo totale fattura</strong><br>
+                    <strong>Totale aliquota 4%:</strong> 943,95 + 37,76 = <strong>981,71 euro</strong><br>
+                    <strong>Totale aliquota 10%:</strong> 639,45 + 63,95 = <strong>703,40 euro</strong><br>
+                    <strong>TOTALE FATTURA: 1.685,11 euro</strong>
+                </div>
+
+                <h4 style="margin-top: 30px;">FATTURA
