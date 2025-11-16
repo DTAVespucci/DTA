@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 VESPUCCI INVOICE ACADEMY | IP Vespucci Milano</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Orbitron:wght@700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ANIMATED BACKGROUND */
+        .bg-animated {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animated::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 140, 0, 0.03) 50px, rgba(255, 140, 0, 0.03) 51px),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0, 212, 255, 0.03) 50px, rgba(0, 212, 255, 0.03) 51px);
+            animation: bgScroll 30s linear infinite;
+        }
+
+        @keyframes bgScroll {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 140, 0, 0.3);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff8c00, #00d4ff, #00ff88);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 4s ease infinite;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header .school {
+            font-size: 1.2em;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header .tagline {
+            color: #b0b0b0;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        /* SCREENS */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* STATS PANEL */
+        .stats-panel {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 140, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #ff8c00;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #00d4ff;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* LEVEL GRID */
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .level-card {
+            background: linear-gradient(135deg, rgba(30, 40, 70, 0.9), rgba(50, 30, 80, 0.9));
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(135deg, #ff8c00, #00d4ff);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .level-card:hover::before {
+            opacity: 1;
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4);
+        }
+
+        .level-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .level-card.locked:hover {
+            transform: none;
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .level-number {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #00d4ff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 1.5em;
+        }
+
+        .star.earned {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .star.empty {
+            color: #444;
+        }
+
+        .level-icon {
+            font-size: 4em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .level-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #ff8c00;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .level-desc {
+            color: #b0b0b0;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .difficulty.easy { background: rgba(0, 255, 136, 0.2); color: #00ff88; }
+        .difficulty.medium { background: rgba(255, 140, 0, 0.2); color: #ff8c00; }
+        .difficulty.hard { background: rgba(255, 0, 128, 0.2); color: #ff0080; }
+        .difficulty.expert { background: rgba(138, 43, 226, 0.2); color: #8a2be2; }
+
+        /* BUTTONS */
+        .btn {
+            background: linear-gradient(135deg, #ff8c00, #ff0080);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00d4ff;
+            margin-top: 20px;
+        }
+
+        /* GAME AREA */
+        .game-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid #00d4ff;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 140, 0, 0.3);
+        }
+
+        .hud-item {
+            text-align: center;
+        }
+
+        .hud-label {
+            font-size: 0.9em;
+            color: #00d4ff;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .hud-value {
+            font-size: 2em;
+            font-weight: 900;
+            color: #ff8c00;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #00d4ff;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* QUESTION CARD */
+        .question-card {
+            background: linear-gradient(135deg, rgba(40, 50, 90, 0.9), rgba(60, 40, 100, 0.9));
+            border: 3px solid #ff8c00;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid #00d4ff;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .option-btn.correct {
+            background: rgba(0, 255, 136, 0.3);
+            border-color: #00ff88;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: rgba(255, 0, 128, 0.3);
+            border-color: #ff0080;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* DRAG AND DROP */
+        .drag-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .drag-column {
+            background: rgba(0, 0, 0, 0.3);
+            border: 3px dashed #00d4ff;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .drag-column h3 {
+            text-align: center;
+            color: #ff8c00;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .draggable-item {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.3), rgba(255, 0, 128, 0.3));
+            border: 2px solid #ff8c00;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: move;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .draggable-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 140, 0, 0.5);
+        }
+
+        .draggable-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            background: rgba(0, 212, 255, 0.1);
+            border: 3px dashed #00d4ff;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .drop-zone.filled {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+        }
+
+        .drop-zone.active {
+            background: rgba(255, 140, 0, 0.2);
+            border-color: #ff8c00;
+        }
+
+        /* INVOICE BUILDER */
+        .invoice-preview {
+            background: white;
+            color: #000;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .invoice-header {
+            border-bottom: 3px solid #ff8c00;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .invoice-header h2 {
+            color: #1a1f3a;
+            font-size: 2em;
+        }
+
+        .invoice-details {
+            margin: 20px 0;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-row.total {
+            background: #f0f0f0;
+            font-weight: 700;
+            font-size: 1.3em;
+            border-bottom: 3px solid #ff8c00;
+        }
+
+        .input-field {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #00d4ff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+        }
+
+        /* RESULTS MODAL */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1f3a, #2d1b4e);
+            border: 3px solid #ff8c00;
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 600px;
+            text-align: center;
+            animation: modalPop 0.5s ease;
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #ff8c00;
+            margin-bottom: 20px;
+        }
+
+        .modal-score {
+            font-size: 4em;
+            font-weight: 900;
+            color: #00ff88;
+            font-family: 'Orbitron', sans-serif;
+            margin: 20px 0;
+        }
+
+        .modal-stars {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        .modal-message {
+            font-size: 1.2em;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        /* TIMER */
+        .timer {
+            font-size: 3em;
+            font-weight: 900;
+            color: #ff8c00;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .timer.warning {
+            color: #ff0080;
+            animation: timerPulse 1s ease infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* FEEDBACK */
+        .feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            font-weight: 900;
+            z-index: 999;
+            animation: feedbackPop 1s ease;
+            pointer-events: none;
+        }
+
+        @keyframes feedbackPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .feedback.correct {
+            color: #00ff88;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+        }
+
+        .feedback.wrong {
+            color: #ff0080;
+            text-shadow: 0 0 30px rgba(255, 0, 128, 0.8);
+        }
+
+        /* PARTICLES */
+        .particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .level-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .drag-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* TUTORIAL TOOLTIP */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 2px solid #00d4ff;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* COMBO COUNTER */
+        .combo-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #00ff88;
+            border-radius: 15px;
+            padding: 20px 30px;
+            font-size: 2em;
+            font-weight: 900;
+            color: #00ff88;
+            font-family: 'Orbitron', sans-serif;
+            z-index: 100;
+            display: none;
+            animation: comboPop 0.5s ease;
+        }
+
+        .combo-display.active {
+            display: block;
+        }
+
+        @keyframes comboPop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animated"></div>
+    
+    <div class="container">
+        <!-- HOME SCREEN -->
+        <div id="homeScreen" class="screen active">
+            <div class="header">
+                <h1>🎓 INVOICE ACADEMY</h1>
+                <div class="school">📍 IP AMERIGO VESPUCCI - MILANO</div>
+                <div class="tagline">Enogastronomia • Accoglienza Turistica</div>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="stat-value" id="totalScore">0</div>
+                    <div class="stat-label">Punteggio Totale</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalStars">0</div>
+                    <div class="stat-label">⭐ Stelle Guadagnate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="levelsCompleted">0</div>
+                    <div class="stat-label">Livelli Completati</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="accuracy">100</div>
+                    <div class="stat-label">% Precisione</div>
+                </div>
+            </div>
+
+            <div class="level-grid" id="levelGrid">
+                <!-- Levels will be inserted here by JavaScript -->
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="resetProgress()">🔄 Reset Progresso</button>
+            </div>
+        </div>
+
+        <!-- GAME SCREENS -->
+        <div id="gameScreen" class="screen">
+            <div class="game-area">
+                <div class="game-hud">
+                    <div class="hud-item">
+                        <div class="hud-label">Livello</div>
+                        <div class="hud-value" id="currentLevel">1</div>
+                    </div>
+                    <div class="hud-item">
+                        <div class="hud-label">Punteggio</div>
+                        <div class="hud-value" id="gameScore">0</div>
+                    </div>
+                    <div class="hud-item">
+                        <div class="hud-label">Tempo</div>
+                        <div class="hud-value" id="gameTimer">60</div>
+                    </div>
+                    <div class="hud-item">
+                        <div class="hud-label">Combo</div>
+                        <div class="hud-value" id="comboCounter">0</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 0%">0/10</div>
+                </div>
+
+                <div id="gameContent">
+                    <!-- Game content will be inserted here by JavaScript -->
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-back" onclick="backToHome()">← Torna al Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS MODAL -->
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">🎉</div>
+            <div class="modal-title" id="modalTitle">Livello Completato!</div>
+            <div class="modal-score" id="modalScore">0</div>
+            <div class="modal-stars" id="modalStars">⭐⭐⭐</div>
+            <div class="modal-message" id="modalMessage">Ottimo lavoro!</div>
+            <button class="btn" onclick="nextLevel()">Continua →</button>
+            <button class="btn btn-back" onclick="backToHome()">Menu Principale</button>
+        </div>
+    </div>
+
+    <!-- COMBO DISPLAY -->
+    <div id="comboDisplay" class="combo-display">
+        COMBO x<span id="comboMultiplier">2</span>
+    </div>
+
+    <script>
+        // ============ GAME STATE ============
+        const gameState = {
+            currentLevel: 0,
+            score: 0,
+            totalScore: 0,
+            totalStars: 0,
+            levelsCompleted: 0,
+            totalQuestions: 0,
+            correctAnswers: 0,
+            combo: 0,
+            maxCombo: 0,
+            levels: [
+                {
+                    id: 1,
+                    name: "VAT Speed Match",
+                    icon: "⚡",
+                    difficulty: "easy",
+                    description: "Abbina rapidamente prodotti e aliquote IVA corrette",
+                    stars: 0,
+                    unlocked: true,
+                    bestScore: 0
+                },
+                {
+                    id: 2,
+                    name: "Chef's Invoice Rush",
+                    icon: "👨‍🍳",
+                    difficulty: "medium",
+                    description: "Verifica fatture dai fornitori sotto pressione temporale",
+                    stars: 0,
+                    unlocked: false,
+                    bestScore: 0
+                },
+                {
+                    id: 3,
+                    name: "Hotel Reception Pro",
+                    icon: "🏨",
+                    difficulty: "medium",
+                    description: "Costruisci fatture complete per i clienti dell'hotel",
+                    stars: 0,
+                    unlocked: false,
+                    bestScore: 0
+                },
+                {
+                    id: 4,
+                    name: "Banqueting Master",
+                    icon: "🍽️",
+                    difficulty: "hard",
+                    description: "Gestisci fatture complesse per eventi e banchetti",
+                    stars: 0,
+                    unlocked: false,
+                    bestScore: 0
+                },
+                {
+                    id: 5,
+                    name: "Invoice Detective",
+                    icon: "🔍",
+                    difficulty: "expert",
+                    description: "Trova gli errori nascosti in fatture complesse",
+                    stars: 0,
+                    unlocked: false,
+                    bestScore: 0
+                }
+            ]
+        };
+
+        // ============ QUESTIONS DATABASE ============
+        const questionsDB = {
+            level1: [ // VAT Speed Match - Easy
+                { question: "Pane fresco", correct: "4%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Servizio ristorante", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Camera d'albergo", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Latte fresco", correct: "4%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Birra", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Formaggi", correct: "4%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Consumazione al bar", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Olio d'oliva", correct: "4%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Frutta fresca", correct: "4%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Attrezzatura da cucina", correct: "22%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Yogurt", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Marmellata", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Basilico fresco", correct: "5%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Acqua minerale (ristorante)", correct: "10%", options: ["4%", "5%", "10%", "22%"] },
+                { question: "Uova", correct: "4%", options: ["4%", "5%", "10%", "22%"] }
+            ],
+            level2: [ // Chef's Invoice Rush - Medium
+                { 
+                    question: "Fattura fornitore carni: Base imponibile €500, IVA 4%. Totale corretto?",
+                    correct: "€520",
+                    options: ["€505", "€520", "€550", "€610"]
+                },
+                { 
+                    question: "Fattura pesce: €800 + IVA 4%. Totale?",
+                    correct: "€832",
+                    options: ["€832", "€880", "€920", "€976"]
+                },
+                { 
+                    question: "Fornitura vini: €1200 con IVA 22%. L'IVA ammonta a?",
+                    correct: "€264",
+                    options: ["€120", "€240", "€264", "€288"]
+                },
+                { 
+                    question: "Verdure fresche: €300 base imponibile. Con IVA 4%, il totale è?",
+                    correct: "€312",
+                    options: ["€304", "€312", "€330", "€366"]
+                },
+                { 
+                    question: "Olio EVO 50L: €450 + IVA 4%. Totale fattura?",
+                    correct: "€468",
+                    options: ["€454", "€468", "€495", "€549"]
+                },
+                { 
+                    question: "Forniture miste: €600 (IVA 4%) + €400 (IVA 22%). Totale?",
+                    correct: "€712",
+                    options: ["€1000", "€1040", "€712", "€1088"]
+                },
+                { 
+                    question: "Attrezzatura cucina: €2000 + IVA 22%. IVA da pagare?",
+                    correct: "€440",
+                    options: ["€400", "€420", "€440", "€460"]
+                },
+                { 
+                    question: "Latticini: €750 base, IVA 4%. Totale?",
+                    correct: "€780",
+                    options: ["€760", "€780", "€825", "€915"]
+                },
+                { 
+                    question: "Bevande bar: €500 (IVA 10%). Quanto è l'IVA?",
+                    correct: "€50",
+                    options: ["€20", "€50", "€55", "€110"]
+                },
+                { 
+                    question: "Merce €1000, sconto 10%, IVA 4%. Totale?",
+                    correct: "€936",
+                    options: ["€900", "€936", "€940", "€1040"]
+                }
+            ],
+            level3: [ // Hotel Reception Pro - Medium
+                { 
+                    question: "Cliente: 2 notti (€100/notte) + colazione (€15/giorno). IVA 10%. Totale?",
+                    correct: "€253",
+                    options: ["€230", "€243", "€253", "€265"]
+                },
+                { 
+                    question: "Servizi hotel: Camera €150, minibar €30 (IVA 22%), spa €50. Calcola totale con IVA corrette.",
+                    correct: "€236.60",
+                    options: ["€220", "€236.60", "€242", "€252"]
+                },
+                { 
+                    question: "Una famiglia: 3 notti €120/notte, cena €80 (IVA 10% per tutto). Totale?",
+                    correct: "€484",
+                    options: ["€440", "€460", "€484", "€528"]
+                },
+                { 
+                    question: "Check-out: camera €200, ristorante €60, transfer €40 (IVA 22%). Con IVA 10% per hotel/ristorante, totale?",
+                    correct: "€334.80",
+                    options: ["€300", "€320.80", "€334.80", "€366"]
+                },
+                { 
+                    question: "Suite: €300/notte x 2, servizio in camera €45, lavanderia €25 (IVA 22%). Totale corretto?",
+                    correct: "€720.50",
+                    options: ["€670", "€700.50", "€720.50", "€745"]
+                },
+                { 
+                    question: "Business: camera €180, colazione €20, parcheggio €15 (IVA 22%). Con IVA 10% per camera e colazione, totale?",
+                    correct: "€238.30",
+                    options: ["€215", "€228.30", "€238.30", "€250"]
+                },
+                { 
+                    question: "Weekend: 2 notti €150/notte, 2 cene €45/cena (tutto IVA 10%). Totale?",
+                    correct: "€429",
+                    options: ["€390", "€410", "€429", "€450"]
+                },
+                { 
+                    question: "Gruppo: 5 camere €100/cad, 5 colazioni €12/cad (IVA 10%). Totale?",
+                    correct: "€616",
+                    options: ["€560", "€595", "€616", "€640"]
+                },
+                { 
+                    question: "Check-out complesso: suite €250, 2 cene €90, minibar €45 (IVA 22%), spa €80. Totale?",
+                    correct: "€524.90",
+                    options: ["€465", "€500.90", "€524.90", "€550"]
+                },
+                { 
+                    question: "Settimana: 7 notti €120/notte, pensione completa €50/giorno (tutto IVA 10%). Totale?",
+                    correct: "€1309",
+                    options: ["€1190", "€1250", "€1309", "€1380"]
+                }
+            ],
+            level4: [ // Banqueting Master - Hard
+                { 
+                    question: "Matrimonio 100 persone: menu €50/persona (IVA 10%), noleggio sala €500 (IVA 22%), servizio €800. Totale?",
+                    correct: "€7210",
+                    options: ["€6500", "€6850", "€7210", "€7500"]
+                },
+                { 
+                    question: "Evento aziendale: catering €3000, vini €1200 (IVA 22%), attrezzature audio €800 (IVA 22%). Totale?",
+                    correct: "€5640",
+                    options: ["€5000", "€5440", "€5640", "€6100"]
+                },
+                { 
+                    question: "Battesimo: banchetto €2500 (IVA 10%), addobbi €400 (IVA 22%), bomboniere €300 (IVA 22%). Totale?",
+                    correct: "€3604",
+                    options: ["€3200", "€3450", "€3604", "€3900"]
+                },
+                { 
+                    question: "Congresso: coffee break 200 persone €8/persona, pranzo buffet €25/persona (IVA 10% tutto). Totale?",
+                    correct: "€7260",
+                    options: ["€6600", "€6950", "€7260", "€7800"]
+                },
+                { 
+                    question: "Cena gala: menu €80/persona x 150, bevande €2500 (IVA 10%), intrattenimento €1800 (IVA 22%). Totale?",
+                    correct: "€17946",
+                    options: ["€16300", "€17200", "€17946", "€19000"]
+                },
+                { 
+                    question: "Evento complesso: catering €5000, sala €1000, personale extra €2000 (IVA 22%), decorazioni €800 (IVA 22%). Calcola con IVA 10% per catering e sala.",
+                    correct: "€10076",
+                    options: ["€8800", "€9500", "€10076", "€10800"]
+                },
+                { 
+                    question: "Cocktail party: finger food €3500 (IVA 10%), open bar €2000 (IVA 10%), servizio €1200 (IVA 22%). Totale?",
+                    correct: "€7514",
+                    options: ["€6700", "€7250", "€7514", "€8200"]
+                },
+                { 
+                    question: "Conferenza: affitto sala €1500, catering €4000, traduzioni €800 (IVA 22%). Con IVA 10% per sala e catering, totale?",
+                    correct: "€7026",
+                    options: ["€6300", "€6750", "€7026", "€7680"]
+                },
+                { 
+                    question: "Wedding luxury: menu €150/persona x 200, vini pregiati €8000 (IVA 22%), orchidee €1500 (IVA 22%). Totale?",
+                    correct: "€44560",
+                    options: ["€39500", "€42000", "€44560", "€48000"]
+                },
+                { 
+                    question: "Fattura completa evento: base imponibile €15000 (IVA 10%), costi documentati €2000, trasporto €500 (IVA 22%). Totale?",
+                    correct: "€19610",
+                    options: ["€17500", "€18800", "€19610", "€21300"]
+                }
+            ],
+            level5: [ // Invoice Detective - Expert
+                { 
+                    question: "ERRORE: Fattura mostra €1000 merce + IVA 4% = €1040, ma include trasporto €100 già nella base. Totale corretto?",
+                    correct: "€1144",
+                    options: ["€1040", "€1100", "€1144", "€1268"]
+                },
+                { 
+                    question: "ERRORE: Base imponibile €500 + sconto 20% applicato DOPO l'IVA 10%. Totale corretto?",
+                    correct: "€440",
+                    options: ["€440", "€540", "€550", "€600"]
+                },
+                { 
+                    question: "ERRORE: Fattura mista con €600 al 4% e €400 al 22%, ma IVA calcolata al 10% su tutto. Totale corretto?",
+                    correct: "€712",
+                    options: ["€1100", "€712", "€1088", "€1000"]
+                },
+                { 
+                    question: "ERRORE: Imballaggio a rendere €50 incluso nella base imponibile. Totale corretto se base reale è €1000 (IVA 10%)?",
+                    correct: "€1150",
+                    options: ["€1100", "€1150", "€1155", "€1205"]
+                },
+                { 
+                    question: "ERRORE: Costo documentato €200 inserito PRIMA dell'IVA invece che dopo. Se base €800 (IVA 4%), totale corretto?",
+                    correct: "€1032",
+                    options: ["€1040", "€1032", "€1008", "€1200"]
+                },
+                { 
+                    question: "ERRORE: Due sconti 10% e 5% sommati (15%) invece di applicati in cascata su base €1000 (IVA 10%). Totale corretto?",
+                    correct: "€940.50",
+                    options: ["€935", "€940.50", "€945", "€850"]
+                },
+                { 
+                    question: "ERRORE: IVA 22% applicata su servizi hotel invece del 10%. Base €500, totale corretto?",
+                    correct: "€550",
+                    options: ["€610", "€550", "€522", "€500"]
+                },
+                { 
+                    question: "ERRORE: Fattura con causale €100 non soggetta a IVA, ma inclusa nel calcolo IVA 10%. Se base imponibile reale €900, totale corretto?",
+                    correct: "€1090",
+                    options: ["€1100", "€1090", "€1000", "€990"]
+                },
+                { 
+                    question: "ERRORE: Sconto condizionato 5% già applicato in fattura. Base dovrebbe essere €2000 (IVA 4%). Totale corretto?",
+                    correct: "€2080",
+                    options: ["€1976", "€2000", "€2080", "€2100"]
+                },
+                { 
+                    question: "ERRORE: Fattura complessa: €1500 al 4%, €1000 al 10%, €500 al 22%, ma calcolata con IVA media del 12%. Totale corretto?",
+                    correct: "€3270",
+                    options: ["€3360", "€3270", "€3180", "€3000"]
+                }
+            ]
+        };
+
+        // ============ INITIALIZE ============
+        function init() {
+            loadGameData();
+            renderLevelGrid();
+            updateHomeStats();
+        }
+
+        // ============ LEVEL GRID ============
+        function renderLevelGrid() {
+            const grid = document.getElementById('levelGrid');
+            grid.innerHTML = '';
+
+            gameState.levels.forEach((level, index) => {
+                const card = document.createElement('div');
+                card.className = `level-card ${!level.unlocked ? 'locked' : ''}`;
+                
+                const stars = [];
+                for (let i = 0; i < 3; i++) {
+                    stars.push(`<span class="star ${i < level.stars ? 'earned' : 'empty'}">${i < level.stars ? '⭐' : '☆'}</span>`);
+                }
+
+                const difficultyClass = level.difficulty;
+                const difficultyText = {
+                    easy: 'Facile',
+                    medium: 'Medio',
+                    hard: 'Difficile',
+                    expert: 'Esperto'
+                }[level.difficulty];
+
+                card.innerHTML = `
+                    <div class="level-header">
+                        <div class="level-number">LIVELLO ${level.id}</div>
+                        <div class="stars">${stars.join('')}</div>
+                    </div>
+                    <div class="level-icon">${level.icon}</div>
+                    <div class="level-title">${level.name}</div>
+                    <div class="level-desc">${level.description}</div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <span class="difficulty ${difficultyClass}">${difficultyText}</span>
+                    </div>
+                    ${level.bestScore > 0 ? `<div style="text-align: center; margin-top: 15px; color: #00ff88;">Best: ${level.bestScore} pts</div>` : ''}
+                    ${!level.unlocked ? '<div style="text-align: center; margin-top: 15px; color: #ff0080;">🔒 Completa il livello precedente</div>' : ''}
+                `;
+
+                if (level.unlocked) {
+                    card.onclick = () => startLevel(index);
+                }
+
+                grid.appendChild(card);
+            });
+        }
+
+        // ============ START LEVEL ============
+        function startLevel(levelIndex) {
+            gameState.currentLevel = levelIndex;
+            gameState.score = 0;
+            gameState.combo = 0;
+            gameState.currentQuestion = 0;
+            gameState.correctAnswers = 0;
+            gameState.timeLeft = 60;
+
+            document.getElementById('currentLevel').textContent = levelIndex + 1;
+            document.getElementById('gameScore').textContent = '0';
+            document.getElementById('comboCounter').textContent = '0';
+
+            showScreen('gameScreen');
+
+            // Different game modes for each level
+            switch(levelIndex) {
+                case 0:
+                    startVATSpeedMatch();
+                    break;
+                case 1:
+                    startChefInvoiceRush();
+                    break;
+                case 2:
+                    startHotelReception();
+                    break;
+                case 3:
+                    startBanqueting();
+                    break;
+                case 4:
+                    startInvoiceDetective();
+                    break;
+            }
+        }
+
+        // ============ LEVEL 1: VAT SPEED MATCH ============
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let timerInterval = null;
+
+        function startVATSpeedMatch() {
+            currentQuestions = shuffleArray([...questionsDB.level1]).slice(0, 10);
+            currentQuestionIndex = 0;
+            gameState.timeLeft = 60;
+            
+            startTimer();
+            showVATQuestion();
+        }
+
+        function showVATQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endLevel();
+                return;
+            }
+
+            const question = currentQuestions[currentQuestionIndex];
+            const content = document.getElementById('gameContent');
+
+            const shuffledOptions = shuffleArray([...question.options]);
+
+            content.innerHTML = `
+                <div class="question-card">
+                    <div class="question-text">
+                        <strong>${question.question}</strong><br>
+                        <span style="color: #00d4ff; font-size: 0.8em;">Seleziona l'aliquota IVA corretta</span>
+                    </div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(opt => `
+                            <button class="option-btn" onclick="checkVATAnswer('${opt}', '${question.correct}')">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function checkVATAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                if (btn.textContent.trim() === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.trim() === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (selected === correct) {
+                handleCorrectAnswer();
+                showFeedback('correct', '✓ CORRETTO!');
+            } else {
+                handleWrongAnswer();
+                showFeedback('wrong', '✗ SBAGLIATO!');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showVATQuestion();
+            }, 1500);
+        }
+
+        // ============ LEVEL 2: CHEF'S INVOICE RUSH ============
+        function startChefInvoiceRush() {
+            currentQuestions = shuffleArray([...questionsDB.level2]).slice(0, 10);
+            currentQuestionIndex = 0;
+            gameState.timeLeft = 90;
+            
+            startTimer();
+            showChefQuestion();
+        }
+
+        function showChefQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endLevel();
+                return;
+            }
+
+            const question = currentQuestions[currentQuestionIndex];
+            const content = document.getElementById('gameContent');
+
+            const shuffledOptions = shuffleArray([...question.options]);
+
+            content.innerHTML = `
+                <div class="question-card">
+                    <div style="background: rgba(255, 140, 0, 0.2); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ff8c00;">
+                        <strong>👨‍🍳 VERIFICA FATTURA FORNITORE</strong>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(opt => `
+                            <button class="option-btn" onclick="checkChefAnswer('${opt}', '${question.correct}')">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function checkChefAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                if (btn.textContent.trim() === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.trim() === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (selected === correct) {
+                handleCorrectAnswer();
+                showFeedback('correct', '✓ FATTURA OK!');
+            } else {
+                handleWrongAnswer();
+                showFeedback('wrong', '✗ ERRORE!');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showChefQuestion();
+            }, 1500);
+        }
+
+        // ============ LEVEL 3: HOTEL RECEPTION PRO ============
+        function startHotelReception() {
+            currentQuestions = shuffleArray([...questionsDB.level3]).slice(0, 10);
+            currentQuestionIndex = 0;
+            gameState.timeLeft = 120;
+            
+            startTimer();
+            showHotelQuestion();
+        }
+
+        function showHotelQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endLevel();
+                return;
+            }
+
+            const question = currentQuestions[currentQuestionIndex];
+            const content = document.getElementById('gameContent');
+
+            const shuffledOptions = shuffleArray([...question.options]);
+
+            content.innerHTML = `
+                <div class="question-card">
+                    <div style="background: rgba(0, 212, 255, 0.2); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #00d4ff;">
+                        <strong>🏨 CHECK-OUT - EMETTI FATTURA</strong>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(opt => `
+                            <button class="option-btn" onclick="checkHotelAnswer('${opt}', '${question.correct}')">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function checkHotelAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                if (btn.textContent.trim() === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.trim() === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (selected === correct) {
+                handleCorrectAnswer();
+                showFeedback('correct', '✓ CLIENTE SODDISFATTO!');
+            } else {
+                handleWrongAnswer();
+                showFeedback('wrong', '✗ RECLAMO!');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showHotelQuestion();
+            }, 1500);
+        }
+
+        // ============ LEVEL 4: BANQUETING MASTER ============
+        function startBanqueting() {
+            currentQuestions = shuffleArray([...questionsDB.level4]).slice(0, 10);
+            currentQuestionIndex = 0;
+            gameState.timeLeft = 150;
+            
+            startTimer();
+            showBanquetingQuestion();
+        }
+
+        function showBanquetingQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endLevel();
+                return;
+            }
+
+            const question = currentQuestions[currentQuestionIndex];
+            const content = document.getElementById('gameContent');
+
+            const shuffledOptions = shuffleArray([...question.options]);
+
+            content.innerHTML = `
+                <div class="question-card">
+                    <div style="background: rgba(138, 43, 226, 0.2); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #8a2be2;">
+                        <strong>🍽️ EVENTO BANQUETING - FATTURA COMPLESSA</strong>
+                    </div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(opt => `
+                            <button class="option-btn" onclick="checkBanquetingAnswer('${opt}', '${question.correct}')">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function checkBanquetingAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                if (btn.textContent.trim() === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.trim() === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (selected === correct) {
+                handleCorrectAnswer();
+                showFeedback('correct', '✓ EVENTO PERFETTO!');
+            } else {
+                handleWrongAnswer();
+                showFeedback('wrong', '✗ PROBLEMA FATTURA!');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showBanquetingQuestion();
+            }, 1500);
+        }
+
+        // ============ LEVEL 5: INVOICE DETECTIVE ============
+        function startInvoiceDetective() {
+            currentQuestions = shuffleArray([...questionsDB.level5]).slice(0, 10);
+            currentQuestionIndex = 0;
+            gameState.timeLeft = 180;
+            
+            startTimer();
+            showDetectiveQuestion();
+        }
+
+        function showDetectiveQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endLevel();
+                return;
+            }
+
+            const question = currentQuestions[currentQuestionIndex];
+            const content = document.getElementById('gameContent');
+
+            const shuffledOptions = shuffleArray([...question.options]);
+
+            content.innerHTML = `
+                <div class="question-card">
+                    <div style="background: rgba(255, 0, 128, 0.2); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ff0080;">
+                        <strong>🔍 DETECTIVE MODE - TROVA L'ERRORE!</strong>
+                    </div>
+                    <div class="question-text" style="color: #ff8c00;">${question.question}</div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(opt => `
+                            <button class="option-btn" onclick="checkDetectiveAnswer('${opt}', '${question.correct}')">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function checkDetectiveAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                if (btn.textContent.trim() === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent.trim() === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (selected === correct) {
+                handleCorrectAnswer();
+                showFeedback('correct', '✓ ERRORE TROVATO!');
+            } else {
+                handleWrongAnswer();
+                showFeedback('wrong', '✗ NON È GIUSTO!');
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showDetectiveQuestion();
+            }, 1500);
+        }
+
+        // ============ ANSWER HANDLERS ============
+        function handleCorrectAnswer() {
+            gameState.combo++;
+            gameState.correctAnswers++;
+            
+            let points = 100;
+            if (gameState.combo > 1) {
+                points += gameState.combo * 10;
+                showComboDisplay();
+            }
+            
+            gameState.score += points;
+            document.getElementById('gameScore').textContent = gameState.score;
+            document.getElementById('comboCounter').textContent = gameState.combo;
+            
+            createParticles('correct');
+        }
+
+        function handleWrongAnswer() {
+            gameState.combo = 0;
+            document.getElementById('comboCounter').textContent = '0';
+            hideComboDisplay();
+            createParticles('wrong');
+        }
+
+        // ============ TIMER ============
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                gameState.timeLeft--;
+                document.getElementById('gameTimer').textContent = gameState.timeLeft;
+                
+                if (gameState.timeLeft <= 10) {
+                    document.getElementById('gameTimer').style.color = '#ff0080';
+                }
+                
+                if (gameState.timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endLevel();
+                }
+            }, 1000);
+        }
+
+        // ============ PROGRESS ============
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const current = currentQuestionIndex + 1;
+            const percentage = (current / total) * 100;
+            
+            const bar = document.getElementById('progressBar');
+            bar.style.width = percentage + '%';
+            bar.textContent = `${current}/${total}`;
+        }
+
+        // ============ END LEVEL ============
+        function endLevel() {
+            clearInterval(timerInterval);
+            
+            const levelData = gameState.levels[gameState.currentLevel];
+            const totalQuestions = currentQuestions.length;
+            const correctAnswers = gameState.correctAnswers;
+            const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            // Calculate stars
+            let stars = 0;
+            if (accuracy >= 90) stars = 3;
+            else if (accuracy >= 70) stars = 2;
+            else if (accuracy >= 50) stars = 1;
+            
+            // Update level data
+            if (stars > levelData.stars) {
+                levelData.stars = stars;
+            }
+            
+            if (gameState.score > levelData.bestScore) {
+                levelData.bestScore = gameState.score;
+            }
+            
+            // Update global stats
+            gameState.totalScore += gameState.score;
+            gameState.totalQuestions += totalQuestions;
+            
+            // Unlock next level
+            if (gameState.currentLevel < gameState.levels.length - 1 && stars > 0) {
+                gameState.levels[gameState.currentLevel + 1].unlocked = true;
+            }
+            
+            // Count total stars
+            gameState.totalStars = gameState.levels.reduce((sum, level) => sum + level.stars, 0);
+            gameState.levelsCompleted = gameState.levels.filter(l => l.stars > 0).length;
+            
+            saveGameData();
+            showResults(stars, accuracy);
+        }
+
+        // ============ SHOW RESULTS ============
+        function showResults(stars, accuracy) {
+            const modal = document.getElementById('resultsModal');
+            const icon = document.getElementById('modalIcon');
+            const title = document.getElementById('modalTitle');
+            const score = document.getElementById('modalScore');
+            const starsDisplay = document.getElementById('modalStars');
+            const message = document.getElementById('modalMessage');
+            
+            // Set content based on performance
+            if (stars === 3) {
+                icon.textContent = '🏆';
+                title.textContent = 'PERFETTO!';
+                message.textContent = 'Sei un maestro della fatturazione!';
+            } else if (stars === 2) {
+                icon.textContent = '🎉';
+                title.textContent = 'Ottimo Lavoro!';
+                message.textContent = 'Continua così, sei sulla strada giusta!';
+            } else if (stars === 1) {
+                icon.textContent = '👍';
+                title.textContent = 'Ben Fatto!';
+                message.textContent = 'Hai completato il livello!';
+            } else {
+                icon.textContent = '💪';
+                title.textContent = 'Riprova!';
+                message.textContent = 'Serve più precisione per superare il livello.';
+            }
+            
+            score.textContent = gameState.score + ' pts';
+            
+            let starHTML = '';
+            for (let i = 0; i < 3; i++) {
+                starHTML += i < stars ? '⭐' : '☆';
+            }
+            starsDisplay.textContent = starHTML;
+            
+            modal.classList.add('active');
+        }
+
+        // ============ NAVIGATION ============
+        function nextLevel() {
+            document.getElementById('resultsModal').classList.remove('active');
+            
+            if (gameState.currentLevel < gameState.levels.length - 1 && 
+                gameState.levels[gameState.currentLevel + 1].unlocked) {
+                startLevel(gameState.currentLevel + 1);
+            } else {
+                backToHome();
+            }
+        }
+
+        function backToHome() {
+            clearInterval(timerInterval);
+            document.getElementById('resultsModal').classList.remove('active');
+            showScreen('homeScreen');
+            renderLevelGrid();
+            updateHomeStats();
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // ============ HOME STATS ============
+        function updateHomeStats() {
+            document.getElementById('totalScore').textContent = gameState.totalScore;
+            document.getElementById('totalStars').textContent = gameState.totalStars;
+            document.getElementById('levelsCompleted').textContent = gameState.levelsCompleted;
+            
+            const accuracy = gameState.totalQuestions > 0 
+                ? Math.round((gameState.correctAnswers / gameState.totalQuestions) * 100)
+                : 100;
+            document.getElementById('accuracy').textContent = accuracy;
+        }
+
+        // ============ VISUAL EFFECTS ============
+        function showFeedback(type, text) {
+            const feedback = document.createElement('div');
+            feedback.className = `feedback ${type}`;
+            feedback.textContent = text;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => feedback.remove(), 1000);
+        }
+
+        function showComboDisplay() {
+            const display = document.getElementById('comboDisplay');
+            document.getElementById('comboMultiplier').textContent = gameState.combo;
+            display.classList.add('active');
+        }
+
+        function hideComboDisplay() {
+            document.getElementById('comboDisplay').classList.remove('active');
+        }
+
+        function createParticles(type) {
+            const colors = type === 'correct' ? ['#00ff88', '#00d4ff'] : ['#ff0080', '#ff8c00'];
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.style.transform = `translate(${(Math.random() - 0.5) * 200}px, ${Math.random() * 500}px)`;
+                    particle.style.opacity = '0';
+                }, 10);
+                
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        // ============ UTILITIES ============
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // ============ LOCAL STORAGE ============
+        function saveGameData() {
+            localStorage.setItem('vespucciInvoiceAcademy', JSON.stringify(gameState));
+        }
+
+        function loadGameData() {
+            const saved = localStorage.getItem('vespucciInvoiceAcademy');
+            if (saved) {
+                const data = JSON.parse(saved);
+                gameState.totalScore = data.totalScore || 0;
+                gameState.totalStars = data.totalStars || 0;
+                gameState.levelsCompleted = data.levelsCompleted || 0;
+                gameState.totalQuestions = data.totalQuestions || 0;
+                gameState.correctAnswers = data.correctAnswers || 0;
+                
+                if (data.levels) {
+                    data.levels.forEach((savedLevel, index) => {
+                        if (gameState.levels[index]) {
+                            gameState.levels[index].stars = savedLevel.stars || 0;
+                            gameState.levels[index].unlocked = savedLevel.unlocked || (index === 0);
+                            gameState.levels[index].bestScore = savedLevel.bestScore || 0;
+                        }
+                    });
+                }
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('Sei sicuro di voler resettare tutti i progressi?')) {
+                localStorage.removeItem('vespucciInvoiceAcademy');
+                location.reload();
+            }
+        }
+
+        // ============ START GAME ============
+        init();
+    </script>
+</body>
+</html>
