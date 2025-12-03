@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Banca e il Conto Corrente - Lezione Interattiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .scale-in {
+            animation: scaleIn 0.3s ease-out;
+        }
+        .word-tag {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .word-tag:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen">
+    <div class="max-w-4xl mx-auto p-4">
+        
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-6 fade-in">
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">La Banca e il Conto Corrente</h1>
+                        <p class="text-sm md:text-base text-gray-600">Lezione 1 - Educazione Finanziaria</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 px-4 py-2 rounded-full">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                    <span id="score-display" class="text-white font-bold text-lg">0 punti</span>
+                </div>
+            </div>
+            
+            <!-- Progress bar -->
+            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500" style="width: 12.5%"></div>
+            </div>
+            <div class="flex justify-between text-xs md:text-sm text-gray-600">
+                <span>Sezione <span id="current-section-num">1</span>/8</span>
+                <span id="section-name">Brainstorming</span>
+            </div>
+        </div>
+
+        <!-- Content Container -->
+        <div id="content-container" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-6 fade-in"></div>
+
+        <!-- Navigation -->
+        <div class="bg-white rounded-2xl shadow-xl p-4 md:p-6 flex justify-between items-center gap-4">
+            <button id="prev-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg font-semibold transition bg-gray-200 text-gray-400 cursor-not-allowed" disabled>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="hidden md:inline">Indietro</span>
+            </button>
+
+            <div class="text-center">
+                <p class="text-xs md:text-sm text-gray-600">Sezione <span id="nav-section-num">1</span> di 8</p>
+            </div>
+
+            <button id="next-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg font-semibold transition bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700">
+                <span class="hidden md:inline">Avanti</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6 text-gray-600 text-xs md:text-sm">
+            <p>🎓 IPSEOA "Amerigo Vespucci" - Educazione Civica - Prof. Bettino Camarda</p>
+            <p class="mt-1">Lezione 1: La Banca e il Conto Corrente</p>
+        </div>
+
+    </div>
+
+    <script>
+        // State
+        let currentSection = 0;
+        let score = 0;
+        let brainstormWords = [];
+        let quizAnswers = {};
+        let ccCosts = { canone: 50, bonifici: 10, prelievi: 5 };
+        let bonifico = { beneficiario: '', iban: '', importo: '', causale: '' };
+
+        const sections = [
+            'Brainstorming',
+            'Funzioni Banca',
+            'Quiz Funzioni',
+            'Conto Corrente',
+            'Calcola Costi',
+            'Il Bonifico',
+            'Simula Bonifico',
+            'Riepilogo'
+        ];
+
+        const quizQuestions = [
+            { id: 1, question: "Quale funzione riguarda i prestiti?", options: ["Raccolta", "Impiego", "Servizi", "Monetaria"], correct: 1 },
+            { id: 2, question: "I bonifici rientrano nella funzione:", options: ["Creditizia", "Investimenti", "Monetaria", "Assicurativa"], correct: 2 },
+            { id: 3, question: "Quando depositi soldi sul c/c, la banca svolge funzione:", options: ["Impiego", "Raccolta", "Servizi", "Consulenza"], correct: 1 }
+        ];
+
+        // Update UI
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score-display').textContent = score + ' punti';
+        }
+
+        function updateProgress() {
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('current-section-num').textContent = currentSection + 1;
+            document.getElementById('nav-section-num').textContent = currentSection + 1;
+            document.getElementById('section-name').textContent = sections[currentSection];
+        }
+
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            if (currentSection === 0) {
+                prevBtn.disabled = true;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg font-semibold transition bg-gray-200 text-gray-400 cursor-not-allowed';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg font-semibold transition bg-gray-700 text-white hover:bg-gray-800';
+            }
+
+            if (currentSection === sections.length - 1) {
+                nextBtn.disabled = true;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg font-semibold transition bg-gray-200 text-gray-400 cursor-not-allowed';
+                nextBtn.innerHTML = '<span class="hidden md:inline">Fine!</span>';
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg font-semibold transition bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700';
+                nextBtn.innerHTML = '<span class="hidden md:inline">Avanti</span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>';
+            }
+        }
+
+        // Section renderers
+        function renderBrainstorming() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center">
+                        <svg class="w-16 h-16 text-yellow-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Brainstorming: La Banca</h2>
+                        <p class="text-base md:text-lg text-gray-600 mb-6">Cosa ti viene in mente quando pensi alla banca? Scrivi parole chiave!</p>
+                    </div>
+
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="word-input" placeholder="Es: soldi, prestiti, risparmio..." 
+                            class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-base md:text-lg" />
+                        <button onclick="addWord()" class="bg-blue-600 text-white px-4 md:px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold whitespace-nowrap">
+                            Aggiungi +5pt
+                        </button>
+                    </div>
+
+                    <div id="words-container" class="flex flex-wrap gap-3 min-h-[200px] p-4 bg-gray-50 rounded-lg">
+                        ${brainstormWords.length === 0 ? '<p class="text-gray-400 text-center w-full py-8">Le tue parole appariranno qui...</p>' : ''}
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                        <p class="text-blue-800"><strong>💡 Suggerimento:</strong> Pensa a cosa fai in banca, cosa offre, come funziona... ogni parola vale 5 punti!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFunzioniBanca() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-16 h-16 text-blue-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Le 3 Funzioni della Banca</h2>
+                        <p class="text-gray-600">Cosa fa davvero una banca?</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-300 hover:shadow-lg transition">
+                            <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                            <h3 class="text-xl font-bold text-green-800 mb-3">1. RACCOLTA</h3>
+                            <p class="text-gray-700 mb-4">La banca raccoglie il risparmio dei clienti attraverso depositi sul conto corrente, libretti, depositi vincolati.</p>
+                            <div class="bg-white p-3 rounded-lg">
+                                <p class="text-sm text-gray-600"><strong>Esempio:</strong> Versi 1.000€ sul tuo c/c → la banca li custodisce</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-300 hover:shadow-lg transition">
+                            <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                            <h3 class="text-xl font-bold text-blue-800 mb-3">2. IMPIEGO</h3>
+                            <p class="text-gray-700 mb-4">La banca presta denaro a chi ne ha bisogno: mutui, finanziamenti, fidi alle imprese.</p>
+                            <div class="bg-white p-3 rounded-lg">
+                                <p class="text-sm text-gray-600"><strong>Esempio:</strong> Un ristoratore chiede 50.000€ per ristrutturazione cucina</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border-2 border-purple-300 hover:shadow-lg transition">
+                            <svg class="w-12 h-12 text-purple-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            <h3 class="text-xl font-bold text-purple-800 mb-3">3. SERVIZI</h3>
+                            <p class="text-gray-700 mb-4">Offre servizi vari: bonifici, carte, consulenza investimenti, cassette sicurezza, assicurazioni.</p>
+                            <div class="bg-white p-3 rounded-lg">
+                                <p class="text-sm text-gray-600"><strong>Esempio:</strong> Fare un bonifico al fornitore, usare bancomat</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded mt-6">
+                        <p class="text-yellow-800"><strong>🎯 Ricorda:</strong> La banca è un intermediario che mette in contatto chi ha soldi (risparmiatori) con chi ne ha bisogno (imprese, famiglie). Ci guadagna con gli interessi!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderQuiz() {
+            let html = `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-16 h-16 text-green-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Quiz: Funzioni della Banca</h2>
+                        <p class="text-gray-600">Ogni risposta corretta vale 10 punti!</p>
+                    </div>
+            `;
+
+            quizQuestions.forEach((q, idx) => {
+                const answered = quizAnswers[q.id];
+                html += `
+                    <div class="bg-gray-50 p-4 md:p-6 rounded-xl border-2 border-gray-200">
+                        <p class="text-base md:text-lg font-semibold text-gray-800 mb-4">${idx + 1}. ${q.question}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                `;
+
+                q.options.forEach((option, optIdx) => {
+                    const isSelected = answered?.answer === optIdx;
+                    const isCorrect = optIdx === q.correct;
+                    let buttonClass = 'p-3 rounded-lg border-2 transition font-medium text-left ';
+                    
+                    if (!answered) {
+                        buttonClass += 'border-gray-300 hover:border-blue-500 hover:bg-blue-50 cursor-pointer';
+                    } else if (isSelected && answered.correct) {
+                        buttonClass += 'border-green-500 bg-green-100 text-green-800';
+                    } else if (isSelected && !answered.correct) {
+                        buttonClass += 'border-red-500 bg-red-100 text-red-800';
+                    } else if (isCorrect) {
+                        buttonClass += 'border-green-500 bg-green-50 text-green-800';
+                    } else {
+                        buttonClass += 'border-gray-300 bg-gray-100 text-gray-500';
+                    }
+
+                    html += `
+                        <button onclick="checkQuiz(${q.id}, ${optIdx})" 
+                            ${answered ? 'disabled' : ''} 
+                            class="${buttonClass}">
+                            ${option}
+                            ${answered && isCorrect ? '<span class="ml-2">✓</span>' : ''}
+                            ${answered && isSelected && !answered.correct ? '<span class="ml-2">✗</span>' : ''}
+                        </button>
+                    `;
+                });
+
+                html += '</div></div>';
+            });
+
+            html += '<div id="quiz-feedback"></div></div>';
+            return html;
+        }
+
+        function renderContoCorrente() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-16 h-16 text-blue-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Il Conto Corrente</h2>
+                        <p class="text-gray-600">Il tuo wallet digitale in banca</p>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Cos'è?</h3>
+                        <p class="text-gray-700 text-lg">Contratto con cui la banca custodisce il tuo denaro e esegue operazioni di pagamento/incasso su tuo ordine. È un <strong>deposito a vista</strong>: prelevi quando vuoi!</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-green-50 p-5 rounded-xl border-2 border-green-200">
+                            <h4 class="font-bold text-green-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                                OPERAZIONI ATTIVE (entrate)
+                            </h4>
+                            <ul class="space-y-2 text-gray-700 text-sm md:text-base">
+                                <li>✅ Versamenti contanti/assegni</li>
+                                <li>✅ Bonifici ricevuti</li>
+                                <li>✅ Incassi POS (carte clienti)</li>
+                                <li>✅ Accredito stipendio</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-5 rounded-xl border-2 border-red-200">
+                            <h4 class="font-bold text-red-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                OPERAZIONI PASSIVE (uscite)
+                            </h4>
+                            <ul class="space-y-2 text-gray-700 text-sm md:text-base">
+                                <li>❌ Prelievi ATM</li>
+                                <li>❌ Bonifici inviati</li>
+                                <li>❌ Addebiti utenze</li>
+                                <li>❌ Pagamenti bancomat/carta</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-orange-50 to-yellow-50 p-6 rounded-xl border-2 border-orange-300">
+                        <h3 class="text-xl font-bold text-orange-900 mb-4 flex items-center gap-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            I Costi del Conto Corrente
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm md:text-base">
+                                <thead>
+                                    <tr class="border-b-2 border-orange-300">
+                                        <th class="p-2 font-bold">Voce</th>
+                                        <th class="p-2 font-bold">Cosa significa</th>
+                                        <th class="p-2 font-bold text-right">Costo tipico</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr class="border-b border-orange-200">
+                                        <td class="p-2 font-medium">Canone</td>
+                                        <td class="p-2">Costo fisso annuale</td>
+                                        <td class="p-2 text-right">50-200€/anno</td>
+                                    </tr>
+                                    <tr class="border-b border-orange-200">
+                                        <td class="p-2 font-medium">Imposta bollo</td>
+                                        <td class="p-2">Tassa statale (se giacenza &gt;5000€)</td>
+                                        <td class="p-2 text-right">34,20€/anno</td>
+                                    </tr>
+                                    <tr class="border-b border-orange-200">
+                                        <td class="p-2 font-medium">Bonifico</td>
+                                        <td class="p-2">Per ogni bonifico fatto</td>
+                                        <td class="p-2 text-right">1-3€ cad.</td>
+                                    </tr>
+                                    <tr class="border-b border-orange-200">
+                                        <td class="p-2 font-medium">Prelievo ATM</td>
+                                        <td class="p-2">Se ATM di altre banche</td>
+                                        <td class="p-2 text-right">1-2€ cad.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+                        <p class="text-purple-800"><strong>🍕 Per il ristoratore:</strong> Scegli un c/c aziendale con costi bassi sulle operazioni frequenti (bonifici fornitori, incassi POS) e canone ragionevole!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCalcolaCosti() {
+            const costoTotale = ccCosts.canone + 34.20 + (ccCosts.bonifici * 1.5) + (ccCosts.prelievi * 2);
+            
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-16 h-16 text-green-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Calcola i Costi del Tuo C/C</h2>
+                        <p class="text-gray-600">Scopri quanto spenderesti in un anno</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border-2 border-blue-200">
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Canone annuale (€)</label>
+                                <input type="number" id="canone-input" value="${ccCosts.canone}" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
+                                    onchange="updateCosts()">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Numero bonifici/anno (a 1,50€ l'uno)</label>
+                                <input type="number" id="bonifici-input" value="${ccCosts.bonifici}" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
+                                    onchange="updateCosts()">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Numero prelievi ATM altre banche/anno (a 2€ l'uno)</label>
+                                <input type="number" id="prelievi-input" value="${ccCosts.prelievi}" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
+                                    onchange="updateCosts()">
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl border-2 border-green-400">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Calcolo Dettagliato:</h3>
+                            <div class="space-y-2 text-gray-700">
+                                <div class="flex justify-between py-2 border-b border-gray-200">
+                                    <span>Canone:</span>
+                                    <span class="font-semibold">${ccCosts.canone.toFixed(2)}€</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-gray-200">
+                                    <span>Imposta bollo:</span>
+                                    <span class="font-semibold">34,20€</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-gray-200">
+                                    <span>Bonifici (${ccCosts.bonifici} × 1,50€):</span>
+                                    <span class="font-semibold">${(ccCosts.bonifici * 1.5).toFixed(2)}€</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-gray-200">
+                                    <span>Prelievi (${ccCosts.prelievi} × 2€):</span>
+                                    <span class="font-semibold">${(ccCosts.prelievi * 2).toFixed(2)}€</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-t-2 border-green-600 mt-2">
+                                    <span class="text-xl font-bold text-green-800">TOTALE ANNUO:</span>
+                                    <span class="text-2xl font-bold text-green-800">${costoTotale.toFixed(2)}€</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                        <p class="text-yellow-800"><strong>💡 Consiglio:</strong> Confronta sempre più banche! Le banche online costano meno (0-50€/anno) rispetto a quelle tradizionali (100-200€/anno).</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderBonifico() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-16 h-16 text-blue-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Il Bonifico Bancario</h2>
+                        <p class="text-gray-600">Trasferimento sicuro di denaro</p>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Cos'è?</h3>
+                        <p class="text-gray-700 text-lg">Ordine di trasferimento di denaro dal <strong>tuo conto</strong> al <strong>conto del beneficiario</strong>. È tracciato, sicuro e indispensabile per pagamenti importanti.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl border-2 border-green-200 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Quando si usa nel settore ristorazione?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700">Pagare fornitori (vino, pesce, carne)</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700">Stipendi dipendenti</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700">Affitto del locale</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700">Imposte e tasse</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border-2 border-gray-200">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Dati ESSENZIALI da inserire:
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
+                                <div>
+                                    <p class="font-bold text-gray-800">IBAN beneficiario</p>
+                                    <p class="text-sm text-gray-600">27 caratteri: IT + 2 cifre controllo + CIN + ABI + CAB + n° conto</p>
+                                    <p class="text-xs text-blue-600 mt-1">Es: IT60X0542811101000000123456</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Nome e Cognome / Ragione Sociale</p>
+                                    <p class="text-sm text-gray-600">Chi riceve il denaro</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Importo</p>
+                                    <p class="text-sm text-gray-600">In cifre e lettere (per sicurezza)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Causale</p>
+                                    <p class="text-sm text-gray-600">Descrizione del pagamento (es: "Pagamento fattura 234/2025")</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">5</div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Data esecuzione</p>
+                                    <p class="text-sm text-gray-600">Quando vuoi che venga effettuato</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-green-50 p-4 rounded-lg border-2 border-green-300">
+                            <h4 class="font-bold text-green-800 mb-2">Ordinario</h4>
+                            <p class="text-sm text-gray-600 mb-2">2-3 giorni lavorativi</p>
+                            <p class="text-lg font-bold text-green-700">0-1€</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-300">
+                            <h4 class="font-bold text-blue-800 mb-2">SEPA</h4>
+                            <p class="text-sm text-gray-600 mb-2">In tutta Europa, stessi tempi</p>
+                            <p class="text-lg font-bold text-blue-700">0-1€</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg border-2 border-purple-300">
+                            <h4 class="font-bold text-purple-800 mb-2">Istantaneo</h4>
+                            <p class="text-sm text-gray-600 mb-2">Pochi secondi</p>
+                            <p class="text-lg font-bold text-purple-700">1-3€</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSimulaBonifico() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-16 h-16 text-purple-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                        </svg>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Esercitazione: Compila un Bonifico</h2>
+                        <p class="text-gray-600">Vale 30 punti se compilato correttamente!</p>
+                    </div>
+
+                    <div class="bg-yellow-50 border-2 border-yellow-300 p-4 rounded-lg mb-6">
+                        <p class="text-yellow-900 font-medium"><strong>📝 Scenario:</strong> Sei titolare della pizzeria "Da Gino". Devi pagare il fornitore di farina "Molino Rossi" per la fattura n. 234/2025 di importo 850€.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border-2 border-gray-300 shadow-lg">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Modulo Bonifico Bancario
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Beneficiario (nome completo o ragione sociale) *</label>
+                                <input type="text" id="bonifico-beneficiario" value="${bonifico.beneficiario}" 
+                                    placeholder="Es: Molino Rossi SRL"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">IBAN beneficiario (27 caratteri, inizia con IT) *</label>
+                                <input type="text" id="bonifico-iban" value="${bonifico.iban}" 
+                                    placeholder="IT60X0542811101000000123456" maxlength="27"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none font-mono">
+                                <p class="text-sm text-gray-500 mt-1">
+                                    Caratteri inseriti: <span id="iban-length">0</span>/27
+                                    <span id="iban-valid" class="ml-2"></span>
+                                </p>
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Importo (€) *</label>
+                                <input type="number" id="bonifico-importo" value="${bonifico.importo}" 
+                                    placeholder="850" step="0.01"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Causale (descrizione pagamento) *</label>
+                                <input type="text" id="bonifico-causale" value="${bonifico.causale}" 
+                                    placeholder="Es: Pagamento fattura 234/2025"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Data esecuzione</label>
+                                <input type="date" id="bonifico-data"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <button onclick="validaBonifico()" class="w-full mt-6 bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 rounded-lg hover:from-green-600 hover:to-blue-600 transition font-bold text-lg shadow-lg">
+                            Invia Bonifico e Guadagna +30 Punti! 🚀
+                        </button>
+                    </div>
+
+                    <div id="bonifico-feedback"></div>
+                </div>
+            `;
+        }
+
+        function renderRiepilogo() {
+            const level = getScoreLevel();
+            const quizCorrect = Object.values(quizAnswers).filter(a => a.correct).length;
+            const bonificoOk = showBonificoOk ? '✓' : '...';
+            
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-yellow-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Riepilogo Lezione 1</h2>
+                        <p class="text-gray-600">Ecco cosa hai imparato oggi!</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-xl border-2 border-yellow-300">
+                        <div class="text-center mb-6">
+                            <div class="text-5xl md:text-6xl font-bold mb-2 ${level.color}">${score} PUNTI</div>
+                            <div class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">${level.level}</div>
+                            <p class="text-lg md:text-xl text-gray-600">${level.message}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <svg class="w-8 h-8 text-yellow-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                </svg>
+                                <h4 class="font-bold text-gray-800 mb-2 text-sm">Parole Brainstorming</h4>
+                                <p class="text-3xl font-bold text-blue-600">${brainstormWords.length}</p>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <svg class="w-8 h-8 text-green-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <h4 class="font-bold text-gray-800 mb-2 text-sm">Quiz Corretti</h4>
+                                <p class="text-3xl font-bold text-green-600">${quizCorrect}/${quizQuestions.length}</p>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <svg class="w-8 h-8 text-purple-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                </svg>
+                                <h4 class="font-bold text-gray-800 mb-2 text-sm">Costo C/C Calcolato</h4>
+                                <p class="text-2xl font-bold text-purple-600">${(ccCosts.canone + 34.20 + (ccCosts.bonifici * 1.5) + (ccCosts.prelievi * 2)).toFixed(2)}€/anno</p>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow">
+                                <svg class="w-8 h-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                                <h4 class="font-bold text-gray-800 mb-2 text-sm">Bonifico Compilato</h4>
+                                <p class="text-3xl font-bold text-blue-600">${bonificoOk}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">📚 Concetti chiave appresi:</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${[
+                                'Le 3 funzioni della banca (Raccolta, Impiego, Servizi)',
+                                'Cos\'è il conto corrente e come funziona',
+                                'Operazioni attive e passive del c/c',
+                                'I costi del conto corrente (canone, bollo, commissioni)',
+                                'Come calcolare il costo annuo di un c/c',
+                                'Cos\'è un bonifico e quando si usa',
+                                'I dati essenziali per compilare un bonifico',
+                                'Differenze tra bonifico ordinario, SEPA e istantaneo'
+                            ].map(item => `
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span class="text-gray-700 text-sm">${item}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl border-2 border-purple-300">
+                        <h3 class="text-xl font-bold text-purple-900 mb-3">🚀 Prossimi passi:</h3>
+                        <p class="text-gray-700 text-lg mb-4">Nella prossima lezione scoprirai gli <strong>assegni</strong> (bancario e circolare) e le <strong>carte di pagamento</strong> (debito e credito). Preparati ad altri quiz e simulazioni!</p>
+                        <div class="bg-white p-4 rounded-lg">
+                            <p class="text-gray-600"><strong>📖 Compito per casa:</strong> Guarda il video "Che cos'è un assegno?" della Banca d'Italia (5 min) e leggi la scheda semplificata sugli assegni.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getScoreLevel() {
+            if (score >= 100) return { level: "MAESTRO 🏆", color: "text-yellow-400", message: "Eccellente! Competenze bancarie top!" };
+            if (score >= 70) return { level: "ESPERTO 🌟", color: "text-green-400", message: "Ottimo lavoro! Continua così!" };
+            if (score >= 40) return { level: "APPRENDISTA 📚", color: "text-blue-400", message: "Buon inizio! Ancora un po' di pratica!" };
+            return { level: "PRINCIPIANTE 🔰", color: "text-gray-400", message: "Continua ad esercitarti!" };
+        }
+
+        // Functions for interactions
+        function addWord() {
+            const input = document.getElementById('word-input');
+            const word = input.value.trim();
+            if (word && brainstormWords.length < 20) {
+                brainstormWords.push(word);
+                updateScore(5);
+                input.value = '';
+                renderSection();
+            }
+        }
+
+        function checkQuiz(qId, answer) {
+            const question = quizQuestions.find(q => q.id === qId);
+            const isCorrect = answer === question.correct;
+            quizAnswers[qId] = {answer, correct: isCorrect};
+            if (isCorrect) updateScore(10);
+            
+            renderSection();
+            
+            // Show feedback
+            const feedbackDiv = document.getElementById('quiz-feedback');
+            if (isCorrect) {
+                feedbackDiv.innerHTML = `
+                    <div class="bg-green-100 border-2 border-green-500 p-4 rounded-lg text-center pulse-animation">
+                        <svg class="w-12 h-12 text-green-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-green-800 font-bold text-xl">Corretto! +10 punti! 🎉</p>
+                    </div>
+                `;
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="bg-red-100 border-2 border-red-500 p-4 rounded-lg text-center pulse-animation">
+                        <svg class="w-12 h-12 text-red-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-red-800 font-bold text-xl">Ops! Riprova! 💪</p>
+                    </div>
+                `;
+            }
+            setTimeout(() => feedbackDiv.innerHTML = '', 2000);
+        }
+
+        function updateCosts() {
+            ccCosts.canone = parseFloat(document.getElementById('canone-input').value) || 0;
+            ccCosts.bonifici = parseInt(document.getElementById('bonifici-input').value) || 0;
+            ccCosts.prelievi = parseInt(document.getElementById('prelievi-input').value) || 0;
+            renderSection();
+        }
+
+        let showBonificoOk = false;
+
+        function validaBonifico() {
+            bonifico.beneficiario = document.getElementById('bonifico-beneficiario').value;
+            bonifico.iban = document.getElementById('bonifico-iban').value;
+            bonifico.importo = document.getElementById('bonifico-importo').value;
+            bonifico.causale = document.getElementById('bonifico-causale').value;
+            
+            const errors = [];
+            if (!bonifico.beneficiario) errors.push("Inserisci beneficiario");
+            if (!validateIban(bonifico.iban)) errors.push("IBAN non valido (27 caratteri, inizia con IT)");
+            if (!bonifico.importo || bonifico.importo <= 0) errors.push("Importo non valido");
+            if (!bonifico.causale) errors.push("Inserisci causale");
+            
+            if (errors.length === 0) {
+                updateScore(30);
+                showBonificoOk = true;
+                const feedbackDiv = document.getElementById('bonifico-feedback');
+                feedbackDiv.innerHTML = `
+                    <div class="bg-green-100 border-2 border-green-500 p-6 rounded-xl text-center pulse-animation scale-in">
+                        <svg class="w-16 h-16 text-green-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <p class="text-green-900 font-bold text-2xl mb-2">Bonifico Inviato Correttamente! 🎉</p>
+                        <p class="text-green-700 text-lg">Hai guadagnato +30 punti! Ottimo lavoro!</p>
+                    </div>
+                `;
+            } else {
+                alert("Errori:\n" + errors.join("\n"));
+            }
+        }
+
+        function validateIban(iban) {
+            const clean = iban.replace(/\s/g, '');
+            return clean.length === 27 && clean.startsWith('IT');
+        }
+
+        // Render current section
+        function renderSection() {
+            const container = document.getElementById('content-container');
+            
+            switch(currentSection) {
+                case 0: container.innerHTML = renderBrainstorming(); break;
+                case 1: container.innerHTML = renderFunzioniBanca(); break;
+                case 2: container.innerHTML = renderQuiz(); break;
+                case 3: container.innerHTML = renderContoCorrente(); break;
+                case 4: container.innerHTML = renderCalcolaCosti(); break;
+                case 5: container.innerHTML = renderBonifico(); break;
+                case 6: container.innerHTML = renderSimulaBonifico(); setupBonificoListeners(); break;
+                case 7: container.innerHTML = renderRiepilogo(); break;
+            }
+            
+            // Re-render brainstorm words if in that section
+            if (currentSection === 0 && brainstormWords.length > 0) {
+                const wordsContainer = document.getElementById('words-container');
+                wordsContainer.innerHTML = brainstormWords.map((word, idx) => 
+                    `<span class="word-tag px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium shadow-md">${word}</span>`
+                ).join('');
+            }
+        }
+
+        function setupBonificoListeners() {
+            const ibanInput = document.getElementById('bonifico-iban');
+            if (ibanInput) {
+                ibanInput.addEventListener('input', function() {
+                    const len = this.value.length;
+                    document.getElementById('iban-length').textContent = len;
+                    const validSpan = document.getElementById('iban-valid');
+                    if (validateIban(this.value)) {
+                        validSpan.innerHTML = '<span class="text-green-600">✓ IBAN valido</span>';
+                    } else {
+                        validSpan.innerHTML = '';
+                    }
+                });
+            }
+
+            // Set today's date
+            const dateInput = document.getElementById('bonifico-data');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.value = today;
+            }
+
+            // Setup Enter key for word input
+            const wordInput = document.getElementById('word-input');
+            if (wordInput) {
+                wordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') addWord();
+                });
+            }
+        }
+
+        // Navigation
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            if (currentSection > 0) {
+                currentSection--;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        // Initial render
+        renderSection();
+        updateProgress();
+        updateNavButtons();
+    </script>
+</body>
+</html>
