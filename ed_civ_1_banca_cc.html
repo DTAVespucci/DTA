@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banca e Conto Corrente - Lezione 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #e0e6ed;
+        }
+        
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .mono { font-family: 'Roboto Mono', monospace; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px #4facfe, 0 0 10px #4facfe; }
+            50% { box-shadow: 0 0 20px #4facfe, 0 0 40px #4facfe; }
+        }
+        .glow { animation: glow 2s ease-in-out infinite; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .slide-in { animation: slideIn 0.6s ease-out; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        .bank-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: 2px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bank-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        .iban-display {
+            background: #0d1117;
+            border: 2px solid #30363d;
+            font-family: 'Roboto Mono', monospace;
+            color: #58a6ff;
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .cyber-input {
+            background: rgba(79,172,254,0.1);
+            border: 2px solid #4facfe;
+            color: #4facfe;
+            font-family: 'Roboto Mono', monospace;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .cyber-input:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(79,172,254,0.5);
+            background: rgba(79,172,254,0.2);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px #4facfe, 0 0 20px #4facfe, 0 0 30px #4facfe;
+        }
+        
+        .bank-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 36px;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .bank-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .operation-card {
+            background: linear-gradient(135deg, rgba(79,172,254,0.2) 0%, rgba(0,242,254,0.2) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(79,172,254,0.3);
+            transition: all 0.3s;
+        }
+        
+        .operation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(79,172,254,0.4);
+        }
+        
+        .progress-step {
+            background: rgba(79,172,254,0.2);
+            border: 2px solid #4facfe;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .progress-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -30px;
+            width: 30px;
+            height: 2px;
+            background: #4facfe;
+        }
+        
+        .progress-step:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-6xl mx-auto p-4 relative z-10">
+        
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 mb-6 fade-in border-2 border-cyan-500/30">
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="bank-icon bg-gradient-to-br from-cyan-400 to-blue-500 float">🏦</div>
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold orbitron neon-text text-white">BANCA & CONTO</h1>
+                        <p class="text-sm md:text-base text-cyan-300">Lezione 1 - Sistema Bancario</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-2 rounded-full shadow-lg glow">
+                        <span id="score-display" class="text-white font-bold text-lg mono">0 €</span>
+                    </div>
+                    <div id="badges-container" class="flex gap-2"></div>
+                </div>
+            </div>
+            
+            <div class="w-full h-6 bg-white/20 rounded-full mb-2 relative overflow-hidden border-2 border-cyan-500/30">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-full transition-all duration-500" style="width: 10%"></div>
+            </div>
+            <div class="flex justify-between text-xs md:text-sm text-cyan-300 mono">
+                <span>MODULO <span id="current-section-num">1</span>/10</span>
+                <span id="section-name" class="font-semibold">INIZIALIZZATO</span>
+            </div>
+        </div>
+
+        <div id="content-container" class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8 mb-6 fade-in min-h-[600px] border-2 border-cyan-500/30"></div>
+
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-4 md:p-6 flex justify-between items-center gap-4 border-2 border-cyan-500/30">
+            <button id="prev-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition mono bg-white/20 text-white/50 cursor-not-allowed border-2 border-white/30" disabled>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="hidden md:inline">PREV</span>
+            </button>
+
+            <div class="text-center">
+                <p class="text-xs md:text-sm text-cyan-300 mono">MODULO <span id="nav-section-num">1</span> / 10</p>
+                <div class="flex gap-1 mt-2" id="dots-container"></div>
+            </div>
+
+            <button id="next-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-cyan-400 to-blue-500 text-white border-2 border-cyan-300 glow mono">
+                <span class="hidden md:inline">NEXT</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="text-center mt-6 text-cyan-300 text-xs md:text-sm mono">
+            <p>🎓 IPSEOA Amerigo Vespucci - Prof. Bettino Camarda</p>
+            <p class="mt-1">Lezione 1: Fondamenti del Sistema Bancario</p>
+        </div>
+    </div>
+
+    <script>
+        var currentSection = 0;
+        var score = 0;
+        var badges = [];
+        var quizAnswers = {};
+        var ibanGenerated = false;
+        var bonificoCompleted = false;
+        var operationsCount = 0;
+
+        var sections = [
+            'Introduzione',
+            'Cos\'è la Banca',
+            'Conto Corrente',
+            'IBAN Generator',
+            'Bonifico SEPA',
+            'Operazioni Base',
+            'Sicurezza Online',
+            'Costi Bancari',
+            'Quiz Finale',
+            'Riepilogo'
+        ];
+
+        var quizQuestions = [
+            { id: 1, question: "La banca raccoglie:", options: ["Risparmi", "Tasse", "Multe", "Donazioni"], correct: 0 },
+            { id: 2, question: "IBAN IT ha quanti caratteri?", options: ["22", "27", "30", "15"], correct: 1 },
+            { id: 3, question: "SEPA significa:", options: ["Sistema Euro", "Area Pagamenti", "Banca Europa", "Sistema Banche"], correct: 1 }
+        ];
+
+        var badgesData = [
+            { id: 'iban-master', name: '🎯 IBAN Pro' },
+            { id: 'bonifico-expert', name: '💸 Bonifico Master' },
+            { id: 'quiz-champion', name: '🏆 Quiz Champion' },
+            { id: 'banking-god', name: '👑 Banking God' }
+        ];
+
+        function createDots() {
+            var container = document.getElementById('dots-container');
+            for (var i = 0; i < sections.length; i++) {
+                var dot = document.createElement('div');
+                dot.id = 'dot-' + i;
+                dot.className = 'w-2 h-2 rounded-full bg-white/30 border border-cyan-500/50';
+                container.appendChild(dot);
+            }
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score-display').textContent = score + ' €';
+            checkBadges();
+        }
+
+        function checkBadges() {
+            if (!badges.includes('iban-master') && ibanGenerated) {
+                badges.push('iban-master');
+                showBadgeNotification(badgesData[0]);
+                renderBadges();
+            }
+            
+            if (!badges.includes('bonifico-expert') && bonificoCompleted) {
+                badges.push('bonifico-expert');
+                showBadgeNotification(badgesData[1]);
+                renderBadges();
+            }
+            
+            if (!badges.includes('quiz-champion') && Object.keys(quizAnswers).length === 3) {
+                var allCorrect = true;
+                for (var key in quizAnswers) {
+                    if (!quizAnswers[key].correct) allCorrect = false;
+                }
+                if (allCorrect) {
+                    badges.push('quiz-champion');
+                    showBadgeNotification(badgesData[2]);
+                    renderBadges();
+                }
+            }
+            
+            if (!badges.includes('banking-god') && currentSection === sections.length - 1 && score >= 120) {
+                badges.push('banking-god');
+                showBadgeNotification(badgesData[3]);
+                renderBadges();
+            }
+        }
+
+        function showBadgeNotification(badge) {
+            var notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 fade-in glow';
+            notification.innerHTML = '<div class="flex items-center gap-3"><div><p class="font-bold orbitron">BADGE SBLOCCATO!</p><p class="text-sm">' + badge.name + '</p></div></div>';
+            document.body.appendChild(notification);
+            setTimeout(function() { notification.remove(); }, 3000);
+        }
+
+        function renderBadges() {
+            var container = document.getElementById('badges-container');
+            var html = '';
+            for (var i = 0; i < badges.length; i++) {
+                var badge = badgesData.find(function(b) { return b.id === badges[i]; });
+                html += '<span class="text-2xl pulse" title="' + badge.name + '">' + badge.name.split(' ')[0] + '</span>';
+            }
+            container.innerHTML = html;
+        }
+
+        function updateProgress() {
+            var progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('current-section-num').textContent = currentSection + 1;
+            document.getElementById('nav-section-num').textContent = currentSection + 1;
+            document.getElementById('section-name').textContent = sections[currentSection];
+            
+            for (var i = 0; i < sections.length; i++) {
+                var dot = document.getElementById('dot-' + i);
+                if (i < currentSection) {
+                    dot.className = 'w-2 h-2 rounded-full bg-green-400 border border-green-300 glow';
+                } else if (i === currentSection) {
+                    dot.className = 'w-2 h-2 rounded-full bg-cyan-400 border border-cyan-300 pulse';
+                } else {
+                    dot.className = 'w-2 h-2 rounded-full bg-white/30 border border-cyan-500/50';
+                }
+            }
+        }
+
+        function updateNavButtons() {
+            var prevBtn = document.getElementById('prev-btn');
+            var nextBtn = document.getElementById('next-btn');
+
+            if (currentSection === 0) {
+                prevBtn.disabled = true;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition mono bg-white/20 text-white/50 cursor-not-allowed border-2 border-white/30';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-white/30 text-white border-2 border-white/50 mono';
+            }
+
+            if (currentSection === sections.length - 1) {
+                nextBtn.disabled = true;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition mono bg-white/20 text-white/50 cursor-not-allowed border-2 border-white/30';
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-cyan-400 to-blue-500 text-white border-2 border-cyan-300 glow mono';
+            }
+        }
+
+        function checkQuiz(qId, answer) {
+            var question = quizQuestions.find(function(q) { return q.id === qId; });
+            var isCorrect = answer === question.correct;
+            quizAnswers[qId] = {answer: answer, correct: isCorrect};
+            if (isCorrect) updateScore(10);
+            renderSection();
+        }
+
+        function generateIBAN() {
+            var country = 'IT';
+            var check = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+            var cin = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+            var abi = Math.floor(10000 + Math.random() * 90000).toString();
+            var cab = Math.floor(10000 + Math.random() * 90000).toString();
+            var account = Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0');
+            
+            var iban = country + check + cin + abi + cab + account;
+            var formatted = iban.match(/.{1,4}/g).join(' ');
+            
+            document.getElementById('iban-output').innerHTML = '<span class="text-cyan-400 text-xl">' + formatted + '</span>';
+            
+            if (!ibanGenerated) {
+                ibanGenerated = true;
+                updateScore(25);
+                checkBadges();
+            }
+        }
+
+        function simulateBonifico() {
+            var importo = document.getElementById('bonif-importo').value;
+            var beneficiario = document.getElementById('bonif-beneficiario').value;
+            var iban = document.getElementById('bonif-iban').value;
+            var causale = document.getElementById('bonif-causale').value;
+            
+            if (importo && beneficiario && iban && causale) {
+                bonificoCompleted = true;
+                updateScore(30);
+                checkBadges();
+                document.getElementById('bonifico-result').innerHTML = '<div class="bg-green-500/20 border-2 border-green-400 p-6 rounded-xl text-center glow fade-in mt-4"><p class="text-green-300 font-bold text-2xl orbitron">BONIFICO INVIATO!</p><p class="text-white text-lg mt-2">Importo: ' + importo + '€</p><p class="text-cyan-300 text-sm mt-2">Tempo stimato: 1-3 giorni lavorativi</p><p class="text-yellow-300 font-bold mt-3">+30€ ottenuti!</p></div>';
+            } else {
+                document.getElementById('bonifico-result').innerHTML = '<div class="bg-red-500/20 border-2 border-red-400 p-4 rounded-xl text-center mt-4"><p class="text-red-300 font-bold">COMPLETA TUTTI I CAMPI!</p></div>';
+            }
+        }
+
+        function performOperation(type) {
+            operationsCount++;
+            var message = '';
+            var amount = 0;
+            
+            if (type === 'prelievo') {
+                message = 'Prelievo effettuato!';
+                amount = 10;
+            } else if (type === 'versamento') {
+                message = 'Versamento registrato!';
+                amount = 10;
+            } else if (type === 'pagamento') {
+                message = 'Pagamento autorizzato!';
+                amount = 15;
+            }
+            
+            updateScore(amount);
+            
+            var notification = document.createElement('div');
+            notification.className = 'fixed top-40 right-4 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 fade-in';
+            notification.innerHTML = '<p class="font-bold orbitron">' + message + '</p><p class="text-sm">+' + amount + '€</p>';
+            document.body.appendChild(notification);
+            setTimeout(function() { notification.remove(); }, 2000);
+        }
+
+        function getScoreLevel() {
+            if (score >= 150) return { level: "BANKING GOD 👑", message: "Maestro assoluto!" };
+            if (score >= 120) return { level: "ESPERTO BANCARIO 💎", message: "Conoscenza eccellente!" };
+            if (score >= 80) return { level: "BANKER JUNIOR 🌟", message: "Ottima preparazione!" };
+            if (score >= 40) return { level: "APPRENDISTA 🚀", message: "Buon inizio!" };
+            return { level: "PRINCIPIANTE 🔰", message: "Continua così!" };
+        }
+
+        function renderSection() {
+            var container = document.getElementById('content-container');
+            var html = '';
+
+            if (currentSection === 0) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-cyan-400 to-blue-500 mx-auto mb-4 pulse">🏦</div>';
+                html += '<h2 class="text-5xl font-bold orbitron text-white mb-4">BENVENUTO!</h2>';
+                html += '<p class="text-xl text-cyan-300">Sistema Bancario e Servizi Finanziari</p>';
+                html += '</div>';
+                
+                html += '<div class="bank-card p-8 rounded-2xl shadow-2xl">';
+                html += '<h3 class="text-3xl font-bold text-white mb-4 orbitron">Cosa Imparerai</h3>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+                html += '<div class="bg-white/10 p-4 rounded-xl"><p class="text-white font-bold mb-2">🏦 Sistema Bancario</p><p class="text-cyan-200 text-sm">Funzioni e ruolo delle banche</p></div>';
+                html += '<div class="bg-white/10 p-4 rounded-xl"><p class="text-white font-bold mb-2">💳 Conto Corrente</p><p class="text-cyan-200 text-sm">Apertura e gestione</p></div>';
+                html += '<div class="bg-white/10 p-4 rounded-xl"><p class="text-white font-bold mb-2">🔢 IBAN</p><p class="text-cyan-200 text-sm">Codice identificativo bancario</p></div>';
+                html += '<div class="bg-white/10 p-4 rounded-xl"><p class="text-white font-bold mb-2">💸 Bonifici</p><p class="text-cyan-200 text-sm">Trasferimenti SEPA</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="bg-cyan-500/20 border-l-4 border-cyan-400 p-4 rounded-lg backdrop-blur-lg">';
+                html += '<p class="text-cyan-100"><strong class="orbitron">💡 Obiettivo:</strong> Padroneggiare i servizi bancari essenziali per il tuo futuro professionale!</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 1) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-blue-400 to-indigo-500 mx-auto mb-4">🏛️</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">COS\'È LA BANCA?</h2>';
+                html += '</div>';
+                
+                html += '<div class="bank-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-white mb-4 orbitron">Definizione</h3>';
+                html += '<p class="text-xl text-white/90 leading-relaxed">Intermediario finanziario che <strong class="text-cyan-300">raccoglie risparmi</strong> e <strong class="text-yellow-300">concede prestiti</strong>. Gestisce pagamenti e offre servizi finanziari.</p>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-3 gap-6">';
+                html += '<div class="operation-card p-6 rounded-2xl"><div class="text-4xl mb-3 text-center">💰</div><h4 class="font-bold text-cyan-300 mb-2 text-lg orbitron text-center">Raccolta</h4><p class="text-white/80 text-sm text-center">Depositi e risparmi dei clienti</p></div>';
+                html += '<div class="operation-card p-6 rounded-2xl"><div class="text-4xl mb-3 text-center">💸</div><h4 class="font-bold text-cyan-300 mb-2 text-lg orbitron text-center">Impiego</h4><p class="text-white/80 text-sm text-center">Prestiti e mutui</p></div>';
+                html += '<div class="operation-card p-6 rounded-2xl"><div class="text-4xl mb-3 text-center">🔄</div><h4 class="font-bold text-cyan-300 mb-2 text-lg orbitron text-center">Servizi</h4><p class="text-white/80 text-sm text-center">Pagamenti e trasferimenti</p></div>';
+                html += '</div>';
+                
+                html += '<div class="bg-blue-500/20 border-l-4 border-blue-400 p-4 rounded-lg backdrop-blur-lg">';
+                html += '<p class="text-blue-100"><strong class="orbitron">📌 Importante:</strong> Le banche sono controllate dalla <strong>Banca d\'Italia</strong> e dalla <strong>BCE</strong> (Banca Centrale Europea).</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 2) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-purple-400 to-pink-500 mx-auto mb-4">💼</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">CONTO CORRENTE</h2>';
+                html += '</div>';
+                
+                html += '<div class="bank-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-white mb-4 orbitron">Cos\'è?</h3>';
+                html += '<p class="text-xl text-white/90 leading-relaxed mb-4">Contratto con cui la banca custodisce denaro e permette operazioni di <strong class="text-cyan-300">prelievo</strong>, <strong class="text-green-300">versamento</strong> e <strong class="text-yellow-300">pagamento</strong>.</p>';
+                
+                html += '<div class="bg-white/10 p-4 rounded-xl">';
+                html += '<p class="text-white font-bold mb-3 orbitron">Per aprirlo serve:</p>';
+                html += '<ul class="space-y-2 text-white/80">';
+                html += '<li>✓ Documento identità (CI/Passaporto)</li>';
+                html += '<li>✓ Codice fiscale</li>';
+                html += '<li>✓ Maggiore età (18 anni)</li>';
+                html += '<li>✓ Deposito iniziale (spesso 0€)</li>';
+                html += '</ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="bg-green-500/20 backdrop-blur-lg p-6 rounded-2xl border-2 border-green-400"><h4 class="font-bold text-green-300 mb-3 text-xl orbitron">✅ Vantaggi</h4><ul class="text-white/80 space-y-2"><li>✓ Sicurezza (FGD 100k€)</li><li>✓ Gestione pagamenti</li><li>✓ Carta bancomat</li><li>✓ Home banking</li></ul></div>';
+                html += '<div class="bg-orange-500/20 backdrop-blur-lg p-6 rounded-2xl border-2 border-orange-400"><h4 class="font-bold text-orange-300 mb-3 text-xl orbitron">💰 Costi</h4><ul class="text-white/80 space-y-2"><li>• Canone 0-120€/anno</li><li>• Imposta bollo 34,20€</li><li>• Commissioni operazioni</li><li>• Scoperto (se negativo)</li></ul></div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 3) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-green-400 to-emerald-500 mx-auto mb-4">🔢</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">IBAN GENERATOR</h2>';
+                html += '<p class="text-cyan-300">International Bank Account Number</p>';
+                html += '</div>';
+                
+                html += '<div class="bank-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-white mb-4 orbitron">Cos\'è l\'IBAN?</h3>';
+                html += '<p class="text-xl text-white/90 leading-relaxed mb-4">Codice <strong class="text-cyan-300">internazionale</strong> di <strong class="text-yellow-300">27 caratteri</strong> che identifica univocamente un conto corrente. Necessario per bonifici.</p>';
+                
+                html += '<div class="bg-white/10 p-4 rounded-xl mb-4">';
+                html += '<p class="text-white font-bold mb-2 orbitron">Struttura IBAN IT:</p>';
+                html += '<p class="text-cyan-300 mono text-sm">IT + 60 + X + 05428 + 11101 + 000000123456</p>';
+                html += '<p class="text-white/70 text-xs mt-2">Paese + Check + CIN + ABI + CAB + Numero Conto</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 p-6 rounded-2xl border-2 border-cyan-400 backdrop-blur-lg">';
+                html += '<h3 class="text-2xl font-bold text-cyan-300 mb-4 orbitron text-center">🎮 GENERA IL TUO IBAN!</h3>';
+                html += '<div class="text-center mb-4">';
+                html += '<button onclick="generateIBAN()" class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-8 py-4 rounded-xl font-bold text-xl shadow-2xl hover:from-cyan-500 hover:to-blue-600 transform hover:scale-105 transition orbitron glow">🔢 GENERA IBAN</button>';
+                html += '</div>';
+                html += '<div id="iban-output" class="iban-display text-center min-h-[60px] flex items-center justify-center">';
+                html += '<span class="text-gray-500 italic">Clicca per generare...</span>';
+                html += '</div>';
+                html += '<p class="text-cyan-200 text-sm text-center mt-4">+25€ al primo IBAN generato!</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 4) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-yellow-400 to-orange-500 mx-auto mb-4">💸</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">BONIFICO SEPA</h2>';
+                html += '<p class="text-cyan-300">Single Euro Payments Area</p>';
+                html += '</div>';
+                
+                html += '<div class="bank-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-white mb-4 orbitron">Come Funziona</h3>';
+                html += '<p class="text-xl text-white/90 leading-relaxed">Trasferimento elettronico di denaro da un conto ad un altro. Area SEPA: <strong class="text-cyan-300">36 paesi</strong> europei, costo uguale nazionale/estero.</p>';
+                html += '</div>';
+                
+                html += '<div class="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-6 rounded-2xl border-2 border-blue-400 backdrop-blur-lg">';
+                html += '<h3 class="text-2xl font-bold text-white mb-4 orbitron text-center">🎮 SIMULA BONIFICO</h3>';
+                html += '<div class="space-y-3">';
+                html += '<input type="number" id="bonif-importo" placeholder="Importo (€)" class="cyber-input w-full">';
+                html += '<input type="text" id="bonif-beneficiario" placeholder="Nome beneficiario" class="cyber-input w-full">';
+                html += '<input type="text" id="bonif-iban" placeholder="IBAN beneficiario" class="cyber-input w-full">';
+                html += '<input type="text" id="bonif-causale" placeholder="Causale pagamento" class="cyber-input w-full">';
+                html += '<button onclick="simulateBonifico()" class="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white py-4 rounded-xl font-bold text-xl shadow-2xl hover:from-green-500 hover:to-emerald-600 transform hover:scale-105 transition orbitron glow">💸 INVIA BONIFICO</button>';
+                html += '</div>';
+                html += '<div id="bonifico-result"></div>';
+                html += '</div>';
+                
+                html += '<div class="bg-cyan-500/20 border-l-4 border-cyan-400 p-4 rounded-lg backdrop-blur-lg mt-4">';
+                html += '<p class="text-cyan-100"><strong class="orbitron">💡 Info:</strong> Costo 0-2€, tempo 1-3 giorni, istantaneo +0,50€</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 5) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-pink-400 to-rose-500 mx-auto mb-4">🔄</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">OPERAZIONI BASE</h2>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-3 gap-6">';
+                
+                html += '<div class="operation-card p-6 rounded-2xl text-center">';
+                html += '<div class="text-5xl mb-4">💰</div>';
+                html += '<h3 class="text-xl font-bold text-cyan-300 mb-3 orbitron">PRELIEVO</h3>';
+                html += '<p class="text-white/80 mb-4 text-sm">Ritiro contanti da ATM o sportello</p>';
+                html += '<button onclick="performOperation(\'prelievo\')" class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-6 py-3 rounded-lg font-bold shadow-lg hover:from-cyan-500 hover:to-blue-600 transition mono">PRELEVA</button>';
+                html += '</div>';
+                
+                html += '<div class="operation-card p-6 rounded-2xl text-center">';
+                html += '<div class="text-5xl mb-4">💵</div>';
+                html += '<h3 class="text-xl font-bold text-green-300 mb-3 orbitron">VERSAMENTO</h3>';
+                html += '<p class="text-white/80 mb-4 text-sm">Deposito contanti o assegni</p>';
+                html += '<button onclick="performOperation(\'versamento\')" class="bg-gradient-to-r from-green-400 to-emerald-500 text-white px-6 py-3 rounded-lg font-bold shadow-lg hover:from-green-500 hover:to-emerald-600 transition mono">VERSA</button>';
+                html += '</div>';
+                
+                html += '<div class="operation-card p-6 rounded-2xl text-center">';
+                html += '<div class="text-5xl mb-4">💳</div>';
+                html += '<h3 class="text-xl font-bold text-yellow-300 mb-3 orbitron">PAGAMENTO</h3>';
+                html += '<p class="text-white/80 mb-4 text-sm">Con carta o bonifico</p>';
+                html += '<button onclick="performOperation(\'pagamento\')" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-lg font-bold shadow-lg hover:from-yellow-500 hover:to-orange-600 transition mono">PAGA</button>';
+                html += '</div>';
+                
+                html += '</div>';
+                
+                html += '<div class="bg-purple-500/20 border-l-4 border-purple-400 p-4 rounded-lg backdrop-blur-lg">';
+                html += '<p class="text-purple-100"><strong class="orbitron">🎮 Prova:</strong> Simula le operazioni per guadagnare punti!</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 6) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-red-400 to-pink-500 mx-auto mb-4">🔒</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">SICUREZZA ONLINE</h2>';
+                html += '</div>';
+                
+                html += '<div class="bank-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-white mb-4 orbitron">Home Banking Sicuro</h3>';
+                html += '<p class="text-xl text-white/90 leading-relaxed">Gestisci il conto da PC/smartphone. <strong class="text-red-300">ATTENZIONE</strong> alle truffe!</p>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="bg-green-500/20 backdrop-blur-lg p-6 rounded-2xl border-2 border-green-400">';
+                html += '<h4 class="font-bold text-green-300 mb-4 text-xl orbitron">✅ FAI SEMPRE</h4>';
+                html += '<ul class="text-white/80 space-y-2 text-sm">';
+                html += '<li>✓ Usa password forte (12+ caratteri)</li>';
+                html += '<li>✓ Autenticazione 2FA (SMS/App)</li>';
+                html += '<li>✓ Controlla URL banca (https://)</li>';
+                html += '<li>✓ Logout dopo operazioni</li>';
+                html += '<li>✓ Aggiorna app/browser</li>';
+                html += '</ul>';
+                html += '</div>';
+                html += '<div class="bg-red-500/20 backdrop-blur-lg p-6 rounded-2xl border-2 border-red-400">';
+                html += '<h4 class="font-bold text-red-300 mb-4 text-xl orbitron">❌ NON FARE MAI</h4>';
+                html += '<ul class="text-white/80 space-y-2 text-sm">';
+                html += '<li>✗ Cliccare link email sospette</li>';
+                html += '<li>✗ Dare password al telefono</li>';
+                html += '<li>✗ Usare WiFi pubblico</li>';
+                html += '<li>✗ Salvare password nel browser</li>';
+                html += '<li>✗ Condividere codici OTP</li>';
+                html += '</ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="bg-red-500/20 border-l-4 border-red-400 p-4 rounded-lg backdrop-blur-lg">';
+                html += '<p class="text-red-100"><strong class="orbitron">⚠️ PHISHING:</strong> La banca NON chiede MAI password/PIN per email/telefono!</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 7) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-orange-400 to-red-500 mx-auto mb-4">💶</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">COSTI BANCARI</h2>';
+                html += '</div>';
+                
+                html += '<div class="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border-2 border-white/20">';
+                html += '<h3 class="text-2xl font-bold text-cyan-300 mb-4 orbitron text-center">Tabella Costi Tipici</h3>';
+                html += '<table class="w-full text-left">';
+                html += '<thead class="bg-cyan-900/50"><tr><th class="p-3 text-cyan-200 orbitron">Servizio</th><th class="p-3 text-cyan-200 orbitron">Costo</th></tr></thead>';
+                html += '<tbody class="text-white/80">';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Canone mensile</td><td class="p-3 mono">0-10€</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Imposta bollo</td><td class="p-3 mono">34,20€/anno</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Bonifico SEPA</td><td class="p-3 mono">0-2€</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Bonifico istantaneo</td><td class="p-3 mono">0,50-2€</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Prelievo ATM proprio</td><td class="p-3 mono">Gratis</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Prelievo ATM altro</td><td class="p-3 mono">2-5€</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-3">Carta debito</td><td class="p-3 mono">0-30€/anno</td></tr>';
+                html += '<tr><td class="p-3">Scoperto (giorni)</td><td class="p-3 mono">7-15%</td></tr>';
+                html += '</tbody>';
+                html += '</table>';
+                html += '</div>';
+                
+                html += '<div class="bg-yellow-500/20 border-l-4 border-yellow-400 p-4 rounded-lg backdrop-blur-lg">';
+                html += '<p class="text-yellow-100"><strong class="orbitron">💡 Consiglio:</strong> Confronta sempre le offerte! Esistono conti GRATIS per giovani.</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 8) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-purple-400 to-pink-500 mx-auto mb-4 pulse">📝</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">QUIZ FINALE</h2>';
+                html += '<p class="text-cyan-300">+10€ per risposta corretta</p>';
+                html += '</div>';
+                
+                for (var i = 0; i < quizQuestions.length; i++) {
+                    var q = quizQuestions[i];
+                    var answered = quizAnswers[q.id];
+                    
+                    html += '<div class="bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-2xl slide-in border-2 border-cyan-500/30">';
+                    html += '<p class="text-lg font-bold text-cyan-200 mb-4 mono">';
+                    html += '<span class="inline-flex items-center justify-center w-8 h-8 bg-cyan-500 text-white rounded-full font-bold mr-2">' + (i+1) + '</span>';
+                    html += q.question + '</p>';
+                    html += '<div class="grid grid-cols-2 gap-3">';
+                    
+                    for (var j = 0; j < q.options.length; j++) {
+                        var option = q.options[j];
+                        var isSelected = answered && answered.answer === j;
+                        var isCorrect = j === q.correct;
+                        var buttonClass = 'p-4 rounded-xl border-2 transition font-medium text-left ';
+                        
+                        if (!answered) {
+                            buttonClass += 'border-cyan-400 bg-cyan-900/30 hover:bg-cyan-800/50 text-cyan-100 cursor-pointer shadow-lg';
+                        } else if (isSelected && answered.correct) {
+                            buttonClass += 'border-green-400 bg-green-900/50 text-green-200 shadow-lg glow';
+                        } else if (isSelected && !answered.correct) {
+                            buttonClass += 'border-red-400 bg-red-900/50 text-red-200 shadow-lg';
+                        } else if (isCorrect) {
+                            buttonClass += 'border-green-400 bg-green-900/50 text-green-200 shadow-lg';
+                        } else {
+                            buttonClass += 'border-white/20 bg-white/10 text-white/50';
+                        }
+
+                        html += '<button onclick="checkQuiz(' + q.id + ', ' + j + ')" ';
+                        if (answered) html += 'disabled ';
+                        html += 'class="' + buttonClass + ' mono">' + option;
+                        if (answered && isCorrect) html += '<span class="ml-2">✓</span>';
+                        if (answered && isSelected && !answered.correct) html += '<span class="ml-2">✗</span>';
+                        html += '</button>';
+                    }
+                    
+                    html += '</div></div>';
+                }
+                
+                html += '</div>';
+            }
+            else if (currentSection === 9) {
+                var level = getScoreLevel();
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="bank-icon bg-gradient-to-br from-yellow-400 to-orange-500 mx-auto mb-4 pulse">🏆</div>';
+                html += '<h2 class="text-5xl font-bold orbitron text-white mb-2">COMPLETATO!</h2>';
+                html += '<p class="text-cyan-300 text-2xl">Esperto Bancario!</p>';
+                html += '</div>';
+                
+                html += '<div class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 p-10 rounded-2xl shadow-2xl border-4 border-cyan-300 glow">';
+                html += '<div class="text-center text-white mb-6">';
+                html += '<div class="text-8xl font-bold mb-4 mono">' + score + '€</div>';
+                html += '<div class="text-4xl font-bold mb-3 orbitron">' + level.level + '</div>';
+                html += '<p class="text-2xl">' + level.message + '</p>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-2 md:grid-cols-4 gap-4">';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + (ibanGenerated ? '✓' : '-') + '</p><p class="text-white/80 text-sm">IBAN</p></div>';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + (bonificoCompleted ? '✓' : '-') + '</p><p class="text-white/80 text-sm">Bonifico</p></div>';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + operationsCount + '</p><p class="text-white/80 text-sm">Operazioni</p></div>';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + badges.length + '/4</p><p class="text-white/80 text-sm">Badge</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="bg-gradient-to-r from-green-400 to-emerald-500 text-white p-6 rounded-2xl text-center shadow-2xl border-4 border-green-300">';
+                html += '<p class="text-3xl font-bold mb-2 orbitron">✅ HAI IMPARATO</p>';
+                html += '<ul class="text-lg space-y-1 mt-4">';
+                html += '<li>✓ Funzioni banca</li>';
+                html += '<li>✓ Conto corrente</li>';
+                html += '<li>✓ Codice IBAN</li>';
+                html += '<li>✓ Bonifici SEPA</li>';
+                html += '<li>✓ Sicurezza online</li>';
+                html += '</ul>';
+                html += '</div>';
+                html += '<div class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white p-6 rounded-2xl text-center shadow-2xl border-4 border-purple-300">';
+                html += '<p class="text-3xl font-bold mb-2 orbitron">🚀 PROSSIMA LEZIONE</p>';
+                html += '<p class="text-xl mt-4">Lezione 2</p>';
+                html += '<p class="text-2xl font-bold orbitron">ASSEGNI & CARTE</p>';
+                html += '<p class="text-lg mt-2">💳 Metodi di pagamento</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            if (currentSection > 0) {
+                currentSection--;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        createDots();
+        renderSection();
+        updateProgress();
+        updateNavButtons();
+    </script>
+</body>
+</html>

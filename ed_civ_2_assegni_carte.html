@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assegni e Carte - Lezione 2 Interattiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .pulse-animation { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .bounce { animation: bounce 1s infinite; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .slide-in { animation: slideIn 0.6s ease-out; }
+        
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        .flip-card { 
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .assegno {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 3px solid #4a5568;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .assegno::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            pointer-events: none;
+        }
+        
+        .carta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .carta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+        }
+        
+        .chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            border-radius: 8px;
+            position: relative;
+        }
+        .chip::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(0,0,0,0.1) 0px,
+                rgba(0,0,0,0.1) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .badge {
+            display: inline-block;
+            animation: fadeIn 0.5s ease-out, bounce 1s ease-in-out;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        input[type="text"].assegno-input {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+        input[type="text"].assegno-input:focus {
+            outline: none;
+            border-bottom: 2px solid white;
+            background: rgba(255,255,255,0.3);
+        }
+        input[type="text"].assegno-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen">
+    <div class="max-w-5xl mx-auto p-4">
+        
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6 fade-in">
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <svg class="w-12 h-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Assegni e Carte di Pagamento</h1>
+                        <p class="text-sm md:text-base text-gray-600">Lezione 2 - Educazione Finanziaria</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 px-4 py-2 rounded-full shadow-lg">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <span id="score-display" class="text-white font-bold text-lg">0 pt</span>
+                    </div>
+                    <div id="badges-container" class="flex gap-2"></div>
+                </div>
+            </div>
+            
+            <!-- Progress bar -->
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-2 relative overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 h-4 rounded-full transition-all duration-500 shimmer" style="width: 10%"></div>
+            </div>
+            <div class="flex justify-between text-xs md:text-sm text-gray-600">
+                <span>Sezione <span id="current-section-num">1</span>/10</span>
+                <span id="section-name" class="font-semibold">Quiz Ripasso</span>
+            </div>
+        </div>
+
+        <!-- Content Container -->
+        <div id="content-container" class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 mb-6 fade-in min-h-[500px]"></div>
+
+        <!-- Navigation -->
+        <div class="bg-white rounded-2xl shadow-2xl p-4 md:p-6 flex justify-between items-center gap-4">
+            <button id="prev-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 bg-gray-200 text-gray-400 cursor-not-allowed" disabled>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="hidden md:inline">Indietro</span>
+            </button>
+
+            <div class="text-center">
+                <p class="text-xs md:text-sm text-gray-600">Sezione <span id="nav-section-num">1</span> di 10</p>
+                <div class="flex gap-1 mt-1">
+                    ${Array(10).fill(0).map((_, i) => 
+                        `<div id="dot-${i}" class="w-2 h-2 rounded-full bg-gray-300"></div>`
+                    ).join('')}
+                </div>
+            </div>
+
+            <button id="next-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700">
+                <span class="hidden md:inline">Avanti</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6 text-gray-600 text-xs md:text-sm">
+            <p>🎓 IPSEOA "Amerigo Vespucci" - Educazione Civica - Prof. Bettino Camarda</p>
+            <p class="mt-1">Lezione 2: Assegni e Carte di Pagamento</p>
+        </div>
+
+    </div>
+
+    <script>
+        // State
+        let currentSection = 0;
+        let score = 0;
+        let badges = [];
+        let quizRipassoAnswers = {};
+        let assegnoBancario = { luogo: '', data: '', importoCifre: '', importoLettere: '', beneficiario: '' };
+        let assegnoCircolare = {};
+        let cartaDebito = { numero: '', nome: '', scadenza: '', cvv: '' };
+        let cartaCredito = {};
+        let rolePlayCompleted = [];
+
+        const sections = [
+            'Quiz Ripasso',
+            'Assegno Bancario',
+            'Compila Assegno',
+            'Assegno Circolare',
+            'Confronto Assegni',
+            'Carta Debito',
+            'Carta Credito',
+            'Confronto Carte',
+            'Mini-Game',
+            'Riepilogo'
+        ];
+
+        const quizRipassoQuestions = [
+            { id: 1, question: "Il conto corrente è un deposito a...", options: ["vista", "termine", "risparmio", "vincolato"], correct: 0 },
+            { id: 2, question: "L'IBAN italiano ha quanti caratteri?", options: ["25", "27", "30", "32"], correct: 1 },
+            { id: 3, question: "Il bonifico istantaneo arriva in...", options: ["24 ore", "2-3 giorni", "pochi secondi", "1 settimana"], correct: 2 }
+        ];
+
+        const badgesData = [
+            { id: 'quiz-master', name: '🎯 Quiz Master', condition: () => Object.keys(quizRipassoAnswers).length === 3 && Object.values(quizRipassoAnswers).every(a => a.correct) },
+            { id: 'assegno-pro', name: '📝 Assegno Pro', condition: () => assegnoBancario.beneficiario && assegnoBancario.importoCifre },
+            { id: 'carta-expert', name: '💳 Carta Expert', condition: () => cartaDebito.numero && cartaCredito.numero },
+            { id: 'completista', name: '🏆 Completista', condition: () => currentSection === sections.length - 1 && score >= 150 }
+        ];
+
+        // Update UI
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score-display').textContent = score + ' pt';
+            checkBadges();
+        }
+
+        function checkBadges() {
+            badgesData.forEach(badge => {
+                if (!badges.includes(badge.id) && badge.condition()) {
+                    badges.push(badge.id);
+                    showBadgeNotification(badge);
+                    renderBadges();
+                }
+            });
+        }
+
+        function showBadgeNotification(badge) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-6 py-4 rounded-xl shadow-2xl z-50 badge';
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                    <div>
+                        <p class="font-bold">Badge Sbloccato!</p>
+                        <p class="text-sm">${badge.name}</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function renderBadges() {
+            const container = document.getElementById('badges-container');
+            container.innerHTML = badges.map(badgeId => {
+                const badge = badgesData.find(b => b.id === badgeId);
+                return `<span class="text-2xl" title="${badge.name}">${badge.name.split(' ')[0]}</span>`;
+            }).join('');
+        }
+
+        function updateProgress() {
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('current-section-num').textContent = currentSection + 1;
+            document.getElementById('nav-section-num').textContent = currentSection + 1;
+            document.getElementById('section-name').textContent = sections[currentSection];
+            
+            // Update dots
+            for (let i = 0; i < sections.length; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < currentSection) {
+                    dot.className = 'w-2 h-2 rounded-full bg-green-500';
+                } else if (i === currentSection) {
+                    dot.className = 'w-2 h-2 rounded-full bg-purple-500';
+                } else {
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-300';
+                }
+            }
+        }
+
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            if (currentSection === 0) {
+                prevBtn.disabled = true;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition bg-gray-200 text-gray-400 cursor-not-allowed';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-gray-600 to-gray-800 text-white hover:from-gray-700 hover:to-gray-900';
+            }
+
+            if (currentSection === sections.length - 1) {
+                nextBtn.disabled = true;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition bg-gray-200 text-gray-400 cursor-not-allowed';
+                nextBtn.innerHTML = '<span class="hidden md:inline">Fine!</span>';
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700';
+                nextBtn.innerHTML = '<span class="hidden md:inline">Avanti</span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>';
+            }
+        }
+
+        // Section renderers
+        function renderQuizRipasso() {
+            let html = `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-purple-600 mx-auto mb-4 bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">Quiz Ripasso Lezione 1</h2>
+                        <p class="text-gray-600">Rinfreschiamo la memoria! Ogni risposta corretta +10 punti</p>
+                    </div>
+            `;
+
+            quizRipassoQuestions.forEach((q, idx) => {
+                const answered = quizRipassoAnswers[q.id];
+                html += `
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-200 shadow-lg slide-in" style="animation-delay: ${idx * 0.1}s">
+                        <p class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <span class="flex items-center justify-center w-8 h-8 bg-purple-600 text-white rounded-full">${idx + 1}</span>
+                            ${q.question}
+                        </p>
+                        <div class="grid grid-cols-2 gap-3">
+                `;
+
+                q.options.forEach((option, optIdx) => {
+                    const isSelected = answered?.answer === optIdx;
+                    const isCorrect = optIdx === q.correct;
+                    let buttonClass = 'p-4 rounded-xl border-2 transition transform hover:scale-105 font-medium text-left ';
+                    
+                    if (!answered) {
+                        buttonClass += 'border-purple-300 hover:border-purple-500 hover:bg-purple-100 cursor-pointer shadow-md';
+                    } else if (isSelected && answered.correct) {
+                        buttonClass += 'border-green-500 bg-green-100 text-green-800 shadow-lg';
+                    } else if (isSelected && !answered.correct) {
+                        buttonClass += 'border-red-500 bg-red-100 text-red-800 shadow-lg';
+                    } else if (isCorrect) {
+                        buttonClass += 'border-green-500 bg-green-50 text-green-800 shadow-lg';
+                    } else {
+                        buttonClass += 'border-gray-300 bg-gray-100 text-gray-500';
+                    }
+
+                    html += `
+                        <button onclick="checkQuizRipasso(${q.id}, ${optIdx})" 
+                            ${answered ? 'disabled' : ''} 
+                            class="${buttonClass}">
+                            ${option}
+                            ${answered && isCorrect ? '<svg class="inline ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' : ''}
+                            ${answered && isSelected && !answered.correct ? '<svg class="inline ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>' : ''}
+                        </button>
+                    `;
+                });
+
+                html += '</div></div>';
+            });
+
+            html += '<div id="quiz-feedback" class="mt-6"></div>';
+            
+            const allCorrect = Object.keys(quizRipassoAnswers).length === 3 && Object.values(quizRipassoAnswers).every(a => a.correct);
+            if (allCorrect) {
+                html += `
+                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-6 rounded-2xl text-center shadow-2xl">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <p class="text-2xl font-bold mb-2">🎉 Perfetto! Tutte corrette!</p>
+                        <p class="text-lg">Sei pronto per gli assegni e le carte!</p>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function renderAssegnoBancario() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-blue-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">L'Assegno Bancario</h2>
+                        <p class="text-gray-600">Titolo di credito per pagamenti tracciati</p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-2xl border-2 border-blue-200 shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Cos'è?
+                        </h3>
+                        <p class="text-lg text-gray-700 mb-4">Titolo di credito con cui il <strong>traente</strong> (titolare c/c) ordina alla <strong>banca</strong> di pagare una somma al <strong>beneficiario</strong>.</p>
+                        <div class="bg-white p-4 rounded-xl">
+                            <p class="text-gray-700"><strong>🍕 Nel tuo ristorante:</strong> Un cliente aziendale paga il banchetto da 3.500€ con assegno.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-6 rounded-2xl border-2 border-green-300 shadow-lg">
+                            <h4 class="font-bold text-green-800 mb-4 text-xl flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Vantaggi
+                            </h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Tracciabile (contrasto evasione)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Più sicuro del contante</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Blocco se smarrito</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Girata possibile (se trasferibile)</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-6 rounded-2xl border-2 border-red-300 shadow-lg">
+                            <h4 class="font-bold text-red-800 mb-4 text-xl flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                Rischi
+                            </h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 text-xl">⚠</span>
+                                    <span class="text-gray-700">Può essere scoperto (no soldi)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 text-xl">⚠</span>
+                                    <span class="text-gray-700">Protesto = reato penale</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 text-xl">⚠</span>
+                                    <span class="text-gray-700">Tempi incasso (8-15 giorni)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 text-xl">⚠</span>
+                                    <span class="text-gray-700">Rischio falso/contraffatto</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-300 shadow-lg">
+                        <h3 class="text-xl font-bold text-purple-900 mb-4">🔐 Clausole di Sicurezza</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-xl border-2 border-purple-200">
+                                <p class="font-bold text-purple-800 mb-2">NON TRASFERIBILE</p>
+                                <p class="text-sm text-gray-600">Solo beneficiario incassa</p>
+                                <p class="text-xs text-purple-600 mt-2">Obbligatorio &gt;1.000€</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border-2 border-purple-200">
+                                <p class="font-bold text-purple-800 mb-2">SBARRATO</p>
+                                <p class="text-sm text-gray-600">Solo versamento c/c</p>
+                                <p class="text-xs text-purple-600 mt-2">No contanti</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border-2 border-purple-200">
+                                <p class="font-bold text-purple-800 mb-2">FIRMA TRAENTE</p>
+                                <p class="text-sm text-gray-600">Sempre obbligatoria</p>
+                                <p class="text-xs text-purple-600 mt-2">Validità legale</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+                        <p class="text-yellow-900"><strong>💡 Checklist Ristoratore:</strong> Prima di accettare un assegno verifica: data, importo in cifre = lettere, firma, clausola "non trasferibile" se &gt;1.000€, assegno non danneggiato.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCompilaAssegno() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-purple-600 mx-auto mb-4 bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">Compila il Tuo Assegno!</h2>
+                        <p class="text-gray-600">Vale 30 punti se corretto! 🎯</p>
+                    </div>
+
+                    <div class="bg-yellow-50 border-2 border-yellow-400 p-4 rounded-xl mb-6">
+                        <p class="text-yellow-900 font-semibold">📝 <strong>Scenario:</strong> Devi pagare "Forniture Alberghiere SRL" per attrezzature cucina: 2.500€</p>
+                    </div>
+
+                    <!-- Assegno Simulato -->
+                    <div class="assegno p-6 md:p-8 rounded-2xl text-white relative overflow-hidden">
+                        <div class="absolute top-4 right-4 text-white/50 text-sm font-mono">N° 0042315</div>
+                        
+                        <div class="mb-6">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'%3E%3Ctext x='10' y='30' fill='white' font-size='24' font-weight='bold'%3EBANCA%3C/text%3E%3C/svg%3E" alt="Logo Banca" class="h-10">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-white/80 text-sm mb-1">Luogo</label>
+                                <input type="text" id="assegno-luogo" 
+                                    class="assegno-input w-full px-3 py-2 rounded"
+                                    placeholder="Milano"
+                                    value="${assegnoBancario.luogo}">
+                            </div>
+                            <div>
+                                <label class="block text-white/80 text-sm mb-1">Data</label>
+                                <input type="text" id="assegno-data" 
+                                    class="assegno-input w-full px-3 py-2 rounded"
+                                    placeholder="03/12/2025"
+                                    value="${assegnoBancario.data}">
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-white/80 text-sm mb-1">Importo in CIFRE (€)</label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl font-bold">€</span>
+                                <input type="text" id="assegno-cifre" 
+                                    class="assegno-input flex-1 px-3 py-2 rounded text-2xl font-bold"
+                                    placeholder="2.500,00"
+                                    value="${assegnoBancario.importoCifre}">
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-white/80 text-sm mb-1">Importo in LETTERE</label>
+                            <input type="text" id="assegno-lettere" 
+                                class="assegno-input w-full px-3 py-2 rounded"
+                                placeholder="duemilacinquecento/00"
+                                value="${assegnoBancario.importoLettere}">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-white/80 text-sm mb-1">Pagate a (Beneficiario)</label>
+                            <input type="text" id="assegno-beneficiario" 
+                                class="assegno-input w-full px-3 py-2 rounded"
+                                placeholder="Forniture Alberghiere SRL"
+                                value="${assegnoBancario.beneficiario}">
+                        </div>
+
+                        <div class="flex justify-between items-end">
+                            <div class="text-white/60 text-xs">
+                                <p>NON TRASFERIBILE</p>
+                                <p>IBAN: IT60X0542811101000000123456</p>
+                            </div>
+                            <div class="border-t-2 border-white/50 pt-2 px-4 text-center">
+                                <p class="text-white/80 text-xs mb-1">Firma</p>
+                                <p class="text-white font-cursive text-xl">_____________</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="validaAssegno()" class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-2xl hover:from-green-600 hover:to-blue-600 transform hover:scale-105 transition">
+                        Verifica Assegno e Guadagna +30 Punti! 🚀
+                    </button>
+
+                    <div id="assegno-feedback"></div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
+                        <p class="text-blue-900"><strong>💡 Suggerimenti:</strong> Scrivi importo in cifre con virgola (es: 2.500,00), in lettere tutto attaccato minuscolo (es: duemilacinquecento/00), beneficiario nome completo azienda.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAssegnoCircolare() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-green-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-2">L'Assegno Circolare</h2>
+                        <p class="text-gray-600">La massima sicurezza nei pagamenti</p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-green-50 to-teal-50 p-6 rounded-2xl border-2 border-green-300 shadow-lg">
+                        <h3 class="text-2xl font-bold text-green-900 mb-4">🏦 Chi lo emette?</h3>
+                        <p class="text-lg text-gray-700 mb-4">La <strong>BANCA stessa</strong> (non il cliente!) dopo aver addebitato subito l'importo dal c/c del richiedente. Quindi è <strong>sempre coperto</strong> = garanzia totale!</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-lg">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">⚖️ Differenze Chiave</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="p-3 font-bold">Aspetto</th>
+                                        <th class="p-3 font-bold text-blue-700">Ass. Bancario</th>
+                                        <th class="p-3 font-bold text-green-700">Ass. Circolare</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-semibold">Chi emette</td>
+                                        <td class="p-3">Cliente</td>
+                                        <td class="p-3 bg-green-50">🏦 Banca</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-semibold">Chi garantisce</td>
+                                        <td class="p-3">Cliente (può essere scoperto)</td>
+                                        <td class="p-3 bg-green-50">🏦 Banca (sempre coperto)</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-semibold">Sicurezza</td>
+                                        <td class="p-3">⚠️ Media</td>
+                                        <td class="p-3 bg-green-50">✅ Massima</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-semibold">Costo</td>
+                                        <td class="p-3">Carnet 0-20€</td>
+                                        <td class="p-3 bg-red-50">💰 5-15€ cadauno</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-semibold">Uso tipico</td>
+                                        <td class="p-3">Pagamenti abituali</td>
+                                        <td class="p-3 bg-green-50">Compravendite importanti</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-300 shadow-lg">
+                            <h4 class="font-bold text-blue-800 mb-4 text-xl">📋 Come si ottiene</h4>
+                            <ol class="space-y-3">
+                                <li class="flex items-start gap-3">
+                                    <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">1</span>
+                                    <span class="text-gray-700">Vai in banca (o richiedi online)</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">2</span>
+                                    <span class="text-gray-700">Comunichi importo e beneficiario</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">3</span>
+                                    <span class="text-gray-700">Banca addebita SUBITO dal tuo c/c</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">4</span>
+                                    <span class="text-gray-700">Banca rilascia assegno con SUA firma</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">5</span>
+                                    <span class="text-gray-700">Beneficiario lo incassa con sicurezza</span>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-purple-50 p-6 rounded-2xl border-2 border-purple-300 shadow-lg">
+                            <h4 class="font-bold text-purple-800 mb-4 text-xl">🍕 Quando usarlo nel settore</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700"><strong>Acquisto attrezzature costose</strong> (forno professionale 8.000€)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700"><strong>Caparra locale commerciale</strong> (affitto ristorante)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700"><strong>Acquisto auto/furgone</strong> per consegne</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700"><strong>Pagamenti tra sconosciuti</strong> di importo rilevante</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-100 border-2 border-green-500 p-6 rounded-2xl text-center shadow-lg">
+                        <svg class="w-12 h-12 text-green-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <p class="text-green-900 font-bold text-xl mb-2">🎯 Regola d'Oro</p>
+                        <p class="text-green-800 text-lg">Se vendi qualcosa di valore a uno sconosciuto: <strong>accetta SOLO assegno circolare!</strong></p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderConfrontoAssegni() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-orange-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">Mini-Quiz: Quale Assegno?</h2>
+                        <p class="text-gray-600">Scegli il tipo giusto per ogni situazione! +5pt per risposta</p>
+                    </div>
+
+                    <div class="space-y-4" id="quiz-assegni-container">
+                        ${[
+                            { scenario: "Pagare il fornitore di vino per fornitura mensile 500€", correct: "bancario" },
+                            { scenario: "Acquistare furgone usato da privato per 12.000€", correct: "circolare" },
+                            { scenario: "Caparra per affitto nuovo locale commerciale 5.000€", correct: "circolare" },
+                            { scenario: "Pagare consulente fiscale per servizi 800€", correct: "bancario" }
+                        ].map((q, idx) => `
+                            <div class="bg-gradient-to-r from-orange-50 to-yellow-50 p-6 rounded-2xl border-2 border-orange-200 shadow-lg">
+                                <p class="font-bold text-gray-800 mb-4 text-lg">${idx + 1}. ${q.scenario}</p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button onclick="checkAssegno(${idx}, 'bancario', '${q.correct}')" 
+                                        id="btn-assegno-${idx}-bancario"
+                                        class="p-4 rounded-xl border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 transition transform hover:scale-105 font-semibold">
+                                        📄 Assegno Bancario
+                                    </button>
+                                    <button onclick="checkAssegno(${idx}, 'circolare', '${q.correct}')" 
+                                        id="btn-assegno-${idx}-circolare"
+                                        class="p-4 rounded-xl border-2 border-green-300 bg-green-50 hover:bg-green-100 transition transform hover:scale-105 font-semibold">
+                                        🏦 Assegno Circolare
+                                    </button>
+                                </div>
+                                <div id="feedback-assegno-${idx}" class="mt-3"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCartaDebito() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-blue-600 mx-auto mb-4 bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">Carta di Debito (Bancomat)</h2>
+                        <p class="text-gray-600">Collegata direttamente al tuo conto corrente</p>
+                    </div>
+
+                    <!-- Carta Simulata Fronte -->
+                    <div class="flip-card w-full max-w-md mx-auto h-56 mb-6" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front carta p-6 flex flex-col justify-between">
+                                <div class="flex justify-between items-start">
+                                    <div class="chip"></div>
+                                    <svg class="w-12 h-12 text-white/80" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                                        <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                                    </svg>
+                                </div>
+                                <div class="text-white">
+                                    <p class="text-2xl font-mono tracking-wider mb-2">4532 •••• •••• 6789</p>
+                                    <div class="flex justify-between text-sm">
+                                        <div>
+                                            <p class="text-white/60 text-xs">TITOLARE</p>
+                                            <p class="font-semibold">MARIO ROSSI</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-white/60 text-xs">SCADENZA</p>
+                                            <p class="font-semibold">12/27</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back carta p-6 flex flex-col justify-between bg-gradient-to-br from-gray-700 to-gray-900">
+                                <div class="w-full h-12 bg-black mt-4"></div>
+                                <div class="bg-white p-2 rounded">
+                                    <p class="text-gray-800 text-xs mb-1">CVV</p>
+                                    <p class="font-mono text-xl text-gray-800">123</p>
+                                </div>
+                                <p class="text-white/60 text-xs text-center">Clicca per girare</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-2xl border-2 border-blue-200 shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4">💳 Come funziona?</h3>
+                        <p class="text-lg text-gray-700 mb-4">Paghi → <strong>Soldi prelevati SUBITO</strong> dal conto corrente. Devi avere disponibilità!</p>
+                        <div class="bg-white p-4 rounded-xl">
+                            <p class="text-gray-700"><strong>Esempio:</strong> Paghi cena 50€ con bancomat → dopo 1 secondo, il c/c ha 50€ in meno</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-6 rounded-2xl border-2 border-green-300 shadow-lg">
+                            <h4 class="font-bold text-green-800 mb-4 text-xl flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Vantaggi
+                            </h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Costi bassi/nulli</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Controllo spese immediato</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">No debiti (spendi solo ciò che hai)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Contactless fino 50€</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-orange-50 p-6 rounded-2xl border-2 border-orange-300 shadow-lg">
+                            <h4 class="font-bold text-orange-800 mb-4 text-xl flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Limiti
+                            </h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-orange-600">⚠</span>
+                                    <span class="text-gray-700">Prelievo: 250-1.000€/giorno</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-orange-600">⚠</span>
+                                    <span class="text-gray-700">Pagamento: 1.000-5.000€/giorno</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-orange-600">⚠</span>
+                                    <span class="text-gray-700">Serve saldo disponibile</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-orange-600">⚠</span>
+                                    <span class="text-gray-700">Commissioni ATM altre banche</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-6 rounded-2xl border-2 border-purple-300 shadow-lg">
+                        <h3 class="text-xl font-bold text-purple-900 mb-4">🔐 Sicurezza</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-xl">
+                                <p class="font-bold text-purple-800 mb-2">PIN Personale</p>
+                                <p class="text-sm text-gray-600">Mai comunicarlo a nessuno!</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl">
+                                <p class="font-bold text-purple-800 mb-2">3D Secure</p>
+                                <p class="text-sm text-gray-600">OTP via SMS per online</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl">
+                                <p class="font-bold text-purple-800 mb-2">Blocco Immediato</p>
+                                <p class="text-sm text-gray-600">Se smarrita, chiama banca</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+                        <p class="text-yellow-900"><strong>🍕 Per il ristoratore:</strong> La carta debito è ideale per spese quotidiane del locale: spesa al mercato, piccoli fornitori, utenze. Zero rischio di indebitarsi!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCartaCredito() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-purple-600 mx-auto mb-4 bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">Carta di Credito</h2>
+                        <p class="text-gray-600">Paghi ora, addebiti dopo (con responsabilità!)</p>
+                    </div>
+
+                    <!-- Carta Credito Simulata -->
+                    <div class="flip-card w-full max-w-md mx-auto h-56 mb-6" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front carta p-6 flex flex-col justify-between bg-gradient-to-br from-purple-600 to-pink-600">
+                                <div class="flex justify-between items-start">
+                                    <div class="chip"></div>
+                                    <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="9" cy="12" r="7" opacity="0.7"/>
+                                        <circle cx="15" cy="12" r="7" opacity="0.7"/>
+                                    </svg>
+                                </div>
+                                <div class="text-white">
+                                    <p class="text-2xl font-mono tracking-wider mb-2">5412 •••• •••• 1234</p>
+                                    <div class="flex justify-between text-sm">
+                                        <div>
+                                            <p class="text-white/60 text-xs">TITOLARE</p>
+                                            <p class="font-semibold">LUIGI VERDI</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-white/60 text-xs">SCADENZA</p>
+                                            <p class="font-semibold">06/28</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back carta p-6 flex flex-col justify-between bg-gradient-to-br from-gray-700 to-gray-900">
+                                <div class="w-full h-12 bg-black mt-4"></div>
+                                <div class="bg-white p-2 rounded">
+                                    <p class="text-gray-800 text-xs mb-1">CVV</p>
+                                    <p class="font-mono text-xl text-gray-800">456</p>
+                                </div>
+                                <p class="text-white/60 text-xs text-center">Clicca per girare</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-200 shadow-lg">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4">🏦 Differenza Cruciale</h3>
+                        <div class="bg-white p-4 rounded-xl mb-4">
+                            <p class="text-lg text-gray-700 mb-2"><strong>DEBITO:</strong> Pago → Soldi via <span class="text-red-600 font-bold">SUBITO</span> dal c/c</p>
+                            <p class="text-lg text-gray-700"><strong>CREDITO:</strong> Pago → Banca anticipa → Addebito <span class="text-blue-600 font-bold">a FINE MESE</span></p>
+                        </div>
+                        <p class="text-gray-700">La banca ti <strong>presta</strong> i soldi per 30-50 giorni. È un mini-prestito automatico!</p>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-200 shadow-lg">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">📊 Tipologie</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-xl border-2 border-green-300">
+                                <h4 class="font-bold text-green-800 mb-2">A Saldo</h4>
+                                <p class="text-sm text-gray-600 mb-2">Tutto addebitato fine mese</p>
+                                <p class="text-xs text-green-700">✓ Nessun interesse</p>
+                                <p class="text-xs text-gray-500 mt-2">Es: American Express</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border-2 border-orange-300">
+                                <h4 class="font-bold text-orange-800 mb-2">Revolving</h4>
+                                <p class="text-sm text-gray-600 mb-2">Rate mensili minime</p>
+                                <p class="text-xs text-orange-700">⚠ Interessi 10-20%</p>
+                                <p class="text-xs text-gray-500 mt-2">Rischioso!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-6 rounded-2xl border-2 border-green-300 shadow-lg">
+                            <h4 class="font-bold text-green-800 mb-4 text-xl">✅ Vantaggi</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Liquidità differita (paghi dopo)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Utile per spese impreviste</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Assicurazioni viaggi incluse</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Cashback/punti fedeltà</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-600">✓</span>
+                                    <span class="text-gray-700">Necessaria per noleggio auto/hotel</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-6 rounded-2xl border-2 border-red-300 shadow-lg">
+                            <h4 class="font-bold text-red-800 mb-4 text-xl">❌ Svantaggi</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600">✗</span>
+                                    <span class="text-gray-700">Costo annuo 30-200€</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600">✗</span>
+                                    <span class="text-gray-700">Rischio sovraindebitamento</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600">✗</span>
+                                    <span class="text-gray-700">Interessi elevati se revolving</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600">✗</span>
+                                    <span class="text-gray-700">Tentazione di spendere di più</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-6 rounded-2xl border-2 border-purple-300 shadow-lg">
+                        <h3 class="text-xl font-bold text-purple-900 mb-4">💰 Plafond (Fido)</h3>
+                        <p class="text-gray-700 mb-4">Limite di spesa mensile assegnato dalla banca in base a reddito e affidabilità.</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div class="bg-white p-3 rounded-xl text-center">
+                                <p class="text-sm text-gray-600">Base</p>
+                                <p class="text-xl font-bold text-purple-700">1.000€</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl text-center">
+                                <p class="text-sm text-gray-600">Standard</p>
+                                <p class="text-xl font-bold text-purple-700">3.000€</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl text-center">
+                                <p class="text-sm text-gray-600">Gold</p>
+                                <p class="text-xl font-bold text-purple-700">5.000€</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl text-center">
+                                <p class="text-sm text-gray-600">Platinum</p>
+                                <p class="text-xl font-bold text-purple-700">Illimitato</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-100 border-l-4 border-red-500 p-4 rounded-lg">
+                        <p class="text-red-900"><strong>⚠️ ATTENZIONE:</strong> La carta di credito NON è denaro gratis! Devi restituire tutto a fine mese. Usa con responsabilità per evitare debiti!</p>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+                        <p class="text-yellow-900"><strong>🍕 Scenario ristoratore:</strong> Devi comprare attrezzature per 5.000€ ma il cash-flow è basso questo mese. Usi carta credito, paghi dopo gli incassi del weekend. Comodo ma pianifica bene!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderConfrontoCarte() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-indigo-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">Confronto: Quando Usare Quale?</h2>
+                        <p class="text-gray-600">Scegli saggiamente per ogni situazione!</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-lg overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gradient-to-r from-indigo-100 to-purple-100">
+                                <tr>
+                                    <th class="p-3 font-bold text-gray-800">Situazione</th>
+                                    <th class="p-3 font-bold text-blue-700">Debito</th>
+                                    <th class="p-3 font-bold text-purple-700">Credito</th>
+                                    <th class="p-3 font-bold text-gray-700">Perché?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3">Spesa quotidiana (caffè, spesa)</td>
+                                    <td class="p-3 text-center">✅</td>
+                                    <td class="p-3 text-center">-</td>
+                                    <td class="p-3 text-sm">No costi aggiuntivi</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3">Acquisto senza liquidità immediata</td>
+                                    <td class="p-3 text-center">-</td>
+                                    <td class="p-3 text-center">✅</td>
+                                    <td class="p-3 text-sm">Paghi dopo 30-50 gg</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3">Prenotazione hotel estero</td>
+                                    <td class="p-3 text-center">-</td>
+                                    <td class="p-3 text-center">✅</td>
+                                    <td class="p-3 text-sm">Richiesta carta credito</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3">Prelievo contante urgente</td>
+                                    <td class="p-3 text-center">✅</td>
+                                    <td class="p-3 text-center">-</td>
+                                    <td class="p-3 text-sm">Credito costa molto (5€+)</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3">Emergenza (guasto auto)</td>
+                                    <td class="p-3 text-center">-</td>
+                                    <td class="p-3 text-center">✅</td>
+                                    <td class="p-3 text-sm">Se no soldi disponibili</td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3">Controllo spese rigoroso</td>
+                                    <td class="p-3 text-center">✅</td>
+                                    <td class="p-3 text-center">-</td>
+                                    <td class="p-3 text-sm">Spendi solo ciò che hai</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border-2 border-blue-300 shadow-lg">
+                            <h3 class="text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                </svg>
+                                Usa DEBITO se...
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Vuoi controllare spese</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Hai sempre saldo sufficiente</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Vuoi zero costi</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Temi di indebitarti</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-300 shadow-lg">
+                            <h3 class="text-2xl font-bold text-purple-900 mb-4 flex items-center gap-2">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                Usa CREDITO se...
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Hai reddito stabile</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Serve liquidità temporanea</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Viaggi spesso (assicurazioni)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-600 text-xl">✓</span>
+                                    <span class="text-gray-700">Sei disciplinato nei pagamenti</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-6 rounded-2xl text-center shadow-2xl">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                        <p class="text-2xl font-bold mb-2">💡 Consiglio Saggio</p>
+                        <p class="text-lg">Molti usano ENTRAMBE: debito per quotidiano, credito per emergenze e viaggi. L'importante è gestire con testa!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMiniGame() {
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-20 h-20 text-pink-600 mx-auto mb-4 bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent mb-2">Sfida Finale: Match the Payment!</h2>
+                        <p class="text-gray-600">Abbina metodo di pagamento a scenario! +10pt per match</p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-pink-50 to-red-50 p-6 rounded-2xl border-2 border-pink-300 shadow-lg">
+                        <p class="text-center text-lg text-gray-700 mb-6">Trascina (o clicca) il metodo giusto per ogni situazione!</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${[
+                            { scenario: "Cliente ristorante paga conto 85€", methods: ["💵 Contante", "💳 Carta Debito", "💎 Carta Credito", "📄 Assegno"], correct: 1 },
+                            { scenario: "Pagare fornitore mensile 1.200€", methods: ["💳 Carta", "📄 Assegno Bancario", "🏦 Assegno Circolare", "💸 Contante"], correct: 1 },
+                            { scenario: "Acquisto furgone usato 15.000€", methods: ["💳 Carta", "📄 Assegno Bancario", "🏦 Assegno Circolare", "💸 Contante"], correct: 2 },
+                            { scenario: "Prenotare hotel a Parigi", methods: ["💵 Contante", "💳 Debito", "💎 Credito", "📄 Assegno"], correct: 2 }
+                        ].map((item, idx) => `
+                            <div class="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-lg">
+                                <p class="font-bold text-gray-800 mb-4 text-lg">${idx + 1}. ${item.scenario}</p>
+                                <div class="grid grid-cols-2 gap-3">
+                                    ${item.methods.map((method, mIdx) => `
+                                        <button onclick="checkMatch(${idx}, ${mIdx}, ${item.correct})"
+                                            id="btn-match-${idx}-${mIdx}"
+                                            class="p-3 rounded-xl border-2 border-purple-200 bg-purple-50 hover:bg-purple-100 transition transform hover:scale-105 font-medium text-sm">
+                                            ${method}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                                <div id="feedback-match-${idx}" class="mt-3"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRiepilogo() {
+            const level = getScoreLevel();
+            const totalBadges = badges.length;
+            
+            return `
+                <div class="space-y-6">
+                    <div class="text-center mb-8">
+                        <svg class="w-24 h-24 text-yellow-500 mx-auto mb-4 bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">Lezione Completata! 🎉</h2>
+                        <p class="text-xl text-gray-600">Sei diventato un esperto di pagamenti!</p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 p-8 rounded-2xl shadow-2xl">
+                        <div class="text-center text-white mb-6">
+                            <div class="text-7xl font-bold mb-3">${score}</div>
+                            <div class="text-3xl font-bold mb-2">${level.level}</div>
+                            <p class="text-xl">${level.message}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                            <div class="bg-white/20 backdrop-blur-sm p-4 rounded-xl text-center">
+                                <svg class="w-10 h-10 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-white text-2xl font-bold">${Object.keys(quizRipassoAnswers).length}</p>
+                                <p class="text-white/80 text-sm">Quiz Completati</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur-sm p-4 rounded-xl text-center">
+                                <svg class="w-10 h-10 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <p class="text-white text-2xl font-bold">${assegnoBancario.beneficiario ? '✓' : '-'}</p>
+                                <p class="text-white/80 text-sm">Assegno Compilato</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur-sm p-4 rounded-xl text-center">
+                                <svg class="w-10 h-10 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                </svg>
+                                <p class="text-white text-2xl font-bold">${cartaDebito.numero ? '✓' : '-'}</p>
+                                <p class="text-white/80 text-sm">Carte Studiate</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur-sm p-4 rounded-xl text-center">
+                                <svg class="w-10 h-10 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                                </svg>
+                                <p class="text-white text-2xl font-bold">${totalBadges}/4</p>
+                                <p class="text-white/80 text-sm">Badge Sbloccati</p>
+                            </div>
+                        </div>
+
+                        ${totalBadges > 0 ? `
+                            <div class="bg-white/20 backdrop-blur-sm p-4 rounded-xl mt-6">
+                                <p class="text-white font-bold text-lg mb-3">🏆 I Tuoi Badge:</p>
+                                <div class="flex flex-wrap gap-3 justify-center">
+                                    ${badges.map(badgeId => {
+                                        const badge = badgesData.find(b => b.id === badgeId);
+                                        return `<span class="bg-white/30 px-4 py-2 rounded-full text-white font-semibold text-lg">${badge.name}</span>`;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-2xl border-2 border-purple-200 shadow-lg">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4">📚 Concetti Chiave Appresi:</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${[
+                                'Assegno bancario vs assegno circolare',
+                                'Come compilare un assegno correttamente',
+                                'Clausole di sicurezza (non trasferibile, sbarrato)',
+                                'Carta debito: addebito immediato',
+                                'Carta credito: addebito differito',
+                                'Plafond e limiti di spesa',
+                                'Quando usare debito vs credito',
+                                'Rischi e vantaggi di ogni metodo',
+                                'Sicurezza: PIN, CVV, 3D Secure',
+                                'Costi: canoni, commissioni, interessi'
+                            ].map(item => `
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-xl">
+                                    <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span class="text-gray-700">${item}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-green-50 to-teal-50 p-6 rounded-2xl border-2 border-green-300 shadow-lg">
+                        <h3 class="text-2xl font-bold text-green-900 mb-4">🚀 Prossima Lezione:</h3>
+                        <p class="text-lg text-gray-700 mb-4">Nella Lezione 3 scoprirai i <strong>servizi di incasso elettronico</strong> (RiBa, SDD, MAV) e la <strong>tracciabilità dei pagamenti</strong> (limiti contante, normativa).</p>
+                        <div class="bg-white p-4 rounded-xl">
+                            <p class="text-gray-700"><strong>📖 Compito per casa:</strong> Leggi la scheda "Servizi bancari di incasso" e guarda il video Banca d'Italia "Cos'è la RiBa?".</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-2xl text-center shadow-2xl">
+                        <p class="text-3xl font-bold mb-2">🎉 Congratulazioni!</p>
+                        <p class="text-xl">Ora sei pronto per gestire pagamenti come un professionista del settore!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getScoreLevel() {
+            if (score >= 150) return { level: "MAESTRO DEI PAGAMENTI 🏆", message: "Incredibile! Padroneggi tutti i metodi!" };
+            if (score >= 100) return { level: "ESPERTO FINANZIARIO 🌟", message: "Eccellente! Ottima conoscenza!" };
+            if (score >= 60) return { level: "APPRENDISTA BANCARIO 📚", message: "Buon lavoro! Continua così!" };
+            return { level: "PRINCIPIANTE 🔰", message: "Buon inizio, serve più pratica!" };
+        }
+
+        // Interaction functions
+        function checkQuizRipasso(qId, answer) {
+            const question = quizRipassoQuestions.find(q => q.id === qId);
+            const isCorrect = answer === question.correct;
+            quizRipassoAnswers[qId] = {answer, correct: isCorrect};
+            if (isCorrect) updateScore(10);
+            
+            renderSection();
+            
+            const feedbackDiv = document.getElementById('quiz-feedback');
+            if (isCorrect) {
+                feedbackDiv.innerHTML = `
+                    <div class="bg-green-100 border-2 border-green-500 p-4 rounded-xl text-center pulse-animation">
+                        <svg class="w-12 h-12 text-green-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-green-800 font-bold text-xl">Perfetto! +10 punti! 🎉</p>
+                    </div>
+                `;
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="bg-red-100 border-2 border-red-500 p-4 rounded-xl text-center pulse-animation">
+                        <svg class="w-12 h-12 text-red-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        <p class="text-red-800 font-bold text-xl">Ops! Riprova! 💪</p>
+                    </div>
+                `;
+            }
+            setTimeout(() => feedbackDiv.innerHTML = '', 2000);
+        }
+
+        function validaAssegno() {
+            assegnoBancario.luogo = document.getElementById('assegno-luogo').value;
+            assegnoBancario.data = document.getElementById('assegno-data').value;
+            assegnoBancario.importoCifre = document.getElementById('assegno-cifre').value;
+            assegnoBancario.importoLettere = document.getElementById('assegno-lettere').value;
+            assegnoBancario.beneficiario = document.getElementById('assegno-beneficiario').value;
+            
+            const errors = [];
+            if (!assegnoBancario.luogo) errors.push("Inserisci luogo");
+            if (!assegnoBancario.data) errors.push("Inserisci data");
+            if (!assegnoBancario.importoCifre) errors.push("Inserisci importo in cifre");
+            if (!assegnoBancario.importoLettere) errors.push("Inserisci importo in lettere");
+            if (!assegnoBancario.beneficiario) errors.push("Inserisci beneficiario");
+            
+            const feedbackDiv = document.getElementById('assegno-feedback');
+            
+            if (errors.length === 0) {
+                updateScore(30);
+                feedbackDiv.innerHTML = `
+                    <div class="bg-green-100 border-2 border-green-500 p-6 rounded-2xl text-center pulse-animation">
+                        <svg class="w-16 h-16 text-green-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <p class="text-green-900 font-bold text-2xl mb-2">Assegno Compilato Perfettamente! 🎉</p>
+                        <p class="text-green-700 text-lg">+30 punti! Ora sai compilare assegni come un pro!</p>
+                    </div>
+                `;
+                checkBadges();
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="bg-red-100 border-2 border-red-500 p-4 rounded-xl">
+                        <p class="text-red-800 font-bold mb-2">⚠️ Errori da correggere:</p>
+                        <ul class="list-disc list-inside text-red-700">
+                            ${errors.map(e => `<li>${e}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        function checkAssegno(idx, selected, correct) {
+            const isCorrect = selected === correct;
+            const feedbackDiv = document.getElementById(`feedback-assegno-${idx}`);
+            const btnBancario = document.getElementById(`btn-assegno-${idx}-bancario`);
+            const btnCircolare = document.getElementById(`btn-assegno-${idx}-circolare`);
+            
+            btnBancario.disabled = true;
+            btnCircolare.disabled = true;
+            
+            if (isCorrect) {
+                updateScore(5);
+                const btn = document.getElementById(`btn-assegno-${idx}-${selected}`);
+                btn.className = 'p-4 rounded-xl border-2 border-green-500 bg-green-100 font-semibold text-green-800';
+                feedbackDiv.innerHTML = '<p class="text-green-700 font-semibold">✓ Corretto! +5pt</p>';
+            } else {
+                const btnSelected = document.getElementById(`btn-assegno-${idx}-${selected}`);
+                const btnCorrect = document.getElementById(`btn-assegno-${idx}-${correct}`);
+                btnSelected.className = 'p-4 rounded-xl border-2 border-red-500 bg-red-100 font-semibold text-red-800';
+                btnCorrect.className = 'p-4 rounded-xl border-2 border-green-500 bg-green-100 font-semibold text-green-800';
+                feedbackDiv.innerHTML = '<p class="text-red-700 font-semibold">✗ Sbagliato. Vedi la risposta corretta</p>';
+            }
+        }
+
+        function checkMatch(idx, selected, correct) {
+            const isCorrect = selected === correct;
+            const feedbackDiv = document.getElementById(`feedback-match-${idx}`);
+            
+            // Disable all buttons for this question
+            for (let i = 0; i < 4; i++) {
+                const btn = document.getElementById(`btn-match-${idx}-${i}`);
+                btn.disabled = true;
+            }
+            
+            if (isCorrect) {
+                updateScore(10);
+                const btn = document.getElementById(`btn-match-${idx}-${selected}`);
+                btn.className = 'p-3 rounded-xl border-2 border-green-500 bg-green-100 font-medium text-sm text-green-800';
+                feedbackDiv.innerHTML = '<p class="text-green-700 font-bold">✓ Perfetto! +10pt 🎉</p>';
+            } else {
+                const btnSelected = document.getElementById(`btn-match-${idx}-${selected}`);
+                const btnCorrect = document.getElementById(`btn-match-${idx}-${correct}`);
+                btnSelected.className = 'p-3 rounded-xl border-2 border-red-500 bg-red-100 font-medium text-sm text-red-800';
+                btnCorrect.className = 'p-3 rounded-xl border-2 border-green-500 bg-green-100 font-medium text-sm text-green-800';
+                feedbackDiv.innerHTML = '<p class="text-red-700 font-bold">✗ Sbagliato. Vedi quello giusto</p>';
+            }
+        }
+
+        // Render current section
+        function renderSection() {
+            const container = document.getElementById('content-container');
+            
+            switch(currentSection) {
+                case 0: container.innerHTML = renderQuizRipasso(); break;
+                case 1: container.innerHTML = renderAssegnoBancario(); break;
+                case 2: container.innerHTML = renderCompilaAssegno(); break;
+                case 3: container.innerHTML = renderAssegnoCircolare(); break;
+                case 4: container.innerHTML = renderConfrontoAssegni(); break;
+                case 5: container.innerHTML = renderCartaDebito(); break;
+                case 6: container.innerHTML = renderCartaCredito(); break;
+                case 7: container.innerHTML = renderConfrontoCarte(); break;
+                case 8: container.innerHTML = renderMiniGame(); break;
+                case 9: container.innerHTML = renderRiepilogo(); break;
+            }
+        }
+
+        // Navigation
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            if (currentSection > 0) {
+                currentSection--;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        // Initial render
+        renderSection();
+        updateProgress();
+        updateNavButtons();
+    </script>
+</body>
+</html>
