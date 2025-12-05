@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Contante in Italia - Lezione 4 Completa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e0e6ed;
+        }
+        
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .mono { font-family: 'Roboto Mono', monospace; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px #00d4ff, 0 0 10px #00d4ff; }
+            50% { box-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; }
+        }
+        .glow { animation: glow 2s ease-in-out infinite; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .slide-in { animation: slideIn 0.6s ease-out; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+        
+        .money-icon {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 48px;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .money-icon:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0,212,255,0.3);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,212,255,0.4);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255,107,107,0.2) 0%, rgba(255,107,107,0.1) 100%);
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, rgba(46,213,115,0.2) 0%, rgba(46,213,115,0.1) 100%);
+            border-left: 4px solid #2ed573;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(0,212,255,0.1) 100%);
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            border-left: 2px solid #00d4ff;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #00d4ff;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+        
+        .chart-bar {
+            height: 30px;
+            background: linear-gradient(90deg, #00d4ff 0%, #0066ff 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="max-w-7xl mx-auto p-4 relative z-10">
+        
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 mb-6 fade-in border-2 border-cyan-500/30">
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="money-icon bg-gradient-to-br from-green-400 to-emerald-600 float">💶</div>
+                    <div>
+                        <h1 class="text-3xl md:text-5xl font-bold orbitron neon-text text-white">IL CONTANTE</h1>
+                        <p class="text-sm md:text-base text-cyan-300">Lezione 4 - Normativa, Rischi e Futuro</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-gradient-to-r from-green-400 to-emerald-500 px-4 py-2 rounded-full shadow-lg glow">
+                        <span id="score-display" class="text-white font-bold text-lg mono">0 €</span>
+                    </div>
+                    <div id="badges-container" class="flex gap-2"></div>
+                </div>
+            </div>
+            
+            <div class="w-full h-6 bg-white/20 rounded-full mb-2 relative overflow-hidden border-2 border-cyan-500/30">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-green-400 via-emerald-500 to-cyan-500 rounded-full transition-all duration-500" style="width: 6.25%"></div>
+            </div>
+            <div class="flex justify-between text-xs md:text-sm text-cyan-300 mono">
+                <span>CAPITOLO <span id="current-section-num">1</span>/16</span>
+                <span id="section-name" class="font-semibold">INIZIAMO</span>
+            </div>
+        </div>
+
+        <div id="content-container" class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8 mb-6 fade-in min-h-[600px] border-2 border-cyan-500/30"></div>
+
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-4 md:p-6 flex justify-between items-center gap-4 border-2 border-cyan-500/30">
+            <button id="prev-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition mono bg-white/20 text-white/50 cursor-not-allowed border-2 border-white/30" disabled>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="hidden md:inline">PREV</span>
+            </button>
+
+            <div class="text-center">
+                <p class="text-xs md:text-sm text-cyan-300 mono">CAPITOLO <span id="nav-section-num">1</span> / 16</p>
+                <div class="flex gap-1 mt-2 flex-wrap justify-center" id="dots-container"></div>
+            </div>
+
+            <button id="next-btn" class="flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-green-400 to-emerald-500 text-white border-2 border-green-300 glow mono">
+                <span class="hidden md:inline">NEXT</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="text-center mt-6 text-cyan-300 text-xs md:text-sm mono">
+            <p>🎓 IPSEOA Amerigo Vespucci - Prof. Bettino Camarda</p>
+            <p class="mt-1">Lezione 4: Il Contante - Normativa Italiana ed Europea (Agg. Dicembre 2024)</p>
+        </div>
+    </div>
+
+    <script>
+        var currentSection = 0;
+        var score = 0;
+        var badges = [];
+        var quizAnswers = {};
+        var limitCalculated = false;
+        var casesCompleted = 0;
+
+        var sections = [
+            'Introduzione',
+            'Cos\'è il Contante',
+            'Limiti Italia 2024',
+            'Storia Limiti',
+            'Normativa UE 2027',
+            'Sanzioni',
+            'Calcolatore',
+            'Europa Confronto',
+            'Italia Cashless',
+            'Evasione 82 mld',
+            'Riciclaggio AML',
+            'Vantaggi Cash',
+            'Rischi Cash',
+            'Cash vs Cashless',
+            'HoReCa +27,8%',
+            'Quiz Finale'
+        ];
+
+        var quizQuestions = [
+            { id: 1, question: "Limite contante Italia 2024:", options: ["3.000€", "5.000€", "10.000€", "Nessuno"], correct: 1 },
+            { id: 2, question: "Sanzione minima se superi:", options: ["100€", "500€", "1.000€", "2.000€"], correct: 1 },
+            { id: 3, question: "UE dal 2027 limite max:", options: ["5.000€", "10.000€", "15.000€", "20.000€"], correct: 1 },
+            { id: 4, question: "Tax gap Italia 2021:", options: ["50 mld", "82 mld", "120 mld", "200 mld"], correct: 1 },
+            { id: 5, question: "Italia cashless 2024:", options: ["4° Europa", "10° Europa", "21° Europa", "27° Europa"], correct: 0 }
+        ];
+
+        var badgesData = [
+            { id: 'limite-expert', name: '⚖️ Limite Expert' },
+            { id: 'calculator-pro', name: '🧮 Calculator Pro' },
+            { id: 'quiz-master', name: '🎯 Quiz Master' },
+            { id: 'cash-genius', name: '👑 Cash Genius' }
+        ];
+
+        function createDots() {
+            var container = document.getElementById('dots-container');
+            for (var i = 0; i < sections.length; i++) {
+                var dot = document.createElement('div');
+                dot.id = 'dot-' + i;
+                dot.className = 'w-2 h-2 rounded-full bg-white/30 border border-cyan-500/50 m-0.5';
+                container.appendChild(dot);
+            }
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score-display').textContent = score + ' €';
+            checkBadges();
+        }
+
+        function checkBadges() {
+            if (!badges.includes('limite-expert') && currentSection >= 6) {
+                badges.push('limite-expert');
+                showBadgeNotification(badgesData[0]);
+                renderBadges();
+            }
+            
+            if (!badges.includes('calculator-pro') && limitCalculated) {
+                badges.push('calculator-pro');
+                showBadgeNotification(badgesData[1]);
+                renderBadges();
+            }
+            
+            if (!badges.includes('quiz-master') && Object.keys(quizAnswers).length === 5) {
+                var allCorrect = true;
+                for (var key in quizAnswers) {
+                    if (!quizAnswers[key].correct) allCorrect = false;
+                }
+                if (allCorrect) {
+                    badges.push('quiz-master');
+                    showBadgeNotification(badgesData[2]);
+                    renderBadges();
+                }
+            }
+            
+            if (!badges.includes('cash-genius') && currentSection === sections.length - 1 && score >= 150) {
+                badges.push('cash-genius');
+                showBadgeNotification(badgesData[3]);
+                renderBadges();
+            }
+        }
+
+        function showBadgeNotification(badge) {
+            var notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 fade-in glow';
+            notification.innerHTML = '<div class="flex items-center gap-3"><div><p class="font-bold orbitron">BADGE SBLOCCATO!</p><p class="text-sm">' + badge.name + '</p></div></div>';
+            document.body.appendChild(notification);
+            setTimeout(function() { notification.remove(); }, 3000);
+        }
+
+        function renderBadges() {
+            var container = document.getElementById('badges-container');
+            var html = '';
+            for (var i = 0; i < badges.length; i++) {
+                var badge = badgesData.find(function(b) { return b.id === badges[i]; });
+                html += '<span class="text-2xl pulse" title="' + badge.name + '">' + badge.name.split(' ')[0] + '</span>';
+            }
+            container.innerHTML = html;
+        }
+
+        function updateProgress() {
+            var progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('current-section-num').textContent = currentSection + 1;
+            document.getElementById('nav-section-num').textContent = currentSection + 1;
+            document.getElementById('section-name').textContent = sections[currentSection];
+            
+            for (var i = 0; i < sections.length; i++) {
+                var dot = document.getElementById('dot-' + i);
+                if (i < currentSection) {
+                    dot.className = 'w-2 h-2 rounded-full bg-green-400 border border-green-300 glow m-0.5';
+                } else if (i === currentSection) {
+                    dot.className = 'w-2 h-2 rounded-full bg-cyan-400 border border-cyan-300 pulse m-0.5';
+                } else {
+                    dot.className = 'w-2 h-2 rounded-full bg-white/30 border border-cyan-500/50 m-0.5';
+                }
+            }
+        }
+
+        function updateNavButtons() {
+            var prevBtn = document.getElementById('prev-btn');
+            var nextBtn = document.getElementById('next-btn');
+
+            if (currentSection === 0) {
+                prevBtn.disabled = true;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition mono bg-white/20 text-white/50 cursor-not-allowed border-2 border-white/30';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-white/30 text-white border-2 border-white/50 mono';
+            }
+
+            if (currentSection === sections.length - 1) {
+                nextBtn.disabled = true;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition mono bg-white/20 text-white/50 cursor-not-allowed border-2 border-white/30';
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.className = 'flex items-center gap-2 px-4 md:px-6 py-3 rounded-xl font-semibold transition transform hover:scale-105 shadow-lg bg-gradient-to-r from-green-400 to-emerald-500 text-white border-2 border-green-300 glow mono';
+            }
+        }
+
+        function checkQuiz(qId, answer) {
+            var question = quizQuestions.find(function(q) { return q.id === qId; });
+            var isCorrect = answer === question.correct;
+            quizAnswers[qId] = {answer: answer, correct: isCorrect};
+            if (isCorrect) updateScore(15);
+            renderSection();
+        }
+
+        function calculateLimit() {
+            var importo = parseFloat(document.getElementById('calc-importo').value);
+            var result = document.getElementById('calc-result');
+            
+            if (!importo || importo <= 0) {
+                result.innerHTML = '<div class="warning-box p-4 rounded-xl"><p class="text-yellow-300 font-bold">Inserisci un importo valido!</p></div>';
+                return;
+            }
+            
+            var limite = 5000;
+            var isOk = importo < limite;
+            
+            if (!limitCalculated) {
+                limitCalculated = true;
+                updateScore(20);
+                checkBadges();
+            }
+            
+            if (isOk) {
+                result.innerHTML = '<div class="success-box p-6 rounded-xl text-center glow fade-in"><p class="text-green-300 font-bold text-2xl orbitron mb-2">✓ PAGAMENTO OK!</p><p class="text-white text-lg">Importo: ' + importo.toFixed(2) + '€</p><p class="text-green-200 text-sm mt-2">Puoi usare contante (sotto 5.000€)</p><p class="text-green-100 text-xs mt-2">+20€ ottenuti!</p></div>';
+            } else {
+                var eccedenza = importo - limite;
+                var sanzioneMin = 500;
+                var sanzioneMax = eccedenza * 0.20;
+                result.innerHTML = '<div class="warning-box p-6 rounded-xl text-center fade-in"><p class="text-red-300 font-bold text-2xl orbitron mb-2">✗ ATTENZIONE!</p><p class="text-white text-lg">Importo: ' + importo.toFixed(2) + '€</p><p class="text-yellow-200 text-sm mt-2">SUPERA IL LIMITE! Usa bonifico/carta/assegno</p><p class="text-red-200 text-xs mt-3">Sanzione: min ' + sanzioneMin + '€ / max ' + sanzioneMax.toFixed(2) + '€ (20% eccedenza)</p></div>';
+            }
+        }
+
+        function getScoreLevel() {
+            if (score >= 200) return { level: "ESPERTO CONTANTE 👑", message: "Conoscenza perfetta!" };
+            if (score >= 150) return { level: "SPECIALISTA 💎", message: "Ottima preparazione!" };
+            if (score >= 100) return { level: "COMPETENTE 🌟", message: "Buon livello!" };
+            if (score >= 50) return { level: "APPRENDISTA 🚀", message: "Continua così!" };
+            return { level: "PRINCIPIANTE 🔰", message: "Studia di più!" };
+        }
+
+        function renderSection() {
+            var container = document.getElementById('content-container');
+            var html = '';
+
+            if (currentSection === 0) {
+                html = '<div class="space-y-8">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="money-icon bg-gradient-to-br from-green-400 to-emerald-600 mx-auto mb-6 pulse">💶</div>';
+                html += '<h2 class="text-5xl md:text-6xl font-bold orbitron text-white mb-4">IL CONTANTE</h2>';
+                html += '<p class="text-xl md:text-2xl text-cyan-300 mb-2">Moneta, Normativa e Futuro Digitale</p>';
+                html += '<p class="text-cyan-400 text-sm">Analisi completa aggiornata a Dicembre 2024</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-cyan-300 mb-6 orbitron text-center">📚 PROGRAMMA COMPLETO</h3>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/30 hover:bg-white/10 transition"><div class="text-3xl mb-2">📜</div><p class="text-white font-bold mb-2 orbitron">Normativa Italia</p><p class="text-cyan-200 text-sm">Limite 5.000€ dal 2023<br>Sanzioni fino al 20%</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/30 hover:bg-white/10 transition"><div class="text-3xl mb-2">🇪🇺</div><p class="text-white font-bold mb-2 orbitron">Regolamento UE</p><p class="text-cyan-200 text-sm">Limite 10.000€ dal 2027<br>Armonizzazione europea</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/30 hover:bg-white/10 transition"><div class="text-3xl mb-2">💰</div><p class="text-white font-bold mb-2 orbitron">Evasione Fiscale</p><p class="text-cyan-200 text-sm">Tax gap 82 miliardi 2021<br>Economia sommersa 182 mld</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/30 hover:bg-white/10 transition"><div class="text-3xl mb-2">🏦</div><p class="text-white font-bold mb-2 orbitron">Antiriciclaggio</p><p class="text-cyan-200 text-sm">145.000 segnalazioni 2024<br>Corruzione ed evasione</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/30 hover:bg-white/10 transition"><div class="text-3xl mb-2">📊</div><p class="text-white font-bold mb-2 orbitron">Italia Cashless</p><p class="text-cyan-200 text-sm">4° posto Europa +23,2%<br>481 mld digitale 2024</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/30 hover:bg-white/10 transition"><div class="text-3xl mb-2">🍕</div><p class="text-white font-bold mb-2 orbitron">Settore HoReCa</p><p class="text-cyan-200 text-sm">Ristorazione +27,8%<br>Cashless in crescita</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-cyan-300 mb-3 text-xl orbitron">🎯 OBIETTIVI</h4>';
+                html += '<ul class="space-y-2 text-cyan-100"><li>✓ Comprendere normativa contante</li><li>✓ Conoscere limiti e sanzioni</li><li>✓ Analizzare evasione fiscale</li><li>✓ Confrontare con Europa</li><li>✓ Valutare rischi e vantaggi</li><li>✓ Applicare al settore HoReCa</li></ul>';
+                html += '</div>';
+                html += '<div class="success-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron">📖 COSA IMPARERAI</h4>';
+                html += '<ul class="space-y-2 text-green-100"><li>• Storia limiti contante</li><li>• Calcolo sanzioni precise</li><li>• Statistiche Italia/Europa</li><li>• Casi pratici ristoranti</li><li>• Tendenze cashless</li><li>• Futuro pagamenti digitali</li></ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 1) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">💵</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">COS\'È IL CONTANTE?</h2>';
+                html += '<p class="text-cyan-300 text-lg">La moneta fisica e le sue caratteristiche</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-cyan-300 mb-4 orbitron">Definizione</h3>';
+                html += '<p class="text-xl text-white/90 leading-relaxed mb-4">Il <strong class="text-green-400">contante</strong> (o denaro contante, cash) è la <strong class="text-cyan-300">moneta fisica</strong> in forma di banconote e monete metalliche emessa dalla <strong class="text-yellow-300">Banca Centrale</strong>.</p>';
+                html += '<p class="text-lg text-white/80 leading-relaxed">In Italia e nell\'Eurozona, il contante è costituito da <strong class="text-cyan-300">banconote Euro</strong> (5€, 10€, 20€, 50€, 100€, 200€, 500€*) e <strong class="text-cyan-300">monete metalliche</strong> (1c, 2c, 5c, 10c, 20c, 50c, 1€, 2€).</p>';
+                html += '<p class="text-sm text-gray-400 mt-2">* La banconota da 500€ è stata ritirata nel 2019 per contrastare il riciclaggio</p>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="bg-gradient-to-br from-green-900/50 to-emerald-900/50 p-6 rounded-2xl border-2 border-green-400/50">';
+                html += '<h4 class="text-2xl font-bold text-green-300 mb-4 orbitron">✅ CARATTERISTICHE</h4>';
+                html += '<ul class="space-y-3 text-white/90"><li><strong class="text-green-400">Fisico:</strong> Tocchi banconote/monete</li><li><strong class="text-green-400">Anonimo:</strong> Nessuna traccia transazioni</li><li><strong class="text-green-400">Immediato:</strong> Pagamento istantaneo</li><li><strong class="text-green-400">Universale:</strong> Accettato ovunque</li><li><strong class="text-green-400">Offline:</strong> Non serve internet/elettricità</li></ul>';
+                html += '</div>';
+                html += '<div class="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 p-6 rounded-2xl border-2 border-blue-400/50">';
+                html += '<h4 class="text-2xl font-bold text-blue-300 mb-4 orbitron">🏦 CHI LO EMETTE</h4>';
+                html += '<ul class="space-y-3 text-white/90"><li><strong class="text-cyan-400">BCE:</strong> Banca Centrale Europea</li><li><strong class="text-cyan-400">Banche Nazionali:</strong> Banca d\'Italia</li><li><strong class="text-cyan-400">Controllo:</strong> Politica monetaria</li><li><strong class="text-cyan-400">Sicurezza:</strong> Anti-contraffazione</li><li><strong class="text-cyan-400">Distribuzione:</strong> Tramite banche</li></ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-lg backdrop-blur-lg mt-6">';
+                html += '<h4 class="font-bold text-yellow-300 mb-3 text-xl orbitron">⚠️ IMPORTANTE PER IL SETTORE HORECA</h4>';
+                html += '<p class="text-yellow-100 text-lg">Nel settore della ristorazione, alberghi e catering il contante è <strong>ancora molto diffuso</strong> nonostante la crescita dei pagamenti digitali. È fondamentale conoscere i <strong class="text-red-300">limiti di legge</strong> per evitare <strong class="text-red-300">sanzioni pesanti</strong>!</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 2) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">⚖️</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">LIMITI ITALIA 2024</h2>';
+                html += '<p class="text-cyan-300 text-lg">Normativa vigente dal 1° gennaio 2023</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-10 rounded-2xl shadow-2xl mb-6 border-4 border-green-400">';
+                html += '<div class="text-center mb-6">';
+                html += '<div class="text-8xl mb-4">5.000€</div>';
+                html += '<h3 class="text-4xl font-bold text-green-300 mb-2 orbitron">LIMITE MASSIMO</h3>';
+                html += '<p class="text-xl text-white/90">Pagamenti in contante tra soggetti diversi</p>';
+                html += '</div>';
+                html += '<div class="bg-cyan-900/30 p-6 rounded-xl border-2 border-cyan-500">';
+                html += '<p class="text-white text-lg leading-relaxed"><strong class="text-cyan-300">Art. 49 D.Lgs. 231/2007</strong> modificato dalla <strong class="text-yellow-300">Legge 197/2022</strong> (Legge di Bilancio 2023): è <strong class="text-red-300">VIETATO</strong> il trasferimento di denaro contante per importi pari o superiori a <strong class="text-green-400">5.000 euro</strong>.</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="info-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-2xl orbitron">✓ COSA SIGNIFICA</h4>';
+                html += '<ul class="space-y-3 text-white/90 text-lg"><li>• Importo massimo: <strong class="text-green-400">4.999,99€</strong></li><li>• Vale per <strong>persone fisiche</strong> e <strong>giuridiche</strong></li><li>• Sia <strong>privati</strong> che <strong>imprese</strong></li><li>• Include <strong>donazioni</strong> e <strong>prestiti</strong></li></ul>';
+                html += '</div>';
+                html += '<div class="warning-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-red-300 mb-4 text-2xl orbitron">✗ FRAZIONAMENTO</h4>';
+                html += '<p class="text-white/90 text-lg mb-3">È <strong class="text-red-400">VIETATO</strong> frazionare artificiosamente i pagamenti!</p>';
+                html += '<p class="text-yellow-200 text-sm">Esempio: NON puoi pagare 8.000€ con 2 pagamenti da 4.000€ in 7 giorni. L\'operazione viene considerata <strong>UNITARIA</strong>!</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="success-box p-6 rounded-lg backdrop-blur-lg mt-6">';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron">💡 CASI PRATICI RISTORAZIONE</h4>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-green-300 font-bold mb-2">✓ OK</p><p class="text-white/80 text-sm">Conto ristorante 3.500€<br>Fornitore vino 4.200€<br>Stipendio cameriere 1.800€</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-red-300 font-bold mb-2">✗ NO</p><p class="text-white/80 text-sm">Forno professionale 12.000€<br>Attrezzature cucina 6.500€<br>Ristrutturazione 25.000€</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 3) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">📅</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">STORIA DEI LIMITI</h2>';
+                html += '<p class="text-cyan-300 text-lg">Evoluzione dal 1991 ad oggi</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-cyan-300 mb-6 orbitron text-center">Timeline Normativa</h3>';
+                html += '<div class="space-y-6">';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">9 maggio 1991</p><p class="text-white text-sm mt-2">Primo limite: <strong class="text-yellow-400">20 milioni di lire</strong> (circa 10.000€)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">26 dicembre 2002</p><p class="text-white text-sm mt-2">Introduzione Euro: <strong class="text-yellow-400">12.500€</strong></p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">4 luglio 2007</p><p class="text-white text-sm mt-2">Riduzione: <strong class="text-yellow-400">5.000€</strong> (Governo Prodi)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">31 maggio 2008</p><p class="text-white text-sm mt-2">Aumento: <strong class="text-yellow-400">12.500€</strong> (Governo Berlusconi)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">1° gennaio 2011</p><p class="text-white text-sm mt-2">Riduzione: <strong class="text-yellow-400">2.500€</strong> (Governo Berlusconi)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">1° gennaio 2016</p><p class="text-white text-sm mt-2">Aumento: <strong class="text-yellow-400">3.000€</strong> (Governo Renzi)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">1° luglio 2020</p><p class="text-white text-sm mt-2">Riduzione: <strong class="text-yellow-400">2.000€</strong> (Governo Conte II)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-white/5 p-4 rounded-xl"><p class="text-cyan-300 font-bold text-lg mono">1° gennaio 2022</p><p class="text-white text-sm mt-2">Riduzione programmata: <strong class="text-red-400">1.000€</strong> (MAI ENTRATA IN VIGORE)</p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-green-900/30 p-4 rounded-xl border-2 border-green-400 glow"><p class="text-green-300 font-bold text-lg mono">1° gennaio 2023</p><p class="text-white text-sm mt-2">Aumento: <strong class="text-green-400">5.000€</strong> (Governo Meloni) ← <strong class="text-yellow-400">ATTUALE</strong></p></div></div>';
+                
+                html += '<div class="timeline-item"><div class="bg-blue-900/30 p-4 rounded-xl border-2 border-blue-400"><p class="text-blue-300 font-bold text-lg mono">2024-2025</p><p class="text-white text-sm mt-2">Confermato: <strong class="text-cyan-400">5.000€</strong> (nessuna modifica)</p></div></div>';
+                
+                html += '</div></div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-cyan-300 mb-3 text-xl orbitron">💡 PERCHÉ CAMBIA?</h4>';
+                html += '<p class="text-cyan-100">I limiti cambiano in base agli <strong class="text-yellow-300">orientamenti politici</strong>:</p>';
+                html += '<ul class="mt-3 space-y-2 text-white/80"><li>• <strong class="text-red-300">Abbassare</strong> = contrasto evasione fiscale</li><li>• <strong class="text-green-300">Alzare</strong> = più libertà economica</li><li>• <strong class="text-cyan-300">Compromesso</strong> = equilibrio tra esigenze</li></ul>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 4) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">🇪🇺</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">NORMATIVA UE 2027</h2>';
+                html += '<p class="text-cyan-300 text-lg">Regolamento (UE) 2024/1624 del 9 luglio 2024</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-10 rounded-2xl shadow-2xl mb-6 border-4 border-blue-400">';
+                html += '<div class="text-center mb-6">';
+                html += '<div class="text-8xl mb-4">10.000€</div>';
+                html += '<h3 class="text-4xl font-bold text-blue-300 mb-2 orbitron">LIMITE MASSIMO UE</h3>';
+                html += '<p class="text-xl text-white/90">Dal 10 luglio 2027 in tutta Europa</p>';
+                html += '</div>';
+                html += '<div class="bg-blue-900/30 p-6 rounded-xl border-2 border-blue-500">';
+                html += '<p class="text-white text-lg leading-relaxed mb-4">Il <strong class="text-blue-300">Regolamento UE 1624/2024</strong> stabilisce un <strong class="text-yellow-300">limite massimo di 10.000€</strong> per i pagamenti in contante tra <strong class="text-cyan-300">commercianti e clienti</strong>.</p>';
+                html += '<p class="text-white/80 text-base">Gli Stati membri possono mantenere <strong class="text-green-400">limiti inferiori</strong> previa notifica alla Commissione Europea entro il 10 ottobre 2024.</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="success-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-green-300 mb-4 text-2xl orbitron">✓ A CHI SI APPLICA</h4>';
+                html += '<ul class="space-y-2 text-white/90"><li>• Commercianti e fornitori di servizi</li><li>• Transazioni singole o collegate</li><li>• Sia in euro che valuta estera</li><li>• Attività commerciali e professionali</li></ul>';
+                html += '</div>';
+                html += '<div class="warning-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-yellow-300 mb-4 text-2xl orbitron">⚠️ ECCEZIONI</h4>';
+                html += '<ul class="space-y-2 text-white/90"><li>• Pagamenti tra privati (no attività)</li><li>• Depositi presso banche</li><li>• Forza maggiore (indisponibilità POS)</li><li>• Transazioni non commerciali</li></ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg mt-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">🇮🇹 COSA SUCCEDE IN ITALIA?</h4>';
+                html += '<p class="text-cyan-100 text-lg mb-4">L\'Italia ha <strong class="text-green-400">notificato</strong> il suo limite inferiore di <strong class="text-yellow-400">5.000€</strong> alla Commissione UE.</p>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-green-300 font-bold mb-2">Scenario 1 (probabile)</p><p class="text-white/80 text-sm">Italia mantiene <strong>5.000€</strong><br>Limite più restrittivo della UE</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-blue-300 font-bold mb-2">Scenario 2 (possibile)</p><p class="text-white/80 text-sm">Italia alza a <strong>10.000€</strong><br>Si adegua al limite UE</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 5) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">⚠️</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">SANZIONI</h2>';
+                html += '<p class="text-cyan-300 text-lg">Cosa rischi se superi il limite</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-8 rounded-2xl shadow-2xl mb-6 border-4 border-red-400">';
+                html += '<h3 class="text-3xl font-bold text-red-300 mb-6 orbitron text-center">SANZIONI AMMINISTRATIVE</h3>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="bg-white/5 p-6 rounded-xl border-2 border-red-500">';
+                html += '<p class="text-red-300 font-bold text-xl mb-3">MINIMO</p>';
+                html += '<div class="text-6xl font-bold text-red-400 mb-2">500€</div>';
+                html += '<p class="text-white/80">Sanzione fissa minima</p>';
+                html += '</div>';
+                html += '<div class="bg-white/5 p-6 rounded-xl border-2 border-orange-500">';
+                html += '<p class="text-orange-300 font-bold text-xl mb-3">MASSIMO</p>';
+                html += '<div class="text-5xl font-bold text-orange-400 mb-2">20%</div>';
+                html += '<p class="text-white/80">Dell\'importo eccedente</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="bg-red-900/30 p-6 rounded-xl border-2 border-red-500 mt-6">';
+                html += '<p class="text-white text-lg leading-relaxed"><strong class="text-red-300">IMPORTANTE:</strong> La sanzione si applica <strong class="text-yellow-300">SIA a chi paga SIA a chi riceve</strong>! Entrambi i soggetti della transazione sono <strong class="text-red-400">responsabili solidalmente</strong>.</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mb-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-2xl orbitron">💰 ESEMPI CALCOLO SANZIONI</h4>';
+                html += '<div class="space-y-4">';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/50">';
+                html += '<p class="text-white font-bold mb-2">Caso 1: Pagamento 5.500€</p>';
+                html += '<p class="text-gray-300 text-sm mb-2">Eccedenza: 500€</p>';
+                html += '<p class="text-cyan-300">Sanzione minima: <strong class="text-red-400">500€</strong></p>';
+                html += '<p class="text-cyan-300">Sanzione massima: <strong class="text-red-400">500€</strong> (20% di 500€ = 100€, ma il minimo è 500€)</p>';
+                html += '</div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/50">';
+                html += '<p class="text-white font-bold mb-2">Caso 2: Pagamento 10.000€</p>';
+                html += '<p class="text-gray-300 text-sm mb-2">Eccedenza: 5.000€</p>';
+                html += '<p class="text-cyan-300">Sanzione minima: <strong class="text-red-400">500€</strong></p>';
+                html += '<p class="text-cyan-300">Sanzione massima: <strong class="text-red-400">1.000€</strong> (20% di 5.000€)</p>';
+                html += '</div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border border-cyan-500/50">';
+                html += '<p class="text-white font-bold mb-2">Caso 3: Pagamento 20.000€</p>';
+                html += '<p class="text-gray-300 text-sm mb-2">Eccedenza: 15.000€</p>';
+                html += '<p class="text-cyan-300">Sanzione minima: <strong class="text-red-400">500€</strong></p>';
+                html += '<p class="text-cyan-300">Sanzione massima: <strong class="text-red-400">3.000€</strong> (20% di 15.000€)</p>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-cyan-300 mb-3 text-xl orbitron">⚖️ CHI CONTROLLA?</h4>';
+                html += '<ul class="space-y-2 text-cyan-100"><li>• <strong class="text-yellow-300">Guardia di Finanza:</strong> Controlli fiscali</li><li>• <strong class="text-yellow-300">Agenzia delle Entrate:</strong> Verifica dichiarazioni</li><li>• <strong class="text-yellow-300">UIF (Banca d\'Italia):</strong> Segnalazioni sospette</li><li>• <strong class="text-yellow-300">Polizia Tributaria:</strong> Indagini riciclaggio</li></ul>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 6) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">🧮</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">CALCOLATORE LIMITI</h2>';
+                html += '<p class="text-cyan-300 text-lg">Verifica se puoi usare contante</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl border-2 border-green-400">';
+                html += '<h3 class="text-3xl font-bold text-green-300 mb-6 orbitron text-center">💶 TOOL INTERATTIVO</h3>';
+                html += '<div class="bg-white/10 p-6 rounded-xl mb-4">';
+                html += '<label class="block text-cyan-300 font-bold mb-3 text-lg">Inserisci importo da pagare (€):</label>';
+                html += '<input type="number" id="calc-importo" placeholder="Es: 3500" class="w-full px-6 py-4 rounded-xl text-2xl font-bold text-center border-4 border-cyan-500 bg-gray-900 text-cyan-300 mono focus:outline-none focus:border-green-400 focus:bg-gray-800" min="0" step="0.01">';
+                html += '</div>';
+                html += '<button onclick="calculateLimit()" class="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white py-6 rounded-xl font-bold text-2xl shadow-2xl hover:from-green-500 hover:to-emerald-600 transform hover:scale-105 transition orbitron glow">🔍 VERIFICA LIMITE</button>';
+                html += '<div id="calc-result" class="mt-6"></div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="info-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">📋 CASI D\'USO</h4>';
+                html += '<ul class="space-y-2 text-cyan-100 text-sm"><li>✓ Cena ristorante 2.500€</li><li>✓ Fornitore pesce 3.800€</li><li>✓ Servizio catering 4.200€</li><li>✗ Attrezzature 7.500€</li><li>✗ Mobili sala 12.000€</li></ul>';
+                html += '</div>';
+                html += '<div class="success-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-green-300 mb-4 text-xl orbitron">💡 ALTERNATIVE</h4>';
+                html += '<ul class="space-y-2 text-green-100 text-sm"><li>• Bonifico bancario SEPA</li><li>• Assegno bancario/circolare</li><li>• Carta di credito/debito</li><li>• POS contactless</li><li>• PayPal Business</li></ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 7) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">🗺️</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">CONFRONTO EUROPA</h2>';
+                html += '<p class="text-cyan-300 text-lg">Limiti al contante nei 27 paesi UE</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-2xl font-bold text-cyan-300 mb-4 orbitron">💶 LIMITI PER PAESE (2024)</h3>';
+                html += '<div class="space-y-3">';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇬🇷 Grecia</span><span class="text-red-400 mono">500€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇪🇸 Spagna / 🇫🇷 Francia / 🇸🇪 Svezia</span><span class="text-orange-400 mono">1.000€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇷🇴 Romania</span><span class="text-yellow-400 mono">2.000€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇩🇰 Danimarca</span><span class="text-green-400 mono">2.700€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇧🇪 Belgio / 🇵🇹 Portogallo / 🇱🇹 Lituania</span><span class="text-cyan-400 mono">3.000€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇵🇱 Polonia</span><span class="text-blue-400 mono">3.300€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg border-2 border-green-500 glow"><div class="flex justify-between items-center"><span class="text-white font-bold">🇮🇹 ITALIA</span><span class="text-green-400 mono font-bold text-xl">5.000€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇧🇬 Bulgaria / 🇸🇰 Slovacchia / 🇸🇮 Slovenia</span><span class="text-purple-400 mono">5.000€</span></div></div>';
+                html += '<div class="bg-white/5 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-white font-bold">🇭🇷 Croazia</span><span class="text-cyan-400 mono">15.000€</span></div></div>';
+                html += '<div class="bg-gray-700/50 p-3 rounded-lg"><div class="flex justify-between items-center"><span class="text-gray-300 font-bold">🇩🇪 Germania / 🇦🇹 Austria / 🇱🇺 Lussemburgo / 🇳🇱 Olanda</span><span class="text-gray-400 mono">NESSUN LIMITE</span></div></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-cyan-300 mb-3 text-xl orbitron">📊 OSSERVAZIONI</h4>';
+                html += '<p class="text-cyan-100 mb-4">Solo <strong class="text-yellow-300">12 paesi su 27</strong> hanno limiti al contante. Gli altri 15 non hanno restrizioni.</p>';
+                html += '<p class="text-cyan-100">L\'Italia si posiziona nel <strong class="text-green-400">gruppo intermedio</strong> con 5.000€, più restrittiva di Germania/Austria ma meno di Grecia/Spagna.</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 8) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">📈</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">ITALIA CASHLESS</h2>';
+                html += '<p class="text-cyan-300 text-lg">Dati 2024: crescita pagamenti digitali</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6 border-4 border-cyan-400">';
+                html += '<div class="text-center mb-6">';
+                html += '<div class="text-8xl mb-4">4°</div>';
+                html += '<h3 class="text-4xl font-bold text-cyan-300 mb-2 orbitron">POSTO IN EUROPA</h3>';
+                html += '<p class="text-xl text-white/90">Per crescita transazioni cashless 2024</p>';
+                html += '</div>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-3 gap-4">';
+                html += '<div class="bg-white/5 p-5 rounded-xl border-2 border-cyan-500"><p class="text-cyan-300 font-bold text-lg mb-2">Crescita</p><p class="text-5xl font-bold text-green-400">+23,2%</p><p class="text-gray-400 text-sm">vs 2023</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border-2 border-blue-500"><p class="text-blue-300 font-bold text-lg mb-2">Valore 2024</p><p class="text-4xl font-bold text-blue-400">481 mld€</p><p class="text-gray-400 text-sm">Pagamenti digitali</p></div>';
+                html += '<div class="bg-white/5 p-5 rounded-xl border-2 border-purple-500"><p class="text-purple-300 font-bold text-lg mb-2">Percentuale</p><p class="text-5xl font-bold text-purple-400">43%</p><p class="text-gray-400 text-sm">Dei consumi totali</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mb-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-2xl orbitron">🏆 TOP 10 EUROPA CRESCITA 2024</h4>';
+                html += '<div class="space-y-2">';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">🥇</span><span class="text-white flex-1">Lettonia</span><div class="chart-bar" style="width:90%">+36,8%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">🥈</span><span class="text-white flex-1">Cipro</span><div class="chart-bar" style="width:82%">+33,6%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">🥉</span><span class="text-white flex-1">Svezia</span><div class="chart-bar" style="width:66%">+27,1%</div></div>';
+                html += '<div class="flex items-center gap-3 p-2 bg-green-900/30 rounded-lg border-2 border-green-500"><span class="text-2xl">🏅</span><span class="text-green-300 flex-1 font-bold">ITALIA</span><div class="chart-bar" style="width:56%">+23,2%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">5</span><span class="text-white flex-1">Lituania</span><div class="chart-bar" style="width:55%">+22,4%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">6</span><span class="text-white flex-1">Spagna</span><div class="chart-bar" style="width:50%">+20,6%</div></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-3 gap-4">';
+                html += '<div class="info-box p-5 rounded-xl"><p class="text-cyan-300 font-bold mb-2">Carte attive</p><p class="text-3xl font-bold text-white">13,8 mln</p><p class="text-sm text-gray-400">Carte di credito 2024</p></div>';
+                html += '<div class="info-box p-5 rounded-xl"><p class="text-cyan-300 font-bold mb-2">Transazioni</p><p class="text-3xl font-bold text-white">1,7 mld</p><p class="text-sm text-gray-400">Operazioni anno (+7%)</p></div>';
+                html += '<div class="info-box p-5 rounded-xl"><p class="text-cyan-300 font-bold mb-2">Scontrino medio</p><p class="text-3xl font-bold text-white">34,2€</p><p class="text-sm text-gray-400">In calo -7,6% (più uso)</p></div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 9) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">💰</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">EVASIONE FISCALE</h2>';
+                html += '<p class="text-cyan-300 text-lg">Tax gap Italia: 82,4 miliardi (2021)</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-8 rounded-2xl shadow-2xl mb-6 border-4 border-red-400">';
+                html += '<div class="text-center mb-6">';
+                html += '<div class="text-7xl mb-4">82,4</div>';
+                html += '<h3 class="text-4xl font-bold text-red-300 mb-2 orbitron">MILIARDI DI EURO</h3>';
+                html += '<p class="text-xl text-white/90">Evasione fiscale accertata nel 2021</p>';
+                html += '</div>';
+                html += '<div class="bg-red-900/30 p-6 rounded-xl border-2 border-red-500">';
+                html += '<p class="text-white text-lg leading-relaxed">Nel 2024 recuperati <strong class="text-green-400">26,3 miliardi</strong>, ma rappresentano solo il <strong class="text-red-400">17,7%</strong> dei 72,3 miliardi accertati. L\'Italia ha uno dei <strong class="text-yellow-300">tax gap più alti d\'Europa</strong>.</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mb-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-2xl orbitron">📊 COMPOSIZIONE EVASIONE</h4>';
+                html += '<div class="space-y-3">';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><div class="flex justify-between items-center mb-2"><span class="text-white font-bold">IVA (Imposta Valore Aggiunto)</span><span class="text-red-400 font-bold mono">35 mld€</span></div><div class="w-full bg-gray-700 rounded-full h-4"><div class="bg-red-500 h-4 rounded-full" style="width:42%"></div></div></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><div class="flex justify-between items-center mb-2"><span class="text-white font-bold">IRPEF (Imposta Reddito Persone Fisiche)</span><span class="text-orange-400 font-bold mono">28 mld€</span></div><div class="w-full bg-gray-700 rounded-full h-4"><div class="bg-orange-500 h-4 rounded-full" style="width:34%"></div></div></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><div class="flex justify-between items-center mb-2"><span class="text-white font-bold">IRES (Imposta Reddito Società)</span><span class="text-yellow-400 font-bold mono">10 mld€</span></div><div class="w-full bg-gray-700 rounded-full h-4"><div class="bg-yellow-500 h-4 rounded-full" style="width:12%"></div></div></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><div class="flex justify-between items-center mb-2"><span class="text-white font-bold">IRAP (Imposta Regionale Attività Produttive)</span><span class="text-green-400 font-bold mono">5 mld€</span></div><div class="w-full bg-gray-700 rounded-full h-4"><div class="bg-green-500 h-4 rounded-full" style="width:6%"></div></div></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><div class="flex justify-between items-center mb-2"><span class="text-white font-bold">Altre imposte</span><span class="text-blue-400 font-bold mono">4,4 mld€</span></div><div class="w-full bg-gray-700 rounded-full h-4"><div class="bg-blue-500 h-4 rounded-full" style="width:5%"></div></div></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">🔗 CONTANTE ED EVASIONE</h4>';
+                html += '<p class="text-cyan-100 text-lg mb-4">Il contante è lo <strong class="text-red-400">strumento preferito</strong> per l\'evasione fiscale perché:</p>';
+                html += '<ul class="space-y-2 text-white/90"><li>✗ <strong class="text-red-300">Non tracciabile:</strong> nessuna evidenza elettronica</li><li>✗ <strong class="text-red-300">Anonimo:</strong> difficile risalire ai soggetti</li><li>✗ <strong class="text-red-300">Impossibile da controllare:</strong> serve presenza fisica</li><li>✗ <strong class="text-red-300">Facilita sottodichiarazione:</strong> incassi non registrati</li></ul>';
+                html += '<p class="text-yellow-200 mt-4 text-base"><strong>Secondo studi MEF:</strong> ridurre il limite del contante di 1.000€ porta a una riduzione dell\'evasione di circa <strong class="text-green-400">2-3 miliardi</strong> all\'anno.</p>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 10) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">🏦</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">RICICLAGGIO (AML)</h2>';
+                html += '<p class="text-cyan-300 text-lg">Antiriciclaggio e operazioni sospette</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6 border-4 border-orange-400">';
+                html += '<div class="text-center mb-6">';
+                html += '<div class="text-7xl mb-4">145.000</div>';
+                html += '<h3 class="text-4xl font-bold text-orange-300 mb-2 orbitron">SEGNALAZIONI 2024</h3>';
+                html += '<p class="text-xl text-white/90">Operazioni sospette (SOS) all\'UIF</p>';
+                html += '</div>';
+                html += '<div class="bg-orange-900/30 p-6 rounded-xl border-2 border-orange-500">';
+                html += '<p class="text-white text-lg leading-relaxed">L\'<strong class="text-orange-300">Unità di Informazione Finanziaria</strong> (UIF) presso Banca d\'Italia ha ricevuto nel 2024 oltre <strong class="text-yellow-300">145.000 segnalazioni</strong> di operazioni sospette, in leggera flessione (-3,3%) rispetto al 2023.</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mb-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-2xl orbitron">🔴 REATI PRESUPPOSTO</h4>';
+                html += '<p class="text-white/90 mb-4">I reati più gravi per impatto finanziario:</p>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+                html += '<div class="bg-red-900/30 p-4 rounded-xl border-2 border-red-500"><p class="text-red-300 font-bold mb-2">1. CORRUZIONE</p><p class="text-white/80 text-sm">Pagamenti illeciti funzionari pubblici</p></div>';
+                html += '<div class="bg-orange-900/30 p-4 rounded-xl border-2 border-orange-500"><p class="text-orange-300 font-bold mb-2">2. ESTORSIONE</p><p class="text-white/80 text-sm">Pizzo e racket criminalità organizzata</p></div>';
+                html += '<div class="bg-yellow-900/30 p-4 rounded-xl border-2 border-yellow-500"><p class="text-yellow-300 font-bold mb-2">3. EVASIONE FISCALE</p><p class="text-white/80 text-sm">Fatture false e sottodichiarazione</p></div>';
+                html += '<div class="bg-purple-900/30 p-4 rounded-xl border-2 border-purple-500"><p class="text-purple-300 font-bold mb-2">4. NARCOTRAFFICO</p><p class="text-white/80 text-sm">Commercio sostanze stupefacenti</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-yellow-300 mb-4 text-xl orbitron">⚠️ CONTANTE E RICICLAGGIO</h4>';
+                html += '<p class="text-yellow-100 text-lg mb-4">Il <strong class="text-red-300">diffuso utilizzo del contante</strong> e l\'estensione dell\'<strong class="text-orange-300">economia sommersa</strong> (182 miliardi nel 2022) <strong>riducono la tracciabilità</strong> e facilitano il riciclaggio di ogni tipo di reato economico.</p>';
+                html += '<ul class="space-y-2 text-white/90 text-sm"><li>• <strong>Sequestri 2024:</strong> 6,2 miliardi per frodi fiscali</li><li>• <strong>Antiriciclaggio:</strong> 1,2 miliardi sequestrati</li><li>• <strong>Criminalità organizzata:</strong> 4 miliardi sottratti ai clan</li></ul>';
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg">';
+                html += '<h4 class="font-bold text-cyan-300 mb-3 text-xl orbitron">📋 OBBLIGHI ANTIRICICLAGGIO</h4>';
+                html += '<p class="text-cyan-100 mb-3">Soggetti obbligati a segnalare operazioni sospette:</p>';
+                html += '<ul class="space-y-1 text-white/80 text-sm"><li>• Banche e istituti di credito</li><li>• Professionisti (avvocati, commercialisti, notai)</li><li>• Operatori finanziari</li><li>• Cambiavalute e compro oro</li><li>• Agenzie immobiliari</li><li>• Concessionari auto (sopra 10.000€)</li></ul>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 11) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">✅</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">VANTAGGI CONTANTE</h2>';
+                html += '<p class="text-cyan-300 text-lg">Perché il cash è ancora usato</p>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
+                
+                html += '<div class="success-box p-6 rounded-2xl border-2 border-green-400">';
+                html += '<div class="text-5xl mb-3 text-center">⚡</div>';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron text-center">IMMEDIATO</h4>';
+                html += '<p class="text-white/90 text-center">Pagamento istantaneo senza attese, autorizzazioni o verifiche</p>';
+                html += '</div>';
+                
+                html += '<div class="success-box p-6 rounded-2xl border-2 border-green-400">';
+                html += '<div class="text-5xl mb-3 text-center">🎭</div>';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron text-center">ANONIMO</h4>';
+                html += '<p class="text-white/90 text-center">Privacy totale: nessuno traccia i tuoi acquisti personali</p>';
+                html += '</div>';
+                
+                html += '<div class="success-box p-6 rounded-2xl border-2 border-green-400">';
+                html += '<div class="text-5xl mb-3 text-center">🌍</div>';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron text-center">UNIVERSALE</h4>';
+                html += '<p class="text-white/90 text-center">Accettato ovunque, anche dove non c\'è POS o connessione</p>';
+                html += '</div>';
+                
+                html += '<div class="success-box p-6 rounded-2xl border-2 border-green-400">';
+                html += '<div class="text-5xl mb-3 text-center">💰</div>';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron text-center">ZERO COSTI</h4>';
+                html += '<p class="text-white/90 text-center">Nessuna commissione, nessun canone, nessun costo transazione</p>';
+                html += '</div>';
+                
+                html += '<div class="success-box p-6 rounded-2xl border-2 border-green-400">';
+                html += '<div class="text-5xl mb-3 text-center">🔌</div>';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron text-center">OFFLINE</h4>';
+                html += '<p class="text-white/90 text-center">Funziona sempre: no internet, no elettricità, no infrastrutture</p>';
+                html += '</div>';
+                
+                html += '<div class="success-box p-6 rounded-2xl border-2 border-green-400">';
+                html += '<div class="text-5xl mb-3 text-center">👵</div>';
+                html += '<h4 class="font-bold text-green-300 mb-3 text-xl orbitron text-center">INCLUSIVO</h4>';
+                html += '<p class="text-white/90 text-center">Anziani e chi non ha conto corrente può usarlo facilmente</p>';
+                html += '</div>';
+                
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg mt-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">📊 DATI UTILIZZO ITALIA</h4>';
+                html += '<p class="text-cyan-100 mb-3">Anche con la crescita del cashless, il contante resta importante:</p>';
+                html += '<ul class="space-y-2 text-white/90"><li>• <strong class="text-yellow-300">57%</strong> dei consumi ancora in contante (2024)</li><li>• <strong class="text-yellow-300">68%</strong> delle transazioni per valore (sopra media UE 46%)</li><li>• <strong class="text-yellow-300">Scontrino medio:</strong> calo a 34,2€ (segno di più uso anche per piccoli importi)</li><li>• <strong class="text-yellow-300">Settori:</strong> bar, piccoli negozi, mercati rionali preferiscono cash</li></ul>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 12) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">❌</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">RISCHI CONTANTE</h2>';
+                html += '<p class="text-cyan-300 text-lg">I pericoli del cash</p>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
+                
+                html += '<div class="warning-box p-6 rounded-2xl border-2 border-red-400">';
+                html += '<div class="text-5xl mb-3 text-center">🎭</div>';
+                html += '<h4 class="font-bold text-red-300 mb-3 text-xl orbitron text-center">EVASIONE</h4>';
+                html += '<p class="text-white/90 text-center">Facilita l\'economia sommersa e la sottodichiarazione fiscale</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-2xl border-2 border-red-400">';
+                html += '<div class="text-5xl mb-3 text-center">💸</div>';
+                html += '<h4 class="font-bold text-red-300 mb-3 text-xl orbitron text-center">RICICLAGGIO</h4>';
+                html += '<p class="text-white/90 text-center">Anonimato ideale per ripulire denaro da attività criminali</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-2xl border-2 border-red-400">';
+                html += '<div class="text-5xl mb-3 text-center">🏴‍☠️</div>';
+                html += '<h4 class="font-bold text-red-300 mb-3 text-xl orbitron text-center">CRIMINALITÀ</h4>';
+                html += '<p class="text-white/90 text-center">Furti, rapine e rischio di trasportare grandi somme</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-2xl border-2 border-orange-400">';
+                html += '<div class="text-5xl mb-3 text-center">🎪</div>';
+                html += '<h4 class="font-bold text-orange-300 mb-3 text-xl orbitron text-center">CONTRAFFAZIONE</h4>';
+                html += '<p class="text-white/90 text-center">Rischio banconote false: difficile verificare autenticità</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-2xl border-2 border-orange-400">';
+                html += '<div class="text-5xl mb-3 text-center">📉</div>';
+                html += '<h4 class="font-bold text-orange-300 mb-3 text-xl orbitron text-center">NO TRACCIA</h4>';
+                html += '<p class="text-white/90 text-center">Impossibile tracciare flussi per controlli fiscali e contabilità</p>';
+                html += '</div>';
+                
+                html += '<div class="warning-box p-6 rounded-2xl border-2 border-yellow-400">';
+                html += '<div class="text-5xl mb-3 text-center">🏦</div>';
+                html += '<h4 class="font-bold text-yellow-300 mb-3 text-xl orbitron text-center">COSTI GESTIONE</h4>';
+                html += '<p class="text-white/90 text-center">Trasporto, cassaforte, conteggio, rischio errori e ammanchi</p>';
+                html += '</div>';
+                
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mt-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">💡 SETTORE HORECA: RISCHI SPECIFICI</h4>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+                html += '<div class="bg-red-900/30 p-4 rounded-xl border border-red-500"><p class="text-red-300 font-bold mb-2">⚠️ Ammanchi</p><p class="text-white/80 text-sm">Errori cassa, furti interni, difficile controllo incassi</p></div>';
+                html += '<div class="bg-orange-900/30 p-4 rounded-xl border border-orange-500"><p class="text-orange-300 font-bold mb-2">⚠️ Rapine</p><p class="text-white/80 text-sm">Ristoranti target preferito: molto contante in cassa serale</p></div>';
+                html += '<div class="bg-yellow-900/30 p-4 rounded-xl border border-yellow-500"><p class="text-yellow-300 font-bold mb-2">⚠️ Tempo</p><p class="text-white/80 text-sm">Contare, portare in banca, verificare: ore di lavoro</p></div>';
+                html += '<div class="bg-red-900/30 p-4 rounded-xl border border-red-500"><p class="text-red-300 font-bold mb-2">⚠️ Sanzioni</p><p class="text-white/80 text-sm">Rischio superare 5.000€ con fornitori: multe salate!</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 13) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">CASH vs CASHLESS</h2>';
+                html += '<p class="text-cyan-300 text-lg">Confronto diretto</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl">';
+                html += '<div class="overflow-x-auto">';
+                html += '<table class="w-full">';
+                html += '<thead><tr class="bg-gradient-to-r from-cyan-600 to-blue-600"><th class="p-4 text-left orbitron">Caratteristica</th><th class="p-4 text-center orbitron">💵 CONTANTE</th><th class="p-4 text-center orbitron">💳 CASHLESS</th></tr></thead>';
+                html += '<tbody class="text-white/90">';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Velocità</td><td class="p-4 text-center text-green-400">Istantaneo</td><td class="p-4 text-center text-yellow-400">2-5 secondi</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Tracciabilità</td><td class="p-4 text-center text-red-400">Nessuna</td><td class="p-4 text-center text-green-400">Totale</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Costi transazione</td><td class="p-4 text-center text-green-400">Zero</td><td class="p-4 text-center text-orange-400">1-3% (POS)</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Sicurezza furto</td><td class="p-4 text-center text-red-400">Perdi tutto</td><td class="p-4 text-center text-green-400">Blocco carta</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Controllo fiscale</td><td class="p-4 text-center text-red-400">Impossibile</td><td class="p-4 text-center text-green-400">Automatico</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Inclusione</td><td class="p-4 text-center text-green-400">Tutti</td><td class="p-4 text-center text-yellow-400">Serve conto</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Offline</td><td class="p-4 text-center text-green-400">Sempre</td><td class="p-4 text-center text-red-400">Serve rete</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Contraffazione</td><td class="p-4 text-center text-orange-400">Possibile</td><td class="p-4 text-center text-green-400">Impossibile</td></tr>';
+                html += '<tr class="border-b border-white/10"><td class="p-4 font-bold">Privacy</td><td class="p-4 text-center text-green-400">Totale</td><td class="p-4 text-center text-red-400">Tracciato</td></tr>';
+                html += '<tr><td class="p-4 font-bold">Limiti legge</td><td class="p-4 text-center text-red-400">5.000€ Italia</td><td class="p-4 text-center text-green-400">Nessuno</td></tr>';
+                html += '</tbody>';
+                html += '</table>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">';
+                html += '<div class="success-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-green-300 mb-4 text-xl orbitron">✓ USA CONTANTE</h4>';
+                html += '<ul class="space-y-2 text-white/90 text-sm"><li>• Piccoli importi quotidiani</li><li>• Bar, caffè, chioschi</li><li>• Mercati rionali</li><li>• Quando vuoi privacy</li><li>• Zone senza connessione</li><li>• Anziani senza carta</li></ul>';
+                html += '</div>';
+                html += '<div class="info-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">💳 USA CASHLESS</h4>';
+                html += '<ul class="space-y-2 text-white/90 text-sm"><li>• Importi sopra 50€</li><li>• E-commerce online</li><li>• Tracciare spese</li><li>• Sicurezza personale</li><li>• Contabilità automatica</li><li>• Rispetto limite 5.000€</li></ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 14) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="text-6xl mb-4">🍕</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">SETTORE HORECA</h2>';
+                html += '<p class="text-cyan-300 text-lg">Ristorazione +27,8% cashless nel 2024</p>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6 border-4 border-orange-400">';
+                html += '<div class="text-center mb-6">';
+                html += '<div class="text-8xl mb-4">+27,8%</div>';
+                html += '<h3 class="text-4xl font-bold text-orange-300 mb-2 orbitron">CRESCITA DIGITALE</h3>';
+                html += '<p class="text-xl text-white/90">Pagamenti cashless in caffè e ristoranti 2024</p>';
+                html += '</div>';
+                html += '<div class="bg-orange-900/30 p-6 rounded-xl border-2 border-orange-500">';
+                html += '<p class="text-white text-lg leading-relaxed">Il settore <strong class="text-orange-300">HoReCa</strong> (Hotel, Restaurant, Catering) registra una <strong class="text-green-400">crescita superiore alla media</strong> (+27,8% vs +23,2% nazionale), confermando il <strong class="text-cyan-300">trend verso il cashless</strong> anche per piccoli importi come caffè e aperitivi.</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-6 rounded-2xl shadow-2xl mb-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-2xl orbitron">📊 SETTORI PIÙ CASHLESS 2024</h4>';
+                html += '<div class="space-y-3">';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">🎨</span><span class="text-white flex-1">Gallerie d\'arte</span><div class="chart-bar" style="width:95%">+150,8%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">🌸</span><span class="text-white flex-1">Negozi fiori</span><div class="chart-bar" style="width:52%">+79,7%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">💎</span><span class="text-white flex-1">Gioiellerie</span><div class="chart-bar" style="width:42%">+63,6%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">⚖️</span><span class="text-white flex-1">Avvocati</span><div class="chart-bar" style="width:36%">+54,2%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">📰</span><span class="text-white flex-1">Edicole</span><div class="chart-bar" style="width:26%">+39,4%</div></div>';
+                html += '<div class="flex items-center gap-3 p-2 bg-orange-900/30 rounded-lg border-2 border-orange-500"><span class="text-2xl">🍸</span><span class="text-orange-300 flex-1 font-bold">Bar e club</span><div class="chart-bar" style="width:23%">+35,1%</div></div>';
+                html += '<div class="flex items-center gap-3"><span class="text-2xl">🏨</span><span class="text-white flex-1">Turismo</span><div class="chart-bar" style="width:19%">+28,1%</div></div>';
+                html += '<div class="flex items-center gap-3 p-2 bg-orange-900/30 rounded-lg border-2 border-orange-500"><span class="text-2xl">🍕</span><span class="text-orange-300 flex-1 font-bold">RISTORAZIONE</span><div class="chart-bar" style="width:18%">+27,8%</div></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="success-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-green-300 mb-4 text-xl orbitron">✅ VANTAGGI PER RISTORANTE</h4>';
+                html += '<ul class="space-y-2 text-white/90 text-sm"><li>✓ <strong>Velocità:</strong> servizio più rapido al tavolo</li><li>✓ <strong>Sicurezza:</strong> meno contante in cassa (anti rapina)</li><li>✓ <strong>Contabilità:</strong> tracciamento automatico incassi</li><li>✓ <strong>Mancia:</strong> possibile anche con POS</li><li>✓ <strong>Fiscale:</strong> conformità automatica</li><li>✓ <strong>Clienti:</strong> turisti preferiscono carte</li></ul>';
+                html += '</div>';
+                html += '<div class="warning-box p-6 rounded-xl">';
+                html += '<h4 class="font-bold text-orange-300 mb-4 text-xl orbitron">⚠️ ATTENZIONE</h4>';
+                html += '<ul class="space-y-2 text-white/90 text-sm"><li>• <strong>Commissioni POS:</strong> 1-3% su ogni transazione</li><li>• <strong>Obbligo POS:</strong> dal 2022 per tutti</strong></li><li>• <strong>Limiti contante:</strong> 5.000€ con fornitori</li><li>• <strong>Sanzioni:</strong> se rifiuti POS (min 30€)</li><li>• <strong>Formazione:</strong> staff deve saper usare POS</li><li>• <strong>Manutenzione:</strong> costi canone terminale</li></ul>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="info-box p-6 rounded-lg backdrop-blur-lg mt-6">';
+                html += '<h4 class="font-bold text-cyan-300 mb-4 text-xl orbitron">💡 CASI PRATICI RISTORANTE</h4>';
+                html += '<div class="space-y-3">';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-green-300 font-bold mb-2">✓ Scenario 1: Cena aziendale</p><p class="text-white/80 text-sm"><strong>Importo:</strong> 850€<br><strong>Soluzione:</strong> Carta aziendale (tracciabile per fattura)</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-green-300 font-bold mb-2">✓ Scenario 2: Fornitore vino</p><p class="text-white/80 text-sm"><strong>Importo:</strong> 3.200€<br><strong>Soluzione:</strong> Bonifico o assegno (sotto 5.000€ ok)</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl"><p class="text-red-300 font-bold mb-2">✗ Scenario 3: Attrezzature</p><p class="text-white/80 text-sm"><strong>Importo:</strong> 8.500€ forno<br><strong>Errore:</strong> CONTANTE VIETATO! Rischio sanzione 500-1.700€</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+            else if (currentSection === 15) {
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="money-icon bg-gradient-to-br from-purple-400 to-pink-500 mx-auto mb-4 pulse">🎯</div>';
+                html += '<h2 class="text-4xl font-bold orbitron text-white mb-2">QUIZ FINALE</h2>';
+                html += '<p class="text-cyan-300">+15€ per risposta corretta!</p>';
+                html += '</div>';
+                
+                for (var i = 0; i < quizQuestions.length; i++) {
+                    var q = quizQuestions[i];
+                    var answered = quizAnswers[q.id];
+                    
+                    html += '<div class="stat-card p-6 rounded-2xl shadow-2xl slide-in">';
+                    html += '<p class="text-lg font-bold text-cyan-200 mb-4 mono">';
+                    html += '<span class="inline-flex items-center justify-center w-8 h-8 bg-cyan-500 text-white rounded-full font-bold mr-2">' + (i+1) + '</span>';
+                    html += q.question + '</p>';
+                    html += '<div class="grid grid-cols-2 gap-3">';
+                    
+                    for (var j = 0; j < q.options.length; j++) {
+                        var option = q.options[j];
+                        var isSelected = answered && answered.answer === j;
+                        var isCorrect = j === q.correct;
+                        var buttonClass = 'p-4 rounded-xl border-2 transition font-medium text-left ';
+                        
+                        if (!answered) {
+                            buttonClass += 'border-cyan-400 bg-cyan-900/30 hover:bg-cyan-800/50 text-cyan-100 cursor-pointer shadow-lg';
+                        } else if (isSelected && answered.correct) {
+                            buttonClass += 'border-green-400 bg-green-900/50 text-green-200 shadow-lg glow';
+                        } else if (isSelected && !answered.correct) {
+                            buttonClass += 'border-red-400 bg-red-900/50 text-red-200 shadow-lg';
+                        } else if (isCorrect) {
+                            buttonClass += 'border-green-400 bg-green-900/50 text-green-200 shadow-lg';
+                        } else {
+                            buttonClass += 'border-white/20 bg-white/10 text-white/50';
+                        }
+
+                        html += '<button onclick="checkQuiz(' + q.id + ', ' + j + ')" ';
+                        if (answered) html += 'disabled ';
+                        html += 'class="' + buttonClass + ' mono">' + option;
+                        if (answered && isCorrect) html += '<span class="ml-2 text-xl">✓</span>';
+                        if (answered && isSelected && !answered.correct) html += '<span class="ml-2 text-xl">✗</span>';
+                        html += '</button>';
+                    }
+                    
+                    html += '</div></div>';
+                }
+                
+                html += '</div>';
+            }
+            else if (currentSection === 16) {
+                var level = getScoreLevel();
+                html = '<div class="space-y-6">';
+                html += '<div class="text-center mb-8">';
+                html += '<div class="money-icon bg-gradient-to-br from-yellow-400 to-orange-500 mx-auto mb-4 pulse">🏆</div>';
+                html += '<h2 class="text-5xl font-bold orbitron text-white mb-2">COMPLETATO!</h2>';
+                html += '<p class="text-cyan-300 text-2xl">Esperto del Contante!</p>';
+                html += '</div>';
+                
+                html += '<div class="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 p-10 rounded-2xl shadow-2xl border-4 border-yellow-300 glow mb-6">';
+                html += '<div class="text-center text-white mb-6">';
+                html += '<div class="text-8xl font-bold mb-4 mono">' + score + '€</div>';
+                html += '<div class="text-4xl font-bold mb-3 orbitron">' + level.level + '</div>';
+                html += '<p class="text-2xl">' + level.message + '</p>';
+                html += '</div>';
+                html += '<div class="grid grid-cols-2 md:grid-cols-4 gap-4">';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + Object.keys(quizAnswers).length + '/5</p><p class="text-white/80 text-sm">Quiz</p></div>';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + (limitCalculated ? '✓' : '-') + '</p><p class="text-white/80 text-sm">Calcolatore</p></div>';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">' + badges.length + '/4</p><p class="text-white/80 text-sm">Badge</p></div>';
+                html += '<div class="bg-white/20 p-5 rounded-xl text-center border-2 border-white/50"><p class="text-white text-3xl font-bold mono">16</p><p class="text-white/80 text-sm">Capitoli</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="stat-card p-8 rounded-2xl shadow-2xl mb-6">';
+                html += '<h3 class="text-3xl font-bold text-cyan-300 mb-6 orbitron text-center">📚 HAI IMPARATO</h3>';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ Limite Italia 5.000€</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ UE 10.000€ dal 2027</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ Sanzioni 500€-20%</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ Evasione 82 miliardi</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ Italia 4° cashless +23%</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ HoReCa +27,8%</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ Confronto Europa</p></div>';
+                html += '<div class="bg-white/5 p-4 rounded-xl border border-cyan-500/50"><p class="text-green-300 mb-2">✓ Rischi e vantaggi</p></div>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                html += '<div class="success-box p-8 rounded-2xl text-center">';
+                html += '<p class="text-4xl font-bold mb-3 orbitron text-green-300">✅ COMPLETO</p>';
+                html += '<p class="text-xl text-white">Serie Educazione Finanziaria</p>';
+                html += '<ul class="mt-4 space-y-2 text-green-200"><li>Lezione 1: Banca</li><li>Lezione 2: Carte</li><li>Lezione 3: Bitcoin</li><li>Lezione 4: Contante ✓</li></ul>';
+                html += '</div>';
+                html += '<div class="info-box p-8 rounded-2xl text-center">';
+                html += '<p class="text-4xl font-bold mb-3 orbitron text-cyan-300">🚀 PROSSIMO</p>';
+                html += '<p class="text-xl text-white">Prepara il Concorso!</p>';
+                html += '<p class="text-cyan-200 mt-4">Usa queste conoscenze per il <strong class="text-yellow-300">PNRR3</strong> del 1° dicembre!</p>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            if (currentSection > 0) {
+                currentSection--;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                updateProgress();
+                updateNavButtons();
+                renderSection();
+                window.scrollTo(0, 0);
+            }
+        });
+
+        createDots();
+        renderSection();
+        updateProgress();
+        updateNavButtons();
+    </script>
+</body>
+</html>
