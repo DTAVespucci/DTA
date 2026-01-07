@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICUREZZA NEGLI EVENTI & PREVENZIONE INCENDI - 3H Vespucci Milano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e74c3c;
+            --secondary: #c0392b;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --fire: #FF4500;
+            --smoke: #696969;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(0,0,0,0.8);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid var(--fire);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            font-size: 3em;
+            text-shadow: 0 0 20px var(--fire);
+            animation: pulse 2s infinite;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1.5em;
+            color: var(--warning);
+            margin-top: 10px;
+        }
+
+        header .info {
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: var(--light);
+        }
+
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 20px var(--fire); }
+            50% { text-shadow: 0 0 40px var(--fire), 0 0 60px var(--warning); }
+        }
+
+        /* NAVIGATION */
+        nav {
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        nav button:hover {
+            background: var(--fire);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.5);
+        }
+
+        nav button.active {
+            background: var(--success);
+            box-shadow: 0 0 20px var(--success);
+        }
+
+        /* SECTIONS */
+        .section {
+            display: none;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: var(--warning);
+            border-bottom: 3px solid var(--fire);
+            padding-bottom: 15px;
+        }
+
+        .section h3 {
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            color: var(--light);
+        }
+
+        /* ALERT BOX */
+        .alert {
+            background: rgba(231, 76, 60, 0.9);
+            border-left: 5px solid var(--fire);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            font-size: 1.3em;
+            box-shadow: 0 10px 40px rgba(231, 76, 60, 0.5);
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .alert-warning {
+            background: rgba(243, 156, 18, 0.9);
+            border-left-color: var(--warning);
+        }
+
+        .alert-success {
+            background: rgba(39, 174, 96, 0.9);
+            border-left-color: var(--success);
+        }
+
+        /* TRAGEDY BOX */
+        .tragedy-box {
+            background: linear-gradient(135deg, #000000 0%, #2c0000 100%);
+            border: 3px solid var(--fire);
+            padding: 40px;
+            margin: 30px 0;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255, 69, 0, 0.7);
+        }
+
+        .tragedy-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: rgba(255, 69, 0, 0.3);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--fire);
+        }
+
+        .stat-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: var(--fire);
+            text-shadow: 0 0 20px var(--fire);
+        }
+
+        .stat-label {
+            font-size: 1.3em;
+            margin-top: 10px;
+        }
+
+        /* CARDS */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255, 69, 0, 0.5);
+            border-color: var(--fire);
+        }
+
+        .card h4 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: var(--warning);
+        }
+
+        .card ul {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .card ul li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .card ul li:before {
+            content: "🔥";
+            position: absolute;
+            left: 0;
+        }
+
+        /* PROTOCOL BOX */
+        .protocol {
+            background: linear-gradient(135deg, #16222A 0%, #3A6073 100%);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 15px;
+            border-left: 5px solid var(--success);
+        }
+
+        .protocol h4 {
+            font-size: 1.8em;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .step {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid var(--warning);
+            font-size: 1.2em;
+        }
+
+        .step strong {
+            color: var(--warning);
+        }
+
+        /* EXTINGUISHER GRID */
+        .extinguisher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .extinguisher {
+            background: rgba(255,255,255,0.2);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid;
+            transition: all 0.3s;
+        }
+
+        .extinguisher:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .extinguisher.powder {
+            border-color: #FFD700;
+        }
+
+        .extinguisher.co2 {
+            border-color: #87CEEB;
+        }
+
+        .extinguisher.foam {
+            border-color: #FFF8DC;
+        }
+
+        .extinguisher.water {
+            border-color: #4682B4;
+        }
+
+        .extinguisher-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .extinguisher h4 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .fire-class {
+            display: inline-block;
+            background: rgba(255,69,0,0.8);
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* QUIZ */
+        .quiz-container {
+            background: rgba(0,0,0,0.7);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .question {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid var(--warning);
+        }
+
+        .question h4 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            color: var(--warning);
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2em;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(10px);
+        }
+
+        .option.correct {
+            background: rgba(39, 174, 96, 0.8);
+            border-color: var(--success);
+        }
+
+        .option.wrong {
+            background: rgba(231, 76, 60, 0.8);
+            border-color: var(--danger);
+        }
+
+        .quiz-result {
+            background: rgba(39, 174, 96, 0.9);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 2em;
+            display: none;
+        }
+
+        /* SCENARIO */
+        .scenario-box {
+            background: linear-gradient(135deg, #667db6 0%, #0082c8 100%);
+            padding: 40px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 3px solid rgba(255,255,255,0.5);
+        }
+
+        .scenario-box h4 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--warning);
+        }
+
+        .scenario-choices {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .choice-btn {
+            background: rgba(255,255,255,0.3);
+            padding: 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.3em;
+            border: 2px solid transparent;
+            text-align: left;
+        }
+
+        .choice-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: translateX(15px);
+            border-color: white;
+        }
+
+        .feedback {
+            background: rgba(0,0,0,0.8);
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: none;
+            border-left: 5px solid;
+        }
+
+        .feedback.correct {
+            border-left-color: var(--success);
+        }
+
+        .feedback.wrong {
+            border-left-color: var(--danger);
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+            margin: 40px 0;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--fire);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 40px 0;
+            padding: 0 40px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: calc(50% + 60px);
+            padding-left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: calc(50% + 60px);
+            padding-right: 0;
+        }
+
+        .timeline-content {
+            background: rgba(255,255,255,0.2);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid var(--fire);
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--fire);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            border: 4px solid white;
+            z-index: 10;
+        }
+
+        /* RESPONSIBILITY TABLE */
+        .responsibility-table {
+            background: rgba(0,0,0,0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .responsibility-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .responsibility-table th {
+            background: var(--fire);
+            padding: 20px;
+            font-size: 1.4em;
+            text-align: left;
+        }
+
+        .responsibility-table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.2em;
+        }
+
+        .responsibility-table tr:hover {
+            background: rgba(255,69,0,0.2);
+        }
+
+        /* BUTTONS */
+        .btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: var(--warning);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--fire);
+        }
+
+        /* TIMER */
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            border: 3px solid var(--warning);
+            z-index: 1001;
+        }
+
+        .timer.warning {
+            border-color: var(--danger);
+            animation: pulse 1s infinite;
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(0,0,0,0.8);
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 3px solid var(--fire);
+        }
+
+        footer p {
+            font-size: 1.2em;
+            color: var(--light);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            nav {
+                flex-direction: column;
+            }
+            
+            .timeline:before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 60px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+            
+            .timeline-icon {
+                left: 20px;
+                transform: translateX(0);
+            }
+        }
+
+        /* COLLAPSIBLE */
+        .collapsible {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 5px solid var(--warning);
+        }
+
+        .collapsible:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 20px;
+        }
+
+        .collapsible.active .collapsible-content {
+            max-height: 2000px;
+            padding: 20px;
+        }
+
+        /* HIGHLIGHT */
+        .highlight {
+            background: rgba(243, 156, 18, 0.3);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* NUMBER BADGE */
+        .badge {
+            display: inline-block;
+            background: var(--fire);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 15px;
+            box-shadow: 0 5px 15px rgba(255,69,0,0.5);
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: rgba(52, 152, 219, 0.3);
+            border-left: 5px solid #3498db;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        .info-box strong {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🔥 SICUREZZA NEGLI EVENTI & PREVENZIONE INCENDI 🔥</h1>
+       
+        <div class="info">
+            <strong>Classe:</strong> 3H (Sala-Bar) | <strong>Scuola:</strong> IPSEOA "Amerigo Vespucci" - Milano<br>
+            <strong>Durata:</strong> 2 ore | <strong>Data:</strong> Gennaio 2026
+        </div>
+    </header>
+
+    <!-- TIMER -->
+    <div class="timer" id="timer">
+        ⏱️ Tempo: <span id="timer-display">00:00</span>
+    </div>
+
+    <div class="container">
+
+        <!-- NAVIGATION -->
+        <nav>
+            <button onclick="showSection('intro')" class="active">📌 Introduzione</button>
+            <button onclick="showSection('tragedy')">💔 Tragedia Crans-Montana</button>
+            <button onclick="showSection('bar')">🍸 Servizio Bar Responsabile</button>
+            <button onclick="showSection('fire')">🔥 Prevenzione Incendi</button>
+            <button onclick="showSection('extinguishers')">🧯 Estintori & Classi Fuoco</button>
+            <button onclick="showSection('evacuation')">🚪 Evacuazione</button>
+            <button onclick="showSection('quiz')">📝 Quiz & Simulazioni</button>
+            <button onclick="showSection('conclusion')">✅ Conclusioni</button>
+        </nav>
+
+        <!-- SECTION 1: INTRODUZIONE -->
+        <section class="section active" id="intro">
+            <h2>📌 BENVENUTI: Perché questa lezione può salvarvi la vita</h2>
+            
+            <div class="alert">
+                <strong>⚠️ ATTENZIONE:</strong> Questa non è una lezione teorica. Questa lezione nasce da tragedie VERE, da errori VERI, da vite PERSE. Quello che imparerete oggi potrebbe fare la differenza tra la vita e la morte.
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🎯 Obiettivi della Lezione</h4>
+                    <ul>
+                        <li>Comprendere i rischi reali negli eventi</li>
+                        <li>Imparare il servizio bar responsabile</li>
+                        <li>Conoscere la normativa antincendio</li>
+                        <li>Saper usare gli estintori</li>
+                        <li>Gestire l'evacuazione di emergenza</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>📚 Competenze Acquisite</h4>
+                    <ul>
+                        <li>Analisi dei rischi eventi</li>
+                        <li>Responsabilità legale barman</li>
+                        <li>Protocolli sicurezza antincendio</li>
+                        <li>Gestione emergenze</li>
+                        <li>Comunicazione di crisi</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>⚖️ Perché è Importante</h4>
+                    <ul>
+                        <li>Responsabilità penale e civile</li>
+                        <li>Multe da 1.000€ a 100.000€+</li>
+                        <li>Rischio chiusura attività</li>
+                        <li>Vite umane in gioco</li>
+                        <li>La vostra carriera dipende da questo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>🎓 Per chi è questa lezione:</strong> Voi sarete i futuri barman, camerieri, responsabili di sala. Gestirete locali, eventi, feste. Servirete alcol. Sarete in locali con centinaia di persone. La sicurezza non è un optional: <span class="highlight">È IL VOSTRO LAVORO.</span>
+            </div>
+
+            <div class="tragedy-box">
+                <h3 style="text-align: center; margin-bottom: 20px;">⚠️ Cosa Imparerete Oggi</h3>
+                <div class="tragedy-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Tragedia Recente Analizzata</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Protocolli di Sicurezza</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Tipi di Estintori</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Vite che Potrete Salvare</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="showSection('tragedy')">Iniziamo: La Tragedia di Crans-Montana →</button>
+        </section>
+
+        <!-- SECTION 2: TRAGEDIA CRANS-MONTANA -->
+        <section class="section" id="tragedy">
+            <h2>💔 CRANS-MONTANA: La Tragedia del Capodanno 2026</h2>
+
+            <div class="alert">
+                <strong>🚨 1 GENNAIO 2026 - ORE 01:30</strong><br>
+                Bar "Le Constellation", Crans-Montana, Svizzera<br>
+                300 giovani festeggiano il Capodanno. In 30 secondi, il locale si trasforma in un inferno.
+            </div>
+
+            <div class="tragedy-box">
+                <h3 style="text-align: center; font-size: 2.5em; margin-bottom: 30px;">I NUMERI DELLA TRAGEDIA</h3>
+                <div class="tragedy-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">47</div>
+                        <div class="stat-label">MORTI</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">116</div>
+                        <div class="stat-label">FERITI</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">30</div>
+                        <div class="stat-label">SECONDI</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">ITALIANI DISPERSI</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 30px; font-size: 1.5em;">
+                    Molti avevano <strong style="color: var(--fire);">16-18 anni</strong>. La vostra età.
+                </div>
+            </div>
+
+            <h3>📖 COSA È SUCCESSO: La Ricostruzione</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">🍾</div>
+                    <div class="timeline-content">
+                        <strong>01:30</strong> - Festa di Capodanno al massimo. Circa 300 persone nel locale (capienza: 300). Qualcuno ordina champagne con <strong class="highlight">candele pirotecniche</strong> decorative sulle bottiglie.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🔥</div>
+                    <div class="timeline-content">
+                        <strong>01:31</strong> - Le candele accendono il <strong>controsoffitto</strong> rivestito di <span class="highlight">schiuma poliuretanica</span> (materiale ALTAMENTE infiammabile). Il soffitto prende fuoco istantaneamente.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">💨</div>
+                    <div class="timeline-content">
+                        <strong>01:32</strong> - Il fuoco si propaga a velocità impressionante. <strong>Fumo denso e nero</strong> riempie il locale. Visibilità zero in pochi secondi. Panico totale.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🚪</div>
+                    <div class="timeline-content">
+                        <strong>01:33</strong> - Centinaia di persone corrono verso le uscite. <strong>Uscite troppo strette</strong>. Calca. Alcune persone cadono e vengono calpestate. Chi cade non si rialza.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🚨</div>
+                    <div class="timeline-content">
+                        <strong>01:35</strong> - Arrivano i primi soccorsi. Scena apocalittica: <strong>corpo su corpo</strong>, ustioni gravissime, asfissia da fumo. Molti sono già morti.
+                    </div>
+                </div>
+            </div>
+
+            <h3>❌ GLI ERRORI FATALI: Cosa Non Funzionava</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🏗️ Materiali Low-Cost</h4>
+                    <ul>
+                        <li>Schiuma poliuretanica al soffitto (infiammabile)</li>
+                        <li>Nessun rivestimento ignifugo</li>
+                        <li>Decorazioni in materiali combustibili</li>
+                        <li>Risparmio di 5.000€ → 47 morti</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🚿 Assenza di Sprinkler</h4>
+                    <ul>
+                        <li>Nessun sistema automatico antincendio</li>
+                        <li>Gli sprinkler avrebbero spento l'incendio in 10 secondi</li>
+                        <li>Costo impianto: 15.000€</li>
+                        <li>Non installati per "risparmiare"</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🚪 Uscite Insufficienti</h4>
+                    <ul>
+                        <li>Uscite troppo strette per 300 persone</li>
+                        <li>Una uscita laterale era stata chiusa</li>
+                        <li>Segnaletica uscite sicurezza poco visibile</li>
+                        <li>Nessuna illuminazione emergenza</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>👥 Sovraffollamento</h4>
+                    <ul>
+                        <li>Capienza massima: 300 persone</li>
+                        <li>Presenti: circa 300+ (non controllato)</li>
+                        <li>Nessun controllo accessi rigoroso</li>
+                        <li>Proprietari volevano "vendere più biglietti"</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🔥 Decorazioni Pericolose</h4>
+                    <ul>
+                        <li>Candele pirotecniche permesse nel locale</li>
+                        <li>Nessun divieto fuochi artificiali indoor</li>
+                        <li>Staff non formato su rischi incendio</li>
+                        <li>Nessun estintore a portata di mano</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>📋 Controlli Mancati</h4>
+                    <ul>
+                        <li>Locale considerato "a norma" dai controlli</li>
+                        <li>Un mese prima: richiesta di AMPLIARE il locale</li>
+                        <li>Controlli non avevano rilevato criticità</li>
+                        <li>Sistema dei controlli da rivedere</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert-warning">
+                <strong>⚖️ CONSEGUENZE LEGALI:</strong><br>
+                I proprietari Jacques e Jessica Moretti sono stati indagati per:<br>
+                <strong>• Omicidio colposo</strong> (fino a 12 anni di carcere)<br>
+                <strong>• Lesioni colpose</strong> (fino a 5 anni)<br>
+                <strong>• Incendio colposo</strong> (fino a 7 anni)<br>
+                <strong>• Risarcimenti civili stimati: oltre 50 milioni di euro</strong>
+            </div>
+
+            <h3>🔍 PARALLELI CON ALTRE TRAGEDIE</h3>
+
+            <div class="protocol">
+                <h4>📜 Storia che si Ripete</h4>
+                <div class="step">
+                    <strong>Corinaldo, Italia (2018):</strong> 6 morti, tra cui 5 minorenni, nella discoteca Lanterna Azzurra. Spray al peperoncino + uscite insufficienti + sovraffollamento.
+                </div>
+                <div class="step">
+                    <strong>Nightclub Kiss, Brasile (2013):</strong> 242 morti. Fuochi d'artificio indoor + schiuma isolante infiammabile + uscite bloccate.
+                </div>
+                <div class="step">
+                    <strong>Colectiv, Romania (2015):</strong> 64 morti. Fuochi d'artificio + materiali infiammabili + nessun sistema antincendio.
+                </div>
+                <div class="step">
+                    <strong>Station Nightclub, USA (2003):</strong> 100 morti. Fuochi d'artificio + schiuma acustica infiammabile.
+                </div>
+            </div>
+
+            <div class="alert">
+                <strong>💡 LA LEZIONE:</strong> Queste tragedie hanno tutte gli stessi elementi: <span class="highlight">materiali infiammabili + assenza sistemi antincendio + sovraffollamento + uscite insufficienti + mancanza formazione staff.</span><br><br>
+                <strong>SE IMPARIAMO DA QUESTE TRAGEDIE, POSSIAMO EVITARE CHE SI RIPETANO.</strong>
+            </div>
+
+            <button class="btn" onclick="showSection('bar')">Prossimo: Il Barman Responsabile →</button>
+        </section>
+
+        <!-- SECTION 3: SERVIZIO BAR RESPONSABILE -->
+        <section class="section" id="bar">
+            <h2>🍸 IL BARMAN RESPONSABILE: La Tua Prima Linea di Difesa</h2>
+
+            <div class="alert-warning">
+                <strong>⚖️ IMPORTANTE:</strong> Quando sei dietro al banco, non sei solo un barman. Sei <strong>LEGALMENTE RESPONSABILE</strong> della sicurezza dei tuoi clienti. Puoi essere arrestato. Puoi pagare multe salate. Puoi distruggere la tua carriera in una sera.
+            </div>
+
+            <h3>📜 NORMATIVA ITALIANA: Cosa Dice la Legge</h3>
+
+            <div class="responsibility-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Reato</th>
+                            <th>Descrizione</th>
+                            <th>Pena</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Art. 689 C.P.</strong></td>
+                            <td>Somministrazione alcol a persona in stato di ebbrezza</td>
+                            <td>Multa fino a 2.000€ + Arresto fino a 1 anno</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Art. 689-bis C.P.</strong></td>
+                            <td>Somministrazione alcol a minori</td>
+                            <td>Multa 1.000€ - 5.000€ + Precedente penale</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Art. 589 C.P.</strong></td>
+                            <td>Omicidio colposo (se cliente causa incidente)</td>
+                            <td>Reclusione fino a 5 anni</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Art. 590 C.P.</strong></td>
+                            <td>Lesioni colpose (se cliente ferisce qualcuno)</td>
+                            <td>Reclusione fino a 3 anni</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert">
+                <strong>💸 CHI PAGA?</strong><br>
+                1. TU (il barman) - Direttamente responsabile<br>
+                2. Il titolare del locale - Responsabilità solidale<br>
+                3. Entrambi - Se non dimostri di aver seguito protocolli
+            </div>
+
+            <h3>🚨 RICONOSCERE L'UBRIACHEZZA: I Segnali</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>👀 Segnali Fisici</h4>
+                    <ul>
+                        <li>Occhi rossi, lucidi, pupille dilatate</li>
+                        <li>Linguaggio impastato</li>
+                        <li>Movimenti scoordinati</li>
+                        <li>Equilibrio precario (si appoggia)</li>
+                        <li>Sudorazione eccessiva</li>
+                        <li>Nausea o vomito</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🗣️ Segnali Comportamentali</h4>
+                    <ul>
+                        <li>Ordina drink velocemente</li>
+                        <li>Parla troppo forte</li>
+                        <li>Diventa aggressivo o eccessivamente euforico</li>
+                        <li>Invadente/inappropriato</li>
+                        <li>Perde oggetti ripetutamente</li>
+                        <li>Va spesso in bagno</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>📏 REGOLA D'ORO:</strong> Se vedi <span class="highlight">DUE o più</span> di questi segnali → È ORA DI FERMARSI. Non aspettare che crolli.
+            </div>
+
+            <h3>✅ PROTOCOLLO: Come Servire Responsabilmente</h3>
+
+            <div class="protocol">
+                <h4>STEP 1: CONTROLLO ETÀ</h4>
+                <div class="step">
+                    <strong>SEMPRE</strong> chiedi documento a chi dimostra meno di 25 anni<br>
+                    ❌ Non accettare "me lo sono dimenticato" → NO documento = NO alcol<br>
+                    ⚖️ Responsabilità penale: multa 1.000-5.000€ + penale
+                </div>
+
+                <h4>STEP 2: MONITORAGGIO CONSUMO</h4>
+                <div class="step">
+                    Conta quanti drink ha ordinato<br>
+                    Osserva comportamento tra un drink e l'altro<br>
+                    Rallenta il servizio se noti segnali di ubriachezza<br>
+                    Proponi acqua / analcolici tra un drink e l'altro
+                </div>
+
+                <h4>STEP 3: TECNICHE DI RALLENTAMENTO</h4>
+                <div class="step">
+                    ✅ "Ti porto un'acqua prima, offerta della casa!"<br>
+                    ✅ "Con questo caldo, un analcolico fresco?"<br>
+                    ✅ "Arrivo tra 5 minuti, sto servendo altri"<br>
+                    ✅ "Abbiamo stuzzichini, ti porto qualcosa?"<br>
+                    ✅ Diluisci gradazione (meno alcol, più mixer)
+                </div>
+
+                <h4>STEP 4: RIFIUTO DEL SERVIZIO (quando necessario)</h4>
+                <div class="step">
+                    <strong>Fase 1 - Educata ma ferma:</strong><br>
+                    "Mi dispiace, non posso servirti altro alcol stasera"<br><br>
+                    <strong>Fase 2 - Motiva (evita "sei ubriaco"):</strong><br>
+                    "Per regolamento del locale, devo garantire sicurezza"<br>
+                    "È per il tuo bene e quello degli altri clienti"<br><br>
+                    <strong>Fase 3 - Offri alternative:</strong><br>
+                    "Ti porto acqua / caffè / analcolico?"<br>
+                    "Vuoi che chiami un taxi?"<br><br>
+                    <strong>Fase 4 - Se insiste → CHIAMA RINFORZI:</strong><br>
+                    Security, titolare, collega senior<br><br>
+                    <strong>Fase 5 - Se diventa aggressivo:</strong><br>
+                    Mantieni distanza, NON toccare, chiama 112 se necessario
+                </div>
+            </div>
+
+            <div class="alert-warning">
+                <strong>💡 NON SIETE EROI:</strong> Se la situazione degenera, NON siete pagati per fare gli eroi. La vostra sicurezza viene prima. Chiamate Security o Polizia.
+            </div>
+
+            <h3>🎭 SCENARIO PRATICO: Cosa Faresti?</h3>
+
+            <div class="scenario-box" id="scenario1">
+                <h4>📌 SCENARIO 1: Il Cliente Insistente</h4>
+                <p style="font-size: 1.2em; margin: 20px 0;">
+                    Ore 01:30. Un cliente di circa 25 anni si avvicina al banco. È visibilmente ubriaco: parla impastato, si appoggia al bancone, ha ordinato già 5 drink in 2 ore. Ti chiede: <strong>"EHI! UN ALTRO NEGRONI, FORZA!"</strong>
+                </p>
+                <p style="font-size: 1.3em; color: var(--warning);"><strong>Cosa fai?</strong></p>
+                
+                <div class="scenario-choices">
+                    <div class="choice-btn" onclick="checkChoice('scenario1', 'a', false)">
+                        <strong>A)</strong> Gli servi il Negroni perché hai paura che si arrabbi col titolare e ti licenzino
+                    </div>
+                    <div class="choice-btn" onclick="checkChoice('scenario1', 'b', false)">
+                        <strong>B)</strong> Gli dici direttamente: "No, sei troppo ubriaco"
+                    </div>
+                    <div class="choice-btn" onclick="checkChoice('scenario1', 'c', true)">
+                        <strong>C)</strong> Gli dici: "Certo! Intanto ti porto un'acqua fresca, con questo caldo..." e NON fai il drink. Proponi stuzzichini.
+                    </div>
+                    <div class="choice-btn" onclick="checkChoice('scenario1', 'd', false)">
+                        <strong>D)</strong> Gli fai un Negroni ma con pochissimo alcol, così è contento
+                    </div>
+                </div>
+
+                <div class="feedback" id="scenario1-feedback"></div>
+            </div>
+
+            <h3>📊 STATISTICHE CHE FANNO RIFLETTERE</h3>
+
+            <div class="tragedy-stats" style="margin: 40px 0;">
+                <div class="stat-box">
+                    <div class="stat-number">30%</div>
+                    <div class="stat-label">Incidenti stradali causati da alcol</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Aggressioni in locali per eccesso alcol</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">€50.000</div>
+                    <div class="stat-label">Risarcimento medio per incidente</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Vite salvate con servizio responsabile</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="showSection('fire')">Prossimo: Prevenzione Incendi →</button>
+        </section>
+
+        <!-- SECTION 4: PREVENZIONE INCENDI -->
+        <section class="section" id="fire">
+            <h2>🔥 PREVENZIONE INCENDI: Normativa Italiana</h2>
+
+            <div class="alert">
+                <strong>📜 NORMATIVA DI RIFERIMENTO:</strong><br>
+                • <strong>DPR 151/2011</strong> - Regolamento di prevenzione incendi<br>
+                • <strong>D.M. 7/08/2012</strong> - Modalità presentazione istanze<br>
+                • <strong>Codice di Prevenzione Incendi (D.M. 3/8/2015)</strong><br>
+                • <strong>T.U. Sicurezza D.Lgs 81/2008</strong>
+            </div>
+
+            <h3>📋 ATTIVITÀ SOGGETTE A CONTROLLO VVF</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🏢 CATEGORIA A (Basso Rischio)</h4>
+                    <ul>
+                        <li>Locali pubblici con capienza 100-200 persone</li>
+                        <li>Superficie 200-400 mq</li>
+                        <li>Procedura semplificata (SCIA)</li>
+                        <li>Controlli ogni 5 anni</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🏢 CATEGORIA B (Rischio Medio)</h4>
+                    <ul>
+                        <li>Locali pubblici con capienza 200-300 persone</li>
+                        <li>Superficie 400-600 mq</li>
+                        <li>Richiede parere VVF</li>
+                        <li>Controlli ogni 5 anni</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🏢 CATEGORIA C (Alto Rischio)</h4>
+                    <ul>
+                        <li>Locali pubblici con capienza > 300 persone</li>
+                        <li>Superficie > 600 mq</li>
+                        <li>Certificato Prevenzione Incendi (CPI)</li>
+                        <li>Controlli periodici rigorosi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>🏗️ REQUISITI MINIMI DI SICUREZZA</h3>
+
+            <div class="protocol">
+                <h4>1. MATERIALI E STRUTTURE</h4>
+                <div class="step">
+                    <strong>✅ OBBLIGATORIO:</strong><br>
+                    • Materiali ignifughi o trattati con ritardanti di fiamma<br>
+                    • Controsoffitti certificati Classe 1 (non infiammabili)<br>
+                    • Rivestimenti pareti Classe 1-2<br>
+                    • Pavimenti Classe 1-2<br>
+                    • <strong>❌ VIETATI:</strong> Schiuma poliuretanica, pannelli PVC non certificati, decorazioni combustibili
+                </div>
+
+                <h4>2. IMPIANTI ANTINCENDIO</h4>
+                <div class="step">
+                    <strong>✅ OBBLIGATORIO (locali > 200 persone):</strong><br>
+                    • Sistema sprinkler automatico<br>
+                    • Rilevatori di fumo<br>
+                    • Allarme antincendio sonoro<br>
+                    • Estintori (1 ogni 200 mq o 30 metri)<br>
+                    • Idranti / Naspi (se superficie > 300 mq)<br>
+                    • Illuminazione di emergenza<br>
+                    • Segnaletica uscite sicurezza (fotoluminescente)
+                </div>
+
+                <h4>3. USCITE DI SICUREZZA</h4>
+                <div class="step">
+                    <strong>✅ REQUISITI:</strong><br>
+                    • Almeno 2 uscite indipendenti<br>
+                    • Larghezza minima: 1,20 m (per ogni 50 persone 0,60 m)<br>
+                    • Porte apribili verso l'esterno con barra antipanico<br>
+                    • Mai chiuse a chiave durante apertura<br>
+                    • Percorsi esodo max 30-60 metri<br>
+                    • Sempre libere da ostacoli<br>
+                    • Segnaletica luminosa verde<br>
+                    • <strong>❌ VIETATO:</strong> Bloccare, ostruire, chiudere a chiave uscite
+                </div>
+
+                <h4>4. CAPIENZA MASSIMA</h4>
+                <div class="step">
+                    <strong>CALCOLO CAPIENZA:</strong><br>
+                    • Bar/Discoteca: 0,7 mq/persona (max)<br>
+                    • Ristorante: 1,5 mq/persona<br>
+                    • Esempio: locale 210 mq = max 300 persone<br>
+                    • <strong>⚖️ SUPERARE LA CAPIENZA = REATO</strong><br>
+                    • Multa 500€ - 5.000€ + chiusura attività<br>
+                    • Se causa incidente: omicidio colposo
+                </div>
+
+                <h4>5. FORMAZIONE PERSONALE</h4>
+                <div class="step">
+                    <strong>✅ OBBLIGATORIO:</strong><br>
+                    • Addetti antincendio formati (corso 4-16 ore)<br>
+                    • Prove evacuazione almeno 1/anno<br>
+                    • Piano di emergenza scritto e affisso<br>
+                    • Registro controlli estintori (ogni 6 mesi)<br>
+                    • Staff formato su ubicazione estintori/uscite
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 COSTO SICUREZZA vs COSTO INCIDENTE:</strong><br>
+                Impianto completo sicurezza (300 persone): <span class="highlight">€25.000-50.000</span><br>
+                Incidente con morti/feriti: <span class="highlight">€500.000 - 5.000.000+</span><br>
+                <strong>La sicurezza NON è un costo. È un investimento che salva vite E denaro.</strong>
+            </div>
+
+            <h3>🚫 ERRORI COMUNI (Da NON Fare Mai)</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>❌ Uscite Bloccate</h4>
+                    <ul>
+                        <li>Sedie/tavoli davanti uscite</li>
+                        <li>Porte chiuse a chiave</li>
+                        <li>Catene/lucchetti su uscite</li>
+                        <li><strong>Risultato: TRAPPOLA MORTALE</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>❌ Sovraffollamento</h4>
+                    <ul>
+                        <li>Vendere più biglietti del consentito</li>
+                        <li>"Tanto non vengono tutti"</li>
+                        <li>Nessun controllo ingressi</li>
+                        <li><strong>Risultato: CALCA MORTALE</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>❌ Materiali Pericolosi</h4>
+                    <ul>
+                        <li>Decorazioni combustibili</li>
+                        <li>Rivestimenti non certificati</li>
+                        <li>Fuochi artificiali indoor</li>
+                        <li><strong>Risultato: INFERNO IN 30 SEC</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>❌ Manutenzione Zero</h4>
+                    <ul>
+                        <li>Estintori scaduti</li>
+                        <li>Rilevatori fumo non funzionanti</li>
+                        <li>Illuminazione emergenza rotta</li>
+                        <li><strong>Risultato: SISTEMA INUTILE</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert">
+                <strong>⚖️ RESPONSABILITÀ PENALE:</strong><br>
+                Il titolare del locale è <strong>SEMPRE</strong> responsabile penalmente e civilmente per:<br>
+                • Mancato rispetto norme antincendio → Multa + Chiusura<br>
+                • Incendio con feriti → Lesioni colpose (fino a 5 anni)<br>
+                • Incendio con morti → Omicidio colposo (fino a 12 anni)<br>
+                • Risarcimenti civili → Da centinaia di migliaia a milioni di euro
+            </div>
+
+            <button class="btn" onclick="showSection('extinguishers')">Prossimo: Estintori →</button>
+        </section>
+
+        <!-- SECTION 5: ESTINTORI & CLASSI FUOCO -->
+        <section class="section" id="extinguishers">
+            <h2>🧯 ESTINTORI & CLASSI DI FUOCO</h2>
+
+            <div class="alert-warning">
+                <strong>⚠️ USARE L'ESTINTORE SBAGLIATO PUÒ PEGGIORARE L'INCENDIO!</strong><br>
+                Esempio: Acqua su olio bollente = ESPLOSIONE<br>
+                Esempio: Acqua su quadro elettrico = FOLGORAZIONE
+            </div>
+
+            <h3>🔥 LE 5 CLASSI DI FUOCO (Normativa UNI EN 2)</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4 style="color: #8B4513;">CLASSE A 🪵</h4>
+                    <div style="font-size: 3em; margin: 20px 0;">🪵</div>
+                    <strong>SOLIDI che formano braci</strong>
+                    <ul>
+                        <li>Legno, carta, cartone</li>
+                        <li>Tessuti, plastica, gomma</li>
+                        <li>Mobili, arredamento</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(139,69,19,0.3); border-radius: 10px;">
+                        <strong>Estintori efficaci:</strong><br>
+                        ✅ Acqua / Schiuma<br>
+                        ✅ Polvere ABC<br>
+                        ⚠️ CO2 (scarso)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #FF6347;">CLASSE B 🛢️</h4>
+                    <div style="font-size: 3em; margin: 20px 0;">🛢️</div>
+                    <strong>LIQUIDI infiammabili</strong>
+                    <ul>
+                        <li>Benzina, gasolio</li>
+                        <li>Alcol, solventi</li>
+                        <li>Oli minerali, vernici</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,99,71,0.3); border-radius: 10px;">
+                        <strong>Estintori efficaci:</strong><br>
+                        ✅ Schiuma<br>
+                        ✅ Polvere BC/ABC<br>
+                        ✅ CO2<br>
+                        ❌ Acqua (peggiora!)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #FFA500;">CLASSE C ⛽</h4>
+                    <div style="font-size: 3em; margin: 20px 0;">⛽</div>
+                    <strong>GAS infiammabili</strong>
+                    <ul>
+                        <li>Metano, GPL, butano</li>
+                        <li>Propano, acetilene</li>
+                        <li>Idrogeno</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,165,0,0.3); border-radius: 10px;">
+                        <strong>Estintori efficaci:</strong><br>
+                        ✅ Polvere BC/ABC<br>
+                        ✅ CO2<br>
+                        <strong>⚠️ PRIORITÀ: Chiudere valvola gas!</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #C0C0C0;">CLASSE D ⚙️</h4>
+                    <div style="font-size: 3em; margin: 20px 0;">⚙️</div>
+                    <strong>METALLI combustibili</strong>
+                    <ul>
+                        <li>Magnesio, alluminio</li>
+                        <li>Sodio, potassio</li>
+                        <li>Titanio, zirconio</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(192,192,192,0.3); border-radius: 10px;">
+                        <strong>Estintori efficaci:</strong><br>
+                        ✅ Polveri SPECIALI (sabbia, grafite)<br>
+                        ❌ TUTTI gli altri (reazioni pericolose!)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #FFD700;">CLASSE F 🍳</h4>
+                    <div style="font-size: 3em; margin: 20px 0;">🍳</div>
+                    <strong>OLI/GRASSI da cucina</strong>
+                    <ul>
+                        <li>Olio bollente, fritto</li>
+                        <li>Grassi animali/vegetali</li>
+                        <li>Apparecchi cottura</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.3); border-radius: 10px;">
+                        <strong>Estintori efficaci:</strong><br>
+                        ✅ Schiuma speciale Classe F<br>
+                        ❌ Acqua (ESPLOSIONE!)<br>
+                        ❌ Polvere (pericoloso)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: #4169E1;">⚡ APPARECCHI ELETTRICI</h4>
+                    <div style="font-size: 3em; margin: 20px 0;">⚡</div>
+                    <strong>Ex CLASSE E (ora in A/B)</strong>
+                    <ul>
+                        <li>Quadri elettrici</li>
+                        <li>Computer, server</li>
+                        <li>Impianti elettrici</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(65,105,225,0.3); border-radius: 10px;">
+                        <strong>Estintori efficaci:</strong><br>
+                        ✅ CO2 (migliore)<br>
+                        ✅ Polvere dielettrica<br>
+                        ❌ Acqua (FOLGORAZIONE!)<br>
+                        ❌ Schiuma (conduce)
+                    </div>
+                </div>
+            </div>
+
+            <h3>🧯 TIPI DI ESTINTORI</h3>
+
+            <div class="extinguisher-grid">
+                <div class="extinguisher powder">
+                    <div class="extinguisher-icon">🧯</div>
+                    <h4>POLVERE ABC</h4>
+                    <div style="margin: 20px 0; font-size: 1.2em;">
+                        <strong>Il "Tuttofare"</strong><br>
+                        Fosfato di ammonio
+                    </div>
+                    <div class="fire-class">A</div>
+                    <div class="fire-class">B</div>
+                    <div class="fire-class">C</div>
+                    <div class="fire-class">⚡</div>
+                    <div style="margin-top: 20px; text-align: left;">
+                        <strong>PRO:</strong><br>
+                        ✅ Universale (A, B, C)<br>
+                        ✅ Efficace veloce<br>
+                        ✅ Economico<br><br>
+                        <strong>CONTRO:</strong><br>
+                        ❌ Polvere sporca tutto<br>
+                        ❌ Riduce visibilità<br>
+                        ❌ Non per classe F<br>
+                        ❌ Danneggia apparecchiature
+                    </div>
+                </div>
+
+                <div class="extinguisher co2">
+                    <div class="extinguisher-icon">❄️</div>
+                    <h4>CO2 (ANIDRIDE CARBONICA)</h4>
+                    <div style="margin: 20px 0; font-size: 1.2em;">
+                        <strong>Il "Pulito"</strong><br>
+                        Gas inerte
+                    </div>
+                    <div class="fire-class">B</div>
+                    <div class="fire-class">⚡</div>
+                    <div style="margin-top: 20px; text-align: left;">
+                        <strong>PRO:</strong><br>
+                        ✅ Non lascia residui<br>
+                        ✅ Ideale per elettronica<br>
+                        ✅ Non conduttivo<br><br>
+                        <strong>CONTRO:</strong><br>
+                        ❌ Scarso su classe A<br>
+                        ❌ Rischio asfissia (locali chiusi)<br>
+                        ❌ Ustioni da freddo (-78°C)<br>
+                        ❌ Gittata limitata
+                    </div>
+                </div>
+
+                <div class="extinguisher foam">
+                    <div class="extinguisher-icon">🫧</div>
+                    <h4>SCHIUMA</h4>
+                    <div style="margin: 20px 0; font-size: 1.2em;">
+                        <strong>Il "Polivalente"</strong><br>
+                        Acqua + schiumogeno
+                    </div>
+                    <div class="fire-class">A</div>
+                    <div class="fire-class">B</div>
+                    <div class="fire-class">F*</div>
+                    <div style="margin-top: 20px; text-align: left;">
+                        <strong>PRO:</strong><br>
+                        ✅ Efficace A e B<br>
+                        ✅ Raffredda + soffoca<br>
+                        ✅ Schiuma F per oli<br><br>
+                        <strong>CONTRO:</strong><br>
+                        ❌ Non per elettrico<br>
+                        ❌ Lascia residui<br>
+                        ❌ Può danneggiare
+                    </div>
+                </div>
+
+                <div class="extinguisher water">
+                    <div class="extinguisher-icon">💧</div>
+                    <h4>ACQUA / IDRICO</h4>
+                    <div style="margin: 20px 0; font-size: 1.2em;">
+                        <strong>Il "Naturale"</strong><br>
+                        Acqua + additivi
+                    </div>
+                    <div class="fire-class">A</div>
+                    <div style="margin-top: 20px; text-align: left;">
+                        <strong>PRO:</strong><br>
+                        ✅ Ottimo per classe A<br>
+                        ✅ Raffredda efficacemente<br>
+                        ✅ Economico<br><br>
+                        <strong>CONTRO:</strong><br>
+                        ❌ Solo classe A<br>
+                        ❌ NON per liquidi/oli<br>
+                        ❌ NON per elettrico<br>
+                        ❌ Danneggia materiali
+                    </div>
+                </div>
+            </div>
+
+            <h3>🎯 COME USARE UN ESTINTORE</h3>
+
+            <div class="protocol">
+                <h4>📋 METODO P.A.S.S.</h4>
+                
+                <div class="step">
+                    <span class="badge">1</span>
+                    <strong>P - PULL (Tira)</strong><br>
+                    Togli la sicura / spilla dall'estintore
+                </div>
+
+                <div class="step">
+                    <span class="badge">2</span>
+                    <strong>A - AIM (Mira)</strong><br>
+                    Punta la lancia alla BASE del fuoco (non alle fiamme!)<br>
+                    Distanza di sicurezza: 2-3 metri
+                </div>
+
+                <div class="step">
+                    <span class="badge">3</span>
+                    <strong>S - SQUEEZE (Schiaccia)</strong><br>
+                    Premi la leva per erogare l'agente estinguente
+                </div>
+
+                <div class="step">
+                    <span class="badge">4</span>
+                    <strong>S - SWEEP (Spazza)</strong><br>
+                    Muovi la lancia a ventaglio da un lato all'altro<br>
+                    Avanza solo quando il fuoco si riduce
+                </div>
+            </div>
+
+            <div class="alert">
+                <strong>⚠️ QUANDO NON USARE L'ESTINTORE:</strong><br>
+                ❌ Incendio troppo grande (>2 mq)<br>
+                ❌ Fumo troppo denso (non vedi)<br>
+                ❌ Fiamme sopra la tua testa<br>
+                ❌ Uscita di sicurezza bloccata<br>
+                ❌ Estintore sbagliato per quella classe<br><br>
+                <strong>IN QUESTI CASI: ESCI SUBITO + CHIAMA 115</strong>
+            </div>
+
+            <div class="info-box">
+                <strong>📏 POSIZIONAMENTO ESTINTORI (DPR 151/2011):</strong><br>
+                • 1 estintore ogni 200 mq di superficie<br>
+                • Distanza massima: 30 metri da qualsiasi punto<br>
+                • Altezza: 1,50 m dal pavimento (leva)<br>
+                • Segnaletica fotoluminescente<br>
+                • Liberi da ostacoli, ben visibili<br>
+                • Controllo semestrale obbligatorio
+            </div>
+
+            <button class="btn" onclick="showSection('evacuation')">Prossimo: Evacuazione →</button>
+        </section>
+
+        <!-- SECTION 6: EVACUAZIONE -->
+        <section class="section" id="evacuation">
+            <h2>🚪 PIANO DI EVACUAZIONE</h2>
+
+            <div class="alert">
+                <strong>⏱️ IN UN INCENDIO, HAI 2-3 MINUTI PER EVACUARE.</strong><br>
+                Dopo: fumo tossico, visibilità zero, temperatura letale (600°C+).<br>
+                <span class="highlight">LA VELOCITÀ DELL'EVACUAZIONE = DIFFERENZA TRA VITA E MORTE</span>
+            </div>
+
+            <h3>🚨 PROTOCOLLO DI EMERGENZA</h3>
+
+            <div class="protocol">
+                <h4>STEP 1: ALLARME (0-30 secondi)</h4>
+                <div class="step">
+                    <strong>Azioni immediate:</strong><br>
+                    1. Attivare allarme antincendio (pulsante rosso)<br>
+                    2. Gridare "FUOCO! EVACUATE!" con voce ferma<br>
+                    3. Chiamare 115 (Vigili del Fuoco)<br>
+                    4. Chiamare 118 (se ci sono feriti)<br>
+                    <strong>⚠️ NON perdere tempo a spegnere se fuoco > 1 mq</strong>
+                </div>
+
+                <h4>STEP 2: EVACUAZIONE (30 sec - 3 min)</h4>
+                <div class="step">
+                    <strong>Ordine di priorità:</strong><br>
+                    1. Persone in difficoltà (disabili, anziani, bambini)<br>
+                    2. Persone vicine alle uscite<br>
+                    3. Tutti gli altri<br><br>
+                    <strong>Regole evacuazione:</strong><br>
+                    ✅ Cammina veloce, NON correre (evita cadute)<br>
+                    ✅ Mano sul muro, segui percorso uscita<br>
+                    ✅ Respira col naso, bocca chiusa (filtro fumo)<br>
+                    ✅ Striscia a terra se fumo denso (aria + pulita)<br>
+                    ✅ Chiudi porte dietro di te (rallenta fuoco)<br>
+                    ❌ NON tornare indietro MAI (per oggetti)<br>
+                    ❌ NON usare ascensori (trappola mortale)<br>
+                    ❌ NON ammassarsi alle uscite (calca)
+                </div>
+
+                <h4>STEP 3: PUNTO DI RACCOLTA (3-5 min)</h4>
+                <div class="step">
+                    Tutti devono raggiungere il <strong>punto di raccolta prestabilito</strong><br>
+                    (lontano dall'edificio, min 50 metri)<br><br>
+                    <strong>Responsabile evacuazione fa appello:</strong><br>
+                    • Conta presenti vs presenti all'inizio<br>
+                    • Segnala dispersi ai VVF<br>
+                    • Impedisce rientro<br>
+                    • Attende autorizzazione VVF per rientro
+                </div>
+            </div>
+
+            <h3>💨 PERICOLI DEL FUMO</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>☠️ Tossicità</h4>
+                    <ul>
+                        <li>Monossido di carbonio (CO) → Morte in 2-3 min</li>
+                        <li>Acido cianidrico (HCN) → Paralisi</li>
+                        <li>Acido cloridrico (HCl) → Ustioni polmoni</li>
+                        <li><strong>3 respiri di fumo denso = perdita coscienza</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🌫️ Visibilità Zero</h4>
+                    <ul>
+                        <li>Fumo nero denso in 30-60 secondi</li>
+                        <li>Non vedi uscite, non vedi altri</li>
+                        <li>Orientamento perso</li>
+                        <li>Panico generalizzato</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>🔥 Temperatura</h4>
+                    <ul>
+                        <li>Fumo caldo: 200-600°C</li>
+                        <li>Ustioni vie respiratorie</li>
+                        <li>Disidratazione rapida</li>
+                        <li>Collasso per calore</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>😰 Panico</h4>
+                    <ul>
+                        <li>Calca alle uscite</li>
+                        <li>Schiacciamento</li>
+                        <li>Cadute con ferite</li>
+                        <li>Decisioni irrazionali</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>📊 STATISTICA CHOC:</strong> Nel 70% delle morti da incendio, la causa NON è il fuoco ma il <span class="highlight">FUMO</span>. Le persone muoiono per asfissia PRIMA che le fiamme le raggiungano.
+            </div>
+
+            <h3>🆘 SITUAZIONI SPECIALI</h3>
+
+            <div class="scenario-box">
+                <h4>👤 SEI BLOCCATO IN UNA STANZA</h4>
+                <div class="scenario-choices" style="display: block; margin-top: 20px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 20px; margin: 10px 0; border-radius: 10px;">
+                        1. Chiudi la porta, sigilla fessure con panni bagnati<br>
+                        2. Apri finestra, segnala la tua posizione (grida, lenzuolo)<br>
+                        3. Se fumo entra: striscia a terra, respira vicino alla finestra<br>
+                        4. NON saltare se sei oltre il 1° piano<br>
+                        5. Aspetta soccorsi (115 arriva in 8-12 minuti)
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario-box">
+                <h4>🔥 I TUOI VESTITI PRENDONO FUOCO</h4>
+                <div class="scenario-choices" style="display: block; margin-top: 20px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 20px; margin: 10px 0; border-radius: 10px;">
+                        <strong>STOP - DROP - ROLL:</strong><br>
+                        1. <strong>STOP</strong> - Fermati (NON correre, peggiora fuoco)<br>
+                        2. <strong>DROP</strong> - Buttati a terra<br>
+                        3. <strong>ROLL</strong> - Rotola su te stesso (soffoca fiamme)<br>
+                        4. Copri viso con mani mentre rotoli<br>
+                        5. Chiama 118 immediatamente per ustioni
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario-box">
+                <h4>👥 C'È UNA PERSONA SVENUTA</h4>
+                <div class="scenario-choices" style="display: block; margin-top: 20px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 20px; margin: 10px 0; border-radius: 10px;">
+                        1. Se riesci a trascinarla: striscia + trascina per i vestiti (non braccia)<br>
+                        2. Se NON riesci: segnala posizione ai VVF<br>
+                        3. NON restare (moriresti anche tu)<br>
+                        4. <strong>La tua vita vale quanto la sua</strong><br>
+                        5. I VVF sono attrezzati per recuperi in fumo/fiamme
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert">
+                <strong>⚠️ REGOLA D'ORO:</strong> <span class="highlight">Non fare l'eroe. Se non sei addestrato, NON sei attrezzato, NON mettere a rischio la tua vita. I Vigili del Fuoco arrivano in 8-12 minuti. La tua priorità è USCIRE VIVO.</span>
+            </div>
+
+            <h3>📋 SEGNALETICA DI SICUREZZA</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div style="font-size: 5em;">🚪🏃</div>
+                    <h4>USCITA SICUREZZA</h4>
+                    <p>Verde con omino che corre<br>Fotoluminescente</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 5em;">🧯</div>
+                    <h4>ESTINTORE</h4>
+                    <p>Rosso con simbolo estintore<br>Ogni 30 metri max</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 5em;">🔔</div>
+                    <h4>ALLARME INCENDIO</h4>
+                    <p>Pulsante rosso<br>"Premere in caso di incendio"</p>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 5em;">⬇️</div>
+                    <h4>PUNTO DI RACCOLTA</h4>
+                    <p>Verde con cerchio e persone<br>Fuori dall'edificio</p>
+                </div>
+            </div>
+
+            <button class="btn" onclick="showSection('quiz')">Prossimo: Quiz Finale →</button>
+        </section>
+
+        <!-- SECTION 7: QUIZ & SIMULAZIONI -->
+        <section class="section" id="quiz">
+            <h2>📝 VERIFICA FINALE: Quiz & Simulazioni</h2>
+
+            <div class="alert-success">
+                <strong>🎯 ORA TOCCA A VOI!</strong><br>
+                Mettete alla prova quello che avete imparato. Questo quiz simula situazioni REALI che potreste affrontare nel vostro lavoro.
+            </div>
+
+            <div class="quiz-container">
+                <h3 style="text-align: center; margin-bottom: 30px;">QUIZ FINALE</h3>
+
+                <div class="question" id="q1">
+                    <h4>Domanda 1/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        A Crans-Montana, quante persone sono morte nell'incendio del 1° gennaio 2026?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q1', 'a', false)">A) 20 morti</div>
+                        <div class="option" onclick="checkAnswer('q1', 'b', true)">B) 47 morti</div>
+                        <div class="option" onclick="checkAnswer('q1', 'c', false)">C) 100 morti</div>
+                        <div class="option" onclick="checkAnswer('q1', 'd', false)">D) 30 morti</div>
+                    </div>
+                    <div class="feedback" id="q1-feedback"></div>
+                </div>
+
+                <div class="question" id="q2">
+                    <h4>Domanda 2/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        In Italia, servire alcol a una persona visibilmente ubriaca è punito con:
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q2', 'a', false)">A) Solo un richiamo verbale</div>
+                        <div class="option" onclick="checkAnswer('q2', 'b', true)">B) Multa fino a 2.000€ + arresto fino a 1 anno (Art. 689 C.P.)</div>
+                        <div class="option" onclick="checkAnswer('q2', 'c', false)">C) Nessuna conseguenza legale</div>
+                        <div class="option" onclick="checkAnswer('q2', 'd', false)">D) Solo perdita della mancia</div>
+                    </div>
+                    <div class="feedback" id="q2-feedback"></div>
+                </div>
+
+                <div class="question" id="q3">
+                    <h4>Domanda 3/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        Qual è la causa principale di morte negli incendi?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q3', 'a', false)">A) Le fiamme dirette</div>
+                        <div class="option" onclick="checkAnswer('q3', 'b', true)">B) Il fumo tossico (70% dei casi)</div>
+                        <div class="option" onclick="checkAnswer('q3', 'c', false)">C) Le ustioni da calore</div>
+                        <div class="option" onclick="checkAnswer('q3', 'd', false)">D) Il panico</div>
+                    </div>
+                    <div class="feedback" id="q3-feedback"></div>
+                </div>
+
+                <div class="question" id="q4">
+                    <h4>Domanda 4/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        Quale estintore NON devi MAI usare su un incendio di olio da cucina?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q4', 'a', false)">A) Estintore a schiuma Classe F</div>
+                        <div class="option" onclick="checkAnswer('q4', 'b', true)">B) Estintore ad acqua (provoca esplosione!)</div>
+                        <div class="option" onclick="checkAnswer('q4', 'c', false)">C) Coperta antifiamma</div>
+                        <div class="option" onclick="checkAnswer('q4', 'd', false)">D) Coperchio pentola</div>
+                    </div>
+                    <div class="feedback" id="q4-feedback"></div>
+                </div>
+
+                <div class="question" id="q5">
+                    <h4>Domanda 5/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        In un locale con 300 persone, quante uscite di sicurezza sono necessarie MINIMO?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q5', 'a', false)">A) 1 uscita è sufficiente</div>
+                        <div class="option" onclick="checkAnswer('q5', 'b', true)">B) Almeno 2 uscite indipendenti</div>
+                        <div class="option" onclick="checkAnswer('q5', 'c', false)">C) 3 uscite</div>
+                        <div class="option" onclick="checkAnswer('q5', 'd', false)">D) Dipende dal titolare</div>
+                    </div>
+                    <div class="feedback" id="q5-feedback"></div>
+                </div>
+
+                <div class="question" id="q6">
+                    <h4>Domanda 6/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        A Crans-Montana, cosa ha innescato l'incendio?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q6', 'a', false)">A) Un cortocircuito elettrico</div>
+                        <div class="option" onclick="checkAnswer('q6', 'b', true)">B) Candele pirotecniche su bottiglie champagne</div>
+                        <div class="option" onclick="checkAnswer('q6', 'c', false)">C) Un attacco terroristico</div>
+                        <div class="option" onclick="checkAnswer('q6', 'd', false)">D) Una sigaretta</div>
+                    </div>
+                    <div class="feedback" id="q6-feedback"></div>
+                </div>
+
+                <div class="question" id="q7">
+                    <h4>Domanda 7/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        Quale classe di fuoco identifica gli incendi di LIQUIDI infiammabili?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q7', 'a', false)">A) Classe A</div>
+                        <div class="option" onclick="checkAnswer('q7', 'b', true)">B) Classe B</div>
+                        <div class="option" onclick="checkAnswer('q7', 'c', false)">C) Classe C</div>
+                        <div class="option" onclick="checkAnswer('q7', 'd', false)">D) Classe F</div>
+                    </div>
+                    <div class="feedback" id="q7-feedback"></div>
+                </div>
+
+                <div class="question" id="q8">
+                    <h4>Domanda 8/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        Durante un'evacuazione, se c'è fumo denso devi:
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q8', 'a', false)">A) Correre più veloce possibile</div>
+                        <div class="option" onclick="checkAnswer('q8', 'b', false)">B) Cercare un ascensore</div>
+                        <div class="option" onclick="checkAnswer('q8', 'c', true)">C) Strisciare a terra (aria più pulita)</div>
+                        <div class="option" onclick="checkAnswer('q8', 'd', false)">D) Tornare indietro per un'altra uscita</div>
+                    </div>
+                    <div class="feedback" id="q8-feedback"></div>
+                </div>
+
+                <div class="question" id="q9">
+                    <h4>Domanda 9/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        Un cliente minorenne ti chiede un cocktail. Tu:
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q9', 'a', false)">A) Glielo servi se sembra responsabile</div>
+                        <div class="option" onclick="checkAnswer('q9', 'b', false)">B) Glielo servi ma con poco alcol</div>
+                        <div class="option" onclick="checkAnswer('q9', 'c', true)">C) Rifiuti sempre, chiedi documento, proponi analcolico</div>
+                        <div class="option" onclick="checkAnswer('q9', 'd', false)">D) Lo servi se è con adulti</div>
+                    </div>
+                    <div class="feedback" id="q9-feedback"></div>
+                </div>
+
+                <div class="question" id="q10">
+                    <h4>Domanda 10/10</h4>
+                    <p style="font-size: 1.3em; margin: 20px 0;">
+                        Quanto tempo hai MEDIAMENTE per evacuare un locale in fiamme?
+                    </p>
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer('q10', 'a', false)">A) 10-15 minuti</div>
+                        <div class="option" onclick="checkAnswer('q10', 'b', true)">B) 2-3 minuti</div>
+                        <div class="option" onclick="checkAnswer('q10', 'c', false)">C) 5-7 minuti</div>
+                        <div class="option" onclick="checkAnswer('q10', 'd', false)">D) Dipende dalle dimensioni del locale</div>
+                    </div>
+                    <div class="feedback" id="q10-feedback"></div>
+                </div>
+
+                <div class="quiz-result" id="quiz-result"></div>
+
+                <button class="btn" onclick="calculateQuizScore()" style="display: block; margin: 30px auto;">
+                    📊 CALCOLA PUNTEGGIO FINALE
+                </button>
+            </div>
+
+            <button class="btn" onclick="showSection('conclusion')">Conclusioni →</button>
+        </section>
+
+        <!-- SECTION 8: CONCLUSIONI -->
+        <section class="section" id="conclusion">
+            <h2>✅ CONCLUSIONI: Cosa Portate a Casa Oggi</h2>
+
+            <div class="alert-success">
+                <strong>🎓 COMPLIMENTI!</strong> Avete completato una delle lezioni più importanti della vostra carriera.<br>
+                Quello che avete imparato oggi può letteralmente salvare vite. La vostra. Quella dei vostri colleghi. Quella dei vostri clienti.
+            </div>
+
+            <h3>📌 I 10 COMANDAMENTI DELLA SICUREZZA</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>1️⃣ LA SICUREZZA È PRIORITÀ</h4>
+                    <p>Non un costo, non un optional. È la BASE del vostro lavoro. Prima della vendita, prima del profitto, prima di tutto.</p>
+                </div>
+
+                <div class="card">
+                    <h4>2️⃣ SIETE RESPONSABILI</h4>
+                    <p>Legalmente, penalmente, civilmente. Il barman che serve un ubriaco, il gestore che sovrafolla, il titolare che risparmia sulla sicurezza: TUTTI rispondono.</p>
+                </div>
+
+                <div class="card">
+                    <h4>3️⃣ FORMATE SEMPRE</h4>
+                    <p>Non smettete mai di aggiornarvi. Normative cambiano, pericoli evolvono, tecniche migliorano. Corso antincendio ogni 5 anni = OBBLIGATORIO.</p>
+                </div>
+
+                <div class="card">
+                    <h4>4️⃣ CONTROLLATE TUTTO</h4>
+                    <p>Estintori, uscite, impianti, capacità, materiali. Fate controlli quotidiani. Un estintore scarico il giorno dell'incendio = tragedia.</p>
+                </div>
+
+                <div class="card">
+                    <h4>5️⃣ RISPETTATE LE NORME</h4>
+                    <p>DPR 151/2011, Codice Prevenzione Incendi, leggi alcol. Non sono burocrazie: sono VITE SALVATE. Ogni norma nasce da una tragedia passata.</p>
+                </div>
+
+                <div class="card">
+                    <h4>6️⃣ DITE NO QUANDO SERVE</h4>
+                    <p>Al cliente ubriaco. Al titolare che vuole sovraffollare. Alla decorazione infiammabile. Avete il DIRITTO e il DOVERE di dire NO.</p>
+                </div>
+
+                <div class="card">
+                    <h4>7️⃣ PREPARATE L'EMERGENZA</h4>
+                    <p>Piano evacuazione, prove periodiche, punto raccolta, ruoli definiti. Nell'emergenza non c'è tempo per improvvisare.</p>
+                </div>
+
+                <div class="card">
+                    <h4>8️⃣ COMUNICATE CHIARO</h4>
+                    <p>Se vedete un pericolo: SEGNALATELO. Al responsabile, ai VVF, al titolare. Il silenzio complice uccide.</p>
+                </div>
+
+                <div class="card">
+                    <h4>9️⃣ NON FATE GLI EROI</h4>
+                    <p>Se l'incendio è grande, SE IL FUMO È DENSO, se non siete attrezzati: USCITE. Morire per recuperare una persona = 2 morti invece di 1.</p>
+                </div>
+
+                <div class="card">
+                    <h4>🔟 IMPARATE DALLE TRAGEDIE</h4>
+                    <p>Crans-Montana, Corinaldo, Kiss. Ogni tragedia insegna. Chi non impara dalla storia è condannato a ripeterla.</p>
+                </div>
+            </div>
+
+            <h3>💼 IL VOSTRO FUTURO</h3>
+
+            <div class="protocol">
+                <div class="step">
+                    <strong>📚 CONTINUATE A STUDIARE:</strong><br>
+                    • Corso antincendio ufficiale (Rischio Medio/Alto)<br>
+                    • Formazione barman responsabile<br>
+                    • Primo soccorso (BLSD)<br>
+                    • Gestione emergenze
+                </div>
+
+                <div class="step">
+                    <strong>🏆 DISTINGUETEVI:</strong><br>
+                    • I locali SERI assumono personale FORMATO<br>
+                    • Le certificazioni sicurezza vi rendono PREZIOSI<br>
+                    • Un CV con formazione sicurezza = +50% possibilità assunzione<br>
+                    • I clienti premiano i locali sicuri (recensioni, passaparola)
+                </div>
+
+                <div class="step">
+                    <strong>✨ FATE LA DIFFERENZA:</strong><br>
+                    • Voi sarete la generazione che cambia le cose<br>
+                    • Voi avete visto Crans-Montana, Corinaldo<br>
+                    • Voi sapete cosa NON fare<br>
+                    • Voi potete essere i professionisti che salvano vite
+                </div>
+            </div>
+
+            <div class="tragedy-box">
+                <h3 style="text-align: center; font-size: 2em; margin-bottom: 30px;">
+                    🕯️ IN MEMORIA DELLE VITTIME
+                </h3>
+                <p style="font-size: 1.4em; text-align: center; line-height: 1.8;">
+                    Questa lezione è dedicata alle 47 persone morte a Crans-Montana,<br>
+                    ai 6 ragazzi di Corinaldo,<br>
+                    ai 242 giovani del Kiss in Brasile,<br>
+                    ai 64 del Colectiv in Romania,<br>
+                    e a tutte le vittime di incendi in locali pubblici.<br><br>
+                    <strong style="color: var(--fire); font-size: 1.3em;">
+                        Non sono morte invano se noi impariamo dalle loro tragedie.<br>
+                        Fate che il loro sacrificio serva a salvare le vite di domani.
+                    </strong>
+                </p>
+            </div>
+
+            <div class="alert">
+                <strong style="font-size: 1.5em;">📞 NUMERI UTILI - SALVATE NEL TELEFONO:</strong><br><br>
+                <span style="font-size: 1.3em;">
+                🚒 <strong>115</strong> - Vigili del Fuoco<br>
+                🚑 <strong>118</strong> - Emergenza Sanitaria<br>
+                🚓 <strong>112</strong> - Numero Unico Emergenze (UE)<br>
+                ☠️ <strong>800.883.300</strong> - Centro Antiveleni (Niguarda Milano)
+                </span>
+            </div>
+
+            <div style="text-align: center; margin: 50px 0;">
+                <h2 style="font-size: 3em; margin-bottom: 30px;">🙏 GRAZIE PER L'ATTENZIONE</h2>
+                <p style="font-size: 1.5em; line-height: 1.8;">
+                  
+                    IPSEOA "Amerigo Vespucci" - Milano<br>
+                    Classe 3H (Sala-Bar)<br><br>
+                    <strong style="color: var(--warning);">
+                        "La sicurezza non è solo proteggere vite.<br>
+                        È rispettare la dignità umana.<br>
+                        È fare business con coscienza."
+                    </strong>
+                </p>
+
+                <button class="btn" onclick="restartLesson()" style="font-size: 1.5em; padding: 20px 50px; margin-top: 30px;">
+                    🔄 RICOMINCIA LEZIONE
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p><strong>IPSEOA "Amerigo Vespucci"</strong> - Milano | Via Valvassori Peroni, 8 - 20133 Milano</p>
+        <p>📧 prof.camarda@vespucci.edu.it | 📱 Segui @OpificioIA</p>
+        <p style="margin-top: 15px; font-size: 0.9em;">
+            © 2026 - Materiale didattico protetto. Uso esclusivo classe 3H.<br>
+            Dati tratti da fonti ufficiali: Procura Vallese (CH), VVF Italia, Ministero Interno IT
+        </p>
+    </footer>
+
+    <script>
+        // TIMER
+        let startTime = Date.now();
+        let timerInterval;
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer-display').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Warning se oltre 2h
+            if (minutes >= 120) {
+                document.getElementById('timer').classList.add('warning');
+            }
+        }
+
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // NAVIGATION
+        function showSection(sectionId) {
+            // Nascondi tutte le sezioni
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostra la sezione selezionata
+            document.getElementById(sectionId).classList.add('active');
+
+            // Aggiorna pulsanti nav
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // SCENARIO CHOICES
+        function checkChoice(scenarioId, choice, isCorrect) {
+            const feedback = document.getElementById(scenarioId + '-feedback');
+            
+            // Disabilita tutte le scelte
+            const choices = document.querySelectorAll(`#${scenarioId} .choice-btn`);
+            choices.forEach(c => c.style.pointerEvents = 'none');
+
+            if (isCorrect) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `
+                    <h4 style="color: var(--success); font-size: 1.5em;">✅ RISPOSTA CORRETTA!</h4>
+                    <p style="font-size: 1.2em; margin-top: 15px;">
+                        <strong>Perfetto!</strong> Hai usato la tecnica giusta: proporre alternative senza confronto diretto. 
+                        Questo è il modo professionale di gestire un cliente ubriaco.<br><br>
+                        <strong>Perché funziona:</strong><br>
+                        • Non offendi il cliente ("sei ubriaco")<br>
+                        • Proponi un'alternativa positiva (acqua, cibo)<br>
+                        • Guadagni tempo per valutare meglio<br>
+                        • Eviti il drink senza dire esplicitamente "no"<br>
+                        • Se insiste, ALLORA rifiuti formalmente
+                    </p>
+                `;
+            } else {
+                feedback.className = 'feedback wrong';
+                let explanation = '';
+                
+                if (choice === 'a') {
+                    explanation = `
+                        <strong>❌ ERRORE GRAVE:</strong> Hai violato l'Art. 689 C.P. Stai mettendo a rischio:<br>
+                        • La vita del cliente (può guidare, farsi male)<br>
+                        • La tua carriera (multa + penale)<br>
+                        • Il locale (chiusura + denuncia)<br><br>
+                        <strong>MAI servire a persona ubriaca, MAI. Nessun lavoro vale una vita o la galera.</strong>
+                    `;
+                } else if (choice === 'b') {
+                    explanation = `
+                        <strong>❌ ERRORE COMUNICATIVO:</strong> Dire direttamente "sei ubriaco" crea:<br>
+                        • Conflitto immediato<br>
+                        • Possibile aggressività<br>
+                        • Scena nel locale<br>
+                        • Cliente umiliato (può denunciarti per diffamazione!)<br><br>
+                        <strong>Approccio corretto: rifiuta con tatto, proponi alternative.</strong>
+                    `;
+                } else if (choice === 'd') {
+                    explanation = `
+                        <strong>❌ ERRORE LEGALE:</strong> Anche "poco alcol" è comunque alcol.<br>
+                        Se causa incidente, SEI RESPONSABILE ugualmente. La legge non fa differenze tra "tanto" e "poco" alcol servito a persona ubriaca.<br><br>
+                        <strong>O stop totale, o responsabilità totale.</strong>
+                    `;
+                }
+                
+                feedback.innerHTML = `
+                    <h4 style="color: var(--danger); font-size: 1.5em;">❌ RISPOSTA SBAGLIATA</h4>
+                    <p style="font-size: 1.2em; margin-top: 15px;">${explanation}</p>
+                `;
+            }
+
+            feedback.style.display = 'block';
+        }
+
+        // QUIZ
+        let quizScore = 0;
+        let answeredQuestions = 0;
+
+        function checkAnswer(questionId, answer, isCorrect) {
+            const feedback = document.getElementById(questionId + '-feedback');
+            const options = document.querySelectorAll(`#${questionId} .option`);
+            
+            // Disabilita tutte le opzioni
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt.textContent.startsWith(answer.toUpperCase())) {
+                    if (isCorrect) {
+                        opt.classList.add('correct');
+                        quizScore++;
+                    } else {
+                        opt.classList.add('wrong');
+                    }
+                }
+            });
+
+            // Mostra la risposta corretta se sbagliata
+            if (!isCorrect) {
+                options.forEach(opt => {
+                    const optAnswer = opt.textContent.substring(0, 2).toLowerCase().trim();
+                    // Trova la risposta corretta
+                    const correctAnswers = {
+                        'q1': 'b', 'q2': 'b', 'q3': 'b', 'q4': 'b', 'q5': 'b',
+                        'q6': 'b', 'q7': 'b', 'q8': 'c', 'q9': 'c', 'q10': 'b'
+                    };
+                    if (opt.textContent.startsWith(correctAnswers[questionId].toUpperCase())) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            answeredQuestions++;
+
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+            feedback.style.display = 'block';
+            
+            if (isCorrect) {
+                feedback.innerHTML = '<strong>✅ CORRETTO!</strong>';
+            } else {
+                feedback.innerHTML = '<strong>❌ SBAGLIATO!</strong> Rivedi la sezione corrispondente.';
+            }
+        }
+
+        function calculateQuizScore() {
+            if (answeredQuestions < 10) {
+                alert('⚠️ Devi rispondere a tutte le 10 domande prima di calcolare il punteggio!');
+                return;
+            }
+
+            const result = document.getElementById('quiz-result');
+            const percentage = (quizScore / 10) * 100;
+            
+            let message = '';
+            let emoji = '';
+            
+            if (percentage >= 90) {
+                message = 'ECCELLENTE! Hai capito perfettamente. Sei pronto per la professione!';
+                emoji = '🏆';
+            } else if (percentage >= 70) {
+                message = 'BUONO! Hai una buona base. Rivedi qualche concetto e sarai perfetto.';
+                emoji = '👍';
+            } else if (percentage >= 60) {
+                message = 'SUFFICIENTE. Devi ripassare alcune sezioni importanti.';
+                emoji = '📚';
+            } else {
+                message = 'INSUFFICIENTE. È fondamentale che tu riveda tutta la lezione con attenzione.';
+                emoji = '⚠️';
+            }
+
+            result.innerHTML = `
+                <div style="font-size: 3em; margin-bottom: 20px;">${emoji}</div>
+                <div style="font-size: 2.5em; margin-bottom: 15px;">
+                    PUNTEGGIO: ${quizScore}/10 (${percentage}%)
+                </div>
+                <div style="font-size: 1.3em;">
+                    ${message}
+                </div>
+            `;
+            result.style.display = 'block';
+
+            // Scroll al risultato
+            result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function restartLesson() {
+            // Reset timer
+            startTime = Date.now();
+            document.getElementById('timer').classList.remove('warning');
+            
+            // Reset quiz
+            quizScore = 0;
+            answeredQuestions = 0;
+            document.getElementById('quiz-result').style.display = 'none';
+            
+            // Reset tutte le domande
+            const questions = document.querySelectorAll('.question');
+            questions.forEach(q => {
+                const options = q.querySelectorAll('.option');
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                    opt.style.pointerEvents = 'auto';
+                });
+                const feedback = q.querySelector('.feedback');
+                if (feedback) feedback.style.display = 'none';
+            });
+
+            // Reset scenario
+            const scenarioFeedback = document.getElementById('scenario1-feedback');
+            if (scenarioFeedback) {
+                scenarioFeedback.style.display = 'none';
+                const choices = document.querySelectorAll('#scenario1 .choice-btn');
+                choices.forEach(c => c.style.pointerEvents = 'auto');
+            }
+
+            // Torna all'inizio
+            showSection('intro');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // COLLAPSIBLE (per eventuali espansioni future)
+        const collapsibles = document.querySelectorAll('.collapsible');
+        collapsibles.forEach(coll => {
+            coll.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // INIZIALIZZAZIONE
+        window.onload = function() {
+            console.log('✅ Lezione caricata correttamente!');
+            console.log('🔥 SICUREZZA NEGLI EVENTI & PREVENZIONE INCENDI');
+            console.log('👨‍🏫   - IPSEOA Vespucci Milano');
+        };
+    </script>
+
+</body>
+</html>
