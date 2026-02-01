@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ripasso DTA – Prima della Verifica</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef2f7;color:#2d3748;padding-bottom:50px}
+.hdr{background:linear-gradient(135deg,#1a2a44,#2d5a8e);color:#fff;padding:22px 16px 18px;text-align:center}
+.hdr h1{font-size:1.25em;font-weight:700;margin-bottom:3px}
+.hdr p{font-size:.78em;opacity:.6}
+.prog-wrap{background:#fff;padding:10px 16px;box-shadow:0 2px 6px rgba(0,0,0,.08);position:sticky;top:0;z-index:10}
+.prog-top{display:flex;justify-content:space-between;font-size:.72em;color:#666;font-weight:600;margin-bottom:5px}
+.prog-track{height:6px;background:#e2e8f0;border-radius:3px}
+.prog-fill{height:100%;background:#4caf50;border-radius:3px;width:0%;transition:width .35s}
+.card{margin:14px 15px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.card.done{box-shadow:0 2px 10px rgba(76,175,80,.2)}
+.ch{background:#2d5a8e;color:#fff;padding:11px 14px;display:flex;align-items:center;gap:9px}
+.card.done .ch{background:#388e3c}
+.ch-num{background:rgba(255,255,255,.2);border-radius:50%;width:27px;height:27px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0}
+.ch-ttl{font-size:.92em;font-weight:600}
+.cb{padding:14px}
+.ric{background:#eef4fd;border-left:3px solid #2d5a8e;padding:9px 11px;margin-bottom:13px;border-radius:0 6px 6px 0;font-size:.79em;color:#1e3a5f;line-height:1.55}
+.ric b{display:block;margin-bottom:2px;font-size:1.05em}
+.row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:.84em}
+.row:last-child{border-bottom:none}
+.row.tot{border-top:2px solid #2d5a8e;margin-top:3px;padding-top:6px;font-weight:700;color:#1e3a5f;border-bottom:none}
+.row .lbl{color:#444}
+.row .vl{color:#333;font-weight:600}
+.row.indent{padding-left:16px}
+.row.indent .lbl{font-style:italic;color:#666}
+.slbl{font-size:.74em;color:#777;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin:11px 0 4px}
+.sect{font-size:.76em;color:#2d5a8e;font-weight:700;padding:6px 0 2px;border-top:1px solid #eee;margin-top:5px}
+.inp{width:85px;padding:4px 7px;border:1.5px solid #ccc;border-radius:5px;text-align:right;font-size:.88em;font-weight:600;color:#1e3a5f;background:#f9fbfd;transition:border .15s}
+.inp:focus{outline:none;border-color:#2d5a8e;background:#fff}
+.btn{display:block;width:100%;padding:11px;margin-top:14px;background:#2d5a8e;color:#fff;border:none;border-radius:7px;font-size:.88em;font-weight:600;cursor:pointer}
+.btn:active{background:#1e3a5f}
+.fb{margin-top:10px;padding:10px 11px;border-radius:7px;font-size:.8em;line-height:1.6;display:none}
+.fb.ok{display:block;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.fb.err{display:block;background:#fdecea;color:#c62828;border:1px solid #ef9a9a}
+.fb .s{color:#1565c0;font-weight:700}
+.ch-row{display:flex;gap:8px;margin:9px 0}
+.ch-btn{flex:1;padding:9px 6px;border:2px solid #ccc;border-radius:6px;background:#f9fbfd;font-size:.8em;font-weight:600;cursor:pointer;text-align:center;color:#555;transition:all .15s}
+.ch-btn.sel{border-color:#2d5a8e;background:#e8f0fb;color:#1e3a5f}
+.dbox{background:#f8fafc;border-radius:7px;padding:10px 12px;margin:8px 0 13px;font-size:.8em;display:grid;grid-template-columns:1fr auto;gap:4px 12px}
+.dbox .dl{color:#555}
+.dbox .dv{font-weight:700;color:#1e3a5f;text-align:right}
+.nota{font-size:.77em;color:#e65100;background:#fff3e0;padding:6px 9px;border-radius:5px;margin:8px 0;text-align:center}
+.unit{font-size:.72em;color:#999;margin-left:3px}
+.badge{text-align:center;padding:40px 16px;display:none}
+.badge.show{display:block}
+.badge-ico{font-size:3.2em;margin-bottom:8px}
+.badge h2{color:#2e7d32;font-size:1.2em;margin-bottom:5px}
+.badge p{color:#666;font-size:.82em}
+table{width:100%;border-collapse:collapse;font-size:.83em;margin-bottom:4px}
+table th{background:#f0f4f8;text-align:right;padding:6px 7px;color:#555;font-weight:600;font-size:.9em}
+table th:first-child{text-align:left}
+table td{padding:6px 7px;border-bottom:1px solid #eee;text-align:right}
+table td:first-child{text-align:left}
+table tr.tot-row{background:#f8fafc;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>📚 Ripasso DTA</h1>
+  <p>5 esercizi · prima della verifica</p>
+</div>
+<div class="prog-wrap">
+  <div class="prog-top"><span>Completati</span><span id="pt">0 / 5</span></div>
+  <div class="prog-track"><div class="prog-fill" id="pf"></div></div>
+</div>
+
+<!-- ===== ES 1 ===== -->
+<div class="card" id="c1">
+<div class="ch"><div class="ch-num">1</div><div class="ch-ttl">Fondi Ammortamento – Valore Netto</div></div>
+<div class="cb">
+  <div class="ric"><b>📌 Ricorda</b>Valore Netto = Valore Lordo − Fondo Ammortamento<br>Nel Stato Patrimoniale si scrive sempre il <em>valore netto</em>.</div>
+  <p style="font-size:.82em;color:#555;margin-bottom:10px">Calcola il valore netto di ogni conto e il totale delle immobilizzazioni nette.</p>
+  <table>
+    <tr><th>Bene</th><th>Lordo</th><th>Fondo</th><th>Netto</th></tr>
+    <tr><td>Impianti</td><td>80.000</td><td>20.000</td><td><input class="inp" id="e1a" oninput="clr(1)"></td></tr>
+    <tr><td>Arredamento</td><td>50.000</td><td>15.000</td><td><input class="inp" id="e1b" oninput="clr(1)"></td></tr>
+    <tr><td>Attrezzatura</td><td>30.000</td><td>10.000</td><td><input class="inp" id="e1c" oninput="clr(1)"></td></tr>
+    <tr class="tot-row"><td colspan="3">Totale imm. nette</td><td><input class="inp" id="e1d" oninput="clr(1)"></td></tr>
+  </table>
+  <button class="btn" onclick="ck1()">Controlla</button>
+  <div class="fb" id="f1"></div>
+</div>
+</div>
+
+<!-- ===== ES 2 ===== -->
+<div class="card" id="c2">
+<div class="ch"><div class="ch-num">2</div><div class="ch-ttl">Variazione Rimanenze</div></div>
+<div class="cb">
+  <div class="ric"><b>📌 Ricorda</b>Variazione = RF − RI<br>Se <strong>positiva</strong> (incremento) → si <strong>sottrae</strong> dai costi nel CE<br>Primo anno di attività: RI = 0</div>
+  <p style="font-size:.82em;color:#555;margin-bottom:8px">È il primo anno (RI = 0). Rimanenze finali: materie prime <b>6.000 €</b>, prodotti finiti <b>4.000 €</b>.</p>
+  <div class="slbl">Calcola la variazione totale</div>
+  <div class="row"><span class="lbl">RF totali (6.000 + 4.000)</span><span class="vl">10.000</span></div>
+  <div class="row"><span class="lbl">RI totali (primo anno)</span><span class="vl">0</span></div>
+  <div class="row tot"><span class="lbl">Variazione rimanenze</span><input class="inp" id="e2a" oninput="clr(2)"></div>
+  <div class="slbl" style="margin-top:15px">Nel Conto Economico questa variazione…</div>
+  <div class="ch-row" id="e2ch">
+    <button class="ch-btn" onclick="sel(this,'e2','add')">Si <b>aggiunge</b> ai costi</button>
+    <button class="ch-btn" onclick="sel(this,'e2','sub')">Si <b>sottrae</b> dai costi</button>
+  </div>
+  <button class="btn" onclick="ck2()">Controlla</button>
+  <div class="fb" id="f2"></div>
+</div>
+</div>
+
+<!-- ===== ES 3 – CE ===== -->
+<div class="card" id="c3">
+<div class="ch"><div class="ch-num">3</div><div class="ch-ttl">Conto Economico – Totali</div></div>
+<div class="cb">
+  <div class="ric"><b>📌 Ricorda</b>A − B = Differenza tra valore e costi della produzione<br>A − B +/− C = <em>Risultato prima delle imposte</em><br>Risultato prima imposte − Imposte = <strong>Utile dell'esercizio</strong></div>
+  <p style="font-size:.82em;color:#555;margin-bottom:8px">Calcola i <b>cinque</b> totali mancanti.</p>
+
+  <div class="slbl">A) Valore della produzione</div>
+  <div class="row"><span class="lbl">Ricavi vendita</span><span class="vl">500.000</span></div>
+  <div class="row"><span class="lbl">Altri ricavi operativi</span><span class="vl">20.000</span></div>
+  <div class="row tot"><span class="lbl">Totale A</span><input class="inp" id="e3a" oninput="clr(3)"></div>
+
+  <div class="slbl">B) Costi della produzione</div>
+  <div class="row"><span class="lbl">Acquisti materie prime</span><span class="vl">150.000</span></div>
+  <div class="row"><span class="lbl">Variazione rimanenze <em style="color:#888">(incremento)</em></span><span class="vl" style="color:#c62828">− 10.000</span></div>
+  <div class="row"><span class="lbl">Costi personale</span><span class="vl">80.000</span></div>
+  <div class="row"><span class="lbl">Servizi</span><span class="vl">120.000</span></div>
+  <div class="row"><span class="lbl">Ammortamento</span><span class="vl">25.000</span></div>
+  <div class="row"><span class="lbl">Altri costi</span><span class="vl">15.000</span></div>
+  <div class="row tot"><span class="lbl">Totale B</span><input class="inp" id="e3b" oninput="clr(3)"></div>
+
+  <div class="slbl">Risultati</div>
+  <div class="row tot"><span class="lbl">Differenza A − B</span><input class="inp" id="e3c" oninput="clr(3)"></div>
+  <div class="row"><span class="lbl">C) Proventi e oneri finanziari</span><span class="vl" style="color:#c62828">− 8.000</span></div>
+  <div class="row tot"><span class="lbl">Risultato prima delle imposte</span><input class="inp" id="e3rpi" oninput="clr(3)"></div>
+  <div class="row"><span class="lbl">Imposte sul reddito</span><span class="vl">30.000</span></div>
+  <div class="row tot"><span class="lbl">Utile dell'esercizio</span><input class="inp" id="e3d" oninput="clr(3)"></div>
+
+  <button class="btn" onclick="ck3()">Controlla</button>
+  <div class="fb" id="f3"></div>
+</div>
+</div>
+
+<!-- ===== ES 4 – SP ===== -->
+<div class="card" id="c4">
+<div class="ch"><div class="ch-num">4</div><div class="ch-ttl">Stato Patrimoniale – Totali</div></div>
+<div class="cb">
+  <div class="ric"><b>📌 Ricorda</b>Tot. Attivo = Imm. nette + Attivo circolante<br>Tot. Passivo = Patrimonio netto + TFR + Totale debiti<br>Tot. Attivo deve essere uguale a Tot. Passivo ✓</div>
+  <p style="font-size:.82em;color:#555;margin-bottom:8px">Calcola i totali mancanti e verifica che il bilancio quadri.</p>
+
+  <div class="slbl">🏦 ATTIVO</div>
+  <div class="row"><span class="lbl"><b>B) Immobilizzazioni nette</b></span><span class="vl">300.000</span></div>
+  <div class="sect">C) Attivo circolante</div>
+  <div class="row indent"><span class="lbl">Rimanenze</span><span class="vl">25.000</span></div>
+  <div class="row indent"><span class="lbl">Crediti</span><span class="vl">35.000</span></div>
+  <div class="row indent"><span class="lbl">Cassa e titoli</span><span class="vl">40.000</span></div>
+  <div class="row tot"><span class="lbl">Totale attivo circolante</span><input class="inp" id="e4a" oninput="clr(4)"></div>
+  <div class="row tot"><span class="lbl">TOTALE ATTIVO</span><input class="inp" id="e4b" oninput="clr(4)"></div>
+
+  <div class="slbl" style="margin-top:16px">💰 PASSIVO</div>
+  <div class="row"><span class="lbl"><b>A) Patrimonio netto</b></span><span class="vl">250.000</span></div>
+  <div class="row"><span class="lbl"><b>C) TFR</b></span><span class="vl">50.000</span></div>
+  <div class="sect">D) Debiti</div>
+  <div class="row indent"><span class="lbl">Verso fornitori</span><span class="vl">60.000</span></div>
+  <div class="row indent"><span class="lbl">Verso banche</span><span class="vl">40.000</span></div>
+  <div class="row tot"><span class="lbl">Totale debiti</span><input class="inp" id="e4c" oninput="clr(4)"></div>
+  <div class="row tot"><span class="lbl">TOTALE PASSIVO</span><input class="inp" id="e4d" oninput="clr(4)"></div>
+
+  <button class="btn" onclick="ck4()">Controlla</button>
+  <div class="fb" id="f4"></div>
+</div>
+</div>
+
+<!-- ===== ES 5 – Indici ===== -->
+<div class="card" id="c5">
+<div class="ch"><div class="ch-num">5</div><div class="ch-ttl">Indici di Bilancio – Tutti e 6</div></div>
+<div class="cb">
+  <div class="ric"><b>📌 Ricorda – Formule</b>
+  <strong>Redditualità:</strong><br>
+  ROE = Utile ÷ Patrimonio Netto × 100<br>
+  ROI = Reddito Operativo ÷ Totale Impieghi × 100<br>
+  ROS = Reddito Operativo ÷ Ricavi di Vendita × 100<br><br>
+  <strong>Patrimoniali:</strong><br>
+  Rigidità = Immobilizzazioni ÷ Tot. Attivo × 100<br>
+  Elasticità = Att. Circolante ÷ Tot. Attivo × 100<br>
+  Incidenza CP = Patrimonio Netto ÷ Tot. Passivo × 100</div>
+
+  <div class="nota">💡 Usa la virgola per i decimali, es. 62,5</div>
+
+  <div class="dbox">
+    <span class="dl">Utile netto</span><span class="dv">40.000 €</span>
+    <span class="dl">Patrimonio Netto</span><span class="dv">250.000 €</span>
+    <span class="dl">Reddito Operativo (A−B)</span><span class="dv">60.000 €</span>
+    <span class="dl">Totale Impieghi (Tot. Attivo)</span><span class="dv">400.000 €</span>
+    <span class="dl">Ricavi di Vendita</span><span class="dv">500.000 €</span>
+    <span class="dl">Immobilizzazioni</span><span class="dv">300.000 €</span>
+    <span class="dl">Attivo Circolante</span><span class="dv">100.000 €</span>
+    <span class="dl">Totale Passivo</span><span class="dv">400.000 €</span>
+  </div>
+
+  <div class="slbl">Indici di redditualità</div>
+  <div class="row"><span class="lbl">ROE</span><div style="display:flex;align-items:center;gap:3px"><input class="inp" id="e5a" oninput="clr(5)" style="width:72px"><span class="unit">%</span></div></div>
+  <div class="row"><span class="lbl">ROI</span><div style="display:flex;align-items:center;gap:3px"><input class="inp" id="e5b" oninput="clr(5)" style="width:72px"><span class="unit">%</span></div></div>
+  <div class="row"><span class="lbl">ROS</span><div style="display:flex;align-items:center;gap:3px"><input class="inp" id="e5c" oninput="clr(5)" style="width:72px"><span class="unit">%</span></div></div>
+
+  <div class="slbl">Indici patrimoniali</div>
+  <div class="row"><span class="lbl">Rigidità</span><div style="display:flex;align-items:center;gap:3px"><input class="inp" id="e5d" oninput="clr(5)" style="width:72px"><span class="unit">%</span></div></div>
+  <div class="row"><span class="lbl">Elasticità</span><div style="display:flex;align-items:center;gap:3px"><input class="inp" id="e5e" oninput="clr(5)" style="width:72px"><span class="unit">%</span></div></div>
+  <div class="row"><span class="lbl">Incidenza CP</span><div style="display:flex;align-items:center;gap:3px"><input class="inp" id="e5f" oninput="clr(5)" style="width:72px"><span class="unit">%</span></div></div>
+
+  <div class="slbl">📝 Analisi</div>
+  <p style="font-size:.82em;color:#555;margin-bottom:6px">Il ROS dell'azienda è il 12%. Significa che su ogni <b>100 €</b> di ricavi di vendita l'azienda genera ___ € di reddito operativo.</p>
+  <div style="text-align:center;margin:8px 0"><input class="inp" id="e5g" oninput="clr(5)" style="width:72px"><span class="unit">€</span></div>
+
+  <button class="btn" onclick="ck5()">Controlla</button>
+  <div class="fb" id="f5"></div>
+</div>
+</div>
+
+<!-- Badge -->
+<div class="badge" id="badge">
+  <div class="badge-ico">🏆</div>
+  <h2>Tutti completati!</h2>
+  <p>Sei pronta per la verifica 👍</p>
+</div>
+
+<script>
+var done=[0,0,0,0,0], ch={};
+function gv(id){return parseFloat(document.getElementById(id).value.replace(/\./g,'').replace(/,/g,'.')) ||0}
+function fb(n,ok,txt){var el=document.getElementById('f'+n);el.className='fb '+(ok?'ok':'err');el.innerHTML=txt;if(ok&&!done[n-1]){done[n-1]=1;document.getElementById('c'+n).classList.add('done');upP()}}
+function clr(n){var el=document.getElementById('f'+n);el.className='fb';el.innerHTML=''}
+function upP(){var c=done.reduce(function(a,b){return a+b},0);document.getElementById('pt').textContent=c+' / 5';document.getElementById('pf').style.width=(c/5*100)+'%';if(c===5)document.getElementById('badge').classList.add('show')}
+function sel(btn,g,v){document.querySelectorAll('#'+g+'ch .ch-btn').forEach(function(b){b.classList.remove('sel')});btn.classList.add('sel');ch[g]=v;clr(2)}
+
+function ck1(){
+  var a=gv('e1a'),b=gv('e1b'),c=gv('e1c'),d=gv('e1d');
+  if(a===60000&&b===35000&&c===20000&&d===115000){
+    fb(1,1,'✅ Perfetto!<br>Impianti <b>60.000</b> · Arredamento <b>35.000</b> · Attrezzatura <b>20.000</b><br>Totale imm. nette: <b>115.000 €</b>')
+  } else {
+    var h=[];
+    if(a!==60000) h.push('Impianti: 80.000 − 20.000 = <span class="s">60.000</span>');
+    if(b!==35000) h.push('Arredamento: 50.000 − 15.000 = <span class="s">35.000</span>');
+    if(c!==20000) h.push('Attrezzatura: 30.000 − 10.000 = <span class="s">20.000</span>');
+    if(d!==115000) h.push('Totale: 60.000 + 35.000 + 20.000 = <span class="s">115.000</span>');
+    fb(1,0,'❌ Ricontrolla:<br>'+h.join('<br>'))
+  }
+}
+
+function ck2(){
+  var v=gv('e2a'),c=ch['e2'];
+  if(!c){fb(2,0,'❌ Seleziona anche se si aggiunge o si sottrae!');return}
+  if(v===10000&&c==='sub'){
+    fb(2,1,'✅ Corretto!<br>Variazione = 10.000 − 0 = <b>+10.000</b><br>Positiva (incremento) → si <b>sottrae</b> dai costi nel CE ✓')
+  } else {
+    var h=[];
+    if(v!==10000) h.push('RF − RI = 10.000 − 0 = <span class="s">10.000</span>');
+    if(c!=='sub') h.push('Variazione positiva (incremento) → si <span class="s">sottrae</span> dai costi');
+    fb(2,0,'❌ Ricontrolla:<br>'+h.join('<br>'))
+  }
+}
+
+function ck3(){
+  var a=gv('e3a'),b=gv('e3b'),c=gv('e3c'),rpi=gv('e3rpi'),d=gv('e3d');
+  if(a===520000&&b===380000&&c===140000&&rpi===132000&&d===102000){
+    fb(3,1,'✅ Perfetto!<br>A <b>520.000</b> · B <b>380.000</b> · A−B <b>140.000</b><br>Risultato prima imposte <b>132.000</b> · Utile <b>102.000 €</b>')
+  } else {
+    var h=[];
+    if(a!==520000) h.push('A: 500.000 + 20.000 = <span class="s">520.000</span>');
+    if(b!==380000) h.push('B: 150.000 − 10.000 + 80.000 + 120.000 + 25.000 + 15.000 = <span class="s">380.000</span>');
+    if(c!==140000) h.push('A−B: 520.000 − 380.000 = <span class="s">140.000</span>');
+    if(rpi!==132000) h.push('Risultato prima imposte: 140.000 − 8.000 = <span class="s">132.000</span>');
+    if(d!==102000) h.push('Utile: 132.000 − 30.000 = <span class="s">102.000</span>');
+    fb(3,0,'❌ Ricontrolla:<br>'+h.join('<br>'))
+  }
+}
+
+function ck4(){
+  var a=gv('e4a'),b=gv('e4b'),c=gv('e4c'),d=gv('e4d');
+  if(a===100000&&b===400000&&c===100000&&d===400000){
+    fb(4,1,'✅ Il bilancio quadra! ✓<br>Att. circolante <b>100.000</b> · Tot. Attivo <b>400.000</b><br>Tot. Debiti <b>100.000</b> · Tot. Passivo <b>400.000</b>')
+  } else {
+    var h=[];
+    if(a!==100000) h.push('Att. circ.: 25.000 + 35.000 + 40.000 = <span class="s">100.000</span>');
+    if(b!==400000) h.push('Tot. Attivo: 300.000 + 100.000 = <span class="s">400.000</span>');
+    if(c!==100000) h.push('Tot. Debiti: 60.000 + 40.000 = <span class="s">100.000</span>');
+    if(d!==400000) h.push('Tot. Passivo: 250.000 + 50.000 + 100.000 = <span class="s">400.000</span>');
+    fb(4,0,'❌ Ricontrolla:<br>'+h.join('<br>'))
+  }
+}
+
+function ck5(){
+  var v=[gv('e5a'),gv('e5b'),gv('e5c'),gv('e5d'),gv('e5e'),gv('e5f'),gv('e5g')];
+  var exp=[16,15,12,75,25,62.5,12];
+  var lbl=['ROE','ROI','ROS','Rigidità','Elasticità','Incidenza CP','Analisi ROS'];
+  var frm=['40.000 ÷ 250.000 × 100 = 16%','60.000 ÷ 400.000 × 100 = 15%','60.000 ÷ 500.000 × 100 = 12%','300.000 ÷ 400.000 × 100 = 75%','100.000 ÷ 400.000 × 100 = 25%','250.000 ÷ 400.000 × 100 = 62,5%','ROS 12% → 12 € ogni 100 € di ricavi'];
+  var ok=true,h=[];
+  for(var i=0;i<7;i++){if(Math.abs(v[i]-exp[i])>0.01){ok=false;h.push(lbl[i]+': <span class="s">'+frm[i]+'</span>')}}
+  if(ok){
+    fb(5,1,'✅ Tutti corretti! 🎉<br>ROE <b>16%</b> · ROI <b>15%</b> · ROS <b>12%</b><br>Rigidità <b>75%</b> · Elasticità <b>25%</b> · Incidenza CP <b>62,5%</b><br><em>Analisi:</em> ogni 100 € di ricavi → <b>12 € di reddito operativo</b> ✓')
+  } else {
+    fb(5,0,'❌ Ricontrolla:<br>'+h.join('<br>'))
+  }
+}
+</script>
+</body>
+</html>
