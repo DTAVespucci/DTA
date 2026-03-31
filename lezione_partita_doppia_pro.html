@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Partita Doppia — Lezione Professionale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #060810;
+  --bg2:      #0c0f1a;
+  --bg3:      #111827;
+  --border:   #1c2540;
+  --border2:  #2a3560;
+  --gold:     #f0b429;
+  --gold2:    #ffcf5c;
+  --gold-dim: rgba(240,180,41,0.12);
+  --blue:     #4da3ff;
+  --blue-dim: rgba(77,163,255,0.12);
+  --teal:     #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.12);
+  --red:      #f87171;
+  --red-dim:  rgba(248,113,113,0.12);
+  --green:    #4ade80;
+  --green-dim:rgba(74,222,128,0.12);
+  --purple:   #c084fc;
+  --purple-dim:rgba(192,132,252,0.12);
+  --text:     #e2e8f0;
+  --text2:    #94a3b8;
+  --text3:    #475569;
+  --dare-c:   #c084fc;
+  --avere-c:  #67e8f9;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 36px;
+  background: rgba(6,8,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.topbar-nav {
+  display: flex;
+  gap: 6px;
+}
+.topbar-nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.topbar-nav a:hover, .topbar-nav a.active {
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--gold), var(--blue));
+  z-index: 300;
+  transition: width 0.1s;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 40px 80px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, #0f1a3a 0%, var(--bg) 65%);
+}
+
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,180,41,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,180,41,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.hero-bg-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(240,180,41,0.07) 0%, transparent 70%);
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 900px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s ease forwards;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 40px; height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 10vw, 7.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s ease forwards;
+}
+.hero-title .line1 { display: block; color: var(--text); }
+.hero-title .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, #ff9f43 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text2);
+  max-width: 580px;
+  margin: 28px auto 0;
+  line-height: 1.7;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.7s ease forwards;
+}
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 36px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.9s ease forwards;
+}
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: var(--text2);
+}
+.hero-scroll {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeUp 0.9s 1.2s ease forwards;
+}
+.hero-scroll span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text3);
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2.5s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity: 0.3; transform: scaleY(0.8); }
+  50%      { opacity: 1;   transform: scaleY(1); }
+}
+
+/* =========================================================
+   LAYOUT GENERALE
+   ========================================================= */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.section {
+  padding: 100px 0;
+  position: relative;
+}
+.section-inner { max-width: 820px; margin: 0 auto; }
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.section-tag::before {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 1px;
+  background: var(--gold);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 36px;
+  letter-spacing: -1px;
+}
+.section-title .hl { color: var(--gold); }
+.section-title .hl2 { color: var(--blue); }
+.section-title .hl3 { color: var(--teal); }
+
+p.lead {
+  font-size: 1.1rem;
+  color: var(--text2);
+  margin-bottom: 22px;
+  font-weight: 300;
+  line-height: 1.8;
+}
+p.body { color: var(--text2); margin-bottom: 20px; line-height: 1.8; }
+strong { color: var(--text); font-weight: 600; }
+
+hr.sep {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* =========================================================
+   CALLOUTS
+   ========================================================= */
+.callout {
+  display: flex;
+  gap: 20px;
+  padding: 24px 28px;
+  border-radius: 12px;
+  margin: 32px 0;
+  align-items: flex-start;
+}
+.callout-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.callout-body { flex: 1; }
+.callout-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.callout-text { font-size: 0.97rem; color: var(--text2); line-height: 1.7; }
+.callout-text strong { color: var(--text); }
+.callout.gold { background: var(--gold-dim); border: 1px solid rgba(240,180,41,0.2); }
+.callout.gold .callout-title { color: var(--gold); }
+.callout.blue { background: var(--blue-dim); border: 1px solid rgba(77,163,255,0.2); }
+.callout.blue .callout-title { color: var(--blue); }
+.callout.teal { background: var(--teal-dim); border: 1px solid rgba(45,212,191,0.2); }
+.callout.teal .callout-title { color: var(--teal); }
+.callout.red  { background: var(--red-dim);  border: 1px solid rgba(248,113,113,0.2); }
+.callout.red  .callout-title { color: var(--red); }
+.callout.purple { background: var(--purple-dim); border: 1px solid rgba(192,132,252,0.2); }
+.callout.purple .callout-title { color: var(--purple); }
+
+/* =========================================================
+   CITAZIONE
+   ========================================================= */
+.quote-block {
+  padding: 48px;
+  background: var(--bg2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 16px 16px 0;
+  margin: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+.quote-block::before {
+  content: '"';
+  position: absolute;
+  top: -20px; left: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 180px;
+  color: rgba(240,180,41,0.05);
+  line-height: 1;
+  pointer-events: none;
+}
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.7;
+  position: relative;
+  margin-bottom: 16px;
+}
+.quote-attr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   STORIA TIMELINE
+   ========================================================= */
+.timeline {
+  position: relative;
+  margin: 48px 0;
+  padding-left: 40px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -33px; top: 8px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(240,180,41,0.4);
+}
+.tl-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.tl-item h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.tl-item p { font-size: 0.9rem; color: var(--text2); line-height: 1.6; margin: 0; }
+
+/* =========================================================
+   CONTO A T — GRANDE
+   ========================================================= */
+.t-wrapper {
+  margin: 48px 0;
+}
+.t-label {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.t-account-big {
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.t-header {
+  background: linear-gradient(135deg, #141c35, #0e1525);
+  padding: 20px 32px;
+  text-align: center;
+  border-bottom: 1px solid var(--border2);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.t-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.t-col {
+  padding: 28px 32px;
+}
+.t-col.dare { border-right: 2px solid var(--border2); }
+.t-col-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.t-col-head .side-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+.t-col.dare .side-label { color: var(--dare-c); }
+.t-col.avere .side-label { color: var(--avere-c); }
+.t-col-head .side-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+.t-col.dare .side-num { background: var(--purple-dim); color: var(--dare-c); }
+.t-col.avere .side-num { background: var(--teal-dim); color: var(--avere-c); }
+.t-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px;
+}
+.t-row:last-child { border: none; }
+.t-row .t-desc { color: var(--text2); font-size: 13px; }
+.t-row .t-amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 13px; }
+.t-col.dare .t-amt { color: var(--dare-c); }
+.t-col.avere .t-amt { color: var(--avere-c); }
+.t-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border2);
+  background: rgba(255,255,255,0.02);
+}
+.t-foot-col {
+  padding: 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+.t-foot-col:first-child { border-right: 1px solid var(--border2); }
+.t-foot-col .foot-label { color: var(--text3); letter-spacing: 2px; text-transform: uppercase; }
+.t-foot-col.dare .foot-total { color: var(--dare-c); font-weight: 700; font-size: 15px; }
+.t-foot-col.avere .foot-total { color: var(--avere-c); font-weight: 700; font-size: 15px; }
+.t-balance {
+  text-align: center;
+  padding: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  background: var(--gold-dim);
+  color: var(--gold);
+  border-top: 1px solid rgba(240,180,41,0.2);
+}
+
+/* =========================================================
+   PRINCIPIO D'ORO
+   ========================================================= */
+.gold-rule {
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  margin: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+.gold-rule::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(240,180,41,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.gold-rule .gr-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.gold-rule .gr-formula {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.gold-rule .gr-formula .gr-d { color: var(--dare-c); }
+.gold-rule .gr-formula .gr-a { color: var(--avere-c); }
+.gold-rule .gr-formula .gr-eq { color: var(--gold); margin: 0 20px; }
+.gold-rule .gr-desc { color: var(--text2); font-size: 0.97rem; max-width: 480px; margin: 0 auto; }
+
+/* =========================================================
+   VARIAZIONI
+   ========================================================= */
+.var-map {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 40px 0;
+}
+.var-map-row {
+  display: contents;
+}
+.vm-cell {
+  padding: 28px 28px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.vm-cell:hover { background: rgba(255,255,255,0.02); }
+.vm-cell:nth-child(even) { border-right: none; }
+.vm-cell:nth-last-child(-n+2) { border-bottom: none; }
+.vm-cell-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+.vm-cell h4 {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.vm-cell p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; margin: 0; }
+.vm-cell ul { list-style: none; padding: 0; margin: 10px 0 0; }
+.vm-cell ul li {
+  font-size: 0.82rem;
+  color: var(--text3);
+  padding: 3px 0 3px 16px;
+  position: relative;
+}
+.vm-cell ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--text3);
+}
+.badge-dare { background: var(--purple-dim); color: var(--dare-c); }
+.badge-avere { background: var(--teal-dim); color: var(--avere-c); }
+.badge-econ-neg { background: var(--red-dim); color: var(--red); }
+.badge-econ-pos { background: var(--green-dim); color: var(--green); }
+
+/* =========================================================
+   SCHEMA A CROCE
+   ========================================================= */
+.cross-schema {
+  margin: 48px 0;
+}
+.cross-title {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.cross-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 0;
+  align-items: center;
+  justify-items: center;
+}
+.cross-header-left, .cross-header-right {
+  padding: 12px 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  width: 100%;
+}
+.cross-header-left { background: var(--purple-dim); color: var(--dare-c); }
+.cross-header-right { background: var(--teal-dim); color: var(--avere-c); }
+.cross-center-top { width: 2px; height: 20px; background: var(--border2); }
+.cross-body-left {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-right: none;
+  border-radius: 0 0 0 12px;
+  padding: 20px 24px;
+}
+.cross-body-right {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-left: none;
+  border-radius: 0 0 12px 0;
+  padding: 20px 24px;
+}
+.cross-divider {
+  width: 2px;
+  background: var(--border2);
+  align-self: stretch;
+}
+.cross-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px;
+}
+.cross-row:last-child { border: none; }
+.cross-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-dare { background: var(--dare-c); box-shadow: 0 0 6px var(--dare-c); }
+.dot-avere { background: var(--avere-c); box-shadow: 0 0 6px var(--avere-c); }
+.cross-row-label { color: var(--text2); line-height: 1.4; }
+.cross-row-label strong { color: var(--text); font-size: 0.88rem; display: block; }
+.cross-row-label span { color: var(--text3); font-size: 0.78rem; }
+
+/* =========================================================
+   TABELLA MASTER
+   ========================================================= */
+.master-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 32px 0;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+}
+.master-table thead tr {
+  background: var(--bg2);
+}
+.master-table th {
+  padding: 14px 20px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border2);
+}
+.master-table td {
+  padding: 14px 20px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: middle;
+}
+.master-table tr:last-child td { border: none; }
+.master-table tr:hover td { background: rgba(255,255,255,0.02); }
+.master-table .td-dare  { color: var(--dare-c); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; }
+.master-table .td-avere { color: var(--avere-c); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; }
+.master-table .td-type  { color: var(--text2); font-size: 13px; }
+.master-table .td-ex    { color: var(--text3); font-size: 12px; }
+.pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.pill-dare { background: var(--purple-dim); color: var(--dare-c); }
+.pill-avere { background: var(--teal-dim); color: var(--avere-c); }
+.pill-econ { background: var(--gold-dim); color: var(--gold); }
+.pill-fin { background: var(--blue-dim); color: var(--blue); }
+
+/* =========================================================
+   ESEMPI SCRITTURE
+   ========================================================= */
+.examples-stack { margin: 40px 0; display: flex; flex-direction: column; gap: 28px; }
+
+.ex-card {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.ex-card:hover { border-color: var(--border2); }
+
+.ex-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.015);
+}
+.ex-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.ex-title-block h3 {
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.ex-title-block p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; margin: 0; }
+.ex-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+.ex-analysis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.ex-an-col {
+  padding: 20px 28px;
+}
+.ex-an-col:first-child { border-right: 1px solid var(--border); }
+.ex-an-col .an-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.ex-an-col.dare-side .an-label { color: var(--dare-c); }
+.ex-an-col.avere-side .an-label { color: var(--avere-c); }
+.ex-an-col .an-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+}
+.ex-an-col .an-item:last-child { border: none; }
+.an-arrow { font-size: 16px; }
+.dare-side .an-arrow { color: var(--dare-c); }
+.avere-side .an-arrow { color: var(--avere-c); }
+
+.ex-registro {
+  padding: 24px 28px;
+}
+.ex-reg-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ex-reg-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.reg-table {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  border-collapse: collapse;
+}
+.reg-table .reg-head th {
+  padding: 6px 12px;
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.reg-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.reg-table tr:last-child td { border: none; }
+.reg-table .rc-conto { color: var(--text); }
+.reg-table .rc-conto.sub { padding-left: 28px; color: var(--text2); font-style: italic; }
+.reg-table .rc-conto.sub::before { content: 'a '; color: var(--text3); }
+.reg-table .rc-dare  { color: var(--dare-c); text-align: right; font-weight: 700; }
+.reg-table .rc-avere { color: var(--avere-c); text-align: right; font-weight: 700; }
+.reg-table .rc-empty { color: var(--text3); text-align: right; }
+.reg-table .rc-type  { font-size: 10px; color: var(--text3); letter-spacing: 1px; }
+.reg-total {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--bg3);
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.reg-total .tot-dare { color: var(--dare-c); font-weight: 700; }
+.reg-total .tot-avere { color: var(--avere-c); font-weight: 700; }
+.reg-total .eq-check { color: var(--gold); font-size: 12px; }
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+.quiz-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 0;
+}
+.quiz-inner { max-width: 820px; margin: 0 auto; padding: 0 32px; }
+
+.quiz-progress-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 48px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--gold), var(--blue));
+  transition: width 0.4s ease;
+}
+
+.qcard {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  transition: border-color 0.3s;
+}
+.qcard.answered { border-color: var(--border); opacity: 0.85; }
+.qcard .qnum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.qcard .qtext {
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin-bottom: 22px;
+  color: var(--text);
+}
+.qoptions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.qopt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  color: var(--text2);
+}
+.qopt:hover:not(.locked) {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  color: var(--text);
+}
+.qopt .qopt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  width: 26px; height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  flex-shrink: 0;
+  color: var(--text3);
+  transition: all 0.2s;
+}
+.qopt.correct {
+  border-color: var(--green);
+  background: var(--green-dim);
+  color: var(--green);
+  cursor: default;
+}
+.qopt.correct .qopt-letter { border-color: var(--green); color: var(--green); }
+.qopt.wrong {
+  border-color: var(--red);
+  background: var(--red-dim);
+  color: var(--red);
+  cursor: default;
+}
+.qopt.wrong .qopt-letter { border-color: var(--red); color: var(--red); }
+.qopt.locked { cursor: default; opacity: 0.45; pointer-events: none; }
+.qopt.locked.correct, .qopt.locked.wrong { opacity: 1; pointer-events: none; }
+
+.qfeedback {
+  display: none;
+  margin-top: 16px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.qfeedback.show { display: block; }
+.qfeedback.ok { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+.qfeedback.ok::before { content: '✓ '; font-weight: 700; }
+.qfeedback.ko { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
+.qfeedback.ko::before { content: '✗ '; font-weight: 700; }
+
+.quiz-score {
+  text-align: center;
+  padding: 48px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  margin-top: 32px;
+  display: none;
+}
+.quiz-score.show { display: block; }
+.qs-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--text3); text-transform: uppercase; margin-bottom: 20px; }
+.qs-number { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 10px; }
+.qs-total { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text3); margin-bottom: 20px; }
+.qs-msg { color: var(--text2); font-size: 1rem; }
+
+/* =========================================================
+   RIEPILOGO FINALE
+   ========================================================= */
+.recap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin: 40px 0;
+}
+@media(max-width:700px) { .recap-grid { grid-template-columns: 1fr; } }
+.recap-card {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.recap-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+.rc-icon { font-size: 1.5rem; margin-bottom: 12px; }
+.rc-title { font-weight: 600; font-size: 1rem; margin-bottom: 6px; }
+.rc-body { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer {
+  padding: 60px 40px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.footer-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.footer-divider {
+  width: 60px; height: 1px;
+  background: var(--border2);
+  margin: 0 auto 24px;
+}
+.footer-note { font-size: 0.85rem; color: var(--text3); }
+
+/* =========================================================
+   ANIMAZIONI
+   ========================================================= */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media(max-width:700px) {
+  .t-cols, .ex-analysis, .var-map, .cross-grid, .t-footer { grid-template-columns: 1fr; }
+  .ex-an-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  .cross-body-left { border-radius: 0; border-right: 1px solid var(--border2); border-bottom: none; }
+  .cross-body-right { border-radius: 0 0 12px 12px; border-left: 1px solid var(--border2); }
+  .cross-divider { display: none; }
+  .topbar-nav { display: none; }
+  .topbar { padding: 12px 20px; }
+  section.section { padding: 60px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS -->
+<div class="progress-bar" id="progressBar" style="width:0%"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-logo">DTA · Contabilità</div>
+  <nav class="topbar-nav">
+    <a href="#storia" id="nav-0">Origini</a>
+    <a href="#meccanismo" id="nav-1">Meccanismo</a>
+    <a href="#variazioni" id="nav-2">Variazioni</a>
+    <a href="#scritture" id="nav-3">Scritture</a>
+    <a href="#quiz" id="nav-4">Verifica</a>
+  </nav>
+</header>
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<section class="hero" id="top">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Contabilità Generale · Anno III</div>
+    <h1 class="hero-title">
+      <span class="line1">Il Metodo</span>
+      <span class="line2">Partita Doppia</span>
+    </h1>
+    <p class="hero-sub">
+      Dal 1494 a oggi, immutato. Il sistema che ogni professionista — in cucina, in sala, in ufficio — deve conoscere per capire davvero come funziona un'azienda.
+    </p>
+    <div class="hero-tags">
+      <span class="hero-tag">📒 Principi base</span>
+      <span class="hero-tag">⚖️ Dare & Avere</span>
+      <span class="hero-tag">📊 Variazioni Economiche</span>
+      <span class="hero-tag">💳 Variazioni Finanziarie</span>
+      <span class="hero-tag">✏️ Scritture contabili</span>
+    </div>
+    <div class="hero-scroll">
+      <span>Inizia la lezione</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     01 · STORIA E CONTESTO
+     ========================================================= -->
+<section class="section" id="storia">
+<div class="container">
+<div class="section-inner">
+
+  <div class="section-tag reveal">01 — Le Origini</div>
+  <h2 class="section-title reveal">Perché esiste la<br><span class="hl">Partita Doppia?</span></h2>
+
+  <p class="lead reveal">Prima ancora di capire <em>come</em> funziona, bisogna capire <em>perché</em> è nata. Ogni grande invenzione risponde a un problema concreto.</p>
+
+  <p class="body reveal">Immagina di essere il direttore di un albergo nel 1400. Hai fornitori di cibo, dipendenti da pagare, clienti che devono ancora saldare il conto, un mutuo con la banca, attrezzature acquistate a rate. Come fai a sapere se stai guadagnando o perdendo? Come tieni traccia di tutto?</p>
+
+  <p class="body reveal">Il problema fondamentale era questo: <strong>ogni operazione economica ha sempre almeno due effetti contemporanei nella realtà aziendale</strong>. Un sistema che ne registra solo uno è incompleto — come guardare il calcio con un occhio solo. Perdi metà delle informazioni.</p>
+
+  <div class="callout gold reveal">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <div class="callout-title">Il principio chiave</div>
+      <div class="callout-text">Se <strong>acquisti merci</strong>, da un lato nasce un costo (aspetto economico), dall'altro diminuisce la cassa o nasce un debito (aspetto finanziario). Entrambi gli effetti devono essere registrati. Sempre.</div>
+    </div>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">SECOLI XII–XIV</div>
+      <h4>I Mercanti Toscani</h4>
+      <p>I mercanti di Firenze, Genova e Venezia iniziano a usare un metodo embrionale di doppia registrazione per tenere traccia di merci, crediti e debiti su rotte commerciali complesse nel Mediterraneo.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1494</div>
+      <h4>Fra' Luca Pacioli codifica il sistema</h4>
+      <p>Il matematico francescano pubblica la <em>Summa de Arithmetica, Geometria, Proportioni et Proportionalità</em>. Dedica un intero capitolo — il <em>Tractatus XI</em> — alla partita doppia usata dai mercanti veneziani. Amico di Leonardo da Vinci, è considerato il "padre della contabilità".</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">XVI–XIX SECOLO</div>
+      <h4>Diffusione in Europa</h4>
+      <p>Il sistema si diffonde in tutta Europa con la crescita del commercio. Banche, manifatture, compagnie di navigazione: tutte adottano la Partita Doppia come standard.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">OGGI</div>
+      <h4>Universale e obbligatoria</h4>
+      <p>Ogni impresa al mondo — dalla tua pizzeria preferita a Amazon — usa questo stesso metodo. In Italia è obbligatoria per legge per tutte le imprese soggette all'obbligo di tenuta delle scritture contabili (art. 2214 c.c.).</p>
+    </div>
+  </div>
+
+  <div class="quote-block reveal">
+    <p class="quote-text">Non si dovrebbe fare altro libro che questo, il quale basta a ogni negotiante per trovare ciascuna sua ragione e debito e credito.</p>
+    <div class="quote-attr">— Fra' Luca Pacioli · Summa de Arithmetica · Venezia, 1494</div>
+  </div>
+
+</div>
+</div>
+</section>
+
+<hr class="sep">
+
+<!-- =========================================================
+     02 · IL MECCANISMO
+     ========================================================= -->
+<section class="section" id="meccanismo">
+<div class="container">
+<div class="section-inner">
+
+  <div class="section-tag reveal">02 — Il Meccanismo</div>
+  <h2 class="section-title reveal">Come funziona:<br><span class="hl2">Dare</span> e <span class="hl3">Avere</span></h2>
+
+  <p class="lead reveal">Il cuore della Partita Doppia è il <strong>conto</strong>: una scheda intestata a ogni elemento del patrimonio aziendale o del reddito, divisa in due sezioni opposte.</p>
+
+  <p class="body reveal">Ogni conto ha esattamente due sezioni: la sezione <strong style="color:var(--dare-c)">DARE</strong> (sempre a sinistra) e la sezione <strong style="color:var(--avere-c)">AVERE</strong> (sempre a destra). Questi nomi derivano dal latino medievale: "dare" indica chi ha dato, "avere" chi ha ricevuto. Oggi, però, <strong>non significano "entrata" e "uscita"</strong> — questo è il malinteso più comune!</p>
+
+  <div class="callout red reveal">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <div class="callout-title">Errore Frequente</div>
+      <div class="callout-text"><strong>DARE ≠ "entra denaro"</strong> e <strong>AVERE ≠ "esce denaro"</strong>. Dare e Avere sono semplicemente i nomi delle due colonne. Il loro significato pratico dipende dal <em>tipo di conto</em> che stai usando. Lo vedrai tra poco.</div>
+    </div>
+  </div>
+
+  <h3 class="reveal" style="font-family:'Playfair Display',serif; font-size:1.5rem; margin:40px 0 8px; font-weight:700;">Il Conto a T</h3>
+  <p class="body reveal">Graficamente, ogni conto si disegna come una "T". Ecco un esempio reale del conto <em>Cassa</em> di un ristorante durante il mese:</p>
+
+  <div class="t-wrapper reveal">
+    <div class="t-label">Conto a T — Esempio: Cassa</div>
+    <div class="t-account-big">
+      <div class="t-header">CASSA</div>
+      <div class="t-cols">
+        <div class="t-col dare">
+          <div class="t-col-head">
+            <div class="side-label">← DARE</div>
+            <div class="side-num">ENTRATE DI CASSA</div>
+          </div>
+          <div class="t-row"><span class="t-desc">Saldo iniziale</span><span class="t-amt">5.000,00</span></div>
+          <div class="t-row"><span class="t-desc">Vendita cena del 3/3</span><span class="t-amt">2.400,00</span></div>
+          <div class="t-row"><span class="t-desc">Incasso catering</span><span class="t-amt">1.800,00</span></div>
+          <div class="t-row"><span class="t-desc">Rimborso fornitore</span><span class="t-amt">300,00</span></div>
+        </div>
+        <div class="t-col avere">
+          <div class="t-col-head">
+            <div class="side-label">AVERE →</div>
+            <div class="side-num">USCITE DI CASSA</div>
+          </div>
+          <div class="t-row"><span class="t-desc">Acquisto ingredienti</span><span class="t-amt">1.200,00</span></div>
+          <div class="t-row"><span class="t-desc">Stipendi staff</span><span class="t-amt">3.500,00</span></div>
+          <div class="t-row"><span class="t-desc">Affitto locale</span><span class="t-amt">1.500,00</span></div>
+          <div class="t-row"><span class="t-desc">Utenze</span><span class="t-amt">420,00</span></div>
+        </div>
+      </div>
+      <div class="t-footer">
+        <div class="t-foot-col dare">
+          <span class="foot-label">Totale Dare</span>
+          <span class="foot-total">9.500,00</span>
+        </div>
+        <div class="t-foot-col avere">
+          <span class="foot-label">Totale Avere</span>
+          <span class="foot-total">6.620,00</span>
+        </div>
+      </div>
+      <div class="t-balance">⚖️ Saldo Dare: 9.500 − 6.620 = 2.880,00 € in cassa</div>
+    </div>
+  </div>
+
+  <div class="callout teal reveal">
+    <div class="callout-icon">🔍</div>
+    <div class="callout-body">
+      <div class="callout-title">Perché nel conto Cassa funziona così?</div>
+      <div class="callout-text">La Cassa è un <strong>conto finanziario attivo</strong>: i suoi aumenti vanno in <strong>Dare</strong>, le diminuzioni in <strong>Avere</strong>. Ma attenzione: per i conti di debito (passivi) è esattamente il contrario! Questo lo vediamo nella sezione Variazioni.</div>
+    </div>
+  </div>
+
+  <div class="gold-rule reveal">
+    <div class="gr-label">La Legge Fondamentale della Partita Doppia</div>
+    <div class="gr-formula">
+      <span class="gr-d">Totale DARE</span>
+      <span class="gr-eq">=</span>
+      <span class="gr-a">Totale AVERE</span>
+    </div>
+    <p class="gr-desc">Per ogni singola operazione contabile, la somma degli importi registrati in Dare deve essere identica alla somma degli importi registrati in Avere. Senza eccezioni. Questa uguaglianza è la "firma" che garantisce la correttezza delle registrazioni.</p>
+  </div>
+
+  <p class="body reveal">Nella pratica, ogni operazione tocca <strong>almeno due conti</strong>: si registra un importo in Dare in uno o più conti, e lo stesso importo totale in Avere in altri conti. Questo si chiama <em>articolo contabile</em> o <em>scrittura contabile</em>.</p>
+
+  <div class="callout blue reveal">
+    <div class="callout-icon">📝</div>
+    <div class="callout-body">
+      <div class="callout-title">Scrittura semplice vs. composta</div>
+      <div class="callout-text">
+        <strong>Semplice:</strong> un solo conto in Dare e uno in Avere (la più frequente).<br>
+        <strong>Composta:</strong> più conti in Dare e/o in Avere, purché la somma totale si equilibri sempre.
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</section>
+
+<hr class="sep">
+
+<!-- =========================================================
+     03 · VARIAZIONI
+     ========================================================= -->
+<section class="section" id="variazioni">
+<div class="container">
+<div class="section-inner">
+
+  <div class="section-tag reveal">03 — Il Cuore del Sistema</div>
+  <h2 class="section-title reveal">Variazioni<br><span class="hl">Economiche</span> e <span class="hl2">Finanziarie</span></h2>
+
+  <p class="lead reveal">Prima di sapere dove scrivere in Dare o in Avere, bisogna capire <em>che effetto produce l'operazione sull'azienda</em>. Ogni fatto aziendale modifica simultaneamente due aspetti della realtà: uno <strong>economico</strong> e uno <strong>finanziario</strong>.</p>
+
+  <h3 class="reveal" style="font-family:'Playfair Display',serif; font-size:1.6rem; margin:40px 0 10px;">Le Variazioni Finanziarie</h3>
+  <p class="body reveal">Riguardano il <strong>patrimonio finanziario</strong> dell'azienda, cioè tutto ciò che è esprimibile in termini di liquidità: i soldi in cassa, i depositi bancari, i crediti verso clienti e i debiti verso fornitori. Si dividono in <strong>attive</strong> e <strong>passive</strong>:</p>
+
+  <div class="var-map reveal">
+    <div class="vm-cell">
+      <div class="vm-cell-badge badge-dare">→ DARE</div>
+      <h4>Variazione Finanziaria<br>Attiva Positiva <strong style="color:var(--dare-c)">↑</strong></h4>
+      <p>Aumenta un'attività finanziaria. Entra più denaro nell'azienda, oppure nasce un credito verso un cliente.</p>
+      <ul>
+        <li>Incasso di una vendita</li>
+        <li>Prestito ricevuto dalla banca</li>
+        <li>Credito verso un cliente</li>
+        <li>Aumento del saldo bancario</li>
+      </ul>
+    </div>
+    <div class="vm-cell">
+      <div class="vm-cell-badge badge-avere">→ AVERE</div>
+      <h4>Variazione Finanziaria<br>Attiva Negativa <strong style="color:var(--avere-c)">↓</strong></h4>
+      <p>Diminuisce un'attività finanziaria. Esce denaro dall'azienda, oppure si incassa un credito preesistente.</p>
+      <ul>
+        <li>Pagamento in contanti</li>
+        <li>Bonifico bancario in uscita</li>
+        <li>Incasso di un credito</li>
+        <li>Diminuzione del saldo bancario</li>
+      </ul>
+    </div>
+    <div class="vm-cell">
+      <div class="vm-cell-badge badge-avere">→ AVERE</div>
+      <h4>Variazione Finanziaria<br>Passiva Positiva <strong style="color:var(--avere-c)">↑</strong></h4>
+      <p>Aumenta una passività finanziaria. Nasce o aumenta un debito dell'azienda verso terzi.</p>
+      <ul>
+        <li>Acquisto a credito (fattura da pagare)</li>
+        <li>Prestito ottenuto dalla banca (mutuo)</li>
+        <li>Debito verso un fornitore</li>
+        <li>Rata di leasing da pagare</li>
+      </ul>
+    </div>
+    <div class="vm-cell">
+      <div class="vm-cell-badge badge-dare">→ DARE</div>
+      <h4>Variazione Finanziaria<br>Passiva Negativa <strong style="color:var(--dare-c)">↓</strong></h4>
+      <p>Diminuisce una passività finanziaria. Si estingue o riduce un debito dell'azienda.</p>
+      <ul>
+        <li>Pagamento di un debito verso il fornitore</li>
+        <li>Rimborso di una rata del mutuo</li>
+        <li>Estinzione di un debito bancario</li>
+        <li>Saldo di una fattura ricevuta</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="reveal" style="font-family:'Playfair Display',serif; font-size:1.6rem; margin:48px 0 10px;">Le Variazioni Economiche</h3>
+  <p class="body reveal">Riguardano il <strong>reddito</strong> dell'azienda, cioè i costi sostenuti e i ricavi ottenuti durante l'esercizio. Non spostano denaro direttamente, ma determinano se l'azienda sta guadagnando o perdendo.</p>
+
+  <div class="var-map reveal">
+    <div class="vm-cell">
+      <div class="vm-cell-badge badge-econ-neg">→ DARE</div>
+      <h4>Variazione Economica<br>Negativa <strong style="color:var(--red)">— Costo</strong></h4>
+      <p>L'azienda sostiene un costo. Il reddito diminuisce. Può essere legato all'acquisto di beni, servizi o al sostenimento di spese di gestione.</p>
+      <ul>
+        <li>Acquisto di materie prime (farina, vino, carne...)</li>
+        <li>Pagamento stipendi e salari</li>
+        <li>Affitto del locale</li>
+        <li>Utenze (luce, gas, acqua)</li>
+        <li>Interessi passivi sul mutuo</li>
+      </ul>
+    </div>
+    <div class="vm-cell">
+      <div class="vm-cell-badge badge-econ-pos">→ AVERE</div>
+      <h4>Variazione Economica<br>Positiva <strong style="color:var(--green)">+ Ricavo</strong></h4>
+      <p>L'azienda ottiene un ricavo. Il reddito aumenta. Nasce dalla cessione di beni o dalla prestazione di servizi.</p>
+      <ul>
+        <li>Vendita di pasti e bevande</li>
+        <li>Pernottamento in hotel</li>
+        <li>Servizi di banqueting/catering</li>
+        <li>Interessi attivi bancari</li>
+        <li>Affitti attivi su immobili</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout gold reveal">
+    <div class="callout-icon">🔗</div>
+    <div class="callout-body">
+      <div class="callout-title">Il Legame Inscindibile</div>
+      <div class="callout-text">Le variazioni economiche e finanziarie sono <strong>sempre collegate</strong>. Ogni operazione aziendale genera almeno una variazione economica e almeno una variazione finanziaria. <strong>Non esiste mai</strong> un'operazione con solo variazioni economiche o solo finanziarie — questa è la genialità del sistema doppio.</div>
+    </div>
+  </div>
+
+  <h3 class="reveal" style="font-family:'Playfair Display',serif; font-size:1.6rem; margin:48px 0 10px;">Lo Schema Riassuntivo</h3>
+  <p class="body reveal">Ecco la mappa completa: dove va ogni tipo di variazione?</p>
+
+  <div class="cross-schema reveal">
+    <div class="cross-title">Regola di registrazione — Schema completo</div>
+    <div class="cross-grid">
+      <div class="cross-header-left">← DARE (Sezione Sinistra)</div>
+      <div class="cross-center-top"></div>
+      <div class="cross-header-right">AVERE (Sezione Destra) →</div>
+      <div class="cross-body-left">
+        <div class="cross-row">
+          <div class="cross-dot dot-dare"></div>
+          <div class="cross-row-label">
+            <strong>Var. Fin. Attiva Positiva</strong>
+            <span>Aumentano cassa, banca, crediti</span>
+          </div>
+        </div>
+        <div class="cross-row">
+          <div class="cross-dot dot-dare"></div>
+          <div class="cross-row-label">
+            <strong>Var. Fin. Passiva Negativa</strong>
+            <span>Diminuisce un debito (si paga)</span>
+          </div>
+        </div>
+        <div class="cross-row">
+          <div class="cross-dot dot-dare"></div>
+          <div class="cross-row-label">
+            <strong>Variazione Economica Negativa</strong>
+            <span>Si sostiene un costo</span>
+          </div>
+        </div>
+      </div>
+      <div class="cross-divider"></div>
+      <div class="cross-body-right">
+        <div class="cross-row">
+          <div class="cross-dot dot-avere"></div>
+          <div class="cross-row-label">
+            <strong>Var. Fin. Attiva Negativa</strong>
+            <span>Diminuiscono cassa, banca, crediti</span>
+          </div>
+        </div>
+        <div class="cross-row">
+          <div class="cross-dot dot-avere"></div>
+          <div class="cross-row-label">
+            <strong>Var. Fin. Passiva Positiva</strong>
+            <span>Nasce o aumenta un debito</span>
+          </div>
+        </div>
+        <div class="cross-row">
+          <div class="cross-dot dot-avere"></div>
+          <div class="cross-row-label">
+            <strong>Variazione Economica Positiva</strong>
+            <span>Si ottiene un ricavo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="body reveal" style="margin-top:32px;">Questo è lo stesso schema in forma di tabella, per studiarlo rapidamente:</p>
+
+  <table class="master-table reveal">
+    <thead>
+      <tr>
+        <th>Tipo di Variazione</th>
+        <th>Aspetto</th>
+        <th>Conti interessati</th>
+        <th>Sez. Dare</th>
+        <th>Sez. Avere</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-type">Finanziaria Attiva <strong>+</strong></td>
+        <td><span class="pill pill-fin">Finanziario</span></td>
+        <td class="td-ex">Cassa, Banca c/c, Crediti v/clienti</td>
+        <td class="td-dare"><span class="pill pill-dare">DARE ↑</span></td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="td-type">Finanziaria Attiva <strong>−</strong></td>
+        <td><span class="pill pill-fin">Finanziario</span></td>
+        <td class="td-ex">Cassa, Banca c/c, Crediti v/clienti</td>
+        <td>—</td>
+        <td class="td-avere"><span class="pill pill-avere">AVERE ↓</span></td>
+      </tr>
+      <tr>
+        <td class="td-type">Finanziaria Passiva <strong>+</strong></td>
+        <td><span class="pill pill-fin">Finanziario</span></td>
+        <td class="td-ex">Debiti v/fornitori, Mutui passivi</td>
+        <td>—</td>
+        <td class="td-avere"><span class="pill pill-avere">AVERE ↑</span></td>
+      </tr>
+      <tr>
+        <td class="td-type">Finanziaria Passiva <strong>−</strong></td>
+        <td><span class="pill pill-fin">Finanziario</span></td>
+        <td class="td-ex">Debiti v/fornitori, Mutui passivi</td>
+        <td class="td-dare"><span class="pill pill-dare">DARE ↓</span></td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="td-type">Economica Negativa <strong>(Costo)</strong></td>
+        <td><span class="pill pill-econ">Economico</span></td>
+        <td class="td-ex">Merci c/acq., Salari, Affitti pass.</td>
+        <td class="td-dare"><span class="pill pill-dare">DARE</span></td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="td-type">Economica Positiva <strong>(Ricavo)</strong></td>
+        <td><span class="pill pill-econ">Economico</span></td>
+        <td class="td-ex">Merci c/vend., Ricavi di gestione</td>
+        <td>—</td>
+        <td class="td-avere"><span class="pill pill-avere">AVERE</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+</div>
+</section>
+
+<hr class="sep">
+
+<!-- =========================================================
+     04 · SCRITTURE CONTABILI
+     ========================================================= -->
+<section class="section" id="scritture">
+<div class="container">
+<div class="section-inner">
+
+  <div class="section-tag reveal">04 — La Pratica</div>
+  <h2 class="section-title reveal">Le Scritture<br><span class="hl3">Contabili</span> in pratica</h2>
+
+  <p class="lead reveal">Teoria appresa. Adesso il momento della verità: come si applica tutto questo a operazioni aziendali reali? Vediamo <strong>5 esempi</strong> guidati, tutti ambientati nel settore della ristorazione e dell'ospitalità.</p>
+
+  <p class="body reveal">Per ciascun esempio seguiamo sempre lo stesso metodo in 3 passi: <strong>(1)</strong> identifichiamo le variazioni generate, <strong>(2)</strong> decidiamo Dare e Avere, <strong>(3)</strong> scriviamo l'articolo contabile.</p>
+
+  <div class="examples-stack">
+
+    <!-- ESEMPIO 1 -->
+    <div class="ex-card reveal">
+      <div class="ex-header">
+        <div class="ex-num">ES·01</div>
+        <div class="ex-title-block">
+          <h3>Vendita pasti a pranzo: incassiamo 1.800 € in contanti</h3>
+          <p>Il ristorante serve 40 coperti. I clienti pagano subito al cassa, in contanti. Come registriamo?</p>
+          <div class="ex-tags">
+            <span class="pill pill-fin">Var. Finanziaria</span>
+            <span class="pill pill-econ">Var. Economica</span>
+          </div>
+        </div>
+      </div>
+      <div class="ex-analysis">
+        <div class="ex-an-col dare-side">
+          <div class="an-label">IN DARE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↑</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Cassa</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Fin. Attiva + → entra denaro<br>→ va in DARE</span>
+            </div>
+          </div>
+        </div>
+        <div class="ex-an-col avere-side">
+          <div class="an-label">IN AVERE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↑</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Merci c/vendite</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Econ. Positiva → ricavo ottenuto<br>→ va in AVERE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-registro">
+        <div class="ex-reg-label">Articolo Contabile</div>
+        <table class="reg-table">
+          <tr class="reg-head"><th style="width:55%">CONTO</th><th>TIPO</th><th>DARE</th><th>AVERE</th></tr>
+          <tr>
+            <td class="rc-conto">Cassa</td>
+            <td class="rc-type">Fin. Att. +</td>
+            <td class="rc-dare">1.800,00</td>
+            <td class="rc-empty">—</td>
+          </tr>
+          <tr>
+            <td class="rc-conto sub">Merci c/vendite</td>
+            <td class="rc-type">Econ. Pos.</td>
+            <td class="rc-empty">—</td>
+            <td class="rc-avere">1.800,00</td>
+          </tr>
+        </table>
+        <div class="reg-total">
+          <span>Totale DARE: <span class="tot-dare">1.800,00</span></span>
+          <span class="eq-check">= ✓</span>
+          <span>Totale AVERE: <span class="tot-avere">1.800,00</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEMPIO 2 -->
+    <div class="ex-card reveal reveal-delay-1">
+      <div class="ex-header">
+        <div class="ex-num">ES·02</div>
+        <div class="ex-title-block">
+          <h3>Acquisto di bottiglie di vino a credito: fattura di 3.200 €</h3>
+          <p>La cantina emette fattura. Non paghiamo subito: salderemo tra 30 giorni. Come registriamo?</p>
+          <div class="ex-tags">
+            <span class="pill pill-fin">Var. Finanziaria Passiva</span>
+            <span class="pill pill-econ">Var. Economica</span>
+          </div>
+        </div>
+      </div>
+      <div class="ex-analysis">
+        <div class="ex-an-col dare-side">
+          <div class="an-label">IN DARE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↑</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Merci c/acquisti</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Econ. Negativa → costo sostenuto<br>→ va in DARE</span>
+            </div>
+          </div>
+        </div>
+        <div class="ex-an-col avere-side">
+          <div class="an-label">IN AVERE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↑</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Debiti v/fornitori</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Fin. Passiva + → nasce un debito<br>→ va in AVERE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-registro">
+        <div class="ex-reg-label">Articolo Contabile</div>
+        <table class="reg-table">
+          <tr class="reg-head"><th style="width:55%">CONTO</th><th>TIPO</th><th>DARE</th><th>AVERE</th></tr>
+          <tr>
+            <td class="rc-conto">Merci c/acquisti</td>
+            <td class="rc-type">Econ. Neg.</td>
+            <td class="rc-dare">3.200,00</td>
+            <td class="rc-empty">—</td>
+          </tr>
+          <tr>
+            <td class="rc-conto sub">Debiti v/fornitori</td>
+            <td class="rc-type">Fin. Pass. +</td>
+            <td class="rc-empty">—</td>
+            <td class="rc-avere">3.200,00</td>
+          </tr>
+        </table>
+        <div class="reg-total">
+          <span>Totale DARE: <span class="tot-dare">3.200,00</span></span>
+          <span class="eq-check">= ✓</span>
+          <span>Totale AVERE: <span class="tot-avere">3.200,00</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEMPIO 3 -->
+    <div class="ex-card reveal reveal-delay-2">
+      <div class="ex-header">
+        <div class="ex-num">ES·03</div>
+        <div class="ex-title-block">
+          <h3>Pagamento dell'affitto mensile con bonifico bancario: 2.500 €</h3>
+          <p>Il 1° del mese, la banca addebita automaticamente l'affitto del locale. Come registriamo?</p>
+          <div class="ex-tags">
+            <span class="pill pill-fin">Var. Finanziaria Attiva</span>
+            <span class="pill pill-econ">Var. Economica</span>
+          </div>
+        </div>
+      </div>
+      <div class="ex-analysis">
+        <div class="ex-an-col dare-side">
+          <div class="an-label">IN DARE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↑</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Fitti passivi</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Econ. Negativa → costo dell'affitto<br>→ va in DARE</span>
+            </div>
+          </div>
+        </div>
+        <div class="ex-an-col avere-side">
+          <div class="an-label">IN AVERE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↓</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Banca c/c</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Fin. Attiva − → esce denaro dal conto<br>→ va in AVERE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-registro">
+        <div class="ex-reg-label">Articolo Contabile</div>
+        <table class="reg-table">
+          <tr class="reg-head"><th style="width:55%">CONTO</th><th>TIPO</th><th>DARE</th><th>AVERE</th></tr>
+          <tr>
+            <td class="rc-conto">Fitti passivi</td>
+            <td class="rc-type">Econ. Neg.</td>
+            <td class="rc-dare">2.500,00</td>
+            <td class="rc-empty">—</td>
+          </tr>
+          <tr>
+            <td class="rc-conto sub">Banca c/c</td>
+            <td class="rc-type">Fin. Att. −</td>
+            <td class="rc-empty">—</td>
+            <td class="rc-avere">2.500,00</td>
+          </tr>
+        </table>
+        <div class="reg-total">
+          <span>Totale DARE: <span class="tot-dare">2.500,00</span></span>
+          <span class="eq-check">= ✓</span>
+          <span>Totale AVERE: <span class="tot-avere">2.500,00</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEMPIO 4 -->
+    <div class="ex-card reveal reveal-delay-3">
+      <div class="ex-header">
+        <div class="ex-num">ES·04</div>
+        <div class="ex-title-block">
+          <h3>Saldo di un debito verso il fornitore di vino con bonifico: 3.200 €</h3>
+          <p>Trenta giorni dopo l'acquisto a credito (vedi Es. 02), saldiamo la fattura. Come registriamo?</p>
+          <div class="ex-tags">
+            <span class="pill pill-fin">Solo Variazioni Finanziarie</span>
+          </div>
+        </div>
+      </div>
+      <div class="ex-analysis">
+        <div class="ex-an-col dare-side">
+          <div class="an-label">IN DARE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↓</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Debiti v/fornitori</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Fin. Passiva − → si estingue un debito<br>→ va in DARE</span>
+            </div>
+          </div>
+        </div>
+        <div class="ex-an-col avere-side">
+          <div class="an-label">IN AVERE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↓</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Banca c/c</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Fin. Attiva − → esce denaro dal conto<br>→ va in AVERE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-registro">
+        <div class="ex-reg-label">Articolo Contabile</div>
+        <table class="reg-table">
+          <tr class="reg-head"><th style="width:55%">CONTO</th><th>TIPO</th><th>DARE</th><th>AVERE</th></tr>
+          <tr>
+            <td class="rc-conto">Debiti v/fornitori</td>
+            <td class="rc-type">Fin. Pass. −</td>
+            <td class="rc-dare">3.200,00</td>
+            <td class="rc-empty">—</td>
+          </tr>
+          <tr>
+            <td class="rc-conto sub">Banca c/c</td>
+            <td class="rc-type">Fin. Att. −</td>
+            <td class="rc-empty">—</td>
+            <td class="rc-avere">3.200,00</td>
+          </tr>
+        </table>
+        <div class="reg-total">
+          <span>Totale DARE: <span class="tot-dare">3.200,00</span></span>
+          <span class="eq-check">= ✓</span>
+          <span>Totale AVERE: <span class="tot-avere">3.200,00</span></span>
+        </div>
+      </div>
+      <div style="padding: 16px 28px;">
+        <div class="callout teal" style="margin:0;">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">Nota importante</div>
+            <div class="callout-text">In questa operazione non c'è <strong>nessuna variazione economica</strong>: il costo era già stato rilevato nell'Es. 02 quando è arrivata la fattura. Qui stiamo solo "estinguendo" il debito, spostando soldi dalla banca al fornitore.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEMPIO 5 — COMPOSTO -->
+    <div class="ex-card reveal">
+      <div class="ex-header">
+        <div class="ex-num">ES·05</div>
+        <div class="ex-title-block">
+          <h3>Pagamento stipendi mensili: 4.800 € (metà in contanti, metà via banca)</h3>
+          <p>Un'operazione più complessa: scritura composta. Lo stipendio totale è 4.800 €, pagato per metà in cassa e per metà via bonifico. Come registriamo?</p>
+          <div class="ex-tags">
+            <span class="pill pill-fin">Var. Finanziaria × 2</span>
+            <span class="pill pill-econ">Var. Economica</span>
+            <span class="pill pill-econ" style="background:var(--blue-dim); color:var(--blue)">Scrittura Composta</span>
+          </div>
+        </div>
+      </div>
+      <div class="ex-analysis">
+        <div class="ex-an-col dare-side">
+          <div class="an-label">IN DARE scriviamo</div>
+          <div class="an-item">
+            <span class="an-arrow">↑</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Salari e stipendi</strong><br>
+              <span style="font-size:12px; color:var(--text2)">Var. Econ. Neg. → costo del lavoro<br>→ DARE: 4.800,00</span>
+            </div>
+          </div>
+        </div>
+        <div class="ex-an-col avere-side">
+          <div class="an-label">IN AVERE scriviamo (2 conti)</div>
+          <div class="an-item">
+            <span class="an-arrow">↓</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Cassa</strong>
+              <span style="font-size:12px; color:var(--text2); display:block;">Fin. Att. − → esce da cassa → AVERE: 2.400,00</span>
+            </div>
+          </div>
+          <div class="an-item">
+            <span class="an-arrow">↓</span>
+            <div>
+              <strong style="font-size:14px; color:var(--text)">Banca c/c</strong>
+              <span style="font-size:12px; color:var(--text2); display:block;">Fin. Att. − → esce dalla banca → AVERE: 2.400,00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-registro">
+        <div class="ex-reg-label">Articolo Contabile Composto</div>
+        <table class="reg-table">
+          <tr class="reg-head"><th style="width:55%">CONTO</th><th>TIPO</th><th>DARE</th><th>AVERE</th></tr>
+          <tr>
+            <td class="rc-conto">Salari e stipendi</td>
+            <td class="rc-type">Econ. Neg.</td>
+            <td class="rc-dare">4.800,00</td>
+            <td class="rc-empty">—</td>
+          </tr>
+          <tr>
+            <td class="rc-conto sub">Cassa</td>
+            <td class="rc-type">Fin. Att. −</td>
+            <td class="rc-empty">—</td>
+            <td class="rc-avere">2.400,00</td>
+          </tr>
+          <tr>
+            <td class="rc-conto sub">Banca c/c</td>
+            <td class="rc-type">Fin. Att. −</td>
+            <td class="rc-empty">—</td>
+            <td class="rc-avere">2.400,00</td>
+          </tr>
+        </table>
+        <div class="reg-total">
+          <span>Totale DARE: <span class="tot-dare">4.800,00</span></span>
+          <span class="eq-check">= ✓</span>
+          <span>Totale AVERE: <span class="tot-avere">4.800,00</span></span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /examples-stack -->
+
+</div>
+</div>
+</section>
+
+<hr class="sep">
+
+<!-- =========================================================
+     RIEPILOGO
+     ========================================================= -->
+<section class="section" style="padding:80px 0;">
+<div class="container">
+<div class="section-inner">
+  <div class="section-tag reveal">05 — Riepilogo</div>
+  <h2 class="section-title reveal">I <span class="hl">Concetti Chiave</span><br>da portare a casa</h2>
+  <div class="recap-grid">
+    <div class="recap-card reveal">
+      <div class="rc-icon">📒</div>
+      <div class="rc-title">Doppia rilevazione</div>
+      <div class="rc-body">Ogni operazione viene registrata in almeno due conti, uno in Dare e uno in Avere, per importi uguali.</div>
+    </div>
+    <div class="recap-card reveal reveal-delay-1">
+      <div class="rc-icon">⚖️</div>
+      <div class="rc-title">Equilibrio assoluto</div>
+      <div class="rc-body">Totale Dare = Totale Avere. Sempre, in ogni singola scrittura. Se non si bilancia, c'è un errore.</div>
+    </div>
+    <div class="recap-card reveal reveal-delay-2">
+      <div class="rc-icon">🔗</div>
+      <div class="rc-title">Due aspetti</div>
+      <div class="rc-body">Ogni fatto aziendale ha un aspetto economico (costo/ricavo) e uno finanziario (cassa/debito/credito).</div>
+    </div>
+    <div class="recap-card reveal reveal-delay-3">
+      <div class="rc-icon" style="color:var(--dare-c)">◀</div>
+      <div class="rc-title">DARE = 3 situazioni</div>
+      <div class="rc-body">Aumento di un'attività finanziaria, diminuzione di un debito, oppure sostenimento di un costo.</div>
+    </div>
+    <div class="recap-card reveal reveal-delay-1">
+      <div class="rc-icon" style="color:var(--avere-c)">▶</div>
+      <div class="rc-title">AVERE = 3 situazioni</div>
+      <div class="rc-body">Diminuzione di un'attività finanziaria, aumento di un debito, oppure ottenimento di un ricavo.</div>
+    </div>
+    <div class="recap-card reveal reveal-delay-2">
+      <div class="rc-icon">🏛️</div>
+      <div class="rc-title">500 anni di storia</div>
+      <div class="rc-body">Pacioli (1494) lo codificò; da allora non è cambiato nulla. Il sistema che ha costruito il commercio moderno.</div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- =========================================================
+     QUIZ
+     ========================================================= -->
+<div class="quiz-section" id="quiz">
+<div class="quiz-inner">
+
+  <div class="section-tag reveal">06 — Verifica</div>
+  <h2 class="section-title reveal">Quanto hai <span class="hl">capito?</span></h2>
+  <p class="body reveal" style="margin-bottom:36px; color:var(--text2)">Sei domande per testare le tue conoscenze. Clicca sulla risposta corretta — riceverai un feedback immediato.</p>
+
+  <div class="quiz-progress-bar">
+    <div class="quiz-progress-fill" id="quizProgress" style="width:0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="qcard reveal" id="qc1">
+    <div class="qnum">Domanda 01 / 06</div>
+    <div class="qtext">Qual è il principio fondamentale della Partita Doppia?</div>
+    <div class="qoptions">
+      <div class="qopt" onclick="qa('qc1',this,false,'No: non è sufficiente un solo conto. Ogni operazione deve toccare almeno due conti.')"><span class="qopt-letter">A</span> Ogni operazione va registrata in un solo conto contabile</div>
+      <div class="qopt" onclick="qa('qc1',this,true,'✓ Esatto! Ogni operazione deve essere rilevata in almeno due conti: la somma del Dare deve sempre eguagliare la somma dell\'Avere. Questa è la "firma" di correttezza.')"><span class="qopt-letter">B</span> Ogni operazione viene registrata in almeno due conti, con Dare uguale ad Avere</div>
+      <div class="qopt" onclick="qa('qc1',this,false,'No: a fine mese si calcolano i saldi, ma l\'equilibrio deve esistere in OGNI singola operazione, non solo a fine mese.')"><span class="qopt-letter">C</span> I conti si bilanciano soltanto a fine mese</div>
+      <div class="qopt" onclick="qa('qc1',this,false,'Non è corretto: il Dare non coincide con le entrate di denaro. Il significato di Dare/Avere dipende dal tipo di conto.')"><span class="qopt-letter">D</span> Il Dare rappresenta sempre le entrate di denaro</div>
+    </div>
+    <div class="qfeedback" id="fb1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qcard reveal" id="qc2">
+    <div class="qnum">Domanda 02 / 06</div>
+    <div class="qtext">Un ristorante incassa 2.000 € per una cena di gala. Quale variazione si produce sulla Cassa?</div>
+    <div class="qoptions">
+      <div class="qopt" onclick="qa('qc2',this,false,'Negativa significa che esce denaro. Qui invece entra: la cassa aumenta.')"><span class="qopt-letter">A</span> Variazione Finanziaria Attiva Negativa</div>
+      <div class="qopt" onclick="qa('qc2',this,false,'La cassa non è un debito, è un\'attività. Le variazioni passive riguardano i debiti.')"><span class="qopt-letter">B</span> Variazione Finanziaria Passiva Positiva</div>
+      <div class="qopt" onclick="qa('qc2',this,true,'✓ Perfetto! La Cassa è un\'attività finanziaria. Quando aumenta, si tratta di Variazione Finanziaria Attiva Positiva → va registrata in DARE.')"><span class="qopt-letter">C</span> Variazione Finanziaria Attiva Positiva</div>
+      <div class="qopt" onclick="qa('qc2',this,false,'La variazione economica è quella del ricavo (Merci c/vendite), non quella della Cassa.')"><span class="qopt-letter">D</span> Variazione Economica Positiva</div>
+    </div>
+    <div class="qfeedback" id="fb2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qcard reveal" id="qc3">
+    <div class="qnum">Domanda 03 / 06</div>
+    <div class="qtext">L'hotel acquista divise per il personale pagandole subito in contanti (500 €). Quale coppia di variazioni si genera?</div>
+    <div class="qoptions">
+      <div class="qopt" onclick="qa('qc3',this,false,'No: acquistare divise è un costo (variazione economica negativa), non un ricavo.')"><span class="qopt-letter">A</span> Var. Economica Positiva + Var. Fin. Attiva Positiva</div>
+      <div class="qopt" onclick="qa('qc3',this,true,'✓ Esatto! Acquistare le divise è un costo → Var. Econ. Negativa in DARE (Costi per abbigliamento). Si paga in contanti → Var. Fin. Attiva Negativa in AVERE (Cassa diminuisce).')"><span class="qopt-letter">B</span> Var. Economica Negativa (costo) + Var. Fin. Attiva Negativa (esce cassa)</div>
+      <div class="qopt" onclick="qa('qc3',this,false,'Pagamento in contanti non genera un debito: il debito nasce solo se si acquista a credito.')"><span class="qopt-letter">C</span> Var. Economica Negativa + Var. Fin. Passiva Positiva</div>
+      <div class="qopt" onclick="qa('qc3',this,false,'No: i 500 € sono un costo, non un ricavo. La spesa riduce il reddito aziendale.')"><span class="qopt-letter">D</span> Solo Var. Fin. Attiva Negativa, senza variazione economica</div>
+    </div>
+    <div class="qfeedback" id="fb3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qcard reveal" id="qc4">
+    <div class="qnum">Domanda 04 / 06</div>
+    <div class="qtext">Un albergo riceve la fattura del fornitore di biancheria: 1.200 €, da pagare tra 60 giorni. Dove va registrato il conto "Debiti v/fornitori"?</div>
+    <div class="qoptions">
+      <div class="qopt" onclick="qa('qc4',this,false,'No: i debiti sono passività. Quando una passività aumenta, va in AVERE, non in DARE.')"><span class="qopt-letter">A</span> In DARE, perché nasce un nuovo debito</div>
+      <div class="qopt" onclick="qa('qc4',this,false,'I debiti finanziari e commerciali si registrano nello stesso modo: in AVERE quando aumentano.')"><span class="qopt-letter">B</span> In DARE, perché è un debito finanziario</div>
+      <div class="qopt" onclick="qa('qc4',this,true,'✓ Corretto! I Debiti v/fornitori sono una passività finanziaria. Quando aumentano (nasce un debito), si registrano in AVERE → Variazione Finanziaria Passiva Positiva.')"><span class="qopt-letter">C</span> In AVERE, perché è una Variazione Finanziaria Passiva Positiva</div>
+      <div class="qopt" onclick="qa('qc4',this,false,'Non dipende dalla scadenza: anche a 60 giorni, il debito va in AVERE nel momento in cui la fattura è ricevuta.')"><span class="qopt-letter">D</span> Non si registra subito: si aspetta la scadenza dei 60 giorni</div>
+    </div>
+    <div class="qfeedback" id="fb4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qcard reveal" id="qc5">
+    <div class="qnum">Domanda 05 / 06</div>
+    <div class="qtext">Dopo 60 giorni, l'albergo paga con bonifico i 1.200 € alla lavanderia. Quale variazione si genera sul conto "Debiti v/fornitori"?</div>
+    <div class="qoptions">
+      <div class="qopt" onclick="qa('qc5',this,false,'Passiva Positiva significa che il debito aumenta. Qui invece lo stiamo estinguendo: il debito diminuisce.')"><span class="qopt-letter">A</span> Variazione Finanziaria Passiva Positiva → AVERE</div>
+      <div class="qopt" onclick="qa('qc5',this,false,'Attiva Positiva riguarda l\'aumento di cassa o crediti. Qui parliamo di un debito, che è una passività.')"><span class="qopt-letter">B</span> Variazione Finanziaria Attiva Positiva → DARE</div>
+      <div class="qopt" onclick="qa('qc5',this,true,'✓ Perfetto! Estinguere un debito è una Variazione Finanziaria Passiva Negativa: la passività diminuisce → va in DARE. Contemporaneamente, la Banca c/c diminuisce (Fin. Att. −) → va in AVERE.')"><span class="qopt-letter">C</span> Variazione Finanziaria Passiva Negativa → DARE</div>
+      <div class="qopt" onclick="qa('qc5',this,false,'Il pagamento del debito non genera alcun costo nuovo: il costo era già stato rilevato quando è arrivata la fattura.')"><span class="qopt-letter">D</span> Variazione Economica Negativa → DARE</div>
+    </div>
+    <div class="qfeedback" id="fb5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qcard reveal" id="qc6">
+    <div class="qnum">Domanda 06 / 06</div>
+    <div class="qtext">Fra' Luca Pacioli codificò il sistema della Partita Doppia in quale opera e in quale anno?</div>
+    <div class="qoptions">
+      <div class="qopt" onclick="qa('qc6',this,false,'Il Principe è di Machiavelli (1513). Pacioli era un matematico francescano, non un politico.')"><span class="qopt-letter">A</span> Il Principe, 1513</div>
+      <div class="qopt" onclick="qa('qc6',this,false,'Vicino come anno, ma non corretto: il libro si chiama Summa de Arithmetica e fu pubblicato a Venezia.')"><span class="qopt-letter">B</span> Trattato di Matematica, 1492</div>
+      <div class="qopt" onclick="qa('qc6',this,true,'✓ Esattamente! La Summa de Arithmetica, Geometria, Proportioni et Proportionalità fu stampata a Venezia nel 1494. Nel capitolo XI (Tractatus) Pacioli descrisse il sistema doppio usato dai mercanti veneziani.')"><span class="qopt-letter">C</span> Summa de Arithmetica, 1494</div>
+      <div class="qopt" onclick="qa('qc6',this,false,'Il Codice Atlantico è di Leonardo da Vinci, amico di Pacioli, ma è una raccolta di appunti, non un trattato di contabilità.')"><span class="qopt-letter">D</span> Codice Atlantico, 1498</div>
+    </div>
+    <div class="qfeedback" id="fb6"></div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="quiz-score" id="quizScore">
+    <div class="qs-label">Il tuo risultato finale</div>
+    <div class="qs-number" id="scoreNum">0</div>
+    <div class="qs-total">su 6 risposte corrette</div>
+    <p class="qs-msg" id="scoreMsg"></p>
+  </div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">Partita Doppia</div>
+  <div class="footer-sub">IPSEOA Amerigo Vespucci · Milano · Classe A045 · DTA</div>
+  <div class="footer-divider"></div>
+  <p class="footer-note">Dal 1494, immutato. Fra' Luca Pacioli ringrazia.</p>
+</footer>
+
+<script>
+/* =========================================================
+   PROGRESS BAR + NAV ATTIVO
+   ========================================================= */
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct = (window.scrollY / total * 100).toFixed(1);
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+let answered = 0;
+let correct  = 0;
+const total  = 6;
+
+function qa(cardId, el, isCorrect, msg) {
+  const card = document.getElementById(cardId);
+  if (card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  answered++;
+
+  card.querySelectorAll('.qopt').forEach(o => {
+    o.classList.add('locked');
+    o.style.pointerEvents = 'none';
+  });
+
+  el.classList.remove('locked');
+  el.classList.add(isCorrect ? 'correct' : 'wrong');
+  el.style.pointerEvents = 'none';
+
+  const num = cardId.replace('qc', '');
+  const fb = document.getElementById('fb' + num);
+  fb.textContent = msg;
+  fb.classList.add('show', isCorrect ? 'ok' : 'ko');
+
+  if (isCorrect) correct++;
+
+  // progress
+  document.getElementById('quizProgress').style.width = ((answered / total) * 100) + '%';
+
+  // score finale
+  if (answered === total) {
+    setTimeout(() => {
+      const sc = document.getElementById('quizScore');
+      document.getElementById('scoreNum').textContent = correct;
+      const msgs = [
+        'Rileggi la lezione con calma: le basi sono fondamentali.',
+        'Quasi! Qualche concetto da ripassare.',
+        'Buon risultato, ma puoi fare meglio!',
+        'Molto bene! Stai capendo il sistema.',
+        'Ottimo! Solo un piccolo passo falso.',
+        'Perfetto! Sei pronto per le scritture contabili avanzate. 🏆'
+      ];
+      document.getElementById('scoreMsg').textContent = msgs[Math.max(0, correct - 1)] || msgs[0];
+      sc.classList.add('show');
+      sc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 400);
+  }
+}
+</script>
+</body>
+</html>
