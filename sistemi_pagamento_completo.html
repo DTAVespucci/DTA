@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistemi di Pagamento – Lezione Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy2: #152232;
+  --gold: #d4a843;
+  --gold2: #f0c060;
+  --cream: #faf7f2;
+  --offwhite: #f2ede4;
+  --teal: #1e6b6b;
+  --teal-bg: #e8f4f4;
+  --red: #b83232;
+  --red-bg: #fdf0f0;
+  --green: #2a6b3a;
+  --green-bg: #edf7ef;
+  --blue: #2255aa;
+  --blue-bg: #eef2fb;
+  --purple: #6633aa;
+  --purple-bg: #f3eeff;
+  --orange: #cc6600;
+  --orange-bg: #fff3e0;
+  --border: #e0d8cc;
+  --muted: #6b6357;
+  --text: #1a1210;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ──────────── HEADER ──────────── */
+.top-header {
+  background: var(--navy);
+  color: white;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 3px 20px rgba(0,0,0,.4);
+}
+.top-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  border-bottom: 2px solid var(--gold);
+}
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-icon {
+  width: 42px; height: 42px;
+  background: var(--gold);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.logo h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.2rem;
+  color: white;
+  line-height: 1.2;
+}
+.logo h1 span { color: var(--gold2); }
+.logo sub { font-size: 0.72rem; color: #aaa; font-family: 'Outfit'; font-weight: 400; display: block; }
+.header-right { text-align: right; }
+.header-right .school { font-size: 0.78rem; color: #aaa; }
+.header-right .prof  { font-size: 0.85rem; color: var(--gold2); font-weight: 600; }
+
+/* TIMER BAR */
+.timer-bar {
+  background: linear-gradient(90deg, #1a2f40, #0d1b2a);
+  padding: 7px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.82rem;
+  color: #ccc;
+  border-top: 1px solid #2a3f55;
+}
+#timer-clock {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold2);
+  font-variant-numeric: tabular-nums;
+  min-width: 52px;
+}
+.timer-btn {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 3px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-family: 'Outfit';
+  font-weight: 600;
+}
+.timer-btn.reset { background: #2a3f55; color: #aaa; }
+#fase-tag {
+  margin-left: auto;
+  background: #1e3550;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  color: var(--gold2);
+}
+
+/* ──────────── NAV ──────────── */
+.main-nav {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  overflow-x: auto;
+  display: flex;
+  gap: 0;
+  scrollbar-width: none;
+}
+.main-nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 13px 18px;
+  font-family: 'Outfit';
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+  position: relative;
+}
+.nav-btn:hover { color: var(--text); background: var(--offwhite); }
+.nav-btn.active { color: var(--navy); border-bottom-color: var(--gold); font-weight: 700; background: #fffdf9; }
+.nav-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; height: 18px;
+  background: var(--border);
+  border-radius: 50%;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-right: 5px;
+  color: var(--muted);
+}
+.nav-btn.active .nav-num { background: var(--gold); color: white; }
+
+/* ──────────── SECTIONS ──────────── */
+.section { display: none; max-width: 1100px; margin: 0 auto; padding: 36px 28px 64px; }
+.section.active { display: block; }
+
+/* PAGE TITLE */
+.page-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.page-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2.4rem;
+  color: var(--navy);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+.page-title em { color: var(--gold); font-style: normal; }
+.page-desc { color: var(--muted); font-size: .95rem; margin-bottom: 32px; max-width: 700px; }
+
+/* ──────────── BLOCKS ──────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
+@media(max-width:760px){ .grid-2,.grid-3,.grid-4{ grid-template-columns:1fr; } }
+
+/* CARD */
+.card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+.card-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card p { font-size: .88rem; line-height: 1.75; color: #444; margin-bottom: 10px; }
+.card p:last-child { margin-bottom: 0; }
+.card ul { padding-left: 20px; }
+.card ul li { font-size: .88rem; line-height: 1.9; color: #444; }
+
+/* COLOR VARIANTS */
+.card.navy  { background: var(--navy); border-color: var(--navy); }
+.card.navy .card-title { color: var(--gold2); }
+.card.navy p, .card.navy li { color: #c8cdd6; }
+.card.navy strong { color: white; }
+
+.card.gold  { background: #fffbf0; border-color: var(--gold); }
+.card.teal  { background: var(--teal-bg); border-color: var(--teal); }
+.card.red   { background: var(--red-bg); border-color: var(--red); }
+.card.green { background: var(--green-bg); border-color: var(--green); }
+.card.blue  { background: var(--blue-bg); border-color: var(--blue); }
+.card.purple{ background: var(--purple-bg); border-color: var(--purple); }
+.card.orange{ background: var(--orange-bg); border-color: var(--orange); }
+
+/* BIG STAT */
+.stat-card {
+  background: var(--navy);
+  border-radius: 14px;
+  padding: 22px;
+  text-align: center;
+}
+.stat-num { font-family: 'Libre Baskerville', serif; font-size: 2.4rem; color: var(--gold2); font-weight: 700; }
+.stat-label { font-size: .78rem; color: #aaa; margin-top: 4px; }
+
+/* ALERT / INFO BOX */
+.box {
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  border-left: 5px solid;
+  font-size: .88rem;
+  line-height: 1.75;
+}
+.box strong { display: block; font-size: .9rem; font-weight: 700; margin-bottom: 6px; }
+.box.gold   { background: #fffbf0; border-color: var(--gold); color: #554422; }
+.box.navy   { background: var(--navy); border-color: var(--gold); color: #ccc; }
+.box.navy strong { color: var(--gold2); }
+.box.teal   { background: var(--teal-bg); border-color: var(--teal); color: #1a4545; }
+.box.red    { background: var(--red-bg); border-color: var(--red); color: #6b1a1a; }
+.box.green  { background: var(--green-bg); border-color: var(--green); color: #1a4025; }
+.box.blue   { background: var(--blue-bg); border-color: var(--blue); color: #1a2f6b; }
+.box.orange { background: var(--orange-bg); border-color: var(--orange); color: #5a3000; }
+
+/* SECTION DIVIDER */
+.sdiv {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 32px 0 20px;
+}
+.sdiv-line { flex: 1; height: 1.5px; background: var(--border); }
+.sdiv-label {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.15rem;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+/* STEP FLOW */
+.flow { display: flex; flex-direction: column; margin-bottom: 24px; }
+.flow-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px 20px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-bottom: none;
+  position: relative;
+}
+.flow-item:first-child { border-radius: 14px 14px 0 0; }
+.flow-item:last-child  { border-radius: 0 0 14px 14px; border-bottom: 1.5px solid var(--border); }
+.flow-num {
+  width: 36px; height: 36px;
+  background: var(--gold);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: .9rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(212,168,67,.4);
+}
+.flow-body h4 { font-size: .95rem; font-weight: 700; margin-bottom: 5px; color: var(--navy); }
+.flow-body p  { font-size: .86rem; color: #555; line-height: 1.65; }
+.flow-body ul { padding-left: 18px; margin-top: 6px; }
+.flow-body ul li { font-size: .85rem; color: #555; line-height: 1.8; }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; font-size: .86rem; margin-bottom: 22px; border-radius: 12px; overflow: hidden; border: 1.5px solid var(--border); }
+.tbl th { background: var(--navy); color: var(--gold2); padding: 11px 14px; text-align: left; font-weight: 600; font-size: .82rem; }
+.tbl td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: #444; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: #fafaf8; }
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: .72rem;
+  font-weight: 700;
+}
+.b-gold   { background: #fef3d0; color: #8a5e00; }
+.b-green  { background: var(--green-bg); color: var(--green); }
+.b-red    { background: var(--red-bg); color: var(--red); }
+.b-teal   { background: var(--teal-bg); color: var(--teal); }
+.b-blue   { background: var(--blue-bg); color: var(--blue); }
+.b-navy   { background: var(--navy); color: var(--gold2); }
+.b-purple { background: var(--purple-bg); color: var(--purple); }
+.b-orange { background: var(--orange-bg); color: var(--orange); }
+
+/* TAG PILL */
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+/* SCENARIO */
+.scenario {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+.scenario-hdr {
+  background: var(--navy);
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.scenario-hdr:hover { background: #1a2f45; }
+.s-emoji { font-size: 1.5rem; }
+.s-title { font-family: 'Libre Baskerville', serif; color: white; font-size: 1rem; flex: 1; }
+.s-subtitle { font-size: .76rem; color: #99aacc; margin-top: 2px; }
+.s-arrow { color: var(--gold2); font-size: 1.1rem; transition: transform .3s; }
+.scenario-hdr.open .s-arrow { transform: rotate(180deg); }
+.scenario-body { padding: 24px; display: none; }
+.scenario-body.open { display: block; }
+.s-context {
+  background: var(--offwhite);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: .84rem;
+  color: var(--muted);
+  margin-bottom: 18px;
+  border-left: 3px solid var(--gold);
+}
+
+/* DIALOG */
+.dialog { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+.msg { max-width: 80%; padding: 11px 15px; border-radius: 14px; font-size: .86rem; line-height: 1.65; }
+.msg.client   { align-self: flex-start; background: #e8edf5; border-bottom-left-radius: 3px; }
+.msg.staff    { align-self: flex-end;   background: var(--teal-bg); border-bottom-right-radius: 3px; color: #1a4545; }
+.msg-who { font-size: .7rem; font-weight: 700; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .05em; }
+.tip-panel {
+  background: #fffbf0;
+  border: 1.5px dashed var(--gold);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-size: .84rem;
+  line-height: 1.7;
+}
+.tip-panel strong { color: var(--gold); font-size: .88rem; display: block; margin-bottom: 5px; }
+
+/* QUIZ */
+.quiz-wrap { display: flex; flex-direction: column; gap: 18px; }
+.q-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+}
+.q-num { font-size: .72rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+.q-text { font-weight: 600; font-size: .96rem; color: var(--navy); margin-bottom: 14px; line-height: 1.5; }
+.q-opts { display: flex; flex-direction: column; gap: 8px; }
+.q-opt {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-size: .87rem;
+  cursor: pointer;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.q-opt:hover { border-color: var(--gold); background: #fffbf0; }
+.q-opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+.q-opt.wrong   { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.q-opt.selected { border-color: var(--navy); }
+.opt-letter {
+  width: 24px; height: 24px;
+  background: var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.q-opt.correct .opt-letter { background: var(--green); color: white; }
+.q-opt.wrong   .opt-letter { background: var(--red); color: white; }
+.q-feedback {
+  margin-top: 12px;
+  font-size: .83rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: none;
+  line-height: 1.6;
+}
+.q-feedback.show { display: block; }
+.q-feedback.ok { background: var(--green-bg); color: var(--green); }
+.q-feedback.ko { background: var(--red-bg); color: var(--red); }
+
+#quiz-result {
+  display: none;
+  background: var(--navy);
+  border-radius: 16px;
+  padding: 36px;
+  text-align: center;
+  margin-top: 20px;
+}
+.result-big { font-family: 'Libre Baskerville', serif; font-size: 4rem; color: var(--gold2); }
+.result-msg { color: #ccc; margin-top: 10px; font-size: 1rem; }
+.result-bar {
+  background: #1e3550;
+  border-radius: 8px;
+  height: 12px;
+  margin: 16px auto;
+  max-width: 400px;
+  overflow: hidden;
+}
+.result-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  border-radius: 8px;
+  transition: width 1s ease;
+}
+#submit-btn {
+  background: var(--navy);
+  color: white;
+  border: 2px solid var(--gold);
+  padding: 14px 36px;
+  border-radius: 10px;
+  font-family: 'Outfit';
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all .2s;
+}
+#submit-btn:hover { background: var(--gold); color: var(--navy); }
+
+/* ROLE PLAY */
+.rp-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 18px;
+}
+.rp-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rp-roles { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+.rp-role {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+.rp-role.client  { background: #e8edf5; color: #2244aa; }
+.rp-role.staff   { background: var(--teal-bg); color: var(--teal); }
+.rp-timing {
+  font-size: .78rem;
+  color: var(--muted);
+  background: var(--offwhite);
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-left: auto;
+}
+.rp-scenario { font-size: .87rem; color: #444; line-height: 1.7; margin-bottom: 10px; }
+.rp-goal { font-size: .83rem; color: var(--teal); background: var(--teal-bg); padding: 8px 12px; border-radius: 8px; line-height: 1.6; }
+.rp-goal strong { display: block; font-weight: 700; margin-bottom: 2px; }
+
+/* PAYMENT MOSAIC */
+.pay-mosaic { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; margin-bottom: 20px; }
+.pay-tile {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.pay-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.1); border-color: var(--gold); }
+.pay-tile.active { border-color: var(--gold); background: #fffbf3; box-shadow: 0 0 0 2px var(--gold); }
+.pt-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+.pt-name { font-weight: 700; font-size: .85rem; color: var(--navy); }
+.pt-tag  { font-size: .72rem; color: var(--muted); margin-top: 3px; }
+
+.pay-detail {
+  background: var(--navy);
+  border-radius: 14px;
+  padding: 24px;
+  color: white;
+  min-height: 120px;
+  margin-bottom: 26px;
+  transition: opacity .3s;
+}
+.pay-detail h3 { font-family: 'Libre Baskerville', serif; color: var(--gold2); margin-bottom: 10px; font-size: 1.1rem; }
+.pay-detail p  { color: #c8cdd6; font-size: .89rem; line-height: 1.75; margin-bottom: 8px; }
+.pay-detail ul { padding-left: 20px; }
+.pay-detail li { color: #b8c2d0; font-size: .87rem; line-height: 1.85; }
+.pay-detail strong { color: white; }
+.pay-detail .pd-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+.pd-tag { background: rgba(255,255,255,.1); color: #ddd; padding: 2px 10px; border-radius: 20px; font-size: .72rem; }
+
+/* CONCEPT BOX */
+.concept {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.concept-hdr {
+  background: var(--navy);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.concept-hdr h3 { color: var(--gold2); font-family: 'Libre Baskerville', serif; font-size: 1rem; }
+.concept-body { padding: 20px 22px; font-size: .88rem; line-height: 1.75; color: #444; }
+.concept-body p { margin-bottom: 10px; }
+.concept-body p:last-child { margin-bottom: 0; }
+.concept-body ul { padding-left: 20px; }
+.concept-body li { line-height: 1.9; }
+.concept-body strong { color: var(--navy); }
+
+/* COMPARISON */
+.compare { display: flex; gap: 0; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 22px; }
+.compare-col { flex: 1; padding: 20px; }
+.compare-col:first-child { border-right: 1.5px solid var(--border); }
+.compare-col h4 { font-family: 'Libre Baskerville', serif; font-size: .95rem; margin-bottom: 12px; }
+.compare-col ul { padding-left: 18px; }
+.compare-col li { font-size: .85rem; line-height: 1.85; color: #444; }
+
+/* IMPORTANT BANNER */
+.banner {
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.banner.navy { background: var(--navy); }
+.banner-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
+.banner-body h4 { font-family: 'Libre Baskerville', serif; font-size: 1rem; margin-bottom: 6px; }
+.banner.navy .banner-body h4 { color: var(--gold2); }
+.banner.navy .banner-body p  { color: #b8c2d0; font-size: .87rem; line-height: 1.7; }
+
+/* IVA VISUAL */
+.iva-row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: white; }
+.iva-row:last-child { border-bottom: none; }
+.iva-pct {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  min-width: 54px;
+  text-align: right;
+}
+.iva-row.p4  .iva-pct { color: var(--green); }
+.iva-row.p10 .iva-pct { color: var(--teal); }
+.iva-row.p22 .iva-pct { color: var(--red); }
+.iva-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.iva-fill { height: 100%; border-radius: 4px; }
+.iva-row.p4  .iva-fill { width: 18%; background: var(--green); }
+.iva-row.p10 .iva-fill { width: 45%; background: var(--teal); }
+.iva-row.p22 .iva-fill { width: 100%; background: var(--red); }
+.iva-desc { font-size: .83rem; color: #444; min-width: 250px; }
+
+/* CIRCUITI */
+.circuit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); gap: 12px; margin-bottom: 22px; }
+.circuit-item {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 10px;
+  text-align: center;
+  font-size: .83rem;
+}
+.circuit-item .ci { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+.circuit-item .cn { font-weight: 700; font-size: .85rem; color: var(--navy); }
+.circuit-item .ct { font-size: .72rem; color: var(--muted); }
+
+/* SICUREZZA BANCONOTE */
+.banconota-features { display: flex; flex-direction: column; gap: 0; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; }
+.bf-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: white;
+}
+.bf-row:last-child { border-bottom: none; }
+.bf-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.bf-body h5 { font-size: .88rem; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.bf-body p  { font-size: .83rem; color: #555; line-height: 1.6; }
+
+/* PROGRESS DOT NAV */
+hr.section-sep { border: none; border-top: 2px solid var(--border); margin: 28px 0; }
+
+/* SCROLL */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* PRINT FRIENDLY */
+@media print {
+  .top-header, .main-nav, .timer-bar { display: none; }
+  .section { display: block !important; page-break-before: always; }
+  .section:first-of-type { page-break-before: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="top-header">
+  <div class="top-header-inner">
+    <div class="logo">
+      <div class="logo-icon">💳</div>
+      <div>
+        <h1>Sistemi di <span>Pagamento</span></h1>
+        <sub>DTA · Sala &amp; Accoglienza · Lezione Completa · 2 ore</sub>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="prof">Prof. Camarda</div>
+      <div class="school">IPSEOA Amerigo Vespucci · Milano</div>
+    </div>
+  </div>
+  <div class="timer-bar">
+    <span>⏱ Durata:</span>
+    <span id="timer-clock">00:00</span>
+    <button class="timer-btn" id="tbtn" onclick="toggleTimer()">▶ Start</button>
+    <button class="timer-btn reset" onclick="resetTimer()">↺ Reset</button>
+    <span id="fase-tag">–</span>
+  </div>
+</div>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="main-nav">
+  <button class="nav-btn active" onclick="show('s0',this)"><span class="nav-num">0</span>Intro</button>
+  <button class="nav-btn" onclick="show('s1',this)"><span class="nav-num">1</span>I Mezzi</button>
+  <button class="nav-btn" onclick="show('s2',this)"><span class="nav-num">2</span>Il POS</button>
+  <button class="nav-btn" onclick="show('s3',this)"><span class="nav-num">3</span>Digitale</button>
+  <button class="nav-btn" onclick="show('s4',this)"><span class="nav-num">4</span>Fiscalità</button>
+  <button class="nav-btn" onclick="show('s5',this)"><span class="nav-num">5</span>Sicurezza</button>
+  <button class="nav-btn" onclick="show('s6',this)"><span class="nav-num">6</span>Valuta Estera</button>
+  <button class="nav-btn" onclick="show('s7',this)"><span class="nav-num">7</span>Casi Pratici</button>
+  <button class="nav-btn" onclick="show('s8',this)"><span class="nav-num">8</span>Role Play</button>
+  <button class="nav-btn" onclick="show('s9',this)"><span class="nav-num">9</span>Quiz Finale</button>
+</nav>
+
+<!-- ═══════════════════════════════════ INTRO ═══════════════════════════════════ -->
+<section class="section active" id="s0">
+  <div class="page-eyebrow">Lezione · DTA · Sala &amp; Accoglienza</div>
+  <h1 class="page-title">Sistemi di <em>Pagamento</em></h1>
+  <p class="page-desc">Tutto ciò che un professionista di sala e accoglienza deve sapere per gestire i pagamenti con competenza, sicurezza e professionalità.</p>
+
+  <div class="box navy">
+    <strong>🎯 Obiettivi della lezione</strong>
+    Al termine di queste 2 ore saprai: distinguere e descrivere tutti i mezzi di pagamento, spiegare il funzionamento del POS e dei pagamenti digitali, comprendere gli obblighi fiscali legati ai pagamenti, riconoscere le situazioni critiche e gestirle con professionalità, e capire come proteggerti dalle frodi.
+  </div>
+
+  <div class="grid-2">
+    <div class="card gold">
+      <div class="card-title">📋 Struttura della lezione (120 min)</div>
+      <ul>
+        <li><strong>0–10 min</strong> — Aggancio e domande alla classe</li>
+        <li><strong>10–35 min</strong> — I mezzi di pagamento (panoramica)</li>
+        <li><strong>35–55 min</strong> — Il POS: funzionamento e gestione</li>
+        <li><strong>55–70 min</strong> — Pagamenti digitali e app</li>
+        <li><strong>70–85 min</strong> — Fiscalità: scontrino, fattura, IVA</li>
+        <li><strong>85–95 min</strong> — Sicurezza e frodi</li>
+        <li><strong>95–110 min</strong> — Casi pratici &amp; role play</li>
+        <li><strong>110–120 min</strong> — Quiz finale + riepilogo</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="card-title">❓ Domande di aggancio — chiedi alla classe</div>
+      <p>Prima di iniziare, usa queste domande per attivare la classe e capire il livello di partenza:</p>
+      <ul>
+        <li>Come avete pagato l'ultima volta in un locale?</li>
+        <li>Avete mai usato Satispay o Apple Pay?</li>
+        <li>Sapete cosa succede quando una carta viene rifiutata?</li>
+        <li>Avete mai visto banconote false? Come si riconoscono?</li>
+        <li>Perché il ristorante deve dare lo scontrino per legge?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Perché questo argomento è fondamentale per voi</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-3">
+    <div class="card teal">
+      <div class="card-title">🍽 In sala</div>
+      <p>Il cameriere gestisce il conto finale del cliente: sceglie il mezzo di pagamento, usa il POS, stampa lo scontrino. Un errore qui danneggia l'immagine del locale e può avere conseguenze legali.</p>
+    </div>
+    <div class="card blue">
+      <div class="card-title">🏨 In accoglienza</div>
+      <p>Il receptionist raccoglie la caparra, gestisce il check-in/check-out, autorizza la carta di credito come garanzia, emette la fattura per i clienti aziendali. È il "cassiere" dell'hotel.</p>
+    </div>
+    <div class="card purple">
+      <div class="card-title">📊 Nel mercato</div>
+      <p>Il settore HoReCa gestisce miliardi di transazioni ogni anno. I pagamenti cashless (senza contanti) sono in continua crescita: in Italia nel 2024 oltre il 65% dei pagamenti è avvenuto con carta o app.</p>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <div class="stat-card"><div class="stat-num">65%</div><div class="stat-label">Pagamenti cashless in Italia (2024)</div></div>
+    <div class="stat-card"><div class="stat-num">€50</div><div class="stat-label">Limite contactless senza PIN (carta)</div></div>
+    <div class="stat-card"><div class="stat-num">10%</div><div class="stat-label">IVA sulla ristorazione al tavolo</div></div>
+    <div class="stat-card"><div class="stat-num">2020</div><div class="stat-label">Anno obbligo Registratore Telematico</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 1: I MEZZI ═══════════════════════════════════ -->
+<section class="section" id="s1">
+  <div class="page-eyebrow">Modulo 1</div>
+  <h1 class="page-title">I Mezzi di <em>Pagamento</em></h1>
+  <p class="page-desc">Un mezzo di pagamento è qualsiasi strumento usato per trasferire denaro da un soggetto a un altro in cambio di beni o servizi. Clicca su ciascun mezzo per l'approfondimento.</p>
+
+  <div class="pay-mosaic" id="payGrid"></div>
+  <div class="pay-detail" id="payDetail">
+    <h3>👆 Seleziona un mezzo di pagamento</h3>
+    <p>Clicca su uno degli strumenti qui sopra per leggere una spiegazione dettagliata: come funziona, vantaggi, svantaggi, come gestirlo in sala.</p>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Tabella riassuntiva comparativa</div><div class="sdiv-line"></div></div>
+
+  <table class="tbl">
+    <tr><th>Mezzo di pagamento</th><th>Come funziona</th><th>Velocità</th><th>Sicurezza</th><th>Diffusione</th><th>Commissioni per il locale</th></tr>
+    <tr><td>💵 <strong>Contanti</strong></td><td>Scambio fisico di monete e banconote</td><td>⚡⚡⚡</td><td>⚠️ Media</td><td>Alta</td><td>0 (ma gestione cassa)</td></tr>
+    <tr><td>💳 <strong>Carta di debito</strong></td><td>Addebito immediato sul conto corrente tramite POS</td><td>⚡⚡⚡</td><td>✅ Alta</td><td>Molto alta</td><td>~0.2–0.5%</td></tr>
+    <tr><td>💳 <strong>Carta di credito</strong></td><td>Addebito differito mensile, credito rotativo</td><td>⚡⚡⚡</td><td>✅ Alta</td><td>Alta</td><td>~1–2% (Amex ~3%)</td></tr>
+    <tr><td>💳 <strong>Carta prepagata</strong></td><td>Usa il saldo caricato in precedenza</td><td>⚡⚡⚡</td><td>✅ Alta</td><td>Alta (giovani)</td><td>~0.2–0.5%</td></tr>
+    <tr><td>📱 <strong>App digitali</strong></td><td>NFC o QR code su smartphone</td><td>⚡⚡⚡</td><td>✅✅ Molto alta</td><td>Media, in crescita</td><td>Variabile (Satispay: 0 sotto €10)</td></tr>
+    <tr><td>🍽 <strong>Buoni pasto</strong></td><td>Buono cartaceo o card emessa dal datore di lavoro</td><td>⚡⚡</td><td>✅ Alta</td><td>Media (lavoratori)</td><td>~3–5% (rimborso dilazionato)</td></tr>
+    <tr><td>🏦 <strong>Bonifico bancario</strong></td><td>Trasferimento diretto tra conti tramite IBAN</td><td>⚡ (1 gg)</td><td>✅ Alta</td><td>Bassa (hotel, aziende)</td><td>0 (a carico del mittente)</td></tr>
+    <tr><td>📝 <strong>Assegno</strong></td><td>Ordine scritto alla banca di pagare un importo</td><td>⚡ (2–3 gg)</td><td>⚠️ Media</td><td>Molto bassa</td><td>0 (ma rischio insolvenza)</td></tr>
+  </table>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">I circuiti di pagamento</div><div class="sdiv-line"></div></div>
+
+  <div class="box blue">
+    <strong>🔗 Cos'è un circuito di pagamento?</strong>
+    Un circuito di pagamento è la rete che collega banche, esercenti e clienti per permettere le transazioni elettroniche. Ogni carta appartiene a uno o più circuiti. Quando paghi con carta, il POS capisce quale circuito usare leggendo il logo sulla carta.
+  </div>
+
+  <div class="circuit-grid">
+    <div class="circuit-item"><span class="ci">🔵</span><div class="cn">Visa</div><div class="ct">Internazionale — debito e credito</div></div>
+    <div class="circuit-item"><span class="ci">🔴</span><div class="cn">Mastercard</div><div class="ct">Internazionale — debito e credito</div></div>
+    <div class="circuit-item"><span class="ci">🟢</span><div class="cn">Amex</div><div class="ct">American Express — credito premium</div></div>
+    <div class="circuit-item"><span class="ci">🟡</span><div class="cn">PagoBancomat</div><div class="ct">Italiano — solo debito</div></div>
+    <div class="circuit-item"><span class="ci">🟠</span><div class="cn">Maestro</div><div class="ct">Mastercard — debito (in dismissione)</div></div>
+    <div class="circuit-item"><span class="ci">⚪</span><div class="cn">V-Pay</div><div class="ct">Visa — solo Europa (in dismissione)</div></div>
+    <div class="circuit-item"><span class="ci">🔷</span><div class="cn">UnionPay</div><div class="ct">Cinese — turisti cinesi</div></div>
+    <div class="circuit-item"><span class="ci">🟣</span><div class="cn">JCB</div><div class="ct">Giapponese — turisti asiatici</div></div>
+  </div>
+
+  <div class="box gold">
+    <strong>📌 Nota pratica per il personale di sala</strong>
+    Quando un cliente presenta una carta, controlla il logo del circuito. Verifica che il vostro POS lo supporti. La maggior parte dei POS moderni accetta Visa, Mastercard e PagoBancomat. American Express ha commissioni più alte quindi alcuni locali non la accettano. Se il locale non accetta il circuito della carta, avvisa il cliente con cortesia prima di tentare il pagamento.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 2: IL POS ═══════════════════════════════════ -->
+<section class="section" id="s2">
+  <div class="page-eyebrow">Modulo 2</div>
+  <h1 class="page-title">Il <em>POS</em> e le Carte</h1>
+  <p class="page-desc">Il POS (Point Of Sale) è il terminale di pagamento elettronico. Capire come funziona è fondamentale per gestire ogni situazione in sala senza panico.</p>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Cos'è il POS e come è fatto</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-2">
+    <div class="concept">
+      <div class="concept-hdr"><span>🖥</span><h3>Definizione e componenti del POS</h3></div>
+      <div class="concept-body">
+        <p>Il <strong>POS (Point Of Sale)</strong>, letteralmente "punto di vendita", è il dispositivo elettronico che permette di accettare pagamenti con carta o smartphone. È collegato alla banca del commerciante tramite internet o rete telefonica.</p>
+        <p><strong>I componenti principali di un POS moderno:</strong></p>
+        <ul>
+          <li><strong>Display</strong> — mostra l'importo e le istruzioni</li>
+          <li><strong>Tastiera numerica (PIN pad)</strong> — per inserire il PIN</li>
+          <li><strong>Lettore di banda magnetica</strong> — striscia nera sul retro della carta (vecchio sistema, quasi abbandonato)</li>
+          <li><strong>Lettore chip EMV</strong> — legge il microchip dorato sulla carta (standard attuale)</li>
+          <li><strong>Antenna NFC</strong> — per il contactless (carta o telefono)</li>
+          <li><strong>Stampante ricevute</strong> — integrata nei POS fissi</li>
+          <li><strong>Connessione dati</strong> — WiFi, Ethernet o SIM GSM per i POS portatili</li>
+        </ul>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr"><span>📱</span><h3>Tipi di POS in uso nella ristorazione</h3></div>
+      <div class="concept-body">
+        <p><strong>POS fisso (da banco)</strong> — Collegato con cavo alla rete e alla stampante. Usato alla cassa. Stabile e veloce.</p>
+        <p><strong>POS portatile (wireless)</strong> — Funziona via WiFi o SIM dati. Il cameriere lo porta direttamente al tavolo: comodo, professionale, riduce i tempi.</p>
+        <p><strong>POS virtuale</strong> — Usato per pagamenti online (booking, prenotazioni). Il cliente inserisce i dati della carta su una pagina web sicura.</p>
+        <p><strong>SoftPOS / mPOS</strong> — Il telefono del commerciante diventa un POS. Tramite app e NFC, lo smartphone accetta pagamenti contactless direttamente. Molto usato da ambulanti, food truck, piccoli locali.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Come avviene una transazione — spiegazione tecnica</div><div class="sdiv-line"></div></div>
+
+  <div class="box teal">
+    <strong>🔄 I soggetti coinvolti in ogni transazione con carta</strong>
+    Quando un cliente paga con carta, in pochi secondi comunicano tra loro ben <strong>4 soggetti</strong>: il <strong>cliente</strong> (titolare della carta), il <strong>POS del commerciante</strong>, la <strong>banca del commerciante</strong> (acquiring bank) che ha emesso il POS, e la <strong>banca del cliente</strong> (issuing bank) che ha emesso la carta. Il tutto passa attraverso il <strong>circuito di pagamento</strong> (Visa, Mastercard ecc.) come infrastruttura.
+  </div>
+
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <h4>Inserimento importo da parte del cassiere / cameriere</h4>
+        <p>Il personale digita l'importo esatto sul POS. <strong>Attenzione massima</strong>: verificare prima di confermare. Un errore (es. €350 invece di €35) causa stress al cliente e procedure di storno complesse. Alcuni POS ricevono l'importo automaticamente dal gestionale del locale (sistema integrato).</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <h4>Presentazione della carta o del dispositivo da parte del cliente</h4>
+        <ul>
+          <li><strong>Contactless (NFC)</strong>: avvicina la carta o il telefono all'antenna del POS (cerchio con onde) — entro 4 cm. Il POS emette un bip o vibrazione.</li>
+          <li><strong>Chip + PIN</strong>: inserisce la carta nello slot e digita il PIN a 4–5 cifre. Il PIN non è visibile nemmeno al POS — viene criptato localmente.</li>
+          <li><strong>Banda magnetica</strong>: striscia laterale (sistema vecchio, quasi abbandonato, usato come fallback).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <h4>Trasmissione dei dati al sistema bancario</h4>
+        <p>Il POS invia una richiesta di autorizzazione alla banca del commerciante, che la inoltra al circuito (Visa/Mastercard), che la passa alla banca del cliente. Tutto questo avviene in <strong>2–5 secondi</strong> tramite rete crittografata TLS. La carta non trasmette mai i dati in chiaro — vengono criptati dal chip.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <h4>Risposta della banca del cliente</h4>
+        <p>La banca verifica: saldo/plafond disponibile, carta non bloccata, PIN corretto (se usato), transazione non sospetta. Risponde con:</p>
+        <ul>
+          <li><strong>AUTORIZZATO (00)</strong> — operazione approvata, il denaro viene "bloccato" sul conto</li>
+          <li><strong>RIFIUTATO (vari codici)</strong> — fondì insufficienti, carta scaduta, carta bloccata, limite superato</li>
+          <li><strong>REFERRAL</strong> — la banca chiede di chiamare il call center per procedere (raro)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">5</div>
+      <div class="flow-body">
+        <h4>Stampa della ricevuta</h4>
+        <p>Se autorizzato, il POS stampa due copie: una per il <strong>cliente</strong>, una per il <strong>commerciante</strong> (da conservare per la contabilità). La ricevuta POS non è lo scontrino fiscale — deve sempre seguire la stampa dello scontrino dal registratore di cassa.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">6</div>
+      <div class="flow-body">
+        <h4>Regolamento (il giorno dopo)</h4>
+        <p>Il denaro effettivo arriva sul conto del commerciante 1–3 giorni lavorativi dopo, dopo che la banca ha effettuato il <strong>batch settlement</strong> (chiusura giornaliera del POS). Il blocco sul conto del cliente diventa un addebito definitivo.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Contactless vs Chip+PIN — differenze chiave</div><div class="sdiv-line"></div></div>
+
+  <div class="compare">
+    <div class="compare-col" style="background:#fffbf0;">
+      <h4 style="color:var(--teal);">📡 Pagamento Contactless (NFC)</h4>
+      <ul>
+        <li>Carta o telefono avvicinato al POS</li>
+        <li>Nessun inserimento fisico</li>
+        <li>Con carta fisica: <strong>sotto €50 senza PIN</strong>, sopra €50 serve PIN</li>
+        <li>Con smartphone (Apple/Google Pay): <strong>nessun limite</strong> se il telefono è sbloccato con biometria</li>
+        <li>Velocissimo: 1–2 secondi</li>
+        <li>Il chip trasmette un token criptato diverso ogni volta</li>
+        <li>Limite: alcune carte hanno il contactless disattivato</li>
+      </ul>
+    </div>
+    <div class="compare-col" style="background:#f0f4fc;">
+      <h4 style="color:var(--blue);">🔐 Chip + PIN (inserimento carta)</h4>
+      <ul>
+        <li>Carta inserita nello slot apposito</li>
+        <li>Il cliente digita il PIN (4–5 cifre)</li>
+        <li>Nessun limite di importo</li>
+        <li>Il PIN viene criptato localmente nel chip — nemmeno la banca lo conosce in chiaro</li>
+        <li>Più sicuro contro clonazione della carta</li>
+        <li>Leggermente più lento (5–10 secondi)</li>
+        <li>Da usare obbligatoriamente sopra €50 con carta fisica</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Errori comuni e come gestirli</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-2">
+    <div class="concept">
+      <div class="concept-hdr" style="background:var(--red);"><span>❌</span><h3 style="color:white;">Carta rifiutata — come comportarsi</h3></div>
+      <div class="concept-body">
+        <p><strong>Possibili cause:</strong></p>
+        <ul>
+          <li>Saldo o plafond insufficienti</li>
+          <li>Carta scaduta (controlla la data sul retro)</li>
+          <li>Carta bloccata dalla banca (smarrimento, frode sospetta)</li>
+          <li>Limite giornaliero o mensile raggiunto</li>
+          <li>PIN errato inserito troppe volte (la carta si blocca)</li>
+          <li>Carta non abilitata per pagamenti in determinati circuiti</li>
+        </ul>
+        <p style="margin-top:10px;"><strong>Come comportarsi:</strong></p>
+        <ul>
+          <li>⛔ Non dire ad alta voce "la carta è stata rifiutata"</li>
+          <li>✅ Avvicinarsi al cliente e comunicare sottovoce</li>
+          <li>✅ Dire: "C'è stato un problema con il terminale, vuole riprovare o usare un altro mezzo?"</li>
+          <li>✅ Suggerire alternative: altra carta, contanti, app</li>
+          <li>✅ Mantenere assoluta discrezione e calma</li>
+        </ul>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:#2255aa;"><span>🔌</span><h3 style="color:white;">POS non funziona — procedura</h3></div>
+      <div class="concept-body">
+        <p><strong>Cause possibili:</strong></p>
+        <ul>
+          <li>Connessione internet assente o instabile</li>
+          <li>POS scarico (versione portatile)</li>
+          <li>Manutenzione del circuito bancario</li>
+          <li>Guasto hardware</li>
+        </ul>
+        <p style="margin-top:10px;"><strong>Procedura da seguire:</strong></p>
+        <ul>
+          <li>1. Informare il cliente immediatamente con calma</li>
+          <li>2. Riavviare il POS (tasto laterale)</li>
+          <li>3. Controllare la connessione WiFi / cavo</li>
+          <li>4. Avvisare il responsabile / titolare</li>
+          <li>5. Proporre alternative: contanti, Satispay, bonifico</li>
+          <li>6. Mai far aspettare il cliente senza aggiornamenti</li>
+          <li>7. Se impossibile pagare: prendere i dati e concordare un pagamento successivo (solo con clienti conosciuti, con consenso del responsabile)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-hdr" style="background:var(--orange);"><span>⚠️</span><h3 style="color:white;">Doppio addebito — il rischio più grave</h3></div>
+    <div class="concept-body">
+      <p>Uno degli errori più seri che può capitare: il POS va in errore durante una transazione e non è chiaro se il pagamento sia andato a buon fine. Se si riprova immediatamente senza verificare, il cliente rischia di essere addebitato <strong>due volte</strong>.</p>
+      <p><strong>Procedura corretta:</strong></p>
+      <ul>
+        <li>Controllare se è stata stampata una ricevuta (anche parziale)</li>
+        <li>Controllare sul POS le "transazioni pendenti" o la "chiusura di giornata"</li>
+        <li>Chiedere al cliente di controllare le notifiche della propria banca (se ha l'app)</li>
+        <li>Solo se certi che NON c'è stato addebito, procedere con una nuova transazione</li>
+        <li>In caso di doppio addebito: avvisare il responsabile che aprirà una procedura di storno (rimborso)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box navy">
+    <strong>🔐 Regole di sicurezza fondamentali con il POS</strong>
+    Non chiedere mai il PIN al cliente — è strettamente personale. Non tenere la carta del cliente in mano più del necessario e non allontanarsi con essa. Non ricopiare i dati della carta su carta o file. Non lasciare una transazione aperta incustodita sul POS. Segnalare immediatamente al responsabile qualsiasi comportamento sospetto relativo ai pagamenti.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 3: DIGITALE ═══════════════════════════════════ -->
+<section class="section" id="s3">
+  <div class="page-eyebrow">Modulo 3</div>
+  <h1 class="page-title">Pagamenti <em>Digitali</em></h1>
+  <p class="page-desc">Le app di pagamento e i wallet digitali stanno trasformando il modo di pagare. Un professionista moderno deve conoscerli e saperli gestire.</p>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">La tecnologia NFC — come funziona davvero</div><div class="sdiv-line"></div></div>
+
+  <div class="concept">
+    <div class="concept-hdr"><span>📡</span><h3>NFC: Near Field Communication — spiegazione completa</h3></div>
+    <div class="concept-body">
+      <p><strong>NFC</strong> (Near Field Communication, "comunicazione a corto raggio") è una tecnologia di trasmissione dati wireless che funziona su distanze molto brevi (massimo 10 cm, in pratica 2–4 cm). Utilizza onde radio a 13,56 MHz e consuma pochissima energia.</p>
+      <p><strong>Come funziona nel pagamento:</strong></p>
+      <ul>
+        <li>Il POS genera un <strong>campo elettromagnetico</strong> costante attorno all'antenna NFC</li>
+        <li>Quando la carta o il telefono si avvicina, entra in quel campo e si "attiva"</li>
+        <li>Il chip NFC del dispositivo trasmette un <strong>token crittografato</strong> — un codice unico generato per quella sola transazione, mai ripetuto</li>
+        <li>Il numero della carta reale NON viene mai trasmesso al POS: questo è il motivo per cui i pagamenti NFC sono <strong>più sicuri</strong> della carta fisica strisciata</li>
+        <li>Il POS invia il token alla banca, che lo decifra e autorizza la transazione</li>
+      </ul>
+      <p><strong>Differenza tra carta contactless e smartphone:</strong> La carta fisica ha un chip NFC passivo (alimentato dal campo del POS). Lo smartphone ha un chip NFC attivo (usa la propria batteria) e richiede autenticazione biometrica (impronta o face ID), il che elimina il limite dei €50.</p>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">I principali wallet digitali</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-2">
+    <div class="concept">
+      <div class="concept-hdr" style="background:#1a1a2e;"><span>🍎</span><h3>Apple Pay</h3></div>
+      <div class="concept-body">
+        <p><strong>Cos'è:</strong> il wallet digitale di Apple, disponibile su iPhone, Apple Watch, iPad e Mac. Permette di memorizzare carte di credito e debito nell'app Wallet.</p>
+        <p><strong>Come funziona in sala:</strong> Il cliente avvicina l'iPhone o l'Apple Watch al POS contactless. Il telefono chiede l'autenticazione con Face ID (viso) o Touch ID (impronta). Solo dopo l'autenticazione riuscita avviene il pagamento.</p>
+        <p><strong>Perché è sicuro:</strong> Apple non trasmette mai il numero della carta reale. Usa un Device Account Number (codice virtuale univoco per quel dispositivo) e un token di transazione monouso. Anche se il POS venisse compromesso, i dati sarebbero inutilizzabili.</p>
+        <p><strong>Limite importo:</strong> Nessun limite come il contactless con carta fisica. Funziona per qualsiasi importo purché il telefono sia sbloccato e l'autenticazione vada a buon fine.</p>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:#1e3a2f;"><span>🤖</span><h3>Google Pay / Google Wallet</h3></div>
+      <div class="concept-body">
+        <p><strong>Cos'è:</strong> Il wallet digitale di Google per dispositivi Android. Funziona su tutti gli smartphone Android con NFC attivo.</p>
+        <p><strong>Come funziona:</strong> Il cliente sblocca il telefono con impronta o PIN, poi avvicina lo smartphone al POS. Su alcuni dispositivi Android si può pagare anche con lo schermo spento (modalità bassa sicurezza, solo sotto una certa cifra).</p>
+        <p><strong>Diffusione:</strong> Molto comune tra i giovani con smartphone Android. Sempre più spesso usato in ristoranti e hotel soprattutto dalla fascia 18–35 anni.</p>
+        <p><strong>Come riconoscerlo in sala:</strong> Il cliente avvicina il telefono Android al POS nello stesso modo di Apple Pay. Il POS non distingue tra i due sistemi — funziona con qualsiasi NFC.</p>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:#c8000a;"><span>🔵</span><h3>Satispay — il sistema italiano</h3></div>
+      <div class="concept-body">
+        <p><strong>Cos'è:</strong> Un sistema di pagamento italiano fondato nel 2013, molto popolare soprattutto per piccole cifre. Non usa le carte bancarie — è collegato direttamente al conto corrente tramite IBAN.</p>
+        <p><strong>Come funziona per il commerciante:</strong> Il locale ha un profilo Satispay business. Al momento del pagamento ci sono due modalità:
+          <ul>
+            <li><strong>QR code:</strong> il cameriere mostra il QR del locale sul telefono o su un display dedicato; il cliente scansiona con l'app Satispay e conferma</li>
+            <li><strong>Richiesta di pagamento:</strong> il cameriere inserisce l'importo nell'app business e il cliente riceve una notifica sul proprio telefono e accetta</li>
+          </ul>
+        </p>
+        <p><strong>Costo per il locale:</strong> Zero commissioni per transazioni sotto €10. Per importi superiori, una commissione fissa molto bassa (circa €0,20). Molto conveniente per bar e colazioni.</p>
+        <p><strong>Vantaggio:</strong> Non serve POS fisico. Basta uno smartphone. Ideale per locali con moltissime piccole transazioni giornaliere.</p>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:#003087;"><span>💙</span><h3>PayPal</h3></div>
+      <div class="concept-body">
+        <p><strong>Cos'è:</strong> La piattaforma di pagamento online più diffusa al mondo, fondata nel 1998. Funziona come un portafoglio virtuale collegato a carta o conto bancario.</p>
+        <p><strong>Uso nel settore HoReCa:</strong> Quasi mai usato per i pagamenti fisici in sala. È invece <strong>molto comune</strong> per:
+          <ul>
+            <li>Prenotazioni online (booking anticipato via sito web)</li>
+            <li>Pagamento di caparre per eventi</li>
+            <li>Ordinazioni delivery tramite piattaforme</li>
+            <li>Piccoli hotel e B&amp;B che gestiscono i pagamenti in autonomia</li>
+          </ul>
+        </p>
+        <p><strong>Da sapere:</strong> PayPal offre tutela all'acquirente. Se il cliente contesta un pagamento, PayPal può bloccare i fondi del commerciante durante l'indagine. Occorre conservare sempre la documentazione della prestazione.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Confronto: carta fisica vs smartphone</div><div class="sdiv-line"></div></div>
+
+  <table class="tbl">
+    <tr><th>Caratteristica</th><th>💳 Carta fisica contactless</th><th>📱 Smartphone (Apple/Google Pay)</th></tr>
+    <tr><td>Limite senza PIN</td><td>€50</td><td>Nessun limite (biometria)</td></tr>
+    <tr><td>Autenticazione</td><td>Nessuna sotto €50</td><td>Face ID o impronta digitale sempre</td></tr>
+    <tr><td>Trasmissione dati</td><td>Dati carta (parzialmente criptati)</td><td>Token monouso — carta mai esposta</td></tr>
+    <tr><td>Rischio clonazione</td><td>Basso (ma possibile con skimmer)</td><td>Praticamente zero</td></tr>
+    <tr><td>Cosa succede se rubato</td><td>Fino a €50 vulnerabile senza PIN</td><td>Impossibile usare senza biometria</td></tr>
+    <tr><td>Velocità</td><td>1–2 secondi</td><td>2–3 secondi (include autenticazione)</td></tr>
+    <tr><td>Richiede POS speciale?</td><td>No — qualsiasi POS NFC</td><td>No — qualsiasi POS NFC</td></tr>
+  </table>
+
+  <div class="box green">
+    <strong>🔮 Il futuro: i pagamenti biometrici e "invisibili"</strong>
+    Alcune catene internazionali stanno sperimentando pagamenti con riconoscimento del palmo della mano (Amazon One) o del viso alla cassa. In hotel si testa già il "check-out silenzioso": il cliente se ne va e la carta salvata al check-in viene addebitata automaticamente. In Italia questi sistemi sono in fase embrionale ma arriveranno. Chi lavora nell'accoglienza deve tenersi aggiornato.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 4: FISCALITÀ ═══════════════════════════════════ -->
+<section class="section" id="s4">
+  <div class="page-eyebrow">Modulo 4</div>
+  <h1 class="page-title">La <em>Fiscalità</em> dei Pagamenti</h1>
+  <p class="page-desc">Ogni pagamento deve essere documentato per legge. Conoscere gli obblighi fiscali protegge te, il locale e il cliente.</p>
+
+  <div class="box red">
+    <strong>⚖️ Obbligo di legge — Decreto Legislativo 127/2015 e successive modifiche</strong>
+    In Italia ogni operazione commerciale verso i consumatori finali deve essere documentata fiscalmente mediante l'emissione di un documento commerciale (ex scontrino/ricevuta). Dal 2020 è obbligatorio il <strong>Registratore Telematico (RT)</strong> che trasmette automaticamente i dati all'Agenzia delle Entrate. Non emettere lo scontrino è una <strong>violazione amministrativa</strong>: sanzione da €250 a €2.000, e dopo quattro violazioni può scattare la sospensione dell'attività.
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">I documenti fiscali: scontrino, ricevuta e fattura</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-3">
+    <div class="concept">
+      <div class="concept-hdr" style="background:var(--green);"><span>🧾</span><h3>Il Documento Commerciale (ex Scontrino)</h3></div>
+      <div class="concept-body">
+        <p>Dal 2020 lo scontrino tradizionale è stato sostituito dal <strong>Documento Commerciale</strong>, emesso dal Registratore Telematico. Il nome comune rimane "scontrino".</p>
+        <p><strong>Cosa contiene:</strong></p>
+        <ul>
+          <li>Data e ora della transazione</li>
+          <li>Descrizione dei prodotti/servizi</li>
+          <li>Importo totale e IVA</li>
+          <li>Numero progressivo e matricola del RT</li>
+          <li>Codice QR (dal 2021) per verifica sul sito AdE</li>
+        </ul>
+        <p><strong>Trasmissione telematica:</strong> Il RT invia automaticamente i dati all'Agenzia delle Entrate ogni giorno o in tempo reale. Il Fisco sa già tutto, senza bisogno di dichiarazioni aggiuntive.</p>
+        <p><strong>Quando si emette:</strong> SEMPRE, per qualsiasi pagamento (contanti, carta, app). Nessuna eccezione per i consumatori finali.</p>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:var(--teal);"><span>📄</span><h3>La Fattura Elettronica</h3></div>
+      <div class="concept-body">
+        <p>La fattura è un documento fiscale più completo dello scontrino. Viene emessa principalmente per <strong>clienti aziendali o professionisti</strong> che devono documentare la spesa.</p>
+        <p><strong>Dal 2019 è obbligatorio il formato elettronico (XML)</strong> trasmesso tramite il <strong>Sistema di Interscambio (SDI)</strong> dell'Agenzia delle Entrate. Non esiste più la "fattura cartacea" valida fiscalmente tra soggetti IVA.</p>
+        <p><strong>Dati necessari per emettere la fattura:</strong></p>
+        <ul>
+          <li>Ragione sociale (nome azienda o nome/cognome)</li>
+          <li>Partita IVA o Codice Fiscale</li>
+          <li>Indirizzo sede legale</li>
+          <li>Codice SDI (7 cifre) o PEC aziendale</li>
+        </ul>
+        <p><strong>Importante:</strong> La fattura <strong>sostituisce</strong> il documento commerciale. Non si emettono entrambi per la stessa operazione.</p>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:#6633aa;"><span>📋</span><h3>La Ricevuta Generica — cosa NON è</h3></div>
+      <div class="concept-body">
+        <p>Spesso i clienti chiedono "una ricevuta" senza specificare. Occorre fare chiarezza:</p>
+        <p><strong>La ricevuta generica scritta a mano o su carta intestata NON è un documento fiscale valido.</strong> Non sostituisce lo scontrino e non è deducibile dalle tasse.</p>
+        <p>Può essere usata come:</p>
+        <ul>
+          <li>Promemoria interno tra privati</li>
+          <li>Conferma di pagamento informale (es. caparra per prenotazione)</li>
+          <li>Documento accessorio accanto a fattura o scontrino</li>
+        </ul>
+        <p><strong>In caso di dubbio:</strong> emetti sempre lo scontrino RT. Se il cliente ha bisogno di un documento fiscalmente valido per la propria azienda, emetti fattura.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">L'IVA — Imposta sul Valore Aggiunto</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-2">
+    <div class="concept">
+      <div class="concept-hdr"><span>📊</span><h3>Cos'è l'IVA e come funziona</h3></div>
+      <div class="concept-body">
+        <p>L'<strong>IVA (Imposta sul Valore Aggiunto)</strong> è un'imposta indiretta che colpisce i consumi. Il consumatore finale la paga ogni volta che acquista un bene o servizio — è già inclusa nel prezzo esposto.</p>
+        <p>Chi vende (il locale) incassa l'IVA dal cliente e la versa allo Stato periodicamente. L'IVA non è un ricavo del locale — è solo "transitata" attraverso di esso.</p>
+        <p><strong>Esempio pratico:</strong> Una cena da €100 + IVA 10% = €110 totale sul conto. Il ristorante incassa €110, versa €10 all'Erario, e trattiene €100 come ricavo netto.</p>
+        <p><strong>Le aliquote IVA in Italia sono tre:</strong> 4% (beni di prima necessità), 10% (alimentare trasformato, ristorazione, turismo), 22% (aliquota ordinaria — la maggior parte dei beni).</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">📐 Aliquote IVA nel settore HoReCa</div>
+        <div class="banconota-features" style="margin-top:8px;">
+          <div class="iva-row p10">
+            <div class="iva-pct">10%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Consumazione al tavolo (ristorante, pizzeria, osteria)</div>
+          </div>
+          <div class="iva-row p10">
+            <div class="iva-pct">10%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Asporto / take away (cibo preparato)</div>
+          </div>
+          <div class="iva-row p10">
+            <div class="iva-pct">10%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Pernottamento hotel e B&amp;B</div>
+          </div>
+          <div class="iva-row p10">
+            <div class="iva-pct">10%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Colazione inclusa nel pernottamento</div>
+          </div>
+          <div class="iva-row p22">
+            <div class="iva-pct">22%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Bevande alcoliche (vino, birra, cocktail)</div>
+          </div>
+          <div class="iva-row p22">
+            <div class="iva-pct">22%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Soft drink, succhi, caffè (bevande analcoliche)</div>
+          </div>
+          <div class="iva-row p4">
+            <div class="iva-pct">4%</div>
+            <div class="iva-bar-wrap"><div class="iva-fill"></div></div>
+            <div class="iva-desc">Prodotti alimentari di prima necessità (solo vendita al dettaglio)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Procedura per emettere la fattura al cliente</div><div class="sdiv-line"></div></div>
+
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-num">1</div>
+      <div class="flow-body"><h4>Il cliente chiede la fattura</h4><p>Spesso è un cliente aziendale (manager a pranzo di lavoro, agente di commercio, azienda che organizza un evento). La richiesta può arrivare prima o dopo il pasto.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">2</div>
+      <div class="flow-body"><h4>Raccogliere i dati fiscali</h4><p>Chiedere: ragione sociale, Partita IVA o Codice Fiscale, indirizzo, codice SDI o PEC. Il modo più semplice: chiedere il biglietto da visita aziendale o farsi inviare i dati via WhatsApp/email.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">3</div>
+      <div class="flow-body"><h4>Passare i dati al responsabile / amministrazione</h4><p>Il cameriere normalmente non emette fatture in autonomia. Trasmette i dati al responsabile o all'ufficio amministrativo che emette la fattura elettronica tramite gestionale o commercialista.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">4</div>
+      <div class="flow-body"><h4>NON emettere lo scontrino</h4><p>Quando si emette fattura, il documento commerciale (scontrino RT) NON va emesso per lo stesso importo. Sarebbe una doppia documentazione dello stesso incasso. Si fa una annotazione nel RT indicando che l'operazione è documentata da fattura.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">5</div>
+      <div class="flow-body"><h4>Trasmissione della fattura elettronica</h4><p>La fattura XML viene inviata tramite SDI all'Agenzia delle Entrate, che la recapita al cliente (sulla propria area Fatture e Corrispettivi o alla PEC indicata) entro poche ore/giorni.</p></div>
+    </div>
+  </div>
+
+  <div class="box orange">
+    <strong>💡 Come annullare uno scontrino già emesso?</strong>
+    Può capitare di emettere uno scontrino errato (importo sbagliato, prodotto non servito). Non si può "strappare" lo scontrino RT — è già stato inviato in automatico all'AdE. La procedura corretta è emettere un <strong>documento di rettifica</strong> (storno) tramite il Registratore Telematico, indicando il numero del documento da annullare. Avvisa sempre il responsabile prima di procedere.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 5: SICUREZZA ═══════════════════════════════════ -->
+<section class="section" id="s5">
+  <div class="page-eyebrow">Modulo 5</div>
+  <h1 class="page-title">Sicurezza e <em>Antifrode</em></h1>
+  <p class="page-desc">Riconoscere le banconote false, proteggersi dalle frodi con le carte e tutelare i dati dei clienti. Competenze essenziali per ogni professionista.</p>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Banconote false — come riconoscerle</div><div class="sdiv-line"></div></div>
+
+  <div class="box navy">
+    <strong>📌 Perché è importante</strong>
+    Le banconote false circolano in tutti i settori, inclusa la ristorazione. Se accetti una banconota falsa e la consegni in banca, viene ritirata e tu perdi quel denaro senza rimborso. È quindi fondamentale saperle riconoscere, specialmente per i tagli da €20, €50 e €100, i più falsificati.
+  </div>
+
+  <div class="concept">
+    <div class="concept-hdr"><span>🔍</span><h3>Gli elementi di sicurezza delle banconote euro — serie Europa (attuale)</h3></div>
+    <div class="concept-body">
+      <div class="banconota-features">
+        <div class="bf-row">
+          <div class="bf-icon">✋</div>
+          <div class="bf-body">
+            <h5>Tatto — rilievo inchiostro calcografico</h5>
+            <p>Le banconote reali sono stampate con tecnica calcografica: l'inchiostro viene depositato in rilievo sulla carta. Passando il dito sulle cifre, le lettere BCE e la scritta "EURO", si sente una texture irregolare e ruvida. Le false sono lisce al tatto.</p>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-icon">💡</div>
+          <div class="bf-body">
+            <h5>Vista in controluce — filigrana</h5>
+            <p>Tenendo la banconota contro la luce, appaiono visibili: la <strong>filigrana</strong> con il ritratto architettonico e il valore nominale, le <strong>linee di sicurezza</strong> e la <strong>cifra trasparente</strong> (numero che cambia colore). Nelle false questi elementi mancano o sono stampati anziché intessuti nella carta.</p>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-icon">🔄</div>
+          <div class="bf-body">
+            <h5>Inclinazione — elemento olografico (striscia argentata)</h5>
+            <p>Su €5–€20: inclinando la banconota, la <strong>striscia olografica</strong> mostra l'architettura, il simbolo €, le stelle e il valore. Sui tagli €50–€500 c'è l'<strong>elemento EMERALD</strong> (cilindretto dorato): ruotandolo, i numeri appaiono e cambiano colore. Questi effetti non si falsificano facilmente.</p>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-icon">🟡</div>
+          <div class="bf-body">
+            <h5>Numero verde e dorato — inchiostro cangiante</h5>
+            <p>Il numero in basso a destra sul fronte della banconota (tagli da €50 in su) è stampato con inchiostro <strong>cangiante</strong>: appare verde / dorato in base all'angolazione. Inclinando la banconota il colore cambia nettamente. Sulle false il colore è fisso.</p>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-icon">🖊️</div>
+          <div class="bf-body">
+            <h5>Pennarello rilevatore (metodo rapido)</h5>
+            <p>Il pennarello antifalso sfrutta una reazione chimica con la cellulosa della carta: se la banconota è vera (carta speciale con cotone e lino), il segno del pennarello rimane giallo-chiaro/trasparente. Se è falsa (carta normale), diventa marrone scura. È lo strumento più usato nei locali per i controlli rapidi.</p>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-icon">🔆</div>
+          <div class="bf-body">
+            <h5>Lampada UV (luce ultravioletta)</h5>
+            <p>Sotto luce UV appaiono visibili: le <strong>fibre fluorescenti</strong> (rosse, blu e verdi) sparse nella carta, le <strong>stelle europee</strong> sul retro che diventano luminose, e altri elementi di sicurezza. Le fotocopie o le stampe digitali non replicano questi effetti UV.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box gold">
+    <strong>🚨 Cosa fare se si sospetta una banconota falsa?</strong>
+    Non restituire la banconota al cliente. Non accusare il cliente — potrebbe non sapere di averla ricevuta. Avvisare immediatamente il responsabile. Toccare il meno possibile (conservare le impronte). Il responsabile contatterà le forze dell'ordine. È reato detenere banconote false anche inconsapevolmente, ma chi le consegna in buona fede alla Polizia è tutelato.
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Frodi con le carte di pagamento</div><div class="sdiv-line"></div></div>
+
+  <div class="grid-2">
+    <div class="concept">
+      <div class="concept-hdr" style="background:var(--red);"><span>⚠️</span><h3 style="color:white;">Skimming — clonazione della carta</h3></div>
+      <div class="concept-body">
+        <p>Lo <strong>skimming</strong> è la tecnica con cui i criminali copiano i dati della banda magnetica di una carta usando un dispositivo nascosto (skimmer) applicato al POS o allo sportello ATM.</p>
+        <p><strong>Come proteggersi (personale di sala):</strong></p>
+        <ul>
+          <li>Non portare mai la carta del cliente lontano dalla sua vista</li>
+          <li>Usare solo POS certificati e controllati dal locale</li>
+          <li>Segnalare immediatamente qualsiasi dispositivo strano trovato sul POS</li>
+          <li>I POS moderni con chip EMV sono praticamente immuni allo skimming della banda</li>
+        </ul>
+        <p><strong>Come riconoscere POS manomesso:</strong> parti allentate, colori diversi, display che non corrisponde, difficoltà a inserire la carta dove prima entrava facilmente.</p>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="concept-hdr" style="background:var(--purple);"><span>🎣</span><h3 style="color:white;">Phishing e frodi online</h3></div>
+      <div class="concept-body">
+        <p>Il <strong>phishing</strong> è un tentativo di truffa via email, SMS o telefono in cui il truffatore si finge una banca o un servizio per ottenere dati della carta o delle credenziali bancarie.</p>
+        <p><strong>Esempi tipici:</strong></p>
+        <ul>
+          <li>SMS dalla "banca" che avvisa di accesso sospetto e chiede di cliccare un link</li>
+          <li>Email con logo bancario che chiede di inserire PIN e numero carta</li>
+          <li>Telefonata di un "operatore Visa" che chiede il codice CVV</li>
+        </ul>
+        <p><strong>Regola d'oro:</strong> La banca non chiede MAI il PIN o il codice CVV via telefono, email o SMS. Nessun operatore legittimo chiede questi dati. Metti giù la cornetta e chiama tu il numero ufficiale della banca.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-hdr"><span>🔒</span><h3>Protezione dei dati del cliente — GDPR accenno</h3></div>
+    <div class="concept-body">
+      <p>Il <strong>GDPR (General Data Protection Regulation)</strong> è il regolamento europeo sulla privacy in vigore dal 2018. Si applica anche alla gestione dei pagamenti in sala e in hotel.</p>
+      <p><strong>Cosa devi sapere come personale:</strong></p>
+      <ul>
+        <li>Non annotare mai su carta i dati della carta del cliente (numero, scadenza, CVV)</li>
+        <li>Non fotografare la carta del cliente con il proprio telefono</li>
+        <li>Non divulgare informazioni sui metodi di pagamento dei clienti ad altri clienti o al pubblico</li>
+        <li>I dati raccolti (es. carta salvata per hotel) devono essere protetti e conservati in sistemi sicuri</li>
+        <li>Il cliente ha diritto a sapere come vengono trattati i suoi dati e può chiederne la cancellazione</li>
+      </ul>
+      <p>La violazione del GDPR comporta <strong>sanzioni molto elevate</strong>: fino al 4% del fatturato annuo globale o €20 milioni, a seconda di quale importo è maggiore.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 6: VALUTA ESTERA ═══════════════════════════════════ -->
+<section class="section" id="s6">
+  <div class="page-eyebrow">Modulo 6</div>
+  <h1 class="page-title">Valuta Estera e <em>Clienti Internazionali</em></h1>
+  <p class="page-desc">In un paese ad alta vocazione turistica come l'Italia, saper gestire i clienti stranieri con professionalità è una competenza fondamentale.</p>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">L'euro come unica valuta legale in Italia</div><div class="sdiv-line"></div></div>
+
+  <div class="concept">
+    <div class="concept-hdr"><span>🇪🇺</span><h3>Perché non si può accettare valuta estera</h3></div>
+    <div class="concept-body">
+      <p>In Italia, come in tutta la zona euro, l'<strong>unica valuta avente corso legale</strong> è l'euro. Questo significa che:</p>
+      <ul>
+        <li>Non esiste alcun obbligo giuridico di accettare pagamenti in valuta straniera</li>
+        <li>Accettare dollari, sterline o yuan crea problemi contabili seri: a quale tasso cambiate? Come lo registrate? Come lo versate in banca?</li>
+        <li>Potrebbe configurarsi un'operazione finanziaria non autorizzata (cambio valuta) che richiede una specifica licenza</li>
+        <li>Il rischio di ricevere banconote false in valuta estera è ancora più alto, essendo meno familiari</li>
+      </ul>
+      <p><strong>Cosa fare in pratica:</strong> Spiegare educatamente al cliente che si accettano solo euro e indicare le alternative più vicine per ottenere euro (ATM, cambiavalute).</p>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Come si comporta una carta straniera al POS</div><div class="sdiv-line"></div></div>
+
+  <div class="concept">
+    <div class="concept-hdr"><span>🌍</span><h3>Carte estere: funzionano come quelle italiane</h3></div>
+    <div class="concept-body">
+      <p>Le carte di credito e debito straniere (americane, inglesi, giapponesi, cinesi…) funzionano normalmente sui POS italiani, purché appartengano a un circuito supportato (Visa, Mastercard, Amex, UnionPay, JCB).</p>
+      <p><strong>Cosa succede dietro le quinte:</strong> Il POS invia la richiesta in euro. La banca straniera del cliente riceve la richiesta, converte l'importo nella valuta del cliente usando il <strong>tasso di cambio interbancario del giorno</strong>, addebita il cliente nella sua valuta. Il commerciante italiano riceve sempre e solo euro.</p>
+      <p><strong>Il servizio DCC (Dynamic Currency Conversion):</strong> Alcuni POS offrono la conversione dinamica — mostrano al cliente il costo nella sua valuta e chiedono se preferisce pagare in euro o in valuta locale. Consiglio al cliente: scegliere sempre di pagare in <strong>euro</strong>, perché il tasso applicato dal POS in DCC è solitamente meno favorevole di quello della propria banca.</p>
+      <p><strong>Carte UnionPay (Cina):</strong> Sempre più diffuse con il turismo cinese. Verificare che il vostro POS supporti questo circuito prima di tentare il pagamento, altrimenti avvisare il cliente.</p>
+    </div>
+  </div>
+
+  <div class="sdiv"><div class="sdiv-line"></div><div class="sdiv-label">Guida pratica per gestire il cliente straniero</div><div class="sdiv-line"></div></div>
+
+  <table class="tbl">
+    <tr><th>Situazione</th><th>Cosa fa il personale</th><th>Cosa NON fare</th></tr>
+    <tr><td>Cliente con carta Visa/Mastercard estera</td><td>Procede normalmente con il POS — funziona come qualsiasi altra carta</td><td>Rifiutare la carta senza provarla</td></tr>
+    <tr><td>Cliente vuole pagare in dollari/sterline</td><td>Spiega educatamente che si accettano solo euro; indica ATM o cambiavalute</td><td>Accettare valuta estera; fare cambio "informale"</td></tr>
+    <tr><td>Cliente con carta UnionPay (cinese)</td><td>Verifica se il POS supporta UnionPay; se no, spiega e indica alternative</td><td>Trattenere la carta a lungo o provarla su più POS senza spiegare</td></tr>
+    <tr><td>Cliente non parla italiano</td><td>Parla in inglese, mostra il display del POS con l'importo, usa gesti chiari</td><td>Alzare la voce, mostrare impazienza, ignorare il cliente</td></tr>
+    <tr><td>Importo rilevante, cliente incerto</td><td>Mostra chiaramente il totale sul display POS prima che il cliente appoggi la carta</td><td>Procedere senza mostrare l'importo — rischio contestazioni</td></tr>
+  </table>
+
+  <div class="box teal">
+    <strong>🗺 Dove indirizzare il cliente per cambiare valuta a Milano / in città</strong>
+    Nei grandi centri turistici ci sono sempre uffici di cambio (Bureau de Change) nei pressi delle stazioni, aeroporti e zone centrali. In alternativa, ogni bancomat (ATM) internazionale eroga euro direttamente dalla carta straniera. Conoscere i servizi vicini al proprio locale è un segno di professionalità e cura del cliente.
+  </div>
+
+  <div class="concept">
+    <div class="concept-hdr"><span>🏨</span><h3>Gestione della carta come garanzia in hotel</h3></div>
+    <div class="concept-body">
+      <p>In hotel, al momento del check-in, è prassi comune chiedere una <strong>carta di credito come garanzia</strong> per eventuali consumi extra (minibar, telefonate, danni alla camera, late checkout). Questa pratica è legittima e comune in tutto il mondo.</p>
+      <p><strong>Come funziona tecnicamente (pre-autorizzazione):</strong></p>
+      <ul>
+        <li>Il receptionist effettua una <strong>pre-autorizzazione</strong> sul POS: un blocco temporaneo di un importo (es. €100–€300) sul conto del cliente</li>
+        <li>Il denaro non viene realmente addebitato — viene solo "congelato"</li>
+        <li>Al check-out, se non ci sono extra, il blocco viene rilasciato (può richiedere 3–10 giorni lavorativi a seconda della banca del cliente)</li>
+        <li>Se ci sono extra, vengono addebitati fino all'importo pre-autorizzato</li>
+      </ul>
+      <p><strong>Carta prepagata come garanzia:</strong> Le carte prepagate senza IBAN non sono accettabili come garanzia perché non consentono la pre-autorizzazione bancaria. Il cliente può depositare una caparra in contanti in alternativa, con ricevuta.</p>
+      <p><strong>Importante comunicare al cliente:</strong> Spiegare sempre cosa si sta facendo e perché. Un cliente che vede una "trattenuta" non spiegata sulla propria app bancaria può preoccuparsi inutilmente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 7: CASI PRATICI ═══════════════════════════════════ -->
+<section class="section" id="s7">
+  <div class="page-eyebrow">Modulo 7</div>
+  <h1 class="page-title">Casi <em>Pratici</em></h1>
+  <p class="page-desc">Situazioni reali con dialoghi completi, analisi e consigli operativi. Clicca su ogni scenario per espanderlo.</p>
+
+  <!-- SCENARIO 1 -->
+  <div class="scenario">
+    <div class="scenario-hdr" onclick="toggleS(this)">
+      <span class="s-emoji">😤</span>
+      <div>
+        <div class="s-title">Caso 1 — Il POS non funziona, cliente con treno da prendere</div>
+        <div class="s-subtitle">Ristorante · Conto €87 · 4 persone · ore 22:30</div>
+      </div>
+      <span class="s-arrow">▼</span>
+    </div>
+    <div class="scenario-body">
+      <div class="s-context">📋 <strong>Contesto:</strong> Fine serata di venerdì. Un tavolo da 4 ha appena finito di cenare. Il conto è €87. Al momento di pagare, il POS emette un messaggio di errore "Connessione non disponibile". Il cliente principale è agitato perché ha l'ultimo treno alle 22:55.</div>
+      <div class="grid-2">
+        <div>
+          <p style="font-weight:700;font-size:.9rem;margin-bottom:10px;color:var(--navy);">💬 Dialogo consigliato</p>
+          <div class="dialog">
+            <div class="msg client"><div class="msg-who">Cliente</div>Possiamo pagare? Abbiamo il treno tra 20 minuti!</div>
+            <div class="msg staff"><div class="msg-who">Personale di sala</div>Certamente, arrivo subito. (porta il POS) Purtroppo in questo momento il terminale sta avendo un piccolo problema di connessione. Mi scuso.</div>
+            <div class="msg client"><div class="msg-who">Cliente (tono alzato)</div>Ma ci manca solo questo! Siete sempre così qui?</div>
+            <div class="msg staff"><div class="msg-who">Personale di sala (calmo)</div>Capisco la sua situazione, mi dispiace davvero. Mentre il tecnico riavvia il sistema, posso proporle alcune alternative: avete la possibilità di pagare in contanti? Oppure usate Satispay o Apple Pay?</div>
+            <div class="msg client"><div class="msg-who">Cliente</div>Ho solo la carta, non porto mai contanti.</div>
+            <div class="msg staff"><div class="msg-who">Personale di sala</div>Capisco. Le do 2 minuti: provo con il terminale di riserva alla cassa. Se non funziona nemmeno quello, possiamo concordare un pagamento tramite bonifico, le lascio l'IBAN del locale. Ha 5 minuti?</div>
+            <div class="msg client"><div class="msg-who">Cliente</div>Va bene, fate in fretta.</div>
+          </div>
+        </div>
+        <div>
+          <div class="tip-panel">
+            <strong>✅ Cosa ha fatto bene il cameriere:</strong>
+            Non si è scusato in modo eccessivo ma ha subito proposto soluzioni concrete. Ha mantenuto la calma di fronte al tono agitato. Ha offerto alternative reali (Satispay, bonifico). Non ha detto "non c'è niente da fare".
+          </div>
+          <div class="tip-panel" style="margin-top:12px;">
+            <strong>⛔ Errori da evitare:</strong>
+            Dire "non è colpa nostra, è il POS". Lasciare il cliente senza aggiornamenti. Farsi contagiare dall'agitazione del cliente. Chiedere al cliente di aspettare senza spiegare per quanto tempo.
+          </div>
+          <div class="tip-panel" style="margin-top:12px;">
+            <strong>🔑 Regola pratica:</strong>
+            Ogni locale dovrebbe avere sempre un <strong>terminale di riserva</strong> o conoscere la procedura di pagamento alternativa. Chiedere al responsabile in anticipo: "Cosa facciamo se il POS non funziona?"
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 2 -->
+  <div class="scenario">
+    <div class="scenario-hdr" onclick="toggleS(this)">
+      <span class="s-emoji">❌</span>
+      <div>
+        <div class="s-title">Caso 2 — Carta rifiutata, cliente in imbarazzo</div>
+        <div class="s-subtitle">Ristorante · Conto €65 · 2 persone · cena romantica</div>
+      </div>
+      <span class="s-arrow">▼</span>
+    </div>
+    <div class="scenario-body">
+      <div class="s-context">📋 <strong>Contesto:</strong> Cena romantica da due. Conto €65. Il cameriere porta il POS al tavolo. La carta di debito del cliente viene rifiutata. C'è silenzio imbarazzante. La compagna guarda.</div>
+      <div class="grid-2">
+        <div>
+          <div class="dialog">
+            <div class="msg client"><div class="msg-who">Cliente</div>Pago io. (porge la carta)</div>
+            <div class="msg staff"><div class="msg-who">Personale di sala</div>(dopo qualche secondo, sottovoce, avvicinandosi) Signore, sembra che ci sia un problemino con il terminale — potrebbe riprovare? A volte basta un secondo tentativo.</div>
+            <div class="msg client"><div class="msg-who">Cliente (riprova, stessa risposta)</div>Non so cosa stia succedendo…</div>
+            <div class="msg staff"><div class="msg-who">Personale di sala (sottovoce, discretamente)</div>Non si preoccupi, succede. Ha un'altra carta con sé o preferisce usare un'app? Abbiamo Satispay e siamo collegati a Google Pay.</div>
+            <div class="msg client"><div class="msg-who">Cliente</div>Ho una carta di credito... (la porge)</div>
+            <div class="msg staff"><div class="msg-who">Personale di sala</div>(prova, funziona) Perfetto, tutto risolto. Le porto subito la ricevuta. È stata una piacevole serata?</div>
+          </div>
+        </div>
+        <div>
+          <div class="tip-panel">
+            <strong>🎯 La chiave di questo scenario è la DISCREZIONE:</strong>
+            Il cameriere non ha mai usato le parole "carta rifiutata". Ha dato la colpa al "terminale" per proteggere la dignità del cliente. Si è avvicinato per comunicare sottovoce, non davanti alla compagna. Ha risolto senza creare una scena.
+          </div>
+          <div class="tip-panel" style="margin-top:12px;">
+            <strong>⛔ Cosa NON fare mai:</strong>
+            Dire ad alta voce "la carta è stata RIFIUTATA". Guardare la compagna mentre si comunica il problema. Mostrare impazienza. Portare via il POS senza spiegare cosa farà.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 3 -->
+  <div class="scenario">
+    <div class="scenario-hdr" onclick="toggleS(this)">
+      <span class="s-emoji">🏢</span>
+      <div>
+        <div class="s-title">Caso 3 — Cliente aziendale chiede la fattura</div>
+        <div class="s-subtitle">Ristorante business · Conto €180 · pranzo di lavoro in 4</div>
+      </div>
+      <span class="s-arrow">▼</span>
+    </div>
+    <div class="scenario-body">
+      <div class="s-context">📋 <strong>Contesto:</strong> Pranzo di lavoro. Quattro manager di una società milanese. Conto €180. Prima di pagare, uno chiede la fattura per l'azienda.</div>
+      <div class="dialog" style="max-width:600px;">
+        <div class="msg client"><div class="msg-who">Cliente</div>Per il conto, avremmo bisogno della fattura intestata alla nostra società.</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala</div>Certamente. Ho bisogno di: ragione sociale, Partita IVA, sede legale e il codice SDI o la PEC aziendale per la fattura elettronica.</div>
+        <div class="msg client"><div class="msg-who">Cliente</div>(porge il biglietto da visita) Ecco il biglietto, il codice SDI è scritto sul sito ma ce l'ho qui nel telefono... (mostra lo schermo)</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala</div>Perfetto, prendo nota di tutto e passo i dati all'amministrazione. La fattura elettronica arriverà all'indirizzo PEC indicato entro oggi. Come preferisce pagare il conto?</div>
+        <div class="msg client"><div class="msg-who">Cliente</div>Con carta di credito aziendale.</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala</div>Benissimo. (elabora il pagamento, NON stampa lo scontrino) Tutto fatto. Grazie per essere stati nostri ospiti, arrivederci.</div>
+      </div>
+      <div class="tip-panel" style="margin-top:16px;">
+        <strong>💡 Punti chiave:</strong>
+        Il cameriere ha raccolto TUTTI i dati necessari (P.IVA, SDI/PEC, sede). NON ha emesso lo scontrino RT — quando si emette fattura, questa sostituisce il documento commerciale. Ha passato i dati all'amministrazione senza improvvisare. Ha informato il cliente sulla modalità di ricezione della fattura (PEC, entro oggi).
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 4 -->
+  <div class="scenario">
+    <div class="scenario-hdr" onclick="toggleS(this)">
+      <span class="s-emoji">🌍</span>
+      <div>
+        <div class="s-title">Caso 4 — Turista con contanti in dollari</div>
+        <div class="s-subtitle">Ristorante turistico · Conto €55 · cliente americano</div>
+      </div>
+      <span class="s-arrow">▼</span>
+    </div>
+    <div class="scenario-body">
+      <div class="s-context">📋 <strong>Contesto:</strong> Un turista americano mostra un mazzo di banconote in dollari. Non ha carte con sé o non sa come usarle.</div>
+      <div class="dialog" style="max-width:600px;">
+        <div class="msg client"><div class="msg-who">Cliente (in inglese)</div>Hi! Can I pay with dollars? I have cash but only USD.</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala (in inglese)</div>I'm sorry, we only accept euros here — it's the law in Italy. Do you have a credit or debit card? We accept Visa and Mastercard.</div>
+        <div class="msg client"><div class="msg-who">Cliente</div>I have a Visa card but I'm not sure it works here.</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala</div>Don't worry — Visa works perfectly here. Your bank will convert euros to dollars automatically. Would you like to try?</div>
+        <div class="msg client"><div class="msg-who">Cliente</div>Sure, let's try!</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala</div>(mostra il display del POS) The total is €55.00. (il pagamento va a buon fine) Perfect! Here is your receipt. Enjoy the rest of your stay in Italy!</div>
+      </div>
+      <div class="tip-panel" style="margin-top:16px;">
+        <strong>💡 Da ricordare:</strong>
+        Sempre spiegare educatamente, non in modo brusco. Il turista probabilmente non sa della legge sull'euro. Rassicurarlo che la sua carta funzionerà e che la conversione avviene automaticamente è un servizio di accoglienza eccellente. Se proprio non ha carte né euro: indica l'ATM più vicino (di solito a pochi passi) — non lasciarlo senza soluzione.
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 5 -->
+  <div class="scenario">
+    <div class="scenario-hdr" onclick="toggleS(this)">
+      <span class="s-emoji">💰</span>
+      <div>
+        <div class="s-title">Caso 5 — Banconota da €100 per conto da €12</div>
+        <div class="s-subtitle">Bar hotel · Colazione €12 · mattina</div>
+      </div>
+      <span class="s-arrow">▼</span>
+    </div>
+    <div class="scenario-body">
+      <div class="s-context">📋 <strong>Contesto:</strong> Bar del mattino. Un cliente paga la colazione da €12 con una banconota da €100. È la prima colazione della giornata e la cassa è appena stata aperta.</div>
+      <div class="dialog" style="max-width:600px;">
+        <div class="msg client"><div class="msg-who">Cliente</div>Tenga. (porge €100)</div>
+        <div class="msg staff"><div class="msg-who">Personale di sala</div>Certamente, verifico solo di avere il resto disponibile. (controlla la cassa, usa il pennarello antifalso sulla banconota discretamente) Un attimo...  ho €88 di resto. Ecco a lei: un €50, due €20 e un €18 di spiccioli — e lo scontrino. Buona giornata!</div>
+      </div>
+      <div class="tip-panel" style="margin-top:16px;">
+        <strong>💡 Da ricordare:</strong>
+        Hai il diritto di rifiutare banconote di grosso taglio se non hai il resto — ma fallo con cortesia. Usa sempre il pennarello antifalso sulle banconote da €20 in su, specialmente per le prime della giornata. Conta il resto ad alta voce davanti al cliente per trasparenza: "Le do €50, €20, €18 — in totale €88 di resto".
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 6 -->
+  <div class="scenario">
+    <div class="scenario-hdr" onclick="toggleS(this)">
+      <span class="s-emoji">🏨</span>
+      <div>
+        <div class="s-title">Caso 6 — Check-in hotel senza carta di credito</div>
+        <div class="s-subtitle">Hotel 3 stelle · Check-in · ospite con solo carta prepagata</div>
+      </div>
+      <span class="s-arrow">▼</span>
+    </div>
+    <div class="scenario-body">
+      <div class="s-context">📋 <strong>Contesto:</strong> Un giovane ospite si presenta al check-in. La policy dell'hotel richiede una carta di credito come garanzia. Lui ha solo una carta prepagata Postepay e contanti.</div>
+      <div class="dialog" style="max-width:600px;">
+        <div class="msg staff"><div class="msg-who">Receptionist</div>Buongiorno! Benvenuto. Documento e una carta di credito per la garanzia, grazie.</div>
+        <div class="msg client"><div class="msg-who">Ospite</div>Buongiorno, ho solo la Postepay — è prepagata, va bene lo stesso?</div>
+        <div class="msg staff"><div class="msg-who">Receptionist</div>Capisco. La nostra policy richiede una carta di credito per la pre-autorizzazione — la prepagata standard non consente questa operazione. Ha la possibilità di usare una carta di credito?</div>
+        <div class="msg client"><div class="msg-who">Ospite</div>No, non ce l'ho. Ho contanti però.</div>
+        <div class="msg staff"><div class="msg-who">Receptionist</div>Benissimo, in questo caso possiamo accettare un deposito cauzionale in contanti di €100, che le restituiremo integralmente al check-out se non ci sono consumi extra. È d'accordo?</div>
+        <div class="msg client"><div class="msg-who">Ospite</div>Sì, perfetto.</div>
+        <div class="msg staff"><div class="msg-who">Receptionist</div>Ottimo. Le rilascio subito ricevuta della caparra. Benvenuto!</div>
+      </div>
+      <div class="tip-panel" style="margin-top:16px;">
+        <strong>💡 Da ricordare:</strong>
+        Mai rifiutare l'ospite senza offrire alternative. Il deposito cauzionale in contanti è una soluzione legittima. Emettere sempre ricevuta scritta della caparra, con importo, data di rientro e firma. Alcune carte prepagate "evolute" (es. Postepay Evolution con IBAN) possono accettare pre-autorizzazioni — verificare caso per caso con il responsabile.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 8: ROLE PLAY ═══════════════════════════════════ -->
+<section class="section" id="s8">
+  <div class="page-eyebrow">Attività Pratica · Modulo 8</div>
+  <h1 class="page-title">Role Play in <em>Coppia</em></h1>
+  <p class="page-desc">Dividetevi in coppie: uno interpreta il cliente, uno il personale. Dopo 4 minuti si scambiano i ruoli. Due coppie mostrano alla classe, poi si discute insieme.</p>
+
+  <div class="box teal">
+    <strong>📋 Istruzioni per il docente</strong>
+    Assegnare uno scenario a ciascuna coppia oppure lasciarli scegliere. Tempo di preparazione: 3 minuti. Tempo di esecuzione: 4 minuti a coppia. Selezionare 2–3 coppie che mostrano alla classe (preferibilmente quelle che hanno avuto difficoltà). Discussione finale: cosa ha funzionato? Cosa cambiereste? Quali parole usare / non usare?
+  </div>
+
+  <div class="rp-card">
+    <div class="rp-title">🎭 Scenario A <span class="badge b-red">Difficoltà media</span></div>
+    <div class="rp-roles">
+      <span class="rp-role client">👤 Cliente agitato</span>
+      <span class="rp-role staff">🍽 Cameriere / Barista</span>
+      <span class="rp-timing">⏱ 4 min</span>
+    </div>
+    <p class="rp-scenario"><strong>Situazione:</strong> Ristorante affollato, sabato sera. Cliente da solo, conto €38. La carta di debito viene rifiutata (motivo: limite giornaliero raggiunto). Il cliente non ha altra carta con sé ma usa Satispay.</p>
+    <div class="rp-goal">
+      <strong>🎯 Obiettivo del personale:</strong>
+      Gestire la situazione con totale discrezione (mai dire "carta rifiutata" ad alta voce). Trovare una soluzione alternativa. Mantenere il cliente sereno nonostante l'imbarazzo. Chiudere l'interazione in modo professionale.
+    </div>
+  </div>
+
+  <div class="rp-card">
+    <div class="rp-title">🎭 Scenario B <span class="badge b-orange">Difficoltà alta</span></div>
+    <div class="rp-roles">
+      <span class="rp-role client">👥 Gruppo 4 amici</span>
+      <span class="rp-role staff">🍽 Cameriere</span>
+      <span class="rp-timing">⏱ 4 min</span>
+    </div>
+    <p class="rp-scenario"><strong>Situazione:</strong> Conto totale €96 per 4 persone. Vogliono dividere: Persona A paga €24 in contanti, Persona B paga €24 con Bancomat, Persona C paga €30 con carta di credito (ha ordinato di più), Persona D non ha soldi — "paga B per lui e poi si sistemano tra loro". In più, Persona A vuole la ricevuta separata.</p>
+    <div class="rp-goal">
+      <strong>🎯 Obiettivo del personale:</strong>
+      Gestire la divisione senza confondersi. Spiegare che le ricevute POS vengono emesse per ogni transazione separata, ma lo scontrino fiscale può essere unico per l'intero tavolo. Mantenere la calma con un gruppo vivace. Verificare che il totale corrisponda.
+    </div>
+  </div>
+
+  <div class="rp-card">
+    <div class="rp-title">🎭 Scenario C <span class="badge b-red">Difficoltà alta</span></div>
+    <div class="rp-roles">
+      <span class="rp-role client">😤 Cliente che contesta il conto</span>
+      <span class="rp-role staff">🍽 Cameriere</span>
+      <span class="rp-timing">⏱ 4 min</span>
+    </div>
+    <p class="rp-scenario"><strong>Situazione:</strong> Conto €74. Il cliente insiste di dover pagare €65 e afferma di non aver ordinato il secondo piatto (€9). Tono abbastanza acceso. In realtà il secondo piatto c'è sulla comanda.</p>
+    <div class="rp-goal">
+      <strong>🎯 Obiettivo del personale:</strong>
+      Non scontrarsi. Non cedere immediatamente senza verificare (perdita economica per il locale). Portare la comanda originale come prova. Gestire il tono acceso con calma e dati alla mano. Se la disputa rimane irrisolta: chiamare il responsabile senza escalation.
+    </div>
+  </div>
+
+  <div class="rp-card">
+    <div class="rp-title">🎭 Scenario D <span class="badge b-teal">Difficoltà media</span></div>
+    <div class="rp-roles">
+      <span class="rp-role client">🌍 Turista straniero (tedesco)</span>
+      <span class="rp-role staff">🏨 Receptionist</span>
+      <span class="rp-timing">⏱ 4 min</span>
+    </div>
+    <p class="rp-scenario"><strong>Situazione:</strong> Check-out. Il cliente tedesco ha soggiornato 3 notti. Il conto totale è €340. Vuole pagare parte in contanti (€100) e parte con carta Mastercard. In più chiede una fattura intestata alla sua azienda tedesca con P.IVA europea (VAT number).</p>
+    <div class="rp-goal">
+      <strong>🎯 Obiettivo del personale:</strong>
+      Gestire il pagamento misto (contanti + carta). Raccogliere correttamente i dati per la fattura estera (nome azienda, VAT number tedesco, indirizzo). Spiegare quando arriverà la fattura elettronica. Chiudere il check-out con professionalità in inglese.
+    </div>
+  </div>
+
+  <div class="rp-card">
+    <div class="rp-title">🎭 Scenario E <span class="badge b-purple">Bonus · Difficoltà alta</span></div>
+    <div class="rp-roles">
+      <span class="rp-role client">🧐 Ispettore Agenzia Entrate (finto)</span>
+      <span class="rp-role staff">🍽 Cassiere / Responsabile</span>
+      <span class="rp-timing">⏱ 4 min</span>
+    </div>
+    <p class="rp-scenario"><strong>Situazione:</strong> Un cliente si avvicina alla cassa dopo aver consumato e, dopo aver pagato, chiede: "Ma lo scontrino me lo date solo se lo chiedo?". Il cassiere deve rispondere correttamente e dimostrare la conoscenza dell'obbligo fiscale.</p>
+    <div class="rp-goal">
+      <strong>🎯 Obiettivo del personale:</strong>
+      Spiegare che lo scontrino viene emesso sempre per legge, non solo su richiesta. Mostrare il funzionamento del Registratore Telematico. Dimostrare conoscenza delle sanzioni in caso di omissione.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ MODULO 9: QUIZ ═══════════════════════════════════ -->
+<section class="section" id="s9">
+  <div class="page-eyebrow">Verifica Finale · Modulo 9</div>
+  <h1 class="page-title">Quiz <em>Finale</em></h1>
+  <p class="page-desc">15 domande su tutti gli argomenti della lezione. Rispondi a tutte e poi clicca "Controlla" per vedere il risultato con le spiegazioni.</p>
+
+  <div class="quiz-wrap" id="quizWrap"></div>
+  <button id="submit-btn" onclick="checkQuiz()">Controlla le risposte ✓</button>
+  <div id="quiz-result">
+    <div class="result-big" id="rScore">0/15</div>
+    <div class="result-bar"><div class="result-fill" id="rFill" style="width:0%"></div></div>
+    <div class="result-msg" id="rMsg"></div>
+  </div>
+</section>
+
+<script>
+// ────────── TIMER ──────────
+let sec=0,running=false,iv;
+const phases=[
+  {t:0,l:"🗣 Aggancio (0–10 min)"},
+  {t:600,l:"💰 I Mezzi di Pagamento (10–35 min)"},
+  {t:2100,l:"🖥 POS e Carte (35–55 min)"},
+  {t:3300,l:"📱 Pagamenti Digitali (55–70 min)"},
+  {t:4200,l:"🧾 Fiscalità (70–85 min)"},
+  {t:5100,l:"🔒 Sicurezza (85–95 min)"},
+  {t:5700,l:"🎭 Casi Pratici & Role Play (95–110 min)"},
+  {t:6600,l:"🎯 Quiz Finale (110–120 min)"},
+];
+function toggleTimer(){
+  if(running){clearInterval(iv);running=false;document.getElementById('tbtn').textContent='▶ Riprendi';}
+  else{iv=setInterval(()=>{sec++;let m=String(Math.floor(sec/60)).padStart(2,'0'),s=String(sec%60).padStart(2,'0');document.getElementById('timer-clock').textContent=m+':'+s;let p=phases.filter(x=>x.t<=sec).pop();if(p)document.getElementById('fase-tag').textContent=p.l;},1000);running=true;document.getElementById('tbtn').textContent='⏸ Pausa';}
+}
+function resetTimer(){clearInterval(iv);running=false;sec=0;document.getElementById('timer-clock').textContent='00:00';document.getElementById('fase-tag').textContent='–';document.getElementById('tbtn').textContent='▶ Start';}
+
+// ────────── NAV ──────────
+function show(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ────────── PAYMENT DATA ──────────
+const pays=[
+  {icon:'💵',name:'Contanti',tag:'Cash',
+   detail:`<h3>💵 Contanti — tutto quello che devi sapere</h3>
+   <p>I <strong>contanti</strong> sono banconote e monete in euro emesse dalla Banca Centrale Europea. Sono il mezzo di pagamento più antico e ancora molto usato in Italia, specialmente per importi piccoli.</p>
+   <p><strong>Come gestirli in sala:</strong></p>
+   <ul><li>Contare sempre il denaro davanti al cliente, ad alta voce</li><li>Controllare l'autenticità delle banconote (pennarello, vista in luce, tatto)</li><li>Dare il resto contando ad alta voce: "Ha dato €50, il conto è €23, ecco €27 di resto"</li><li>Conservare in cassa separando i tagli</li></ul>
+   <p><strong>Obbligo di accettazione:</strong> I contanti sono a corso legale, ma con limitazioni. Dal 2023 il limite per i pagamenti in contanti tra privati è <strong>€5.000</strong>. Nei locali commerciali è buona prassi accettarli sempre (anche se non c'è obbligo assoluto di accettare tagli molto grandi).</p>
+   <div class="pd-tags"><span class="pd-tag">Nessuna commissione</span><span class="pd-tag">Anonimo</span><span class="pd-tag">Rischio falsificazione</span><span class="pd-tag">Gestione cassa</span></div>`},
+  {icon:'💳',name:'Carta Debito',tag:'Bancomat/Maestro',
+   detail:`<h3>💳 Carta di Debito — funzionamento completo</h3>
+   <p>La <strong>carta di debito</strong> (comunemente chiamata "bancomat") è collegata direttamente al conto corrente del titolare. Ogni pagamento <strong>addebita immediatamente</strong> il conto.</p>
+   <p><strong>Circuiti in Italia:</strong> PagoBancomat (nazionale), Maestro (Mastercard, in dismissione), V-Pay (Visa, in dismissione). Le nuove carte emesse da banche italiane sono quasi tutte su circuiti internazionali Visa Debit o Mastercard Debit.</p>
+   <p><strong>Come funziona il limite giornaliero:</strong> La banca imposta un limite di spesa giornaliero (tipicamente €500–€2.000) e un limite per i prelievi ATM (tipicamente €250–€500 al giorno). Se il cliente ha già speso molto durante il giornata, la carta potrebbe essere rifiutata anche con saldo sufficiente.</p>
+   <p><strong>Contactless:</strong> Quasi tutte le carte di debito moderne supportano il contactless. Limite €50 senza PIN.</p>
+   <div class="pd-tags"><span class="pd-tag">Addebito immediato</span><span class="pd-tag">Limite giornaliero</span><span class="pd-tag">Contactless ≤€50</span><span class="pd-tag">Commissioni basse</span></div>`},
+  {icon:'💳',name:'Carta Credito',tag:'Visa/MC/Amex',
+   detail:`<h3>💳 Carta di Credito — funzionamento completo</h3>
+   <p>La <strong>carta di credito</strong> è uno strumento di credito: la banca ti permette di spendere ora e pagare dopo. L'addebito sul conto avviene una volta al mese (scadenza prefissata).</p>
+   <p><strong>Come funziona il plafond:</strong> La banca assegna un plafond mensile (es. €2.000). Ogni acquisto scala dal plafond disponibile. A fine mese l'importo totale viene addebitato in un'unica soluzione (o in rate se è una carta revolving).</p>
+   <p><strong>Carta revolving:</strong> Variante della carta di credito in cui si paga una rata mensile invece del saldo totale. Il debito residuo genera interessi (anche alti). Non è raro per clienti che usano il revolving avere la carta rifiutata per plafond esaurito.</p>
+   <p><strong>American Express:</strong> Circuito premium con commissioni più alte per i commercianti (anche 3%). Molti locali non la accettano per questo motivo. Se il vostro locale non accetta Amex, comunicarlo educatamente prima che il cliente tenti il pagamento.</p>
+   <div class="pd-tags"><span class="pd-tag">Addebito differito</span><span class="pd-tag">Plafond mensile</span><span class="pd-tag">Commissioni più alte</span><span class="pd-tag">Tutele acquirente</span></div>`},
+  {icon:'💳',name:'Prepagata',tag:'Postepay/Hype',
+   detail:`<h3>💳 Carta Prepagata — funzionamento completo</h3>
+   <p>La <strong>carta prepagata</strong> funziona come un portafoglio elettronico: si carica con denaro e si usa fino a esaurimento del saldo. Non richiede un conto corrente bancario per quelle "senza IBAN".</p>
+   <p><strong>Tipi principali:</strong></p>
+   <ul><li><strong>Postepay standard</strong> — senza IBAN, solo pagamenti fisici e online; non si possono ricevere bonifici</li><li><strong>Postepay Evolution</strong> — con IBAN; funziona quasi come un conto bancario, accetta bonifici, usabile per affitti</li><li><strong>Hype, N26, Revolut</strong> — carte prepagate di nuova generazione, app-based, con IBAN, cambio valuta, ecc.</li></ul>
+   <p><strong>Attenzione in hotel:</strong> Le prepagate standard non supportano la pre-autorizzazione (blocco garanzia). Le prepagate con IBAN di solito sì. Verificare sempre caso per caso.</p>
+   <p><strong>Molto diffuse tra i giovani:</strong> È il mezzo di pagamento più comune nella fascia 16–25 anni. Aspettatevi di incontrarlo spesso.</p>
+   <div class="pd-tags"><span class="pd-tag">Saldo limitato</span><span class="pd-tag">Con/senza IBAN</span><span class="pd-tag">Comune tra giovani</span><span class="pd-tag">Ricaricabile</span></div>`},
+  {icon:'📱',name:'App Digitali',tag:'Satispay/Pay',
+   detail:`<h3>📱 App Digitali — Satispay, Apple Pay, Google Pay</h3>
+   <p>I pagamenti tramite smartphone sono la frontiera più avanzata del settore. Sicuri, veloci e sempre più adottati, specialmente dalla fascia 18–35 anni.</p>
+   <p><strong>Satispay:</strong> Sistema italiano che non usa carte bancarie — si collega direttamente al conto tramite IBAN. Il cliente paga scansionando un QR code o ricevendo una richiesta di pagamento. Zero commissioni sotto €10 per il locale. Perfetto per bar e colazioni.</p>
+   <p><strong>Apple Pay / Google Pay:</strong> Wallet digitali che memorizzano le carte bancarie del cliente. Usano NFC per comunicare con il POS. Richiedono autenticazione biometrica (Face ID o impronta) ad ogni pagamento — nessun limite di importo. Più sicuri della carta fisica perché trasmettono un token monouso.</p>
+   <p><strong>Come gestirli in sala:</strong> Funzionano esattamente come il contactless con carta fisica — il cliente avvicina il telefono al POS. Non serve fare nulla di diverso dal lato del cameriere. Se il POS ha il simbolo NFC (onde concentriche), accetta qualsiasi pagamento contactless.</p>
+   <div class="pd-tags"><span class="pd-tag">Nessun limite (biometria)</span><span class="pd-tag">Massima sicurezza</span><span class="pd-tag">Token monouso</span><span class="pd-tag">In crescita</span></div>`},
+  {icon:'🍽',name:'Buoni Pasto',tag:'Ticket Restaurant',
+   detail:`<h3>🍽 Buoni Pasto — come funzionano</h3>
+   <p>I <strong>buoni pasto</strong> (o "ticket restaurant") sono un benefit aziendale che i datori di lavoro offrono ai dipendenti per le spese alimentari. Sono emessi da società specializzate (Ticket Restaurant/Edenred, Sodexo, Pluxee, Day Ristorazione ecc.) e possono essere cartacei o elettronici (card o app).</p>
+   <p><strong>Come funziona per il locale:</strong> Il locale deve essere <strong>convenzionato</strong> con la società emittente. Il dipendente usa il buono come se fosse denaro (fino al valore facciale, es. €8). Il locale poi invia i buoni alla società e riceve il rimborso, con trattenuta di commissione (3–5%). Il rimborso non è immediato (ciclo mensile).</p>
+   <p><strong>Regole d'uso:</strong> I buoni pasto sono usabili solo per generi alimentari e bevande. Non si dà il resto in contanti. Il valore eccedente il pasto può essere coperto con un altro mezzo. Nei ristoranti convenzionati si possono usare più buoni pasto per lo stesso pasto.</p>
+   <p><strong>Buoni cartacei vs card:</strong> Il buono cartaceo va ritirato fisicamente e inviato all'emittente. La card elettronica si gestisce direttamente tramite POS o app dedicata. Sempre più si usa la card — i cartacei stanno sparendo.</p>
+   <div class="pd-tags"><span class="pd-tag">Solo locali convenzionati</span><span class="pd-tag">Rimborso dilazionato</span><span class="pd-tag">No resto in contanti</span><span class="pd-tag">Benefit aziendale</span></div>`},
+  {icon:'🏦',name:'Bonifico',tag:'SEPA/Istantaneo',
+   detail:`<h3>🏦 Bonifico Bancario — quando e come usarlo</h3>
+   <p>Il <strong>bonifico bancario</strong> è un trasferimento diretto di denaro da un conto bancario a un altro tramite IBAN. È raramente usato in ristoranti, ma è comune in hotel per aziende, eventi, soggiorni lunghi.</p>
+   <p><strong>Tipi di bonifico:</strong></p>
+   <ul><li><strong>SEPA ordinario</strong> — standard europeo, arriva entro 1 giorno lavorativo, gratuito o a basso costo</li><li><strong>SEPA istantaneo</strong> — arriva in 10 secondi, disponibile 24/7, costo leggermente maggiore. Il locale vede subito il denaro sul conto</li><li><strong>Internazionale (SWIFT)</strong> — per trasferimenti fuori dalla zona SEPA (es. USA), 2–5 giorni, commissioni più alte</li></ul>
+   <p><strong>Come gestirlo in accoglienza:</strong> Il cliente deve avere l'IBAN del locale. Il pagamento è definitivo solo quando i fondi arrivano (attenzione: un bonifico "inviato" non è un bonifico "ricevuto"). Per prenotazioni anticipate, accettare il bonifico solo dopo la conferma in banca.</p>
+   <div class="pd-tags"><span class="pd-tag">Non immediato (ordinario)</span><span class="pd-tag">Istantaneo disponibile</span><span class="pd-tag">Serve IBAN</span><span class="pd-tag">Hotel e aziende</span></div>`},
+  {icon:'📝',name:'Assegno',tag:'Quasi in disuso',
+   detail:`<h3>📝 Assegno Bancario — storia e stato attuale</h3>
+   <p>L'<strong>assegno bancario</strong> è un documento cartaceo con cui il correntista ordina alla propria banca di pagare una certa somma a un beneficiario. Era il mezzo di pagamento più diffuso fino agli anni '90, ora è in quasi totale disuso nel settore retail.</p>
+   <p><strong>Come si legge un assegno:</strong> importo in cifre e in lettere, intestazione del beneficiario, data, firma del traente. Va depositato in banca per incassarlo (clearing di 2–3 giorni lavorativi).</p>
+   <p><strong>Rischi:</strong> L'assegno può essere scoperto (il conto non ha fondi al momento del clearing). In questo caso il pagamento fallisce dopo giorni. L'assegno a vuoto è un illecito civile e penale in Italia.</p>
+   <p><strong>Quando ancora si vede nel HoReCa:</strong> Quasi mai. Occasionalmente per grandi eventi, catering aziendali, forniture. In questi casi, chiedere sempre assegni circolari (garantiti dalla banca) anziché assegni bancari ordinari.</p>
+   <div class="pd-tags"><span class="pd-tag">In quasi totale disuso</span><span class="pd-tag">Clearing 2–3 gg</span><span class="pd-tag">Rischio scoperto</span><span class="pd-tag">Assegno circolare = più sicuro</span></div>`},
+];
+
+const grid=document.getElementById('payGrid');
+const detail=document.getElementById('payDetail');
+pays.forEach((p,i)=>{
+  const el=document.createElement('div');
+  el.className='pay-tile';
+  el.innerHTML=`<span class="pt-icon">${p.icon}</span><div class="pt-name">${p.name}</div><div class="pt-tag">${p.tag}</div>`;
+  el.onclick=()=>{
+    document.querySelectorAll('.pay-tile').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active');
+    detail.innerHTML=p.detail;
+  };
+  grid.appendChild(el);
+});
+
+// ────────── SCENARIOS ──────────
+function toggleS(hdr){
+  const body=hdr.nextElementSibling;
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  hdr.classList.toggle('open',!open);
+}
+
+// ────────── QUIZ ──────────
+const questions=[
+  {q:"Cosa significa l'acronimo POS?",
+   o:["Payment of Service","Point Of Sale","Portable Operating System","Processing Online System"],correct:1,
+   exp:"POS = Point Of Sale, 'punto di vendita'. È il terminale elettronico che accetta pagamenti con carta."},
+  {q:"Qual è il limite massimo per un pagamento contactless con carta FISICA senza inserire il PIN?",
+   o:["€20","€30","€50","€100"],correct:2,
+   exp:"Il limite contactless senza PIN è €50. Sopra questa soglia la carta richiede il PIN. Con lo smartphone (Apple/Google Pay) questo limite non esiste perché l'autenticazione biometrica equivale al PIN."},
+  {q:"Quando si usa Apple Pay o Google Pay per pagare, qual è il numero della carta che viene trasmesso al POS?",
+   o:["Il numero completo della carta","Le ultime 4 cifre","Un token monouso criptato","Il codice CVV"],correct:2,
+   exp:"I wallet digitali (Apple Pay, Google Pay) non trasmettono mai il numero reale della carta. Usano un token crittografato monouso, diverso ad ogni transazione. Questo li rende più sicuri della carta fisica."},
+  {q:"Un cliente aziendale chiede la fattura per il pranzo. Cosa devi fare DOPO aver emesso la fattura?",
+   o:["Emettere anche lo scontrino RT come conferma","Non emettere lo scontrino — la fattura lo sostituisce","Emettere una ricevuta generica in aggiunta","Chiamare il commercialista prima di procedere"],correct:1,
+   exp:"La fattura elettronica sostituisce il documento commerciale (scontrino RT). Non si emettono entrambi per la stessa operazione: sarebbe una doppia registrazione dello stesso incasso."},
+  {q:"Qual è l'aliquota IVA applicata alla consumazione al tavolo in un ristorante?",
+   o:["4%","10%","22%","0%"],correct:1,
+   exp:"La ristorazione al tavolo applica IVA al 10%. Le bevande alcoliche invece al 22%. I beni alimentari di prima necessità venduti al dettaglio (come pane, latte) applicano il 4%."},
+  {q:"Una carta di debito viene rifiutata al POS. Come ti comporti?",
+   o:["Dici ad alta voce 'carta rifiutata' per far capire al cliente","Avvisi sottovoce il cliente e suggerisci alternative con discrezione","Restituisci la carta senza spiegazioni","Chiami la banca del cliente"],correct:1,
+   exp:"La discrezione è fondamentale. Il cliente può trovarsi in imbarazzo. Comunicare sottovoce, senza usare le parole 'carta rifiutata', e proporre subito alternative concrete (altra carta, app, contanti)."},
+  {q:"Un turista americano vuole pagare in dollari. Cosa rispondi?",
+   o:["Accetti, tanto poi cambi in banca","Accetti solo per importi piccoli (sotto €20)","Spieghi educatamente che si accettano solo euro e indichi un ATM vicino","Chiami il direttore prima di rispondere"],correct:2,
+   exp:"In Italia l'unica valuta a corso legale è l'euro. Non è possibile accettare valuta estera (rischi legali e contabili). La risposta professionale è spiegare la situazione con cortesia e indicare dove il cliente può ottenere euro."},
+  {q:"Il Registratore Telematico (RT) serve principalmente a:",
+   o:["Stampare solo il menù digitale","Trasmettere automaticamente i dati delle vendite all'Agenzia delle Entrate","Calcolare le mance dei camerieri","Gestire le prenotazioni online"],correct:1,
+   exp:"Il Registratore Telematico è obbligatorio dal 2020. Emette il documento commerciale (ex scontrino) e trasmette automaticamente i dati fiscali all'Agenzia delle Entrate, senza necessità di dichiarazioni manuali."},
+  {q:"Qual è il primo segnale tattile che distingue una banconota reale da una falsa?",
+   o:["Le banconote reali sono lucide e lisce","Le banconote reali hanno un rilievo rugoso sulle cifre e sui simboli","Le banconote reali sono più pesanti","Le banconote reali hanno un odore caratteristico"],correct:1,
+   exp:"La stampa calcografica delle banconote reali crea un rilievo percepibile al tatto sulle cifre, sulla scritta BCE e sui simboli. Le banconote false sono generalmente lisce al tatto perché usano tecniche di stampa comuni."},
+  {q:"Cos'è lo 'skimming' nel contesto dei pagamenti elettronici?",
+   o:["La verifica dell'autenticità di una banconota","La clonazione dei dati di una carta tramite un dispositivo nascosto","Il rifiuto di una carta da parte del POS","La procedura di chiusura giornaliera del POS"],correct:1,
+   exp:"Lo skimming è la tecnica con cui i criminali copiano i dati della carta (banda magnetica) usando uno skimmer applicato al POS. I POS moderni con chip EMV sono praticamente immuni perché usano crittografia invece della banda."},
+  {q:"Cos'è una pre-autorizzazione (usata negli hotel)?",
+   o:["Un pagamento definitivo effettuato al check-in","Un blocco temporaneo di una somma come garanzia, senza addebitarla realmente","Una penale per cancellazione tardiva","Un codice di sicurezza richiesto al cliente"],correct:1,
+   exp:"La pre-autorizzazione è un 'blocco' temporaneo di una somma sul conto del cliente, usato come garanzia in hotel. I soldi non vengono addebitati realmente — vengono solo 'congelati'. Se non ci sono extra, il blocco viene rilasciato al check-out."},
+  {q:"Un cliente ordina l'importo A sul POS ma la ricevuta non stampa e non è chiaro se sia andato a buon fine. Cosa fai?",
+   o:["Riprovi immediatamente la transazione per sicurezza","Verifichi se esiste una ricevuta di autorizzazione prima di riprovare","Dici al cliente che non hai addebiti e non deve pagare","Azzeri il POS e ricomincia da capo"],correct:1,
+   exp:"In caso di transazione dubbia, non riprovare MAI immediatamente — si rischierebbe un doppio addebito. Prima verificare se esiste una ricevuta di autorizzazione, controllare le transazioni sul POS o chiedere al cliente di verificare l'app della propria banca."},
+  {q:"Qual è la differenza principale tra una carta di debito e una carta di credito?",
+   o:["La carta di credito è più sicura della carta di debito","La carta di debito addebita subito il conto; la carta di credito addebita a fine mese","La carta di credito non ha PIN; la carta di debito sì","La carta di debito ha limiti di spesa; la carta di credito no"],correct:1,
+   exp:"La differenza fondamentale è il momento dell'addebito. La carta di debito sottrae subito il denaro dal conto corrente. La carta di credito permette di spendere ora e pagare tutto in un'unica soluzione a fine mese (o in rate con le revolving)."},
+  {q:"Il GDPR impone che il personale di sala:",
+   o:["Possa annotare i dati della carta del cliente su carta per comodità","Non debba mai annotare o fotografare i dati della carta del cliente","Possa condividere i dati di pagamento del cliente con altri ospiti se richiesto","Debba chiedere il consenso del cliente solo per i pagamenti sopra €500"],correct:1,
+   exp:"Il GDPR (Regolamento Europeo sulla Privacy) vieta di annotare o fotografare i dati delle carte dei clienti. I dati devono essere trattati solo nei sistemi certificati del locale. Le violazioni possono comportare sanzioni fino al 4% del fatturato globale."},
+  {q:"Qual è l'obbligo fiscale del locale quando un cliente paga?",
+   o:["Emettere lo scontrino RT solo se il cliente lo chiede","Emettere sempre il documento commerciale (scontrino RT) indipendentemente dal mezzo di pagamento","Emettere lo scontrino solo per pagamenti superiori a €10","Emettere lo scontrino solo per i pagamenti in contanti"],correct:1,
+   exp:"Il documento commerciale (ex scontrino) deve essere emesso SEMPRE, per qualsiasi importo e qualsiasi mezzo di pagamento. Dal 2020 il Registratore Telematico trasmette automaticamente i dati all'Agenzia delle Entrate. Omettere lo scontrino è una violazione con sanzioni da €250 a €2.000."},
+];
+
+const wrap=document.getElementById('quizWrap');
+let sel=new Array(questions.length).fill(null);
+const LETTERS=['A','B','C','D'];
+questions.forEach((q,qi)=>{
+  const card=document.createElement('div');card.className='q-card';
+  card.innerHTML=`<div class="q-num">Domanda ${qi+1} di ${questions.length}</div><div class="q-text">${q.q}</div><div class="q-opts" id="o${qi}">${q.o.map((o,oi)=>`<div class="q-opt" id="q${qi}o${oi}" onclick="selOpt(${qi},${oi})"><span class="opt-letter">${LETTERS[oi]}</span>${o}</div>`).join('')}</div><div class="q-feedback" id="fb${qi}"></div>`;
+  wrap.appendChild(card);
+});
+
+function selOpt(qi,oi){
+  if(document.getElementById('submit-btn').style.display==='none')return;
+  document.querySelectorAll(`#o${qi} .q-opt`).forEach(x=>x.classList.remove('selected'));
+  document.getElementById(`q${qi}o${oi}`).classList.add('selected');
+  sel[qi]=oi;
+}
+
+function checkQuiz(){
+  let score=0;
+  questions.forEach((q,qi)=>{
+    const a=sel[qi];
+    q.o.forEach((_,oi)=>{
+      const el=document.getElementById(`q${qi}o${oi}`);
+      el.classList.remove('selected');
+      if(oi===q.correct)el.classList.add('correct');
+      else if(oi===a&&a!==q.correct)el.classList.add('wrong');
+    });
+    const fb=document.getElementById(`fb${qi}`);
+    fb.textContent='💡 '+q.exp;
+    fb.className='q-feedback show '+(a===q.correct?'ok':'ko');
+    if(a===q.correct)score++;
+  });
+  const pct=Math.round(score/questions.length*100);
+  document.getElementById('rScore').textContent=score+'/'+questions.length;
+  document.getElementById('rFill').style.width=pct+'%';
+  document.getElementById('rMsg').textContent=pct>=93?'🏆 Eccellente! Sei pronto per lavorare in sala con competenza.':pct>=80?'👏 Ottimo! Conosci bene l\'argomento. Ripassate 1–2 punti.':pct>=67?'📚 Sufficiente. Alcuni moduli vanno ripassati con attenzione.':'⚠️ Insufficiente. Ripassate tutta la lezione prima della verifica.';
+  document.getElementById('quiz-result').style.display='block';
+  document.getElementById('submit-btn').style.display='none';
+  document.getElementById('quiz-result').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
