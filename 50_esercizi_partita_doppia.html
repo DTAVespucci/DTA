@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50 Esercizi Partita Doppia — IPSEOA Vespucci Milano</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080c18; --surface:#101729; --surface2:#161e35; --card:#1a2340;
+  --border:#253060; --text:#e4e8f7; --dim:#8892b5; --accent:#00e5ff;
+  --accent2:#7c4dff; --gold:#ffd740; --green:#69f0ae; --red:#ff5252;
+  --orange:#ffab40; --pink:#ff80ab; --lime:#c6ff00; --cyan:#18ffff;
+  --dare-bg:#0d2818; --avere-bg:#2a0f0f;
+  --radius:14px; --shadow:0 6px 30px rgba(0,0,0,.5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+
+/* ── TOP BAR ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:60px;background:rgba(8,12,24,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem}
+.topbar-left{display:flex;align-items:center;gap:1rem}
+.topbar-brand{font-family:'DM Serif Display',serif;font-size:1.1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar-stats{display:flex;gap:1.2rem;align-items:center}
+.stat{display:flex;align-items:center;gap:.4rem;font-size:.85rem;font-weight:600}
+.stat .val{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:1rem}
+.stat.xp .val{color:var(--accent)}
+.stat.streak .val{color:var(--orange)}
+
+.xp-bar{width:120px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s;width:0%}
+
+.level-badge{background:linear-gradient(135deg,var(--gold),var(--orange));color:var(--bg);font-weight:700;font-size:.75rem;padding:.2rem .7rem;border-radius:50px;letter-spacing:.05em}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 500px at 40% 50%,rgba(0,229,255,.08),transparent),radial-gradient(ellipse 500px 600px at 65% 40%,rgba(124,77,255,.07),transparent)}
+.hero-inner{position:relative;max-width:850px}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.1;margin-bottom:1rem;background:linear-gradient(135deg,#fff 0%,var(--accent) 50%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{font-size:clamp(1rem,2vw,1.3rem);color:var(--dim);max-width:600px;margin:0 auto 2rem}
+.badge-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.badge-pill{padding:.4rem 1.2rem;border-radius:50px;border:1px solid var(--border);font-size:.82rem;color:var(--dim)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .25s;user-select:none}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{background:#33eaff;box-shadow:0 4px 24px rgba(0,229,255,.3)}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:#ffe082}
+.btn-secondary{background:var(--accent2);color:#fff}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--dim)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:.45rem 1rem;font-size:.82rem}
+.btn-lg{padding:.9rem 2rem;font-size:1.05rem}
+
+/* ── EXERCISE CONTAINER ── */
+.ex-wrap{max-width:1000px;margin:0 auto;padding:80px 1.5rem 4rem}
+
+/* ── CATEGORY NAV ── */
+.cat-nav{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.cat-btn{padding:.5rem 1.2rem;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--dim);font-family:'DM Sans',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s}
+.cat-btn:hover,.cat-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* ── EXERCISE CARD ── */
+.ex-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1.5rem;overflow:hidden;transition:all .3s}
+.ex-card.done{border-color:var(--green);opacity:.85}
+.ex-card.done .ex-header{background:rgba(105,240,174,.06)}
+.ex-card.wrong-card{border-color:var(--red)}
+.ex-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:var(--surface2);cursor:pointer;user-select:none}
+.ex-header:hover{background:var(--surface)}
+.ex-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;color:var(--accent);min-width:3rem}
+.ex-title{flex:1;font-weight:600;font-size:.95rem}
+.ex-cat{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:50px;margin-left:.5rem}
+.ex-cat.rist{background:rgba(255,171,64,.12);color:var(--orange)}
+.ex-cat.alb{background:rgba(0,229,255,.12);color:var(--accent)}
+.ex-cat.tur{background:rgba(255,128,171,.12);color:var(--pink)}
+.ex-cat.mix{background:rgba(124,77,255,.12);color:var(--accent2)}
+.ex-pts{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gold)}
+.ex-status{font-size:1.2rem;margin-left:.5rem}
+.ex-body{display:none;padding:1.5rem;border-top:1px solid var(--border);animation:slideDown .3s}
+.ex-card.open .ex-body{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+.scenario{background:var(--surface);border-left:3px solid var(--accent2);padding:1rem 1.2rem;border-radius:0 10px 10px 0;margin-bottom:1.5rem;font-size:.95rem;color:var(--dim)}
+.scenario strong{color:var(--text)}
+
+/* ── DROP TABLE ── */
+.drop-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.drop-table th{background:var(--accent2);color:#fff;padding:.6rem .8rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;text-align:center}
+.drop-table th:first-child{text-align:left;border-radius:8px 0 0 0}
+.drop-table th:last-child{border-radius:0 8px 0 0}
+.drop-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;min-height:42px}
+.drop-table td:first-child{text-align:left;font-weight:500}
+.drop-table tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+
+/* ── DROP CELLS ── */
+.drop-cell{min-width:80px;min-height:38px;border:2px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s;cursor:pointer;padding:2px 4px;margin:2px auto}
+.drop-cell.over{border-color:var(--accent);background:rgba(0,229,255,.06)}
+.drop-cell.filled{border-style:solid}
+.drop-cell.correct{border-color:var(--green);background:rgba(105,240,174,.08)}
+.drop-cell.incorrect{border-color:var(--red);background:rgba(255,82,82,.08)}
+
+/* ── CHIP BANK ── */
+.chip-bank{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0;padding:1rem;background:var(--surface);border-radius:10px;min-height:48px}
+.chip{display:inline-flex;align-items:center;padding:.45rem .9rem;background:var(--accent2);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;font-family:'JetBrains Mono',monospace;cursor:grab;user-select:none;transition:all .15s}
+.chip:active{cursor:grabbing;transform:scale(.95)}
+.chip.placed{opacity:.3;pointer-events:none}
+.chip.selected{outline:3px solid var(--accent);outline-offset:2px}
+
+/* ── FEEDBACK ── */
+.feedback{margin-top:1rem;padding:1rem 1.2rem;border-radius:10px;display:none;font-size:.95rem}
+.feedback.show{display:block;animation:fadeIn .3s}
+.feedback.ok{background:rgba(105,240,174,.08);border:1px solid rgba(105,240,174,.2);color:var(--green)}
+.feedback.ko{background:rgba(255,82,82,.06);border:1px solid rgba(255,82,82,.2);color:var(--red)}
+.feedback.info{background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);color:var(--accent)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ── EXPLANATION ── */
+.explanation{margin-top:1rem;padding:1.2rem;background:var(--surface);border-radius:10px;border-left:3px solid var(--gold)}
+.explanation h4{color:var(--gold);margin-bottom:.5rem;font-size:.95rem}
+.explanation p{color:var(--dim);font-size:.9rem;margin-bottom:.3rem}
+.explanation .line{display:flex;justify-content:space-between;padding:.2rem 0;font-size:.88rem}
+.explanation .line .lbl{color:var(--dim)}
+.explanation .line .d{color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:600}
+.explanation .line .a{color:var(--red);font-family:'JetBrains Mono',monospace;font-weight:600}
+
+/* ── ACHIEVEMENT POPUP ── */
+.achievement{position:fixed;top:80px;right:20px;z-index:2000;background:linear-gradient(135deg,var(--gold),var(--orange));color:var(--bg);padding:1rem 1.5rem;border-radius:12px;box-shadow:0 8px 32px rgba(255,215,64,.3);font-weight:700;transform:translateX(120%);transition:transform .5s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:.8rem}
+.achievement.show{transform:translateX(0)}
+.achievement .ach-icon{font-size:1.8rem}
+.achievement .ach-text{font-size:.9rem}
+.achievement .ach-title{font-size:1rem;display:block}
+
+/* ── SUMMARY PANEL ── */
+.summary{background:var(--card);border:2px solid var(--gold);border-radius:var(--radius);padding:2rem;margin:2rem 0;text-align:center}
+.summary h2{font-family:'DM Serif Display',serif;color:var(--gold);margin-bottom:1rem}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin:1.5rem 0}
+.summary-stat{padding:1rem;border-radius:10px;background:var(--surface)}
+.summary-stat .big{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700}
+.summary-stat .label{font-size:.8rem;color:var(--dim);margin-top:.3rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .topbar-stats .stat:nth-child(n+3){display:none}
+  .hero h1{font-size:2.2rem}
+  .drop-table{font-size:.82rem}
+  .drop-table th,.drop-table td{padding:.4rem}
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-brand">📒 50 Esercizi P.D.</div>
+    <span class="level-badge" id="levelBadge">LV 1</span>
+    <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+  </div>
+  <div class="topbar-stats">
+    <div class="stat xp"><span>⚡</span><span class="val" id="xpVal">0</span> XP</div>
+    <div class="stat"><span>⭐</span><span class="val" id="scoreVal">0</span>/50</div>
+    <div class="stat streak"><span>🔥</span><span class="val" id="streakVal">0</span></div>
+    <div class="stat"><span>🏆</span><span class="val" id="achVal">0</span></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badge-row">
+      <span class="badge-pill">🍽️ Ristorazione</span>
+      <span class="badge-pill">🏨 Accoglienza Turistica</span>
+      <span class="badge-pill">📒 Partita Doppia</span>
+    </div>
+    <h1>50 Esercizi Interattivi</h1>
+    <p class="sub">Trascina gli importi nelle celle corrette, accumula XP, sblocca livelli e conquista i trofei. Progettato per la LIM!</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="#exercises" class="btn btn-primary btn-lg">▶ Inizia!</a>
+      <button class="btn btn-ghost btn-lg" onclick="document.getElementById('summaryPanel').scrollIntoView({behavior:'smooth'})">📊 Risultati</button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="ex-wrap" id="exercises">
+  <!-- Category filter -->
+  <div class="cat-nav">
+    <button class="cat-btn active" onclick="filterCat('all',this)">Tutti (50)</button>
+    <button class="cat-btn" onclick="filterCat('rist',this)">🍽️ Ristorazione</button>
+    <button class="cat-btn" onclick="filterCat('alb',this)">🏨 Alberghiero</button>
+    <button class="cat-btn" onclick="filterCat('tur',this)">✈️ Turismo</button>
+    <button class="cat-btn" onclick="filterCat('mix',this)">🔀 Misti</button>
+  </div>
+
+  <div id="exList"></div>
+
+  <!-- SUMMARY -->
+  <div class="summary" id="summaryPanel">
+    <h2>🏆 I Tuoi Risultati</h2>
+    <div class="summary-grid">
+      <div class="summary-stat"><div class="big" style="color:var(--green)" id="sumCorrect">0</div><div class="label">Corretti</div></div>
+      <div class="summary-stat"><div class="big" style="color:var(--accent)" id="sumXP">0</div><div class="label">XP Totali</div></div>
+      <div class="summary-stat"><div class="big" style="color:var(--orange)" id="sumStreak">0</div><div class="label">Streak Max</div></div>
+      <div class="summary-stat"><div class="big" style="color:var(--gold)" id="sumLevel">1</div><div class="label">Livello</div></div>
+    </div>
+    <button class="btn btn-gold" onclick="resetAll()">🔄 Ricomincia tutto</button>
+  </div>
+
+  <footer style="text-align:center;padding:3rem 0 2rem;color:var(--dim);font-size:.82rem">
+    IPSEOA "A. Vespucci" Milano · DTA Classe Terza · A.S. 2025/2026
+  </footer>
+</div>
+
+<!-- ACHIEVEMENT POPUP -->
+<div class="achievement" id="achPopup">
+  <div class="ach-icon" id="achIcon">🏆</div>
+  <div><span class="ach-title" id="achTitle"></span><span class="ach-text" id="achText"></span></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA: 50 EXERCISES
+// ═══════════════════════════════════════════════════
+const exercises = [
+// ── RISTORAZIONE (1-15) ──
+{id:1,cat:"rist",title:"Acquisto prodotti alimentari",pts:10,
+ text:"Il ristorante riceve fattura per acquisto di prodotti alimentari per <strong>2.000 € + IVA 10%</strong>.",
+ rows:[
+  {conto:"Merci c/acquisti",analisi:"VEN (Costo)",dare:"2.000",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"200",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"2.200"}
+ ],
+ expl:"Acquisto a credito: il costo va in Dare (VEN), l'IVA a credito in Dare (VFA), il debito verso il fornitore in Avere (VFP). Totale fattura = 2.000 + 200 = 2.200."},
+
+{id:2,cat:"rist",title:"Acquisto bevande per il bar",pts:10,
+ text:"Il bar acquista bevande per <strong>800 € + IVA 22%</strong>. Fattura a credito.",
+ rows:[
+  {conto:"Acquisti bar",analisi:"VEN (Costo)",dare:"800",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"176",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"976"}
+ ],
+ expl:"Bevande soggette ad IVA 22%. IVA = 800 × 22% = 176. Totale debito = 976."},
+
+{id:3,cat:"rist",title:"Pagamento fornitore alimentari in contanti",pts:10,
+ text:"Il ristorante paga in contanti il debito di <strong>2.200 €</strong> verso il fornitore alimentari.",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"2.200",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"2.200"}
+ ],
+ expl:"Pagamento: il debito diminuisce (VFA → Dare), il denaro esce dalla cassa (VFP → Avere)."},
+
+{id:4,cat:"rist",title:"Vendita pranzi con fattura",pts:10,
+ text:"Il ristorante emette fattura per servizio di ristorazione: <strong>3.500 € + IVA 10%</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"3.850",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"350"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"3.500"}
+ ],
+ expl:"Vendita a credito: nasce un credito v/clienti (VFA → Dare), IVA a debito (VFP → Avere), ricavo (VEP → Avere). IVA ristorazione = 10%."},
+
+{id:5,cat:"rist",title:"Incasso tramite banca dal cliente",pts:10,
+ text:"Il cliente paga tramite bonifico bancario l'intero importo di <strong>3.850 €</strong>.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"3.850",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"3.850"}
+ ],
+ expl:"Incasso: la banca aumenta (VFA → Dare), il credito v/clienti diminuisce (VFP → Avere)."},
+
+{id:6,cat:"rist",title:"Bolletta del gas — IVA inclusa",pts:15,
+ text:"Ricevuta bolletta del gas di <strong>330 € (IVA 10% inclusa)</strong>.",
+ rows:[
+  {conto:"Spese per servizi",analisi:"VEN (Costo)",dare:"300",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"30",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"330"}
+ ],
+ expl:"Scorporo IVA! 330 ÷ 1,10 = 300 (imponibile). IVA = 330 − 300 = 30. Costo energia = spese per servizi."},
+
+{id:7,cat:"rist",title:"Acquisto attrezzatura cucina",pts:15,
+ text:"Acquistata attrezzatura professionale per la cucina: <strong>5.000 € + IVA 22%</strong>. Fattura a credito.",
+ rows:[
+  {conto:"Attrezzature",analisi:"VEN (Costo plur.)",dare:"5.000",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"1.100",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"6.100"}
+ ],
+ expl:"L'attrezzatura è un costo pluriennale (immobilizzazione). IVA 22% = 1.100. Totale = 6.100."},
+
+{id:8,cat:"rist",title:"Pagamento banca metà fattura attrezzatura",pts:10,
+ text:"Pagata tramite banca <strong>metà</strong> della fattura attrezzatura cucina (6.100 / 2 = <strong>3.050</strong>).",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"3.050",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"3.050"}
+ ],
+ expl:"Si estingue metà debito tramite banca. Debiti diminuiscono (Dare), banca diminuisce (Avere)."},
+
+{id:9,cat:"rist",title:"Vendita servizio catering",pts:10,
+ text:"Emessa fattura per servizio catering a un'azienda: <strong>4.200 € + IVA 10%</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"4.620",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"420"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"4.200"}
+ ],
+ expl:"Catering = ristorazione → IVA 10%. IVA = 420. Totale credito = 4.620."},
+
+{id:10,cat:"rist",title:"Acquisto biancheria per sala",pts:10,
+ text:"Acquistata biancheria per la sala ristorante: <strong>600 € + IVA 22%</strong>.",
+ rows:[
+  {conto:"Biancheria",analisi:"VEN (Costo)",dare:"600",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"132",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"732"}
+ ],
+ expl:"Biancheria = bene non alimentare → IVA 22%. 600 × 0,22 = 132. Totale = 732."},
+
+{id:11,cat:"rist",title:"Bolletta elettricità — IVA inclusa",pts:15,
+ text:"Ricevuta bolletta elettricità <strong>488 € (IVA 22% inclusa)</strong>.",
+ rows:[
+  {conto:"Spese per servizi",analisi:"VEN (Costo)",dare:"400",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"88",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"488"}
+ ],
+ expl:"Scorporo: 488 ÷ 1,22 = 400. IVA = 88. Elettricità uso non domestico → aliquota 22%."},
+
+{id:12,cat:"rist",title:"Pagamento bolletta elettricità in contanti",pts:10,
+ text:"Pagata la bolletta dell'elettricità di <strong>488 €</strong> in contanti.",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"488",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"488"}
+ ],
+ expl:"Estinzione debito in contanti. Schema identico a qualsiasi pagamento cash."},
+
+{id:13,cat:"rist",title:"Vendita dolci e pasticceria",pts:10,
+ text:"Emessa fattura per vendita prodotti di pasticceria: <strong>1.800 € + IVA 10%</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"1.980",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"180"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"1.800"}
+ ],
+ expl:"Pasticceria artigianale = prodotto alimentare → IVA 10%. Totale = 1.980."},
+
+{id:14,cat:"rist",title:"Versamento in banca",pts:10,
+ text:"Il ristorante versa in banca <strong>2.500 €</strong> dalla cassa.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (+Banca)",dare:"2.500",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"2.500"}
+ ],
+ expl:"Spostamento di denaro tra conti finanziari: nessun conto economico coinvolto."},
+
+{id:15,cat:"rist",title:"Incasso contanti ¼ fattura catering",pts:15,
+ text:"Incassato in contanti <strong>¼</strong> della fattura catering di 4.620 € (= <strong>1.155 €</strong>).",
+ rows:[
+  {conto:"Denaro in cassa",analisi:"VFA (Entrata)",dare:"1.155",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"1.155"}
+ ],
+ expl:"Incasso parziale: cassa aumenta (Dare), credito diminuisce (Avere). 4.620 / 4 = 1.155."},
+
+// ── ALBERGHIERO (16-30) ──
+{id:16,cat:"alb",title:"Costituzione azienda alberghiera",pts:20,
+ text:"Costituita azienda con: <strong>fabbricato 120.000 €, arredamento 25.000 €, denaro 8.000 €, banca 15.000 €</strong>.",
+ rows:[
+  {conto:"Fabbricati",analisi:"VEN (Costo plur.)",dare:"120.000",avere:""},
+  {conto:"Arredamento",analisi:"VEN (Costo plur.)",dare:"25.000",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFA (Entrata)",dare:"8.000",avere:""},
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"15.000",avere:""},
+  {conto:"Capitale sociale",analisi:"VEP (+Capitale)",dare:"",avere:"168.000"}
+ ],
+ expl:"Costituzione: tutti i conferimenti in Dare, il Capitale sociale in Avere. Totale = 120.000 + 25.000 + 8.000 + 15.000 = 168.000."},
+
+{id:17,cat:"alb",title:"Vendita pernottamento — IVA inclusa",pts:15,
+ text:"Emessa fattura soggiorno alberghiero: <strong>1.100 € (IVA 10% inclusa)</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"1.100",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"100"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"1.000"}
+ ],
+ expl:"Scorporo: 1.100 ÷ 1,10 = 1.000. IVA = 100. Servizi alberghieri → IVA 10%."},
+
+{id:18,cat:"alb",title:"Acquisto biancheria da letto",pts:10,
+ text:"Acquistata biancheria per le camere: <strong>1.500 € + IVA 22%</strong>.",
+ rows:[
+  {conto:"Biancheria",analisi:"VEN (Costo)",dare:"1.500",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"330",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"1.830"}
+ ],
+ expl:"Biancheria = bene non alimentare → IVA 22%. Totale = 1.830."},
+
+{id:19,cat:"alb",title:"Bolletta acqua — IVA inclusa",pts:15,
+ text:"Ricevuta bolletta acqua <strong>275 € (IVA 10% inclusa)</strong>.",
+ rows:[
+  {conto:"Spese per servizi",analisi:"VEN (Costo)",dare:"250",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"25",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"275"}
+ ],
+ expl:"Scorporo: 275 ÷ 1,10 = 250. IVA = 25. Acqua per uso aziendale → IVA 10%."},
+
+{id:20,cat:"alb",title:"Pagamento biancheria tramite banca",pts:10,
+ text:"Pagata tramite banca l'intera fattura biancheria di <strong>1.830 €</strong>.",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"1.830",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"1.830"}
+ ],
+ expl:"Pagamento integrale via banca."},
+
+{id:21,cat:"alb",title:"Incasso soggiorno tramite banca",pts:10,
+ text:"Il cliente paga il soggiorno di <strong>1.100 €</strong> con bonifico.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"1.100",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"1.100"}
+ ],
+ expl:"Riscossione totale credito tramite banca."},
+
+{id:22,cat:"alb",title:"Assicurazione annuale albergo",pts:10,
+ text:"Pagata assicurazione annuale per l'albergo: <strong>2.400 €</strong> tramite banca (esente IVA).",
+ rows:[
+  {conto:"Assicurazioni",analisi:"VEN (Costo)",dare:"2.400",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"2.400"}
+ ],
+ expl:"L'assicurazione è esente IVA (art. 10 DPR 633/72). Pagamento diretto senza debito intermedio."},
+
+{id:23,cat:"alb",title:"Vendita pacchetto weekend — IVA inclusa",pts:15,
+ text:"Emessa fattura per pacchetto weekend: <strong>3.300 € (IVA 10% inclusa)</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"3.300",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"300"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"3.000"}
+ ],
+ expl:"3.300 ÷ 1,10 = 3.000 imponibile. IVA = 300. Pacchetti turistici alberghieri → 10%."},
+
+{id:24,cat:"alb",title:"Acquisto prodotti per pulizia camere",pts:10,
+ text:"Acquistati prodotti per la pulizia: <strong>350 € + IVA 22%</strong>. Pagamento in contanti.",
+ rows:[
+  {conto:"Spese per servizi",analisi:"VEN (Costo)",dare:"350",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"77",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"427"}
+ ],
+ expl:"Pagamento immediato in contanti: nessun debito intermedio. IVA = 350 × 22% = 77. Totale = 427."},
+
+{id:25,cat:"alb",title:"Acquisto minibar per camere",pts:10,
+ text:"Acquistate forniture minibar: <strong>900 € + IVA 10%</strong>.",
+ rows:[
+  {conto:"Merci c/acquisti",analisi:"VEN (Costo)",dare:"900",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"90",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"990"}
+ ],
+ expl:"Prodotti alimentari per minibar → IVA 10%. Totale = 990."},
+
+{id:26,cat:"alb",title:"Manutenzione ascensore",pts:15,
+ text:"Ricevuta fattura manutenzione ascensore: <strong>732 € (IVA 22% inclusa)</strong>.",
+ rows:[
+  {conto:"Spese per servizi",analisi:"VEN (Costo)",dare:"600",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"132",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"732"}
+ ],
+ expl:"Scorporo: 732 ÷ 1,22 = 600. IVA = 132. Manutenzione = servizio → IVA 22%."},
+
+{id:27,cat:"alb",title:"Incasso parziale pacchetto weekend",pts:10,
+ text:"Incassata tramite banca <strong>metà</strong> fattura pacchetto weekend (3.300 / 2 = <strong>1.650</strong>).",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"1.650",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"1.650"}
+ ],
+ expl:"Incasso parziale: metà del credito viene riscossa via banca."},
+
+{id:28,cat:"alb",title:"Pagamento manutenzione in contanti",pts:10,
+ text:"Pagata in contanti la fattura manutenzione ascensore di <strong>732 €</strong>.",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"732",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"732"}
+ ],
+ expl:"Estinzione debito con contanti."},
+
+{id:29,cat:"alb",title:"Acquisto computer reception",pts:15,
+ text:"Acquistato computer per la reception: <strong>1.200 € + IVA 22%</strong>. Pagamento tramite banca.",
+ rows:[
+  {conto:"Attrezzature",analisi:"VEN (Costo plur.)",dare:"1.200",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"264",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"1.464"}
+ ],
+ expl:"Computer = immobilizzazione (costo pluriennale). Pagamento diretto via banca: nessun debito intermedio. Totale = 1.464."},
+
+{id:30,cat:"alb",title:"Vendita servizio lavanderia",pts:10,
+ text:"Fatturato servizio lavanderia a cliente business: <strong>450 € + IVA 22%</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"549",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"99"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"450"}
+ ],
+ expl:"Servizio lavanderia → IVA 22%. IVA = 450 × 22% = 99. Totale = 549."},
+
+// ── TURISMO (31-42) ──
+{id:31,cat:"tur",title:"Costituzione agenzia viaggi",pts:20,
+ text:"Costituita agenzia viaggi con: <strong>arredamento 10.000 €, denaro 5.000 €, banca 20.000 €</strong>.",
+ rows:[
+  {conto:"Arredamento",analisi:"VEN (Costo plur.)",dare:"10.000",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFA (Entrata)",dare:"5.000",avere:""},
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"20.000",avere:""},
+  {conto:"Capitale sociale",analisi:"VEP (+Capitale)",dare:"",avere:"35.000"}
+ ],
+ expl:"Costituzione agenzia: totale conferimenti = 35.000 = Capitale sociale."},
+
+{id:32,cat:"tur",title:"Vendita pacchetto turistico",pts:10,
+ text:"Venduto pacchetto turistico: <strong>2.800 € + IVA 22%</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"3.416",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"616"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"2.800"}
+ ],
+ expl:"Pacchetto turistico venduto da agenzia → IVA 22%. IVA = 616. Totale = 3.416."},
+
+{id:33,cat:"tur",title:"Acquisto materiale promozionale",pts:10,
+ text:"Acquistato materiale pubblicitario (brochure): <strong>500 € + IVA 22%</strong>.",
+ rows:[
+  {conto:"Spese pubblicitarie",analisi:"VEN (Costo)",dare:"500",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"110",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"610"}
+ ],
+ expl:"Pubblicità = costo d'esercizio, IVA 22%. Totale = 610."},
+
+{id:34,cat:"tur",title:"Affitto locale agenzia",pts:10,
+ text:"Pagato affitto mensile dell'agenzia: <strong>1.200 €</strong> tramite banca (esente IVA).",
+ rows:[
+  {conto:"Fitti passivi",analisi:"VEN (Costo)",dare:"1.200",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"1.200"}
+ ],
+ expl:"L'affitto di locali è esente IVA (art. 10). Pagamento diretto."},
+
+{id:35,cat:"tur",title:"Vendita escursione guidata — IVA inclusa",pts:15,
+ text:"Fatturata escursione guidata: <strong>660 € (IVA 10% inclusa)</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"660",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"60"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"600"}
+ ],
+ expl:"Scorporo: 660 ÷ 1,10 = 600. IVA = 60. Escursione turistica → IVA 10%."},
+
+{id:36,cat:"tur",title:"Incasso pacchetto turistico tramite banca",pts:10,
+ text:"Incassata l'intera fattura del pacchetto turistico: <strong>3.416 €</strong>.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"3.416",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"3.416"}
+ ],
+ expl:"Riscossione totale via banca."},
+
+{id:37,cat:"tur",title:"Acquisto software gestionale",pts:15,
+ text:"Acquistato software gestionale per l'agenzia: <strong>2.440 € (IVA 22% inclusa)</strong>.",
+ rows:[
+  {conto:"Attrezzature",analisi:"VEN (Costo plur.)",dare:"2.000",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"440",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"2.440"}
+ ],
+ expl:"Scorporo: 2.440 ÷ 1,22 = 2.000. IVA = 440. Software = costo pluriennale."},
+
+{id:38,cat:"tur",title:"Bolletta telefonica agenzia — IVA inclusa",pts:15,
+ text:"Ricevuta bolletta telefonica: <strong>183 € (IVA 22% inclusa)</strong>.",
+ rows:[
+  {conto:"Spese per servizi",analisi:"VEN (Costo)",dare:"150",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"33",avere:""},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"183"}
+ ],
+ expl:"Scorporo: 183 ÷ 1,22 = 150. IVA = 33. Telefonia → IVA 22%."},
+
+{id:39,cat:"tur",title:"Pagamento bolletta telefonica in contanti",pts:10,
+ text:"Pagata bolletta telefonica di <strong>183 €</strong> in contanti.",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"183",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"183"}
+ ],
+ expl:"Pagamento contanti. Debito si estingue."},
+
+{id:40,cat:"tur",title:"Pagamento materiale promozionale con cambiale",pts:15,
+ text:"Pagata fattura brochure di <strong>610 €</strong> mediante cambiale (scadenza 2 mesi).",
+ rows:[
+  {conto:"Debiti v/fornitori",analisi:"VFA (−Debito)",dare:"610",avere:""},
+  {conto:"Cambiali passive",analisi:"VFP (+Debito)",dare:"",avere:"610"}
+ ],
+ expl:"Non esce denaro! Il debito v/fornitori si trasforma in cambiale passiva (un altro debito)."},
+
+{id:41,cat:"tur",title:"Pagamento cambiale alla scadenza",pts:10,
+ text:"Alla scadenza, pagata la cambiale di <strong>610 €</strong> tramite banca.",
+ rows:[
+  {conto:"Cambiali passive",analisi:"VFA (−Debito)",dare:"610",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"610"}
+ ],
+ expl:"Si estingue la cambiale pagandola con la banca."},
+
+{id:42,cat:"tur",title:"Vendita viaggio di gruppo",pts:10,
+ text:"Venduto viaggio di gruppo: <strong>8.000 € + IVA 22%</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"9.760",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"1.760"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"8.000"}
+ ],
+ expl:"IVA 22% su pacchetto agenzia. IVA = 1.760. Totale = 9.760."},
+
+// ── MISTI (43-50) ──
+{id:43,cat:"mix",title:"Ristorante: acquisto pesce + pagamento metà contanti",pts:20,
+ text:"Acquistato pesce fresco per <strong>1.600 € + IVA 10%</strong>. Pagata subito metà in contanti.",
+ rows:[
+  {conto:"Merci c/acquisti",analisi:"VEN (Costo)",dare:"1.600",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"160",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"880"},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"880"}
+ ],
+ expl:"Totale = 1.760. Metà contanti (880) + metà a credito (880). Due uscite in Avere!"},
+
+{id:44,cat:"mix",title:"Hotel: incasso ⅓ credito + ⅓ con cambiale",pts:20,
+ text:"Credito v/clienti di <strong>2.400 €</strong>. Il cliente paga <strong>⅓ tramite banca e ⅓ con cambiale</strong>.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"800",avere:""},
+  {conto:"Cambiali attive",analisi:"VFA (+Credito)",dare:"800",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"1.600"}
+ ],
+ expl:"⅓ = 800. Si incassa 800 in banca + 800 come cambiale attiva. Il credito scende di 1.600 (⅔). Resta ⅓ = 800 come credito v/clienti."},
+
+{id:45,cat:"mix",title:"Agenzia: acquisto auto aziendale + banca",pts:15,
+ text:"Acquistata auto aziendale: <strong>18.000 € + IVA 22%</strong>. Pagamento integrale tramite banca.",
+ rows:[
+  {conto:"Automezzi",analisi:"VEN (Costo plur.)",dare:"18.000",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"3.960",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"21.960"}
+ ],
+ expl:"Immobilizzazione pagata subito: nessun debito. IVA = 3.960. Totale = 21.960."},
+
+{id:46,cat:"mix",title:"Ristorante: vendita banchetto nuziale — IVA inclusa",pts:15,
+ text:"Fatturato banchetto nuziale: <strong>11.000 € (IVA 10% inclusa)</strong>.",
+ rows:[
+  {conto:"Crediti v/clienti",analisi:"VFA (+Credito)",dare:"11.000",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"1.000"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"10.000"}
+ ],
+ expl:"Scorporo: 11.000 ÷ 1,10 = 10.000. IVA = 1.000. Ristorazione → IVA 10%."},
+
+{id:47,cat:"mix",title:"Hotel: acquisto materassi + metà banca metà cambiale",pts:20,
+ text:"Acquistati materassi: <strong>4.000 € + IVA 22%</strong>. Pago ½ banca e ½ cambiale.",
+ rows:[
+  {conto:"Arredamento",analisi:"VEN (Costo plur.)",dare:"4.000",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"880",avere:""},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"2.440"},
+  {conto:"Cambiali passive",analisi:"VFP (+Debito)",dare:"",avere:"2.440"}
+ ],
+ expl:"Totale = 4.880. Metà banca (2.440) + metà cambiale (2.440). Materassi = arredamento (immobilizzazione)."},
+
+{id:48,cat:"mix",title:"Agenzia: incasso totale viaggio di gruppo",pts:10,
+ text:"Il cliente paga l'intero importo del viaggio di gruppo: <strong>9.760 €</strong> tramite banca.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"9.760",avere:""},
+  {conto:"Crediti v/clienti",analisi:"VFP (−Credito)",dare:"",avere:"9.760"}
+ ],
+ expl:"Riscossione integrale via bonifico."},
+
+{id:49,cat:"mix",title:"Ristorante: acquisto vino pregiato + pagamento misto",pts:20,
+ text:"Acquistato vino pregiato: <strong>3.000 € + IVA 22%</strong>. Pago ⅓ contanti, ⅓ banca, ⅓ a credito.",
+ rows:[
+  {conto:"Merci c/acquisti",analisi:"VEN (Costo)",dare:"3.000",avere:""},
+  {conto:"IVA ns/credito",analisi:"VFA (+Credito)",dare:"660",avere:""},
+  {conto:"Denaro in cassa",analisi:"VFP (Uscita)",dare:"",avere:"1.220"},
+  {conto:"Banca c/c",analisi:"VFP (Uscita)",dare:"",avere:"1.220"},
+  {conto:"Debiti v/fornitori",analisi:"VFP (+Debito)",dare:"",avere:"1.220"}
+ ],
+ expl:"Vino = IVA 22%. Totale = 3.660. Un terzo = 1.220. Tre modalità di pagamento!"},
+
+{id:50,cat:"mix",title:"Hotel: vendita soggiorno + incasso immediato banca",pts:15,
+ text:"Venduto soggiorno <strong>2.200 € (IVA 10% inclusa)</strong>. Il cliente paga subito tramite banca.",
+ rows:[
+  {conto:"Banca c/c",analisi:"VFA (Entrata)",dare:"2.200",avere:""},
+  {conto:"IVA ns/debito",analisi:"VFP (+Debito)",dare:"",avere:"200"},
+  {conto:"Merci c/vendite",analisi:"VEP (Ricavo)",dare:"",avere:"2.000"}
+ ],
+ expl:"Vendita e incasso simultanei! Scorporo: 2.200 ÷ 1,10 = 2.000. Nessun credito v/clienti perché paga subito."},
+];
+
+// ═══════════════════════════════════════════════════
+// GAME STATE
+// ═══════════════════════════════════════════════════
+let state = {
+  xp: 0, score: 0, streak: 0, maxStreak: 0, level: 1,
+  completed: new Set(),
+  achievements: new Set()
+};
+
+const levels = [0,100,250,500,800,1200,1700,2400,3200,4200,5500];
+const achievements = [
+  {id:'first',icon:'🎯',title:'Primo Passo!',text:'Primo esercizio completato',cond:s=>s.score>=1},
+  {id:'streak5',icon:'🔥',title:'On Fire!',text:'5 risposte corrette di fila',cond:s=>s.streak>=5},
+  {id:'streak10',icon:'💥',title:'Inarrestabile!',text:'10 risposte corrette di fila',cond:s=>s.streak>=10},
+  {id:'ten',icon:'⭐',title:'Dieci e Lode',text:'10 esercizi completati',cond:s=>s.score>=10},
+  {id:'half',icon:'🏅',title:'Metà Strada',text:'25 esercizi completati',cond:s=>s.score>=25},
+  {id:'forty',icon:'🎖️',title:'Quasi Perfetto',text:'40 esercizi completati',cond:s=>s.score>=40},
+  {id:'all',icon:'🏆',title:'MAESTRO CONTABILE!',text:'Tutti i 50 esercizi completati!',cond:s=>s.score>=50},
+  {id:'lv3',icon:'📈',title:'Livello 3!',text:'Hai raggiunto il livello 3',cond:s=>s.level>=3},
+  {id:'lv5',icon:'🚀',title:'Livello 5!',text:'Sei un razzo!',cond:s=>s.level>=5},
+  {id:'xp500',icon:'⚡',title:'500 XP',text:'Accumulati 500 punti esperienza',cond:s=>s.xp>=500},
+];
+
+// ═══════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════
+function renderExercises(filter='all') {
+  const list = document.getElementById('exList');
+  list.innerHTML = '';
+  const filtered = filter === 'all' ? exercises : exercises.filter(e => e.cat === filter);
+  filtered.forEach(ex => {
+    const done = state.completed.has(ex.id);
+    const card = document.createElement('div');
+    card.className = `ex-card${done ? ' done' : ''}`;
+    card.id = `ex${ex.id}`;
+    card.innerHTML = `
+      <div class="ex-header" onclick="toggleEx(${ex.id})">
+        <span class="ex-num">#${String(ex.id).padStart(2,'0')}</span>
+        <span class="ex-title">${ex.title}</span>
+        <span class="ex-cat ${ex.cat}">${{rist:'🍽️ Rist.',alb:'🏨 Alb.',tur:'✈️ Tur.',mix:'🔀 Mix'}[ex.cat]}</span>
+        <span class="ex-pts">+${ex.pts} XP</span>
+        <span class="ex-status">${done ? '✅' : '📝'}</span>
+      </div>
+      <div class="ex-body" id="exBody${ex.id}">
+        <div class="scenario">${ex.text}</div>
+        <p style="color:var(--dim);font-size:.88rem;margin:.8rem 0">👆 <strong>Trascina</strong> o <strong>clicca</strong> gli importi nelle celle Dare/Avere corrette:</p>
+        <div class="chip-bank" id="chips${ex.id}"></div>
+        <div style="overflow-x:auto">
+          <table class="drop-table" id="table${ex.id}">
+            <tr><th>Conto</th><th>Analisi</th><th style="color:var(--green)">DARE</th><th style="color:var(--red)">AVERE</th></tr>
+          </table>
+        </div>
+        <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" onclick="checkEx(${ex.id})">✓ Verifica</button>
+          <button class="btn btn-ghost btn-sm" onclick="resetEx(${ex.id})">↺ Riprova</button>
+          <button class="btn btn-ghost btn-sm" onclick="showAnswer(${ex.id})">💡 Mostra soluzione</button>
+        </div>
+        <div class="feedback" id="fb${ex.id}"></div>
+        <div id="expl${ex.id}"></div>
+      </div>`;
+    list.appendChild(card);
+    if (!done) buildInteractive(ex);
+  });
+}
+
+function buildInteractive(ex) {
+  const chipBank = document.getElementById(`chips${ex.id}`);
+  const table = document.getElementById(`table${ex.id}`);
+  if (!chipBank || !table) return;
+  chipBank.innerHTML = '';
+  // Remove old rows (keep header)
+  while (table.rows.length > 1) table.deleteRow(1);
+
+  // Collect all values
+  const values = [];
+  ex.rows.forEach(r => {
+    if (r.dare) values.push(r.dare);
+    if (r.avere) values.push(r.avere);
+  });
+  // Shuffle
+  const shuffled = [...values].sort(() => Math.random() - 0.5);
+
+  // Create chips
+  shuffled.forEach((v, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.textContent = v;
+    chip.id = `chip_${ex.id}_${i}`;
+    chip.dataset.val = v;
+    chip.draggable = true;
+    chip.ondragstart = e => { e.dataTransfer.setData('text/plain', chip.id); selectedChip = null; };
+    chip.onclick = () => {
+      document.querySelectorAll(`#chips${ex.id} .chip`).forEach(c => c.classList.remove('selected'));
+      if (selectedChip === chip) { selectedChip = null; return; }
+      chip.classList.add('selected');
+      selectedChip = chip;
+    };
+    chipBank.appendChild(chip);
+  });
+
+  // Create rows with drop cells
+  ex.rows.forEach((r, ri) => {
+    const tr = table.insertRow();
+    tr.innerHTML = `<td>${r.conto}</td><td style="color:var(--dim);font-size:.85rem">${r.analisi}</td>`;
+    ['dare','avere'].forEach(col => {
+      const td = document.createElement('td');
+      const cell = document.createElement('div');
+      cell.className = 'drop-cell';
+      cell.id = `cell_${ex.id}_${ri}_${col}`;
+      cell.dataset.expect = r[col];
+      cell.ondragover = e => { e.preventDefault(); cell.classList.add('over'); };
+      cell.ondragleave = () => cell.classList.remove('over');
+      cell.ondrop = e => {
+        e.preventDefault(); cell.classList.remove('over');
+        const chipId = e.dataTransfer.getData('text/plain');
+        placeChip(chipId, cell, ex.id);
+      };
+      cell.onclick = () => {
+        if (cell.dataset.chipId) {
+          // Remove chip back
+          const c = document.getElementById(cell.dataset.chipId);
+          if (c) { c.classList.remove('placed'); }
+          cell.textContent = '';
+          cell.classList.remove('filled');
+          delete cell.dataset.chipId;
+        } else if (selectedChip) {
+          placeChip(selectedChip.id, cell, ex.id);
+          selectedChip = null;
+        }
+      };
+      td.appendChild(cell);
+      tr.appendChild(td);
+    });
+  });
+}
+
+let selectedChip = null;
+
+function placeChip(chipId, cell, exId) {
+  const chip = document.getElementById(chipId);
+  if (!chip || chip.classList.contains('placed')) return;
+  // If cell already has a chip, unplace it
+  if (cell.dataset.chipId) {
+    const old = document.getElementById(cell.dataset.chipId);
+    if (old) old.classList.remove('placed');
+  }
+  chip.classList.add('placed');
+  chip.classList.remove('selected');
+  cell.textContent = chip.dataset.val;
+  cell.classList.add('filled');
+  cell.dataset.chipId = chipId;
+  cell.style.fontFamily = "'JetBrains Mono',monospace";
+  cell.style.fontWeight = '600';
+  cell.style.fontSize = '.9rem';
+}
+
+function checkEx(id) {
+  const ex = exercises.find(e => e.id === id);
+  let allCorrect = true;
+  let allFilled = true;
+
+  ex.rows.forEach((r, ri) => {
+    ['dare','avere'].forEach(col => {
+      const cell = document.getElementById(`cell_${id}_${ri}_${col}`);
+      if (!cell) return;
+      const expected = r[col];
+      const actual = cell.textContent.trim();
+      if (expected && !actual) allFilled = false;
+      if (!expected && actual) { cell.classList.add('incorrect'); cell.classList.remove('correct'); allCorrect = false; }
+      else if (expected && actual === expected) { cell.classList.add('correct'); cell.classList.remove('incorrect'); }
+      else if (expected && actual !== expected) { cell.classList.add('incorrect'); cell.classList.remove('correct'); allCorrect = false; }
+      else { cell.classList.remove('correct','incorrect'); }
+    });
+  });
+
+  const fb = document.getElementById(`fb${id}`);
+  if (!allFilled) {
+    fb.className = 'feedback show info';
+    fb.innerHTML = '⚠️ Completa tutte le celle prima di verificare!';
+    return;
+  }
+
+  if (allCorrect && !state.completed.has(id)) {
+    state.completed.add(id);
+    state.score++;
+    state.streak++;
+    if (state.streak > state.maxStreak) state.maxStreak = state.streak;
+    state.xp += ex.pts;
+    updateLevel();
+    fb.className = 'feedback show ok';
+    fb.innerHTML = `🎉 <strong>Perfetto!</strong> +${ex.pts} XP · Streak: ${state.streak} 🔥`;
+    document.getElementById(`ex${id}`).classList.add('done');
+    document.getElementById(`ex${id}`).querySelector('.ex-status').textContent = '✅';
+    showExplanation(id, ex);
+    checkAchievements();
+  } else if (allCorrect) {
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '✅ Già completato! Tutto corretto.';
+  } else {
+    state.streak = 0;
+    fb.className = 'feedback show ko';
+    fb.innerHTML = '❌ Alcune celle non sono corrette. Le celle rosse indicano gli errori. Riprova!';
+    document.getElementById(`ex${id}`).classList.add('wrong-card');
+    setTimeout(() => document.getElementById(`ex${id}`).classList.remove('wrong-card'), 1500);
+  }
+  updateUI();
+}
+
+function showAnswer(id) {
+  const ex = exercises.find(e => e.id === id);
+  ex.rows.forEach((r, ri) => {
+    ['dare','avere'].forEach(col => {
+      const cell = document.getElementById(`cell_${id}_${ri}_${col}`);
+      if (cell && r[col]) {
+        cell.textContent = r[col];
+        cell.classList.add('filled','correct');
+        cell.style.fontFamily = "'JetBrains Mono',monospace";
+        cell.style.fontWeight = '600';
+      }
+    });
+  });
+  // Mark chips as placed
+  document.querySelectorAll(`#chips${id} .chip`).forEach(c => c.classList.add('placed'));
+  showExplanation(id, ex);
+}
+
+function showExplanation(id, ex) {
+  const el = document.getElementById(`expl${id}`);
+  let lines = '';
+  ex.rows.forEach(r => {
+    const d = r.dare ? `<span class="d">${r.dare}</span>` : '';
+    const a = r.avere ? `<span class="a">${r.avere}</span>` : '';
+    lines += `<div class="line"><span class="lbl">${r.conto}</span><span>${d}${a}</span></div>`;
+  });
+  el.innerHTML = `<div class="explanation"><h4>📖 Spiegazione</h4><p>${ex.expl}</p><div style="margin-top:.8rem;border-top:1px solid var(--border);padding-top:.6rem">${lines}</div></div>`;
+}
+
+function resetEx(id) {
+  const ex = exercises.find(e => e.id === id);
+  document.getElementById(`fb${id}`).className = 'feedback';
+  document.getElementById(`fb${id}`).innerHTML = '';
+  document.getElementById(`expl${id}`).innerHTML = '';
+  buildInteractive(ex);
+}
+
+function toggleEx(id) {
+  const card = document.getElementById(`ex${id}`);
+  const wasOpen = card.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.ex-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderExercises(cat);
+}
+
+// ═══════════════════════════════════════════════════
+// GAMIFICATION
+// ═══════════════════════════════════════════════════
+function updateLevel() {
+  for (let i = levels.length - 1; i >= 0; i--) {
+    if (state.xp >= levels[i]) { state.level = i + 1; break; }
+  }
+}
+
+function updateUI() {
+  document.getElementById('xpVal').textContent = state.xp;
+  document.getElementById('scoreVal').textContent = state.score;
+  document.getElementById('streakVal').textContent = state.streak;
+  document.getElementById('achVal').textContent = state.achievements.size;
+  document.getElementById('levelBadge').textContent = `LV ${state.level}`;
+  
+  const curr = levels[state.level - 1] || 0;
+  const next = levels[state.level] || state.xp;
+  const pct = next > curr ? ((state.xp - curr) / (next - curr)) * 100 : 100;
+  document.getElementById('xpFill').style.width = pct + '%';
+
+  document.getElementById('sumCorrect').textContent = state.score;
+  document.getElementById('sumXP').textContent = state.xp;
+  document.getElementById('sumStreak').textContent = state.maxStreak;
+  document.getElementById('sumLevel').textContent = state.level;
+}
+
+function checkAchievements() {
+  achievements.forEach(a => {
+    if (!state.achievements.has(a.id) && a.cond(state)) {
+      state.achievements.add(a.id);
+      showAchievement(a);
+    }
+  });
+  updateUI();
+}
+
+function showAchievement(a) {
+  const popup = document.getElementById('achPopup');
+  document.getElementById('achIcon').textContent = a.icon;
+  document.getElementById('achTitle').textContent = a.title;
+  document.getElementById('achText').textContent = a.text;
+  popup.classList.add('show');
+  setTimeout(() => popup.classList.remove('show'), 3500);
+}
+
+function resetAll() {
+  if (!confirm('Sei sicuro? Tutti i progressi verranno azzerati.')) return;
+  state = { xp:0, score:0, streak:0, maxStreak:0, level:1, completed:new Set(), achievements:new Set() };
+  updateUI();
+  renderExercises();
+}
+
+// INIT
+renderExercises();
+updateUI();
+</script>
+</body>
+</html>
