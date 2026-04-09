@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Partita Doppia — IPSEOA Vespucci Milano</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --surface: #12172b;
+  --surface2: #1a2038;
+  --card: #1e2545;
+  --border: #2a3158;
+  --text: #e8eaf6;
+  --text-dim: #9da5c4;
+  --accent: #00e5ff;
+  --accent2: #7c4dff;
+  --gold: #ffd740;
+  --green: #69f0ae;
+  --red: #ff5252;
+  --orange: #ffab40;
+  --pink: #ff80ab;
+  --dare: #1b5e20;
+  --dare-bg: #1b3a1e;
+  --avere: #b71c1c;
+  --avere-bg: #3a1a1a;
+  --radius: 14px;
+  --shadow: 0 8px 32px rgba(0,0,0,.45);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAVIGATION ── */
+.nav {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: rgba(10,14,26,.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-brand {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display:flex; gap:.5rem; flex-wrap: wrap; }
+.nav-links a {
+  color: var(--text-dim); text-decoration:none; font-size:.82rem; font-weight:500;
+  padding: .4rem .8rem; border-radius:8px; transition: all .2s;
+  white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active { color:var(--accent); background:rgba(0,229,255,.08); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:6rem 2rem 4rem;
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(0,229,255,.12), transparent),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(124,77,255,.10), transparent);
+}
+.hero-content { position:relative; max-width:900px; }
+.hero h1 {
+  font-family:'DM Serif Display',serif; font-size:clamp(2.8rem,7vw,5.5rem);
+  line-height:1.1; margin-bottom:1.5rem;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero .subtitle {
+  font-size:clamp(1rem,2.5vw,1.4rem); color:var(--text-dim); max-width:650px; margin:0 auto 2rem;
+}
+.hero .badge {
+  display:inline-block; padding:.5rem 1.5rem; border-radius:50px;
+  border:1px solid var(--accent); color:var(--accent); font-size:.85rem; font-weight:600;
+  letter-spacing:.05em;
+}
+
+/* ── SECTIONS ── */
+.section {
+  max-width:1100px; margin:0 auto; padding:5rem 2rem;
+}
+.section-label {
+  font-size:.75rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:.5rem;
+}
+.section h2 {
+  font-family:'DM Serif Display',serif; font-size:clamp(2rem,4vw,3rem);
+  margin-bottom:1.5rem; line-height:1.2;
+}
+.section h3 {
+  font-family:'DM Serif Display',serif; font-size:1.5rem;
+  color:var(--gold); margin:2rem 0 1rem;
+}
+.section h4 {
+  font-size:1.1rem; font-weight:700; color:var(--accent);
+  margin:1.5rem 0 .8rem;
+}
+.section p { color:var(--text-dim); margin-bottom:1rem; max-width:800px; }
+.section p strong, .section li strong { color:var(--text); }
+
+.divider {
+  height:1px; border:0;
+  background:linear-gradient(90deg, transparent, var(--border), transparent);
+  margin:3rem 0;
+}
+
+/* ── CARDS & BOXES ── */
+.card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:2rem; margin:1.5rem 0;
+  box-shadow: var(--shadow);
+}
+.card.highlight {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(0,229,255,.05), rgba(124,77,255,.05));
+}
+.card.gold { border-color:var(--gold); background:rgba(255,215,64,.04); }
+.card.green { border-color:var(--green); background:rgba(105,240,174,.04); }
+.card.red { border-color:var(--red); background:rgba(255,82,82,.04); }
+.card.orange { border-color:var(--orange); background:rgba(255,171,64,.04); }
+
+.card-title {
+  font-family:'DM Serif Display',serif; font-size:1.25rem;
+  margin-bottom:.8rem; display:flex; align-items:center; gap:.6rem;
+}
+.card-title .icon { font-size:1.5rem; }
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; }
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; }
+.grid-4 { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+
+/* ── TABLES ── */
+.table-wrap { overflow-x:auto; margin:1.5rem 0; border-radius:var(--radius); }
+table {
+  width:100%; border-collapse:collapse; font-size:.95rem;
+}
+th {
+  background:var(--accent2); color:#fff; padding:.8rem 1rem;
+  text-align:left; font-weight:600; font-size:.85rem; letter-spacing:.03em;
+  text-transform:uppercase;
+}
+td { padding:.7rem 1rem; border-bottom:1px solid var(--border); }
+tr:nth-child(even) td { background:rgba(255,255,255,.02); }
+tr:hover td { background:rgba(0,229,255,.05); }
+td.dare { color:var(--green); font-weight:600; font-family:'JetBrains Mono',monospace; }
+td.avere { color:var(--red); font-weight:600; font-family:'JetBrains Mono',monospace; }
+
+/* ── SCHEMA DARE/AVERE ── */
+.da-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; margin:1.5rem 0; border-radius:var(--radius); overflow:hidden; border:2px solid var(--border); }
+.da-col { padding:1.5rem; }
+.da-col.dare-col { background:var(--dare-bg); border-right:2px solid var(--border); }
+.da-col.avere-col { background:var(--avere-bg); }
+.da-col h4 { margin-top:0; text-align:center; font-size:1.3rem; letter-spacing:.1em; }
+.da-col.dare-col h4 { color:var(--green); }
+.da-col.avere-col h4 { color:var(--red); }
+.da-col ul { list-style:none; padding:0; }
+.da-col li { padding:.4rem 0; font-size:.95rem; color:var(--text-dim); }
+.da-col li strong { color:var(--text); }
+
+/* ── MASTRINO ── */
+.mastrino {
+  display:inline-block; border:2px solid var(--accent); border-radius:var(--radius);
+  overflow:hidden; min-width:300px; margin:1rem 0;
+}
+.mastrino-title {
+  background:var(--accent2); color:#fff; text-align:center;
+  padding:.6rem 1.5rem; font-weight:700; font-size:1rem; letter-spacing:.05em;
+}
+.mastrino-body { display:grid; grid-template-columns:1fr 1fr; }
+.mastrino-dare, .mastrino-avere { padding:1rem 1.5rem; min-height:60px; }
+.mastrino-dare { border-right:1px solid var(--border); }
+.mastrino-dare .label { color:var(--green); font-weight:700; font-size:.8rem; letter-spacing:.1em; margin-bottom:.3rem; }
+.mastrino-avere .label { color:var(--red); font-weight:700; font-size:.8rem; letter-spacing:.1em; margin-bottom:.3rem; }
+
+/* ── INTERACTIVE QUIZ ── */
+.quiz-box { margin:2rem 0; }
+.quiz-q {
+  background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.5rem 2rem; margin:1rem 0;
+}
+.quiz-q p { color:var(--text); font-weight:600; margin-bottom:1rem; font-size:1.05rem; }
+.quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+.quiz-opt {
+  background:var(--card); border:2px solid var(--border); border-radius:10px;
+  padding:.8rem 1.2rem; cursor:pointer; transition:all .25s; font-size:.95rem; color:var(--text-dim);
+  user-select:none;
+}
+.quiz-opt:hover { border-color:var(--accent); color:var(--text); transform:translateX(6px); }
+.quiz-opt.correct { border-color:var(--green)!important; background:rgba(105,240,174,.1)!important; color:var(--green)!important; }
+.quiz-opt.wrong { border-color:var(--red)!important; background:rgba(255,82,82,.08)!important; color:var(--red)!important; opacity:.6; }
+.quiz-opt.disabled { pointer-events:none; }
+.quiz-feedback {
+  margin-top:.8rem; padding:1rem; border-radius:10px; font-weight:500;
+  display:none; font-size:.95rem;
+}
+.quiz-feedback.show { display:block; animation: fadeIn .3s; }
+.quiz-feedback.ok { background:rgba(105,240,174,.1); color:var(--green); border:1px solid rgba(105,240,174,.2); }
+.quiz-feedback.ko { background:rgba(255,82,82,.08); color:var(--red); border:1px solid rgba(255,82,82,.2); }
+
+/* ── INTERACTIVE EXERCISE ── */
+.exercise-area {
+  background:var(--surface); border:2px solid var(--accent2);
+  border-radius:var(--radius); padding:2rem; margin:2rem 0;
+}
+.exercise-area h3 { color:var(--accent); margin-top:0; }
+.input-row {
+  display:grid; grid-template-columns:2fr 1.5fr 1fr 1fr; gap:.8rem;
+  align-items:center; margin:.6rem 0;
+}
+.input-row input, .input-row select {
+  background:var(--card); border:1px solid var(--border); border-radius:8px;
+  padding:.6rem .8rem; color:var(--text); font-size:.9rem; font-family:'DM Sans',sans-serif;
+}
+.input-row input:focus, .input-row select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,229,255,.15); }
+.input-row select { cursor:pointer; }
+.btn {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.7rem 1.5rem; border-radius:10px; border:none;
+  font-family:'DM Sans',sans-serif; font-weight:600; font-size:.9rem;
+  cursor:pointer; transition:all .2s;
+}
+.btn-primary { background:var(--accent); color:var(--bg); }
+.btn-primary:hover { background:#33eaff; transform:translateY(-2px); box-shadow:0 4px 20px rgba(0,229,255,.3); }
+.btn-secondary { background:var(--accent2); color:#fff; }
+.btn-secondary:hover { background:#9c7aff; }
+.btn-gold { background:var(--gold); color:var(--bg); }
+.btn-gold:hover { background:#ffe082; }
+.btn-sm { padding:.5rem 1rem; font-size:.82rem; }
+.btn-group { display:flex; gap:.8rem; flex-wrap:wrap; margin:1.5rem 0; }
+
+/* ── TABS ── */
+.tabs { display:flex; gap:0; margin:2rem 0 0; border-bottom:2px solid var(--border); }
+.tab-btn {
+  padding:.8rem 1.5rem; background:none; border:none; color:var(--text-dim);
+  font-family:'DM Sans',sans-serif; font-weight:600; font-size:.95rem; cursor:pointer;
+  border-bottom:3px solid transparent; margin-bottom:-2px; transition:all .2s;
+}
+.tab-btn:hover { color:var(--text); }
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-content { display:none; padding:2rem 0; animation:fadeIn .4s; }
+.tab-content.active { display:block; }
+
+/* ── STEPPER ── */
+.stepper { counter-reset: step; }
+.step-item {
+  position:relative; padding-left:3.5rem; margin-bottom:2rem;
+}
+.step-item::before {
+  counter-increment:step; content:counter(step);
+  position:absolute; left:0; top:0;
+  width:2.5rem; height:2.5rem; border-radius:50%;
+  background:var(--accent2); color:#fff; font-weight:700;
+  display:flex; align-items:center; justify-content:center; font-size:1rem;
+}
+.step-item::after {
+  content:''; position:absolute; left:1.2rem; top:2.5rem; bottom:-1.5rem;
+  width:2px; background:var(--border);
+}
+.step-item:last-child::after { display:none; }
+
+/* ── DRAG DROP AREA ── */
+.drop-zone {
+  min-height:60px; border:2px dashed var(--border); border-radius:10px;
+  padding:.8rem; display:flex; flex-wrap:wrap; gap:.5rem;
+  align-items:center; justify-content:center; transition:all .2s;
+}
+.drop-zone.over { border-color:var(--accent); background:rgba(0,229,255,.05); }
+.drag-chip {
+  display:inline-flex; align-items:center; padding:.5rem 1rem;
+  background:var(--accent2); color:#fff; border-radius:8px;
+  font-size:.85rem; font-weight:600; cursor:grab; user-select:none;
+  transition:all .15s;
+}
+.drag-chip:active { cursor:grabbing; opacity:.8; transform:scale(.95); }
+.drag-chip.in-zone { background:var(--green); color:var(--bg); }
+.drag-chip.wrong-zone { background:var(--red); color:#fff; }
+
+/* ── SCORE BANNER ── */
+.score-banner {
+  position:fixed; bottom:0; left:0; right:0; z-index:999;
+  background:rgba(10,14,26,.95); backdrop-filter:blur(20px);
+  border-top:1px solid var(--border); padding:.8rem 2rem;
+  display:flex; align-items:center; justify-content:space-between;
+  transform:translateY(100%); transition:transform .4s;
+}
+.score-banner.visible { transform:translateY(0); }
+.score-val { font-family:'JetBrains Mono',monospace; font-size:1.3rem; font-weight:700; color:var(--gold); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:var(--accent2); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .nav { padding:0 1rem; }
+  .nav-links { display:none; }
+  .section { padding:3rem 1rem; }
+  .da-grid { grid-template-columns:1fr; }
+  .da-col.dare-col { border-right:none; border-bottom:2px solid var(--border); }
+  .input-row { grid-template-columns:1fr 1fr; }
+  .hero h1 { font-size:2.5rem; }
+}
+
+/* ── FORMULA HIGHLIGHT ── */
+.formula {
+  font-family:'JetBrains Mono',monospace; background:var(--surface2);
+  border:1px solid var(--border); border-radius:8px; padding:.8rem 1.2rem;
+  display:inline-block; margin:.5rem 0; font-size:.95rem;
+  color:var(--gold);
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar {
+  position:fixed; top:64px; left:0; right:0; height:3px; z-index:999;
+  background:var(--surface);
+}
+.progress-fill {
+  height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2));
+  width:0%; transition:width .3s;
+}
+
+/* lists */
+.section ul, .section ol { margin:.5rem 0 1rem 1.5rem; }
+.section li { color:var(--text-dim); margin-bottom:.3rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">📒 Partita Doppia</div>
+  <div class="nav-links">
+    <a href="#intro">Introduzione</a>
+    <a href="#conti">I Conti</a>
+    <a href="#regola">La Regola</a>
+    <a href="#variazioni">Variazioni</a>
+    <a href="#operazioni">Operazioni</a>
+    <a href="#libri">Libri Contabili</a>
+    <a href="#iva">IVA</a>
+    <a href="#esercizi">Esercitazioni</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-content">
+    <div class="badge">IPSEOA "A. Vespucci" — Milano · Classe Terza</div>
+    <h1 style="margin-top:1.5rem">La Partita Doppia</h1>
+    <p class="subtitle">Lezione interattiva di Diritto e Tecniche Amministrative — dalle basi della teoria alle esercitazioni svolte, con quiz e attività per mettere alla prova quello che hai imparato.</p>
+    <div class="btn-group" style="justify-content:center;margin-top:2rem">
+      <a href="#intro" class="btn btn-primary">Inizia la lezione ↓</a>
+      <a href="#quiz" class="btn btn-secondary">Vai ai Quiz</a>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 1: INTRODUZIONE -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="intro">
+  <div class="section-label">Capitolo 1</div>
+  <h2>Cos'è la Partita Doppia?</h2>
+
+  <p>La <strong>Partita Doppia</strong> è il metodo di registrazione contabile utilizzato da tutte le aziende — dal piccolo ristorante alla grande catena alberghiera — per tenere traccia delle operazioni economiche e finanziarie.</p>
+
+  <p>Si chiama "doppia" perché <strong>ogni operazione viene registrata due volte</strong>, in due conti diversi: non è un errore, è il cuore del sistema.</p>
+
+  <div class="card highlight">
+    <div class="card-title"><span class="icon">💡</span> Un esempio dalla vita quotidiana</div>
+    <p style="max-width:100%">Quando compri un panino al bar stai contemporaneamente <strong>spendendo denaro</strong> (il portafoglio si svuota) e <strong>ottenendo un bene</strong> (il panino). Sono due aspetti della stessa operazione. La partita doppia registra entrambi.</p>
+  </div>
+
+  <div class="card gold">
+    <div class="card-title"><span class="icon">📜</span> Un po' di storia</div>
+    <p style="max-width:100%">Il metodo è stato formalizzato per la prima volta dall'italiano <strong>Luca Pacioli</strong> nel 1494, nel trattato <em>Summa de Arithmetica</em>. È uno dei contributi più importanti dell'Italia alla storia dell'economia mondiale!</p>
+  </div>
+
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 2: I CONTI -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="conti">
+  <div class="section-label">Capitolo 2</div>
+  <h2>I Conti: Finanziari ed Economici</h2>
+
+  <p>Un <strong>conto</strong> è uno strumento contabile — immaginalo come una "scatola con un'etichetta" dove metti tutti i movimenti che riguardano un determinato oggetto (la cassa, le merci, i debiti…).</p>
+
+  <p>I conti si dividono in due grandi famiglie:</p>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:4px solid var(--accent)">
+      <div class="card-title"><span class="icon">🏦</span> Conti Finanziari</div>
+      <p style="max-width:100%">Misurano le variazioni di <strong>denaro, crediti e debiti</strong>. Ci dicono "quanti soldi abbiamo" e "quanto dobbiamo o ci devono".</p>
+      <ul>
+        <li><strong>Denaro in cassa</strong> — contante in azienda</li>
+        <li><strong>Banca c/c</strong> — denaro in banca</li>
+        <li><strong>Crediti v/clienti</strong> — soldi che i clienti ci devono</li>
+        <li><strong>Debiti v/fornitori</strong> — soldi che dobbiamo ai fornitori</li>
+        <li><strong>IVA ns/credito</strong> — IVA pagata sugli acquisti</li>
+        <li><strong>IVA ns/debito</strong> — IVA incassata sulle vendite</li>
+        <li><strong>Cambiali attive / passive</strong></li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--accent2)">
+      <div class="card-title"><span class="icon">📊</span> Conti Economici</div>
+      <p style="max-width:100%">Misurano i <strong>costi, i ricavi e il patrimonio</strong>. Ci dicono "quanto spendiamo" e "quanto guadagniamo".</p>
+      <h4 style="color:var(--gold);margin-top:1rem">Di reddito</h4>
+      <ul>
+        <li><strong>Merci c/acquisti</strong> (costo)</li>
+        <li><strong>Merci c/vendite</strong> (ricavo)</li>
+        <li><strong>Spese per servizi</strong> (costo)</li>
+      </ul>
+      <h4 style="color:var(--gold)">Di capitale / patrimonio</h4>
+      <ul>
+        <li><strong>Automezzi, Arredamento</strong> (immobilizzazioni)</li>
+        <li><strong>Capitale sociale</strong></li>
+      </ul>
+    </div>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 3: LA REGOLA -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="regola">
+  <div class="section-label">Capitolo 3</div>
+  <h2>La Regola Fondamentale</h2>
+
+  <div class="card gold" style="text-align:center">
+    <div class="card-title" style="justify-content:center;font-size:1.4rem"><span class="icon">⚖️</span> La Regola d'Oro</div>
+    <p style="max-width:100%;font-size:1.1rem;color:var(--text)">Ogni operazione deve essere annotata:</p>
+    <div class="stepper" style="text-align:left;max-width:500px;margin:1.5rem auto">
+      <div class="step-item"><strong style="color:var(--gold)">Due volte</strong> contemporaneamente</div>
+      <div class="step-item">In <strong style="color:var(--gold)">diversi conti</strong> (almeno due)</div>
+      <div class="step-item">In <strong style="color:var(--gold)">opposte sezioni</strong>, così che il totale DARE = totale AVERE</div>
+    </div>
+  </div>
+
+  <p>Questa regola garantisce che la contabilità sia sempre <strong>in equilibrio</strong> — come una bilancia: i due piatti devono sempre essere in pareggio. Se non lo sono, c'è un errore!</p>
+
+  <p>Ogni operazione viene analizzata sotto <strong>due profili</strong>:</p>
+  <div class="grid-2">
+    <div class="card"><div class="card-title"><span class="icon">💰</span> Aspetto Finanziario</div><p style="max-width:100%">Entrano o escono soldi? Nasce un credito? Nasce un debito?</p></div>
+    <div class="card"><div class="card-title"><span class="icon">📈</span> Aspetto Economico</div><p style="max-width:100%">L'azienda sta sostenendo un costo? Sta ottenendo un ricavo? Il patrimonio cambia?</p></div>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 4: VARIAZIONI -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="variazioni">
+  <div class="section-label">Capitolo 4</div>
+  <h2>Variazioni Finanziarie ed Economiche</h2>
+
+  <p>Questa è la chiave di tutto. Impara questi 4 tipi di variazione e saprai registrare <strong>qualsiasi</strong> operazione!</p>
+
+  <div class="da-grid">
+    <div class="da-col dare-col">
+      <h4>DARE (sinistra)</h4>
+      <h3 style="color:var(--green);font-size:1.1rem;margin:1rem 0 .5rem">VFA — Variazione Finanziaria Attiva</h3>
+      <ul>
+        <li><strong>Entrata</strong> denaro in cassa</li>
+        <li><strong>Accredito</strong> in banca</li>
+        <li><strong>Nasce un credito</strong> (cliente ci deve)</li>
+        <li><strong>Si riduce un debito</strong> (paghiamo il fornitore)</li>
+      </ul>
+      <h3 style="color:var(--green);font-size:1.1rem;margin:1.5rem 0 .5rem">VEN — Variazione Economica Negativa</h3>
+      <ul>
+        <li><strong>Costi d'esercizio</strong> (merci, servizi, bollette)</li>
+        <li><strong>Costi pluriennali</strong> (automezzi, arredamento)</li>
+        <li>Diminuzione patrimonio netto</li>
+      </ul>
+    </div>
+    <div class="da-col avere-col">
+      <h4>AVERE (destra)</h4>
+      <h3 style="color:var(--red);font-size:1.1rem;margin:1rem 0 .5rem">VFP — Variazione Finanziaria Passiva</h3>
+      <ul>
+        <li><strong>Uscita</strong> denaro dalla cassa</li>
+        <li><strong>Addebito</strong> in banca</li>
+        <li><strong>Nasce un debito</strong> (dobbiamo al fornitore)</li>
+        <li><strong>Si riduce un credito</strong> (cliente ci paga)</li>
+      </ul>
+      <h3 style="color:var(--red);font-size:1.1rem;margin:1.5rem 0 .5rem">VEP — Variazione Economica Positiva</h3>
+      <ul>
+        <li><strong>Ricavi d'esercizio</strong> (vendite di merci/servizi)</li>
+        <li><strong>Aumento patrimonio netto</strong></li>
+        <li>Conferimento di capitale</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card green" style="margin-top:2rem">
+    <div class="card-title"><span class="icon">🎯</span> Trucco per ricordare</div>
+    <p style="max-width:100%"><strong>In DARE</strong> vanno le cose che l'azienda "riceve" (soldi in entrata, crediti nuovi, debiti che spariscono) e i costi.<br>
+    <strong>In AVERE</strong> vanno le cose che l'azienda "dà" (soldi in uscita, debiti nuovi, crediti che spariscono) e i ricavi/capitale.</p>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 5: IL MASTRINO -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="mastrino-sec">
+  <div class="section-label">Capitolo 5</div>
+  <h2>Il Mastrino (Conto a T)</h2>
+
+  <p>Ogni conto è strutturato come una tabella a due colonne. La colonna sinistra è <strong>DARE</strong>, quella destra è <strong>AVERE</strong>. Questa struttura si chiama <strong>mastrino</strong>.</p>
+
+  <div style="display:flex;justify-content:center;margin:2rem 0">
+    <div class="mastrino">
+      <div class="mastrino-title">NOME DEL CONTO</div>
+      <div class="mastrino-body">
+        <div class="mastrino-dare">
+          <div class="label">DARE</div>
+          <div style="color:var(--text-dim);font-size:.85rem">VFA + VEN</div>
+        </div>
+        <div class="mastrino-avere">
+          <div class="label">AVERE</div>
+          <div style="color:var(--text-dim);font-size:.85rem">VFP + VEP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card red" style="border-color:var(--orange)">
+    <div class="card-title"><span class="icon">⚠️</span> Attenzione!</div>
+    <p style="max-width:100%"><strong>Non confondete Dare con "ricevere" e Avere con "possedere"!</strong> In contabilità, Dare e Avere sono semplicemente i nomi delle due colonne. Dare = sinistra, Avere = destra. Punto.</p>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 6: LE 4 OPERAZIONI -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="operazioni">
+  <div class="section-label">Capitolo 6</div>
+  <h2>Le Quattro Operazioni Fondamentali</h2>
+
+  <p>Nella ristorazione e nell'ospitalità, le operazioni più frequenti sono quattro. Impariamo ciascuna con un esempio concreto.</p>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'tab-acq')">🛒 Acquisto</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-pag')">💳 Pagamento</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-ven')">🏷️ Vendita</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-ris')">💵 Riscossione</button>
+  </div>
+
+  <!-- TAB: ACQUISTO -->
+  <div class="tab-content active" id="tab-acq">
+    <h3>Acquisto di Beni o Servizi</h3>
+    <p>Quando l'azienda acquista merce (prodotti alimentari, bevande, biancheria…) o servizi (consulenze, utenze), registra:</p>
+    <ul>
+      <li>Il <strong>costo</strong> → VEN → in <strong style="color:var(--green)">DARE</strong></li>
+      <li>L'<strong>IVA a credito</strong> → VFA → in <strong style="color:var(--green)">DARE</strong></li>
+      <li>Il <strong>debito v/fornitore</strong> → VFP → in <strong style="color:var(--red)">AVERE</strong></li>
+    </ul>
+
+    <div class="card" style="margin:1.5rem 0">
+      <div class="card-title"><span class="icon">📝</span> Esempio: Acquisto merci per 1.000 € + IVA 10%</div>
+      <p style="max-width:100%">Imponibile 1.000 · IVA = 100 · Totale fattura = 1.100</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Denominazione</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+          <tr><td>Merci c/acquisti</td><td>VEN (Costo)</td><td class="dare">1.000</td><td></td></tr>
+          <tr><td>IVA ns/credito</td><td>VFA (+Credito)</td><td class="dare">100</td><td></td></tr>
+          <tr><td>Debiti v/fornitori</td><td>VFP (+Debito)</td><td></td><td class="avere">1.100</td></tr>
+        </table>
+      </div>
+      <p><strong>Verifica:</strong> Dare (1.000 + 100 = <span style="color:var(--green)">1.100</span>) = Avere (<span style="color:var(--red)">1.100</span>) ✓</p>
+    </div>
+    <p><strong>N.B.</strong> "Merci c/acquisti" può essere sostituita da: Arredamento, Biancheria, Acquisti bar, Spese per servizi, Assicurazioni… La struttura resta identica!</p>
+  </div>
+
+  <!-- TAB: PAGAMENTO -->
+  <div class="tab-content" id="tab-pag">
+    <h3>Pagamento del Debito</h3>
+    <p>Quando l'azienda paga un fornitore, registra la <strong>diminuzione del debito</strong> e l'<strong>uscita di denaro</strong>.</p>
+
+    <div class="card" style="margin:1.5rem 0">
+      <div class="card-title"><span class="icon">📝</span> Esempio: Pago 1.100 € — metà contanti, metà banca</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Denominazione</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+          <tr><td>Debiti v/fornitori</td><td>VFA (−Debito)</td><td class="dare">1.100</td><td></td></tr>
+          <tr><td>Denaro in cassa</td><td>VFP (Uscita)</td><td></td><td class="avere">550</td></tr>
+          <tr><td>Banca c/c</td><td>VFP (−Credito)</td><td></td><td class="avere">550</td></tr>
+        </table>
+      </div>
+      <p><strong>Verifica:</strong> Dare <span style="color:var(--green)">1.100</span> = Avere (550 + 550 = <span style="color:var(--red)">1.100</span>) ✓</p>
+    </div>
+    <p>Quando pago un debito, il conto "Debiti v/fornitori" va in Dare perché il debito <strong>diminuisce</strong> (VFA). Cassa e Banca vanno in Avere perché escono soldi (VFP).</p>
+  </div>
+
+  <!-- TAB: VENDITA -->
+  <div class="tab-content" id="tab-ven">
+    <h3>Vendita di Merci o Servizi</h3>
+    <p>La vendita è "speculare" all'acquisto: ora nasce un <strong>ricavo</strong> e un <strong>credito verso il cliente</strong>.</p>
+
+    <div class="card" style="margin:1.5rem 0">
+      <div class="card-title"><span class="icon">📝</span> Esempio: Vendita merci per 1.000 € + IVA 10%</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Denominazione</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+          <tr><td>Crediti v/clienti</td><td>VFA (+Credito)</td><td class="dare">1.100</td><td></td></tr>
+          <tr><td>IVA ns/debito</td><td>VFP (+Debito)</td><td></td><td class="avere">100</td></tr>
+          <tr><td>Merci c/vendite</td><td>VEP (Ricavo)</td><td></td><td class="avere">1.000</td></tr>
+        </table>
+      </div>
+      <p><strong>Verifica:</strong> Dare <span style="color:var(--green)">1.100</span> = Avere (100 + 1.000 = <span style="color:var(--red)">1.100</span>) ✓</p>
+    </div>
+  </div>
+
+  <!-- TAB: RISCOSSIONE -->
+  <div class="tab-content" id="tab-ris">
+    <h3>Riscossione del Credito</h3>
+    <p>Quando il cliente paga, incassiamo e il nostro credito si riduce.</p>
+
+    <div class="card" style="margin:1.5rem 0">
+      <div class="card-title"><span class="icon">📝</span> Esempio: Incasso 1.100 € — metà contanti, metà banca</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Denominazione</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+          <tr><td>Denaro in cassa</td><td>VFA (Entrata)</td><td class="dare">550</td><td></td></tr>
+          <tr><td>Banca c/c</td><td>VFA (+Credito)</td><td class="dare">550</td><td></td></tr>
+          <tr><td>Crediti v/clienti</td><td>VFP (−Credito)</td><td></td><td class="avere">1.100</td></tr>
+        </table>
+      </div>
+      <p><strong>Verifica:</strong> Dare (550 + 550 = <span style="color:var(--green)">1.100</span>) = Avere <span style="color:var(--red)">1.100</span> ✓</p>
+    </div>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 7: LIBRI CONTABILI -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="libri">
+  <div class="section-label">Capitolo 7</div>
+  <h2>Libro Giornale e Libro Mastro</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-top:4px solid var(--accent)">
+      <div class="card-title"><span class="icon">📖</span> Il Libro Giornale</div>
+      <p style="max-width:100%">È il registro in cui vengono annotate <strong>tutte le operazioni in ordine cronologico</strong>. È come il "diario dell'azienda": tutto ciò che accade viene scritto qui, nell'ordine in cui accade.</p>
+      <p style="max-width:100%">Ogni registrazione si chiama <strong>articolo</strong> e contiene: data, conti coinvolti, analisi, importi Dare/Avere.</p>
+      <p style="max-width:100%;color:var(--accent)"><strong>📌 Obbligatorio per legge</strong> (art. 2214 Codice Civile)</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--accent2)">
+      <div class="card-title"><span class="icon">📚</span> Il Libro Mastro</div>
+      <p style="max-width:100%">È l'<strong>insieme di tutti i mastrini</strong> (conti a T). Mentre il giornale registra in ordine di tempo, il mastro raggruppa per conto.</p>
+      <p style="max-width:100%"><strong>Analogia:</strong> Il libro giornale è come la cronologia delle chat (in ordine di tempo). Il libro mastro è come le singole conversazioni (tutti i messaggi con la stessa persona raggruppati).</p>
+    </div>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 8: IVA -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="iva">
+  <div class="section-label">Capitolo 8</div>
+  <h2>L'IVA nelle Registrazioni</h2>
+
+  <p>L'<strong>IVA (Imposta sul Valore Aggiunto)</strong> per le aziende <strong>non è un costo né un ricavo</strong>: è un valore che l'azienda gestisce per conto dello Stato.</p>
+
+  <div class="grid-3" style="margin:1.5rem 0">
+    <div class="card" style="text-align:center;border-top:3px solid var(--green)">
+      <div style="font-size:2.5rem;font-weight:700;color:var(--green)">4%</div>
+      <p style="max-width:100%">Beni di prima necessità<br>(pane, latte, frutta, libri)</p>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--gold)">
+      <div style="font-size:2.5rem;font-weight:700;color:var(--gold)">10%</div>
+      <p style="max-width:100%">Alimentari, ristorazione, alberghi, ristrutturazioni</p>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--red)">
+      <div style="font-size:2.5rem;font-weight:700;color:var(--red)">22%</div>
+      <p style="max-width:100%">Aliquota ordinaria<br>(la maggior parte dei beni)</p>
+    </div>
+  </div>
+
+  <h3 style="color:var(--orange)">⚠️ Lo Scorporo IVA (quando l'IVA è inclusa)</h3>
+  <p>Quando il testo dice "IVA inclusa", l'importo comprende già l'IVA. Per trovare l'imponibile:</p>
+
+  <div class="card orange" style="text-align:center">
+    <div class="formula">Imponibile = Totale ÷ (1 + aliquota)</div>
+    <div class="formula" style="margin-left:1rem">IVA = Totale − Imponibile</div>
+    <div style="margin-top:1.5rem">
+      <p style="max-width:100%"><strong>Esempio 1:</strong> 165 € con IVA 10% inclusa → 165 ÷ 1,10 = <strong style="color:var(--gold)">150 €</strong> imponibile, IVA = <strong style="color:var(--gold)">15 €</strong></p>
+      <p style="max-width:100%"><strong>Esempio 2:</strong> 488 € con IVA 22% inclusa → 488 ÷ 1,22 = <strong style="color:var(--gold)">400 €</strong> imponibile, IVA = <strong style="color:var(--gold)">88 €</strong></p>
+    </div>
+  </div>
+
+  <!-- CALCOLATRICE SCORPORO -->
+  <div class="exercise-area" style="margin-top:2rem">
+    <h3>🔢 Calcolatrice Scorporo IVA</h3>
+    <p>Prova tu! Inserisci l'importo totale e l'aliquota IVA:</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:end;margin:1rem 0">
+      <div>
+        <label style="font-size:.85rem;color:var(--text-dim);display:block;margin-bottom:.3rem">Totale (€)</label>
+        <input type="number" id="scorporoTot" placeholder="es. 165" style="width:140px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;color:var(--text);font-size:1rem">
+      </div>
+      <div>
+        <label style="font-size:.85rem;color:var(--text-dim);display:block;margin-bottom:.3rem">Aliquota IVA</label>
+        <select id="scorporoAliq" style="width:120px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;color:var(--text);font-size:1rem">
+          <option value="0.04">4%</option>
+          <option value="0.10" selected>10%</option>
+          <option value="0.22">22%</option>
+        </select>
+      </div>
+      <button class="btn btn-gold" onclick="calcScorporo()">Calcola</button>
+    </div>
+    <div id="scorporoResult" style="margin-top:1rem;font-size:1.1rem"></div>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 9: ESERCITAZIONI -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="esercizi">
+  <div class="section-label">Capitolo 9</div>
+  <h2>Esercitazioni Svolte</h2>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'ex1')">Esercitazione 1</button>
+    <button class="tab-btn" onclick="switchTab(this,'ex2')">Esercitazione 2</button>
+  </div>
+
+  <!-- ESERCITAZIONE 1 -->
+  <div class="tab-content active" id="ex1">
+    <div class="card highlight" style="margin-bottom:2rem">
+      <div class="card-title"><span class="icon">📋</span> Dati dell'esercizio</div>
+      <ul style="columns:1">
+        <li><strong>02/02</strong> — Costituita azienda: arredamento 14.000, denaro 16.000, banca 10.000</li>
+        <li><strong>02/02</strong> — Acquisto cancelleria 140 + IVA 22%, pagato in contanti il giorno dopo</li>
+        <li><strong>04/02</strong> — Versati in banca 3.000 €</li>
+        <li><strong>06/02</strong> — Fatt. n. 29: acquisto prod. alimentari 2.800 + IVA 22%</li>
+        <li><strong>16/02</strong> — Bolletta elettricità 165 €, IVA 10% inclusa</li>
+        <li><strong>18/02</strong> — Fatt. vendita n. 55: merce 5.400 + IVA 22%</li>
+        <li><strong>19/02</strong> — Pagata tramite banca metà fatt. n. 29</li>
+        <li><strong>20/02</strong> — Incassata tramite banca ¼ fatt. n. 55</li>
+        <li><strong>22/02</strong> — Pagata bolletta elettricità in contanti</li>
+      </ul>
+    </div>
+
+    <h3>Libro Giornale</h3>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>02/02 — Costituzione azienda</h4>
+      <p style="max-width:100%">Conferimenti: arredamento + denaro + banca = Capitale sociale 40.000 €</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Arredamento</td><td>VEN (Costo plur.)</td><td class="dare">14.000</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFA (Entrata)</td><td class="dare">16.000</td><td></td></tr>
+        <tr><td>Banca c/c</td><td>VFA (Entrata)</td><td class="dare">10.000</td><td></td></tr>
+        <tr><td>Capitale sociale</td><td>VEP (+Capitale)</td><td></td><td class="avere">40.000</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>02/02 — Acquisto cancelleria (140 + IVA 22%)</h4>
+      <p style="max-width:100%">IVA = 140 × 22% = 30,80 · Totale = 170,80</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Spese per cancelleria</td><td>VEN (Costo)</td><td class="dare">140,00</td><td></td></tr>
+        <tr><td>IVA ns/credito</td><td>VFA (+Credito)</td><td class="dare">30,80</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFP (+Debito)</td><td></td><td class="avere">170,80</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>03/02 — Pagamento cancelleria in contanti</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFA (−Debito)</td><td class="dare">170,80</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFP (Uscita)</td><td></td><td class="avere">170,80</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>04/02 — Versamento in banca 3.000 €</h4>
+      <p style="max-width:100%">Solo variazioni finanziarie: dalla cassa alla banca</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Banca c/c</td><td>VFA (+Banca)</td><td class="dare">3.000</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFP (Uscita)</td><td></td><td class="avere">3.000</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>06/02 — Fatt. n. 29, prod. alimentari (2.800 + IVA 22%)</h4>
+      <p style="max-width:100%">IVA = 616 · Totale = 3.416</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Merci c/acquisti</td><td>VEN (Costo)</td><td class="dare">2.800</td><td></td></tr>
+        <tr><td>IVA ns/credito</td><td>VFA (+Credito)</td><td class="dare">616</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFP (+Debito)</td><td></td><td class="avere">3.416</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>16/02 — Bolletta elettricità 165 €, IVA 10% inclusa</h4>
+      <p style="max-width:100%"><strong>Scorporo!</strong> Imponibile = 165 ÷ 1,10 = 150 · IVA = 15</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Spese per servizi</td><td>VEN (Costo)</td><td class="dare">150</td><td></td></tr>
+        <tr><td>IVA ns/credito</td><td>VFA (+Credito)</td><td class="dare">15</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFP (+Debito)</td><td></td><td class="avere">165</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>18/02 — Vendita merce fatt. n. 55 (5.400 + IVA 22%)</h4>
+      <p style="max-width:100%">IVA = 1.188 · Totale = 6.588</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Crediti v/clienti</td><td>VFA (+Credito)</td><td class="dare">6.588</td><td></td></tr>
+        <tr><td>IVA ns/debito</td><td>VFP (+Debito)</td><td></td><td class="avere">1.188</td></tr>
+        <tr><td>Merci c/vendite</td><td>VEP (Ricavo)</td><td></td><td class="avere">5.400</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>19/02 — Pagamento banca metà fatt. n. 29 (3.416 / 2 = 1.708)</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFA (−Debito)</td><td class="dare">1.708</td><td></td></tr>
+        <tr><td>Banca c/c</td><td>VFP (Uscita)</td><td></td><td class="avere">1.708</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>20/02 — Incasso banca ¼ fatt. n. 55 (6.588 / 4 = 1.647)</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Banca c/c</td><td>VFA (Entrata)</td><td class="dare">1.647</td><td></td></tr>
+        <tr><td>Crediti v/clienti</td><td>VFP (−Credito)</td><td></td><td class="avere">1.647</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>22/02 — Pagamento bolletta elettricità in contanti</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFA (−Debito)</td><td class="dare">165</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFP (Uscita)</td><td></td><td class="avere">165</td></tr>
+      </table></div>
+    </div>
+
+    <h3>Conto Economico</h3>
+    <div class="da-grid">
+      <div class="da-col dare-col">
+        <h4 style="color:var(--red)">COSTI</h4>
+        <ul>
+          <li>Merci c/acquisti: <strong>2.800</strong></li>
+          <li>Spese per cancelleria: <strong>140</strong></li>
+          <li>Spese per servizi: <strong>150</strong></li>
+          <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)"><strong>Totale Costi: 3.090</strong></li>
+        </ul>
+      </div>
+      <div class="da-col avere-col">
+        <h4 style="color:var(--green)">RICAVI</h4>
+        <ul>
+          <li>Merci c/vendite: <strong>5.400</strong></li>
+          <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)"><strong>Totale Ricavi: 5.400</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card green" style="text-align:center;margin:1rem 0">
+      <div style="font-size:1.5rem;font-weight:700;color:var(--green)">UTILE = 5.400 − 3.090 = 2.310 €</div>
+    </div>
+  </div>
+
+  <!-- ESERCITAZIONE 2 -->
+  <div class="tab-content" id="ex2">
+    <div class="card highlight" style="margin-bottom:2rem">
+      <div class="card-title"><span class="icon">📋</span> Dati dell'esercizio</div>
+      <ul>
+        <li><strong>01/06</strong> — Costituita azienda: veicolo 17.000, denaro 10.000, banca 13.000</li>
+        <li><strong>04/06</strong> — Versati in banca 5.000 €</li>
+        <li><strong>05/06</strong> — Acquisto cancelleria 150 + IVA 22%, pagato contanti il giorno dopo</li>
+        <li><strong>06/06</strong> — Fatt. n. 35: acquisto merce 2.600 + IVA 22%</li>
+        <li><strong>10/06</strong> — Fatt. vendita alloggio n. 145: 6.300 €, IVA 10% inclusa</li>
+        <li><strong>15/06</strong> — Pagata banca ⅓ fatt. 35 e ⅓ con cambiale (scad. 1 mese)</li>
+        <li><strong>16/06</strong> — Bolletta telefonica 225 €, IVA 10% inclusa</li>
+        <li><strong>18/06</strong> — Pagata bolletta in contanti</li>
+        <li><strong>19/06</strong> — Incassata banca metà fatt. n. 145</li>
+        <li><strong>15/07</strong> — Pagata cambiale tramite banca</li>
+      </ul>
+    </div>
+
+    <h3>Libro Giornale</h3>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>01/06 — Costituzione (Capitale sociale = 40.000)</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Automezzi</td><td>VEN (Costo plur.)</td><td class="dare">17.000</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFA (Entrata)</td><td class="dare">10.000</td><td></td></tr>
+        <tr><td>Banca c/c</td><td>VFA (Entrata)</td><td class="dare">13.000</td><td></td></tr>
+        <tr><td>Capitale sociale</td><td>VEP (+Capitale)</td><td></td><td class="avere">40.000</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>04/06 — Versamento in banca 5.000</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Banca c/c</td><td>VFA</td><td class="dare">5.000</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFP</td><td></td><td class="avere">5.000</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>05/06 — Acquisto cancelleria (150 + IVA 22%) → IVA 33, Tot 183</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Spese per cancelleria</td><td>VEN</td><td class="dare">150</td><td></td></tr>
+        <tr><td>IVA ns/credito</td><td>VFA</td><td class="dare">33</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFP</td><td></td><td class="avere">183</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>06/06 — Pagamento cancelleria in contanti</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFA</td><td class="dare">183</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFP</td><td></td><td class="avere">183</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>06/06 — Fatt. n. 35, merce (2.600 + IVA 22%) → IVA 572, Tot 3.172</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Merci c/acquisti</td><td>VEN</td><td class="dare">2.600</td><td></td></tr>
+        <tr><td>IVA ns/credito</td><td>VFA</td><td class="dare">572</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFP</td><td></td><td class="avere">3.172</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>10/06 — Vendita alloggio fatt. 145 (6.300, IVA 10% inclusa)</h4>
+      <p style="max-width:100%"><strong>Scorporo:</strong> 6.300 ÷ 1,10 = 5.727,27 imponibile · IVA = 572,73</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Crediti v/clienti</td><td>VFA</td><td class="dare">6.300</td><td></td></tr>
+        <tr><td>IVA ns/debito</td><td>VFP</td><td></td><td class="avere">572,73</td></tr>
+        <tr><td>Merci c/vendite</td><td>VEP</td><td></td><td class="avere">5.727,27</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>15/06 — Pago ⅓ fatt. 35 con banca + ⅓ con cambiale (⅓ = 1.057,33)</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFA (−Debito)</td><td class="dare">2.114,67</td><td></td></tr>
+        <tr><td>Banca c/c</td><td>VFP</td><td></td><td class="avere">1.057,33</td></tr>
+        <tr><td>Cambiali passive</td><td>VFP (+Debito)</td><td></td><td class="avere">1.057,33</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>16/06 — Bolletta telefonica 225 €, IVA 10% inclusa</h4>
+      <p style="max-width:100%">Scorporo: 225 ÷ 1,10 = 204,55 · IVA = 20,45</p>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Spese per servizi</td><td>VEN</td><td class="dare">204,55</td><td></td></tr>
+        <tr><td>IVA ns/credito</td><td>VFA</td><td class="dare">20,45</td><td></td></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFP</td><td></td><td class="avere">225</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>18/06 — Pagamento bolletta in contanti</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Debiti v/fornitori</td><td>VFA</td><td class="dare">225</td><td></td></tr>
+        <tr><td>Denaro in cassa</td><td>VFP</td><td></td><td class="avere">225</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>19/06 — Incasso banca metà fatt. 145 (6.300 / 2 = 3.150)</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Banca c/c</td><td>VFA</td><td class="dare">3.150</td><td></td></tr>
+        <tr><td>Crediti v/clienti</td><td>VFP</td><td></td><td class="avere">3.150</td></tr>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin:1rem 0">
+      <h4>15/07 — Pagamento cambiale tramite banca (1.057,33)</h4>
+      <div class="table-wrap"><table>
+        <tr><th>Conto</th><th>Analisi</th><th>Dare</th><th>Avere</th></tr>
+        <tr><td>Cambiali passive</td><td>VFA (−Debito)</td><td class="dare">1.057,33</td><td></td></tr>
+        <tr><td>Banca c/c</td><td>VFP</td><td></td><td class="avere">1.057,33</td></tr>
+      </table></div>
+    </div>
+
+    <h3>Conto Economico</h3>
+    <div class="da-grid">
+      <div class="da-col dare-col">
+        <h4 style="color:var(--red)">COSTI</h4>
+        <ul>
+          <li>Merci c/acquisti: <strong>2.600</strong></li>
+          <li>Spese per cancelleria: <strong>150</strong></li>
+          <li>Spese per servizi: <strong>204,55</strong></li>
+          <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)"><strong>Totale: 2.954,55</strong></li>
+        </ul>
+      </div>
+      <div class="da-col avere-col">
+        <h4 style="color:var(--green)">RICAVI</h4>
+        <ul>
+          <li>Merci c/vendite: <strong>5.727,27</strong></li>
+          <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)"><strong>Totale: 5.727,27</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card green" style="text-align:center;margin:1rem 0">
+      <div style="font-size:1.5rem;font-weight:700;color:var(--green)">UTILE = 5.727,27 − 2.954,55 = 2.772,72 €</div>
+    </div>
+  </div>
+  <hr class="divider">
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- SEZIONE 10: QUIZ INTERATTIVO -->
+<!-- ════════════════════════════════════════════ -->
+<section class="section" id="quiz">
+  <div class="section-label">Mettiti alla prova!</div>
+  <h2>Quiz Interattivo</h2>
+  <p>Rispondi alle domande per verificare quello che hai imparato. Il punteggio appare in basso!</p>
+
+  <div id="quizContainer"></div>
+
+  <div class="btn-group" style="margin-top:2rem">
+    <button class="btn btn-primary" onclick="resetQuiz()">🔄 Ricomincia il Quiz</button>
+  </div>
+
+  <hr class="divider">
+
+  <!-- DRAG & DROP EXERCISE -->
+  <h2 style="margin-top:2rem">Esercizio Interattivo: Dove va?</h2>
+  <p>Trascina ogni voce nella sezione corretta: DARE o AVERE.</p>
+
+  <div id="dragExercise" style="margin:2rem 0">
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem" id="chipBank"></div>
+    <div class="grid-2">
+      <div>
+        <div style="text-align:center;font-weight:700;color:var(--green);font-size:1.2rem;margin-bottom:.5rem">DARE</div>
+        <div class="drop-zone" id="dropDare" ondrop="handleDrop(event,'dare')" ondragover="allowDrop(event)" ondragenter="this.classList.add('over')" ondragleave="this.classList.remove('over')">
+          <span style="color:var(--text-dim);font-size:.85rem">Trascina qui ↓</span>
+        </div>
+      </div>
+      <div>
+        <div style="text-align:center;font-weight:700;color:var(--red);font-size:1.2rem;margin-bottom:.5rem">AVERE</div>
+        <div class="drop-zone" id="dropAvere" ondrop="handleDrop(event,'avere')" ondragover="allowDrop(event)" ondragenter="this.classList.add('over')" ondragleave="this.classList.remove('over')">
+          <span style="color:var(--text-dim);font-size:.85rem">Trascina qui ↓</span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-group" style="margin-top:1rem">
+      <button class="btn btn-gold btn-sm" onclick="checkDrag()">Verifica</button>
+      <button class="btn btn-secondary btn-sm" onclick="resetDrag()">Ricomincia</button>
+    </div>
+    <div id="dragFeedback" style="margin-top:1rem"></div>
+  </div>
+</section>
+
+<!-- SCORE BANNER -->
+<div class="score-banner" id="scoreBanner">
+  <div>Quiz: <span class="score-val" id="scoreDisplay">0/0</span></div>
+  <div style="color:var(--text-dim);font-size:.85rem">Rispondi a tutte le domande!</div>
+</div>
+
+<!-- FOOTER -->
+<footer style="text-align:center;padding:3rem 2rem;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border)">
+  IPSEOA "Amerigo Vespucci" — Milano · Diritto e Tecniche Amministrative · Classe Terza<br>
+  Anno Scolastico 2025/2026
+</footer>
+
+<script>
+// ── TABS ──
+function switchTab(btn, id) {
+  const parent = btn.closest('.section') || btn.parentElement.parentElement;
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const p = (window.scrollY / h) * 100;
+  document.getElementById('progressFill').style.width = p + '%';
+});
+
+// ── SCORPORO CALCULATOR ──
+function calcScorporo() {
+  const tot = parseFloat(document.getElementById('scorporoTot').value);
+  const aliq = parseFloat(document.getElementById('scorporoAliq').value);
+  if (isNaN(tot) || tot <= 0) { document.getElementById('scorporoResult').innerHTML = '<span style="color:var(--red)">Inserisci un importo valido!</span>'; return; }
+  const imp = tot / (1 + aliq);
+  const iva = tot - imp;
+  document.getElementById('scorporoResult').innerHTML =
+    `<div class="card green" style="display:inline-block"><strong>Imponibile:</strong> <span style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:1.2rem">${imp.toFixed(2)} €</span> &nbsp;·&nbsp; <strong>IVA:</strong> <span style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:1.2rem">${iva.toFixed(2)} €</span></div>`;
+}
+
+// ── QUIZ ──
+const quizData = [
+  { q: "Come si chiama il metodo che registra ogni operazione in almeno due conti?", opts: ["Partita semplice", "Partita doppia", "Bilancio preventivo", "Piano dei conti"], correct: 1 },
+  { q: "Dove si registra una Variazione Finanziaria Attiva (VFA)?", opts: ["In Avere", "In Dare", "Nel Conto Economico", "Nello Stato Patrimoniale"], correct: 1 },
+  { q: "Quando l'azienda acquista merce a credito, cosa nasce?", opts: ["Un ricavo", "Un credito v/clienti", "Un debito v/fornitori", "Una diminuzione di cassa"], correct: 2 },
+  { q: "L'IVA ns/credito rappresenta:", opts: ["L'IVA da pagare allo Stato", "L'IVA pagata sugli acquisti", "Un ricavo", "Un costo d'esercizio"], correct: 1 },
+  { q: "Se un importo è 488 € con IVA 22% inclusa, qual è l'imponibile?", opts: ["400 €", "380 €", "420 €", "366 €"], correct: 0 },
+  { q: "Il Libro Giornale registra le operazioni in ordine:", opts: ["Alfabetico", "Per importo", "Cronologico", "Per tipo di conto"], correct: 2 },
+  { q: "Un costo d'esercizio (VEN) si registra in:", opts: ["Avere", "Dare", "Dipende dal conto", "Non si registra"], correct: 1 },
+  { q: "Quando il cliente ci paga, il conto Crediti v/clienti va in:", opts: ["Dare", "Avere", "Entrambi", "Si cancella"], correct: 1 },
+  { q: "Il Capitale sociale, alla costituzione, si registra in:", opts: ["Dare", "Avere", "Solo nello SP", "Solo nel CE"], correct: 1 },
+  { q: "Qual è la regola d'oro della Partita Doppia?", opts: ["Dare > Avere", "Dare = Avere", "Dare < Avere", "Non c'è una regola fissa"], correct: 1 },
+];
+
+let score = 0, answered = 0;
+
+function buildQuiz() {
+  const c = document.getElementById('quizContainer');
+  c.innerHTML = '';
+  quizData.forEach((q, i) => {
+    let html = `<div class="quiz-q" id="qq${i}"><p>${i+1}. ${q.q}</p><div class="quiz-options">`;
+    q.opts.forEach((o, j) => {
+      html += `<div class="quiz-opt" onclick="answerQuiz(${i},${j})" id="qo${i}_${j}">${o}</div>`;
+    });
+    html += `</div><div class="quiz-feedback" id="qf${i}"></div></div>`;
+    c.innerHTML += html;
+  });
+}
+
+function answerQuiz(qi, oi) {
+  const q = quizData[qi];
+  const fb = document.getElementById(`qf${qi}`);
+  if (fb.classList.contains('show')) return;
+  
+  q.opts.forEach((_, j) => {
+    const el = document.getElementById(`qo${qi}_${j}`);
+    el.classList.add('disabled');
+    if (j === q.correct) el.classList.add('correct');
+    else if (j === oi) el.classList.add('wrong');
+  });
+  
+  answered++;
+  if (oi === q.correct) {
+    score++;
+    fb.className = 'quiz-feedback show ok';
+    fb.textContent = '✅ Corretto! Ottimo lavoro!';
+  } else {
+    fb.className = 'quiz-feedback show ko';
+    fb.textContent = '❌ Non è corretto. La risposta giusta è evidenziata in verde.';
+  }
+  
+  document.getElementById('scoreDisplay').textContent = `${score}/${answered}`;
+  document.getElementById('scoreBanner').classList.add('visible');
+}
+
+function resetQuiz() {
+  score = 0; answered = 0;
+  document.getElementById('scoreDisplay').textContent = '0/0';
+  buildQuiz();
+}
+
+buildQuiz();
+
+// ── DRAG & DROP ──
+const dragItems = [
+  { text: "Entrata denaro in cassa", zone: "dare" },
+  { text: "Uscita denaro dalla cassa", zone: "avere" },
+  { text: "Nasce un credito v/clienti", zone: "dare" },
+  { text: "Nasce un debito v/fornitori", zone: "avere" },
+  { text: "Costo d'esercizio (VEN)", zone: "dare" },
+  { text: "Ricavo d'esercizio (VEP)", zone: "avere" },
+  { text: "Si riduce un debito (pago)", zone: "dare" },
+  { text: "Si riduce un credito (incasso)", zone: "avere" },
+];
+
+function buildDrag() {
+  const bank = document.getElementById('chipBank');
+  bank.innerHTML = '';
+  const shuffled = [...dragItems].sort(() => Math.random() - 0.5);
+  shuffled.forEach((item, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'drag-chip';
+    chip.textContent = item.text;
+    chip.draggable = true;
+    chip.id = `chip${i}`;
+    chip.dataset.zone = item.zone;
+    chip.ondragstart = (e) => { e.dataTransfer.setData('text/plain', chip.id); };
+    // Touch support
+    chip.addEventListener('click', () => {
+      if (chip.dataset.selected) {
+        chip.style.outline = '';
+        delete chip.dataset.selected;
+      } else {
+        document.querySelectorAll('.drag-chip').forEach(c => { c.style.outline=''; delete c.dataset.selected; });
+        chip.dataset.selected = '1';
+        chip.style.outline = '2px solid var(--accent)';
+      }
+    });
+    bank.appendChild(chip);
+  });
+  
+  document.getElementById('dropDare').innerHTML = '<span style="color:var(--text-dim);font-size:.85rem">Trascina qui ↓</span>';
+  document.getElementById('dropAvere').innerHTML = '<span style="color:var(--text-dim);font-size:.85rem">Trascina qui ↓</span>';
+  document.getElementById('dragFeedback').innerHTML = '';
+
+  // click on drop zones
+  ['dropDare','dropAvere'].forEach(zoneId => {
+    document.getElementById(zoneId).addEventListener('click', () => {
+      const sel = document.querySelector('.drag-chip[data-selected]');
+      if (sel) {
+        const zone = zoneId === 'dropDare' ? 'dare' : 'avere';
+        document.getElementById(zoneId).querySelector('span')?.remove();
+        document.getElementById(zoneId).appendChild(sel);
+        sel.style.outline = '';
+        delete sel.dataset.selected;
+      }
+    });
+  });
+}
+
+function allowDrop(e) { e.preventDefault(); }
+function handleDrop(e, zone) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  const id = e.dataTransfer.getData('text/plain');
+  const chip = document.getElementById(id);
+  if (chip) {
+    e.currentTarget.querySelector('span')?.remove();
+    e.currentTarget.appendChild(chip);
+  }
+}
+
+function checkDrag() {
+  let ok = 0, total = dragItems.length;
+  document.querySelectorAll('.drag-chip').forEach(chip => {
+    const parent = chip.parentElement;
+    const inDare = parent.id === 'dropDare';
+    const inAvere = parent.id === 'dropAvere';
+    if ((inDare && chip.dataset.zone === 'dare') || (inAvere && chip.dataset.zone === 'avere')) {
+      chip.classList.add('in-zone');
+      chip.classList.remove('wrong-zone');
+      ok++;
+    } else if (inDare || inAvere) {
+      chip.classList.add('wrong-zone');
+      chip.classList.remove('in-zone');
+    }
+  });
+  const fb = document.getElementById('dragFeedback');
+  if (ok === total) {
+    fb.innerHTML = '<div class="card green" style="text-align:center"><strong>🎉 Perfetto! Tutte le risposte sono corrette!</strong></div>';
+  } else {
+    fb.innerHTML = `<div class="card red" style="text-align:center"><strong>${ok}/${total} corrette.</strong> Le voci in rosso sono nella sezione sbagliata. Riprova!</div>`;
+  }
+}
+
+function resetDrag() { buildDrag(); }
+buildDrag();
+
+// ── NAV ACTIVE STATE ──
+const sections = document.querySelectorAll('.section, .hero');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 200) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
