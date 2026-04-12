@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 5 — Gli Strumenti di Food and Beverage Cost | DTA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--bg-card:#12121a;--bg-sidebar:#0e0e16;
+  --neon-cyan:#00f0ff;--neon-magenta:#ff00aa;--neon-yellow:#ffe600;
+  --neon-green:#39ff14;--neon-orange:#ff6a00;--neon-violet:#b44aff;
+  --text:#e8e8f0;--text-dim:#8888aa;--border:#1e1e30;
+  --glow-cyan:0 0 20px rgba(0,240,255,.35);--glow-magenta:0 0 20px rgba(255,0,170,.35);
+  --glow-yellow:0 0 20px rgba(255,230,0,.35);--glow-green:0 0 20px rgba(57,255,20,.35);
+  --glow-orange:0 0 20px rgba(255,106,0,.35);
+  --font-display:'Bebas Neue',sans-serif;--font-mono:'JetBrains Mono',monospace;--font-body:'Outfit',sans-serif;
+  --sidebar-w:280px;--header-h:70px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.75;font-weight:300;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+.top-header{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;z-index:1000}
+.top-header .logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:var(--glow-cyan)}
+.top-header .subtitle{margin-left:1.2rem;font-size:.85rem;color:var(--text-dim);letter-spacing:1px}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;margin-left:auto;padding:8px;z-index:1100}
+.hamburger span{width:26px;height:2px;background:var(--neon-cyan);border-radius:2px;transition:.3s}
+
+.sidebar{position:fixed;top:var(--header-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--header-h));background:var(--bg-sidebar);border-right:1px solid var(--border);overflow-y:auto;padding:1.5rem 0;z-index:900;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--neon-cyan);border-radius:4px}
+.sidebar .nav-label{font-family:var(--font-display);font-size:.9rem;letter-spacing:4px;color:var(--text-dim);padding:0 1.5rem;margin-bottom:.8rem}
+.sidebar a{display:flex;align-items:flex-start;gap:.6rem;padding:.6rem 1.5rem;color:var(--text-dim);text-decoration:none;font-size:.86rem;font-weight:400;transition:.25s;border-left:3px solid transparent}
+.sidebar a:hover,.sidebar a.active{color:var(--neon-cyan);border-left-color:var(--neon-cyan);background:rgba(0,240,255,.04)}
+.sidebar a .nav-num{font-family:var(--font-mono);font-size:.75rem;color:var(--neon-magenta);min-width:26px;margin-top:2px}
+
+.main{margin-left:var(--sidebar-w);margin-top:var(--header-h);padding:3rem 3.5rem 6rem;max-width:960px;position:relative;z-index:1}
+
+.hero{text-align:center;padding:4rem 0 3rem;animation:fadeSlide .8s ease-out}
+.hero .lezione-tag{display:inline-block;font-family:var(--font-mono);font-size:.75rem;letter-spacing:3px;color:var(--neon-magenta);border:1px solid var(--neon-magenta);padding:.3rem 1.2rem;border-radius:100px;margin-bottom:1.2rem;text-shadow:var(--glow-magenta)}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,5.5vw,4.2rem);letter-spacing:4px;line-height:1.05;color:#fff;text-shadow:0 0 40px rgba(0,240,255,.25)}
+.hero h1 span{color:var(--neon-cyan);text-shadow:var(--glow-cyan)}
+.hero .hero-sub{font-size:1.05rem;color:var(--text-dim);margin-top:1rem;max-width:600px;margin-inline:auto}
+
+.section{margin-bottom:4.5rem;opacity:0;transform:translateY(30px)}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.section-num{font-family:var(--font-display);font-size:3rem;line-height:1;color:var(--neon-magenta);text-shadow:var(--glow-magenta)}
+.section-title{font-family:var(--font-display);font-size:clamp(1.6rem,3.5vw,2.4rem);letter-spacing:2px;color:#fff}
+.section p{margin-bottom:1.2rem;font-size:.98rem}
+
+.box{border-radius:12px;padding:1.4rem 1.6rem;margin:1.5rem 0;border-left:4px solid;position:relative}
+.box::before{font-family:var(--font-display);font-size:.7rem;letter-spacing:3px;position:absolute;top:-10px;left:16px;padding:0 .5rem;border-radius:4px}
+.box-def{background:rgba(0,240,255,.06);border-color:var(--neon-cyan);box-shadow:var(--glow-cyan)}
+.box-def::before{content:'DEFINIZIONE';background:var(--neon-cyan);color:var(--bg)}
+.box-example{background:rgba(57,255,20,.05);border-color:var(--neon-green);box-shadow:var(--glow-green)}
+.box-example::before{content:'ESEMPIO';background:var(--neon-green);color:var(--bg)}
+.box-warn{background:rgba(255,106,0,.06);border-color:var(--neon-orange);box-shadow:var(--glow-orange)}
+.box-warn::before{content:'ATTENZIONE';background:var(--neon-orange);color:var(--bg)}
+.box-formula{background:rgba(180,74,255,.06);border-color:var(--neon-violet);box-shadow:0 0 20px rgba(180,74,255,.25)}
+.box-formula::before{content:'FORMULA';background:var(--neon-violet);color:#fff}
+.box-proc{background:rgba(255,230,0,.06);border-color:var(--neon-yellow);box-shadow:var(--glow-yellow)}
+.box-proc::before{content:'PROCEDIMENTO';background:var(--neon-yellow);color:var(--bg)}
+.box strong,.box b{color:#fff;font-weight:600}
+
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+thead{background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,0,170,.08))}
+thead th{font-family:var(--font-display);font-size:.85rem;letter-spacing:2px;color:var(--neon-cyan);padding:.9rem 1.2rem;text-align:left;border-bottom:1px solid var(--border)}
+thead th.r{text-align:right}
+tbody td{padding:.75rem 1.2rem;border-bottom:1px solid rgba(30,30,48,.6);vertical-align:top}
+tbody tr:hover{background:rgba(0,240,255,.03)}
+tbody tr:last-child td{border-bottom:none}
+td.highlight-cyan{color:var(--neon-cyan);font-weight:600}
+td.highlight-mag{color:var(--neon-magenta);font-weight:600}
+td.highlight-green{color:var(--neon-green);font-weight:600}
+td.highlight-yellow{color:var(--neon-yellow);font-weight:600}
+td.num{text-align:right;font-family:var(--font-mono);font-size:.85rem}
+tr.total-row{background:rgba(0,240,255,.06);font-weight:700}
+tr.total-row td{border-top:2px solid var(--neon-cyan)}
+tr.sub-cyan{background:rgba(0,240,255,.06)}
+tr.sub-mag{background:rgba(255,0,170,.06)}
+tr.sub-green{background:rgba(57,255,20,.05)}
+
+.schema-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.5rem 0}
+.schema-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.3rem;transition:.3s}
+.schema-card:hover{border-color:var(--neon-cyan);box-shadow:var(--glow-cyan);transform:translateY(-2px)}
+.schema-card h4{font-family:var(--font-display);font-size:1rem;letter-spacing:2px;margin-bottom:.6rem}
+.schema-card p,.schema-card ul{font-size:.88rem;color:var(--text-dim)}
+.schema-card ul{list-style:none;padding:0}
+.schema-card ul li{padding:.2rem 0;padding-left:1rem;position:relative}
+.schema-card ul li::before{content:'›';position:absolute;left:0;color:var(--neon-magenta);font-weight:700}
+.card-cyan h4{color:var(--neon-cyan)}.card-mag h4{color:var(--neon-magenta)}
+.card-green h4{color:var(--neon-green)}.card-orange h4{color:var(--neon-orange)}
+.card-yellow h4{color:var(--neon-yellow)}.card-violet h4{color:var(--neon-violet)}
+
+.step-list{margin:1rem 0;counter-reset:step}
+.step-item{display:flex;gap:1rem;margin-bottom:1.2rem;align-items:flex-start}
+.step-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;border:2px solid;color:var(--neon-cyan);border-color:var(--neon-cyan);text-shadow:var(--glow-cyan)}
+.step-text{flex:1;font-size:.95rem;padding-top:5px}
+.step-text strong{color:#fff}
+
+.math-block{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;margin:1.2rem 0;font-family:var(--font-mono);font-size:.88rem;line-height:2;color:var(--text);overflow-x:auto}
+.math-result{color:var(--neon-cyan);font-weight:700}
+.math-label{color:var(--text-dim);font-size:.8rem;font-family:var(--font-body)}
+
+.footer{margin-left:var(--sidebar-w);text-align:center;padding:2.5rem 2rem;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:.7rem;letter-spacing:2px;color:var(--text-dim)}
+.footer .school-name{color:var(--neon-cyan);text-shadow:var(--glow-cyan);font-family:var(--font-display);font-size:1rem;letter-spacing:4px;margin-bottom:.5rem}
+
+.progress-bar{position:fixed;top:var(--header-h);left:0;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));z-index:999;transition:width .15s;box-shadow:0 0 10px rgba(0,240,255,.5)}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0);box-shadow:4px 0 30px rgba(0,0,0,.7)}
+  .main{margin-left:0;padding:2rem 1.5rem 5rem}.footer{margin-left:0}
+  .hamburger{display:flex}.schema-grid{grid-template-columns:1fr}
+  .top-header .subtitle{display:none}
+}
+@media(max-width:500px){.main{padding:1.5rem 1rem 4rem}}
+
+mark.cyan{background:transparent;color:var(--neon-cyan);font-weight:600}
+mark.mag{background:transparent;color:var(--neon-magenta);font-weight:600}
+mark.green{background:transparent;color:var(--neon-green);font-weight:600}
+mark.yellow{background:transparent;color:var(--neon-yellow);font-weight:600}
+mark.orange{background:transparent;color:var(--neon-orange);font-weight:600}
+mark.violet{background:transparent;color:var(--neon-violet);font-weight:600}
+
+h3.sub{font-family:var(--font-display);font-size:1.15rem;letter-spacing:2px;color:var(--neon-yellow);margin:2rem 0 .8rem;text-shadow:var(--glow-yellow)}
+.sep{width:60px;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));border-radius:4px;margin:3rem auto;box-shadow:0 0 12px rgba(0,240,255,.4)}
+
+.esempio-header{font-family:var(--font-display);font-size:1rem;letter-spacing:2px;color:var(--neon-green);margin:2.5rem 0 .6rem;display:flex;align-items:center;gap:.6rem}
+.esempio-header .badge{background:var(--neon-green);color:var(--bg);font-size:.65rem;letter-spacing:3px;padding:.2rem .7rem;border-radius:4px}
+
+/* SVG CHART */
+.chart-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+.chart-wrap svg{display:block;margin:0 auto}
+
+/* PILL LIST */
+.pill-list{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0;list-style:none}
+.pill-list li{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.2);border-radius:100px;padding:.35rem 1rem;font-size:.82rem;color:var(--neon-cyan)}
+
+/* FLOW */
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.6rem;margin:2rem 0}
+.flow-item{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:.7rem 1.2rem;font-size:.85rem;font-weight:600;text-align:center;min-width:110px}
+.flow-arrow{color:var(--neon-yellow);font-size:1.3rem;text-shadow:var(--glow-yellow)}
+.flow-result{background:linear-gradient(135deg,rgba(0,240,255,.15),rgba(255,0,170,.1));border-color:var(--neon-cyan);color:#fff}
+
+/* TREND INDICATORS */
+.trend-up{color:var(--neon-orange)}
+.trend-down{color:var(--neon-green)}
+.trend-stable{color:var(--neon-cyan)}
+
+/* BIG FORMULA */
+.big-formula{text-align:center;margin:2rem 0;padding:2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:14px}
+.big-formula .formula-main{font-family:var(--font-mono);font-size:1.1rem;color:#fff;margin-bottom:.5rem}
+.big-formula .formula-equals{font-size:1.4rem;color:var(--neon-yellow);margin:0 .5rem}
+.big-formula .formula-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle}
+.big-formula .formula-num{border-bottom:2px solid var(--text-dim);padding:0 .8rem .3rem;font-family:var(--font-mono);font-size:.95rem}
+.big-formula .formula-den{padding:.3rem .8rem 0;font-family:var(--font-mono);font-size:.95rem}
+.big-formula .formula-times{font-size:1.1rem;color:var(--text-dim);margin:0 .3rem}
+.big-formula .formula-label{font-size:.82rem;color:var(--text-dim);margin-top:.8rem;font-family:var(--font-body)}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="top-header">
+  <div class="logo">DTA</div>
+  <div class="subtitle">DIRITTO E TECNICHE AMMINISTRATIVE</div>
+  <div class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+</header>
+
+<nav class="sidebar" id="sidebar">
+  <div class="nav-label">INDICE</div>
+  <a href="#intro"><span class="nav-num">00</span> Introduzione</a>
+  <a href="#s1"><span class="nav-num">01</span> Il food and beverage cost</a>
+  <a href="#s1-approv"><span class="nav-num">01.1</span> Approvvigionamento</a>
+  <a href="#s1-prod"><span class="nav-num">01.2</span> Produzione e somministr.</a>
+  <a href="#s2"><span class="nav-num">02</span> Le prove di resa</a>
+  <a href="#s2-es"><span class="nav-num">02.1</span> Esempio: La Villa srl</a>
+  <a href="#s3"><span class="nav-num">03</span> Scorta di sicurezza</a>
+  <a href="#s3-formula"><span class="nav-num">03.1</span> Livello di riordino</a>
+  <a href="#s3-es"><span class="nav-num">03.2</span> Esempio: Rist. Pastore</a>
+  <a href="#s4"><span class="nav-num">04</span> Il food cost</a>
+  <a href="#s4-formula"><span class="nav-num">04.1</span> Formula</a>
+  <a href="#s4-es"><span class="nav-num">04.2</span> Esempio: Rist. Galli</a>
+</nav>
+
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="intro">
+    <div class="lezione-tag">LEZIONE 05 — MODULO 2</div>
+    <h1>GLI STRUMENTI DI<br><span>FOOD AND BEVERAGE COST</span></h1>
+    <p class="hero-sub">Tecniche operative per controllare l'andamento della gestione del settore food & beverage: prove di resa, scorte, livello di riordino e food cost percentuale.</p>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 1 — IL FOOD AND BEVERAGE COST -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">IL FOOD AND BEVERAGE COST</div>
+    </div>
+
+    <div class="box box-def">
+      Il <strong>food and beverage cost</strong> è un insieme di tecniche e strumenti operativi che consentono di controllare l'andamento della gestione di un'impresa ristorativa o del settore food and beverage di un'impresa ricettiva.
+    </div>
+
+    <p>L'attività ristorativa può essere esercitata sia da imprese di dimensioni ridotte a carattere familiare sia da imprese medio-grandi a gestione manageriale. Il titolare o i manager che hanno il compito di controllare le diverse fasi del processo ristorativo utilizzano le tecniche di food and beverage cost per <mark class="cyan">ridurre i costi di approvvigionamento</mark>, <mark class="mag">evitare sprechi e inefficienze</mark> e <mark class="green">garantire la soddisfazione della clientela</mark>.</p>
+
+    <p>Le tecniche di food cost si applicano in due fasi fondamentali:</p>
+
+    <div class="schema-grid">
+      <div class="schema-card card-cyan" id="s1-approv">
+        <h4>FASE 1 — APPROVVIGIONAMENTO</h4>
+        <p style="color:var(--text);margin-bottom:.6rem;">È la fase in cui l'impresa provvede al rifornimento e alla conservazione delle materie prime alimentari, dei beni di consumo e delle bevande.</p>
+        <ul>
+          <li><strong style="color:#fff">Individuazione dei beni da acquistare:</strong> partendo dal menu si definisce la qualità e la quantità dei diversi alimenti, bevande e altri beni di consumo</li>
+          <li><strong style="color:#fff">Selezione dei fornitori:</strong> si valuta l'offerta di mercato, i beni e i prezzi applicati dalle diverse imprese. Per ciascun fornitore si valuta l'affidabilità, la capacità di rifornire con regolarità e la tempestività</li>
+          <li><strong style="color:#fff">Prove di resa:</strong> è opportuno l'intervento dello chef per effettuare delle prove di resa sugli ingredienti più importanti dei piatti che compongono il menu</li>
+          <li><strong style="color:#fff">Periodicità degli ordini:</strong> si distingue tra prodotti freschi (ordini giornalieri) e prodotti conservabili. Per questi ultimi si determina la <em>scorta di sicurezza</em> e il <em>livello di riordino</em></li>
+        </ul>
+      </div>
+      <div class="schema-card card-mag" id="s1-prod">
+        <h4>FASE 2 — PRODUZIONE E SOMMINISTRAZIONE</h4>
+        <p style="color:var(--text);margin-bottom:.6rem;">Comprende la realizzazione del prodotto, il confezionamento e la vendita al cliente.</p>
+        <ul>
+          <li>Si controlla l'andamento dei costi delle <strong style="color:#fff">materie prime</strong></li>
+          <li>Si monitora il costo del <strong style="color:#fff">lavoro</strong></li>
+          <li>Si verificano gli <strong style="color:#fff">altri oneri di gestione</strong></li>
+          <li>Si utilizza lo strumento del <strong style="color:#fff">food cost</strong> percentuale per valutare l'efficienza gestionale</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-item" style="color:var(--neon-cyan);">Approvvigionamento</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">Prove di resa</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">Scorte e riordino</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item" style="color:var(--neon-magenta);">Produzione</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item flow-result">Food cost %</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 2 — LE PROVE DI RESA -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">LE PROVE DI RESA</div>
+    </div>
+
+    <div class="box box-def">
+      Le <strong>prove di resa</strong> confrontano i dati di lavorazione delle materie di fornitori diversi e hanno lo scopo di individuare quale fornitore sia in grado di procurare le materie che presentano il miglior <strong>rapporto qualità/prezzo</strong>.
+    </div>
+
+    <p>Il test di confronto prevede la <mark class="cyan">pesatura delle materie prime</mark> e il <mark class="mag">calcolo del costo/materia</mark> che può essere imputato al singolo piatto dopo la lavorazione.</p>
+
+    <div class="box box-proc">
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">Si rileva il <strong>peso lordo</strong> della materia prima acquistata (in kg).</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">Si determina il <strong>peso della porzione</strong> (in kg) e lo <strong>scarto di lavorazione</strong> (in kg).</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">Si calcola il <strong>peso netto al piatto</strong>: Peso lordo − Scarto di lavorazione.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text">Si calcola il <strong>numero medio di porzioni</strong>: Peso netto ÷ Peso porzione.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-text">Si calcola il <strong>costo totale delle materie</strong>: Prezzo al kg × Peso lordo.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">6</div>
+          <div class="step-text">Si calcola il <strong>costo medio per porzione</strong>: Costo totale ÷ N° porzioni.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESEMPIO: LA VILLA SRL -->
+    <div class="esempio-header" id="s2-es">
+      <span class="badge">ESEMPIO</span> PROVA DI RESA DI UN INGREDIENTE
+    </div>
+
+    <p>Il responsabile degli acquisti e lo chef del ristorante <strong>La Villa srl</strong> effettuano una prova di resa su un taglio di carne dei fornitori <mark class="cyan">Alberti</mark> e <mark class="mag">Bonanni</mark>.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>FORNITORE</th>
+            <th class="r" style="color:var(--neon-cyan)">ALBERTI</th>
+            <th class="r" style="color:var(--neon-magenta)">BONANNI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Peso lordo (kg)</td><td class="num">10,00</td><td class="num">10,00</td></tr>
+          <tr><td>Porzione (kg)</td><td class="num">0,30</td><td class="num">0,30</td></tr>
+          <tr><td>Scarto di lavorazione (kg)</td><td class="num">1,60</td><td class="num">0,40</td></tr>
+          <tr><td>Prezzo materia al kg (€)</td><td class="num">12,00</td><td class="num">13,00</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">▸ Svolgimento</h3>
+
+    <p><strong>1. Peso netto al piatto:</strong></p>
+    <div class="math-block">
+      <span class="math-label">Alberti:</span> 10 − 1,60 = <span class="math-result">8,40 kg</span> peso netto<br>
+      <span class="math-label">Bonanni:</span> 10 − 0,40 = <span class="math-result">9,60 kg</span> peso netto
+    </div>
+
+    <p><strong>2. Numero medio di porzioni:</strong></p>
+    <div class="math-block">
+      <span class="math-label">Alberti:</span> 8,40 ÷ 0,30 = <span class="math-result">28 porzioni</span><br>
+      <span class="math-label">Bonanni:</span> 9,60 ÷ 0,30 = <span class="math-result">32 porzioni</span>
+    </div>
+
+    <p><strong>3. Costo totale delle materie:</strong></p>
+    <div class="math-block">
+      <span class="math-label">Alberti:</span> 12 € × 10 kg = <span class="math-result">120 €</span><br>
+      <span class="math-label">Bonanni:</span> 13 € × 10 kg = <span class="math-result">130 €</span>
+    </div>
+
+    <p><strong>4. Costo medio per porzione:</strong></p>
+    <div class="math-block">
+      <span class="math-label">Alberti:</span> 120 ÷ 28 = <span class="math-result" style="color:var(--neon-orange)">4,29 € / porzione</span><br>
+      <span class="math-label">Bonanni:</span> 130 ÷ 32 = <span class="math-result" style="color:var(--neon-green)">4,06 € / porzione</span>
+    </div>
+
+    <div class="schema-grid">
+      <div class="schema-card" style="text-align:center;border-color:var(--neon-orange);">
+        <h4 style="color:var(--neon-orange);">ALBERTI</h4>
+        <p style="font-family:var(--font-mono);font-size:1.6rem;color:var(--neon-orange);margin:.5rem 0;">€ 4,29</p>
+        <p>per porzione · 28 porzioni<br>Scarto: 1,60 kg (16%)</p>
+      </div>
+      <div class="schema-card" style="text-align:center;border-color:var(--neon-green);box-shadow:var(--glow-green);">
+        <h4 style="color:var(--neon-green);">BONANNI ★ CONVIENE</h4>
+        <p style="font-family:var(--font-mono);font-size:1.6rem;color:var(--neon-green);margin:.5rem 0;">€ 4,06</p>
+        <p>per porzione · 32 porzioni<br>Scarto: 0,40 kg (4%)</p>
+      </div>
+    </div>
+
+    <div class="box box-warn">
+      A parità di qualità dell'ingrediente, la prova di resa dimostra che <strong>conviene la fornitura dell'impresa Bonanni</strong>. Nonostante il prezzo al kg sia più alto (13 € contro 12 €), lo scarto di lavorazione è molto inferiore (0,40 kg contro 1,60 kg), rendendo il costo per porzione più basso.
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 3 — SCORTA DI SICUREZZA E LIVELLO DI RIORDINO -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">LA SCORTA DI SICUREZZA E IL LIVELLO DI RIORDINO</div>
+    </div>
+
+    <div class="box box-def">
+      La <strong>scorta di sicurezza</strong> è la quantità minima di scorta che deve essere presente in magazzino per evitare interruzioni dell'attività di somministrazione di alimenti e bevande.<br><br>
+      Il <strong>livello di riordino</strong> è il livello di scorte in corrispondenza del quale si rende necessaria l'emissione di un nuovo ordine di acquisto al fornitore.
+    </div>
+
+    <p>Quando le scorte arrivano al livello di riordino, l'impresa emette l'ordine al fornitore per evitare che il livello di scorte vada al di sotto della scorta di sicurezza.</p>
+
+    <!-- SVG CHART: Andamento scorte -->
+    <div class="chart-wrap">
+      <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+        <defs>
+          <linearGradient id="gScorte" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#00f0ff" stop-opacity=".15"/>
+            <stop offset="100%" stop-color="#00f0ff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Axes -->
+        <line x1="60" y1="30" x2="60" y2="230" stroke="#333" stroke-width="1"/>
+        <line x1="60" y1="230" x2="570" y2="230" stroke="#333" stroke-width="1"/>
+        <!-- Labels -->
+        <text x="30" y="20" fill="#8888aa" font-family="Bebas Neue" font-size="11" letter-spacing="2">LIVELLO</text>
+        <text x="550" y="248" fill="#8888aa" font-family="Bebas Neue" font-size="11" letter-spacing="2">TEMPO</text>
+        <!-- Riordino line -->
+        <line x1="60" y1="120" x2="570" y2="120" stroke="#00f0ff" stroke-width="1" stroke-dasharray="6,4" opacity=".5"/>
+        <text x="65" y="115" fill="#00f0ff" font-family="JetBrains Mono" font-size="9">livello di riordino</text>
+        <!-- Sicurezza line -->
+        <line x1="60" y1="190" x2="570" y2="190" stroke="#ff00aa" stroke-width="1" stroke-dasharray="6,4" opacity=".5"/>
+        <text x="65" y="185" fill="#ff00aa" font-family="JetBrains Mono" font-size="9">scorta di sicurezza</text>
+        <!-- Sawtooth pattern -->
+        <polyline points="60,50 150,120 155,50 260,120 265,50 380,120 385,50 500,120 505,50" fill="none" stroke="#00f0ff" stroke-width="2.5"/>
+        <!-- Fill area -->
+        <polyline points="60,50 150,120 155,50 260,120 265,50 380,120 385,50 500,120 505,50 505,230 60,230" fill="url(#gScorte)" stroke="none"/>
+      </svg>
+    </div>
+
+    <!-- FORMULA -->
+    <h3 class="sub" id="s3-formula">▸ La formula del livello di riordino</h3>
+
+    <div class="big-formula">
+      <div class="formula-main">
+        <span style="color:var(--neon-cyan);font-size:1.2rem;">L</span>
+        <span class="formula-equals">=</span>
+        <span style="color:var(--neon-yellow);">C</span>
+        <span class="formula-times">×</span>
+        <span style="color:var(--neon-green);">g</span>
+        <span class="formula-times">+</span>
+        <span style="color:var(--neon-magenta);">S</span>
+      </div>
+      <div class="formula-label" style="margin-top:1.2rem;text-align:left;line-height:2;">
+        <strong style="color:var(--neon-cyan)">L</strong> = livello di riordino &nbsp;·&nbsp;
+        <strong style="color:var(--neon-yellow)">C</strong> = consumo giornaliero di scorte &nbsp;·&nbsp;
+        <strong style="color:var(--neon-green)">g</strong> = giorni necessari all'approvvigionamento (numero medio di giorni dall'ordine alla consegna) &nbsp;·&nbsp;
+        <strong style="color:var(--neon-magenta)">S</strong> = scorta di sicurezza
+      </div>
+    </div>
+
+    <div class="box box-formula">
+      <strong>Scorta di sicurezza</strong> = Consumo giornaliero × Giorni di copertura desiderati<br><br>
+      <strong>Livello di riordino</strong> = (C × g) + S
+    </div>
+
+    <!-- ESEMPIO -->
+    <div class="esempio-header" id="s3-es">
+      <span class="badge">ESEMPIO</span> SCORTA DI SICUREZZA E LIVELLO DI RIORDINO
+    </div>
+
+    <p>Il <strong>Ristorante Pastore srl</strong> consuma <mark class="yellow">12 litri di olio di semi al giorno</mark>. In media trascorrono <mark class="green">6 giorni</mark> dalla trasmissione dell'ordine alla consegna della materia prima e si ritiene necessaria una scorta di sicurezza di <mark class="mag">4 giorni</mark>.</p>
+
+    <h3 class="sub">▸ Calcolo della scorta di sicurezza</h3>
+
+    <div class="math-block">
+      S = C × giorni di copertura = 12 × 4 = <span class="math-result">48 litri di olio di semi</span>
+    </div>
+
+    <p>La scorta di sicurezza deve garantire la produzione per 4 giorni.</p>
+
+    <h3 class="sub">▸ Calcolo del livello di riordino</h3>
+
+    <div class="math-block">
+      L = C × g + S = 12 × 6 + 48 = 72 + 48 = <span class="math-result">120 litri di olio di semi</span>
+    </div>
+
+    <div class="box box-example">
+      Quando le scorte di olio di semi raggiungono <strong>120 litri</strong>, il ristorante deve emettere un nuovo ordine al fornitore. In questo modo, durante i 6 giorni di attesa per la consegna il ristorante consumerà 72 litri (12 × 6), e resteranno ancora 48 litri di scorta di sicurezza per far fronte a eventuali ritardi.
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 4 — IL FOOD COST -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title">IL FOOD COST</div>
+    </div>
+
+    <div class="box box-def">
+      Il <strong>food cost</strong> è un valore percentuale medio che si ottiene calcolando il rapporto tra il <strong>costo delle materie alimentari</strong> e i <strong>ricavi del settore ristorazione</strong>.
+    </div>
+
+    <h3 class="sub" id="s4-formula">▸ La formula</h3>
+
+    <div class="big-formula">
+      <div class="formula-main">
+        <span style="color:var(--neon-cyan);font-size:1rem;">food cost medio %</span>
+        <span class="formula-equals">=</span>
+        <span class="formula-frac">
+          <span class="formula-num" style="color:var(--neon-magenta)">costo degli alimenti</span>
+          <span class="formula-den" style="color:var(--neon-green)">ricavi di vendita</span>
+        </span>
+        <span class="formula-times">×</span>
+        <span>100</span>
+      </div>
+    </div>
+
+    <p>Il food cost può essere calcolato per l'intera impresa ristorativa, per i singoli reparti (ristorante, bar, catering ecc.) o per la singola pietanza. La percentuale media del settore ristorativo si aggira intorno al <mark class="cyan">30%</mark>.</p>
+
+    <div class="schema-grid">
+      <div class="schema-card card-green">
+        <h4>FOOD COST STABILE O IN CALO</h4>
+        <p style="color:var(--text);">Se il food cost <strong style="color:#fff">resta stabile o diminuisce</strong>, la gestione si sta svolgendo in maniera soddisfacente. I costi delle materie prime sono sotto controllo rispetto ai ricavi.</p>
+      </div>
+      <div class="schema-card card-orange">
+        <h4>FOOD COST IN AUMENTO ⚠</h4>
+        <p style="color:var(--text);">Se il food cost <strong style="color:#fff">aumenta</strong>, ci sono inefficienze gestionali che possono derivare da: diminuzione di ricavi, aumento del prezzo delle materie prime, aumento dei costi derivanti da sprechi e scelte inappropriate.</p>
+      </div>
+    </div>
+
+    <!-- ESEMPIO: RISTORANTE GALLI -->
+    <div class="esempio-header" id="s4-es">
+      <span class="badge">ESEMPIO</span> ANDAMENTO DEL FOOD COST
+    </div>
+
+    <p>Il ristorante <strong>Galli</strong> rileva nei mesi di aprile, maggio e giugno i seguenti dati:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>DESCRIZIONE</th>
+            <th class="r">APRILE</th>
+            <th class="r">MAGGIO</th>
+            <th class="r">GIUGNO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Costo degli alimenti (€)</td>
+            <td class="num">7.280</td>
+            <td class="num">8.960</td>
+            <td class="num">8.400</td>
+          </tr>
+          <tr>
+            <td>Ricavi del settore ristorazione (€)</td>
+            <td class="num">26.000</td>
+            <td class="num">28.000</td>
+            <td class="num">24.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">▸ Calcolo del food cost percentuale</h3>
+
+    <div class="math-block">
+      <span class="math-label">Aprile:</span> (7.280 ÷ 26.000) × 100 = <span class="math-result trend-stable">28%</span><br>
+      <span class="math-label">Maggio:</span> (8.960 ÷ 28.000) × 100 = <span class="math-result trend-up">32%</span><br>
+      <span class="math-label">Giugno:</span> (8.400 ÷ 24.000) × 100 = <span class="math-result trend-up">35%</span>
+    </div>
+
+    <!-- SVG BAR CHART -->
+    <div class="chart-wrap">
+      <svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+        <!-- Grid lines -->
+        <line x1="80" y1="40" x2="450" y2="40" stroke="#1e1e30" stroke-width="1"/>
+        <line x1="80" y1="80" x2="450" y2="80" stroke="#1e1e30" stroke-width="1"/>
+        <line x1="80" y1="120" x2="450" y2="120" stroke="#1e1e30" stroke-width="1"/>
+        <line x1="80" y1="160" x2="450" y2="160" stroke="#1e1e30" stroke-width="1"/>
+        <!-- Y axis labels -->
+        <text x="70" y="44" fill="#8888aa" font-family="JetBrains Mono" font-size="9" text-anchor="end">40%</text>
+        <text x="70" y="84" fill="#8888aa" font-family="JetBrains Mono" font-size="9" text-anchor="end">30%</text>
+        <text x="70" y="124" fill="#8888aa" font-family="JetBrains Mono" font-size="9" text-anchor="end">20%</text>
+        <text x="70" y="164" fill="#8888aa" font-family="JetBrains Mono" font-size="9" text-anchor="end">10%</text>
+        <!-- 30% reference line -->
+        <line x1="80" y1="80" x2="450" y2="80" stroke="#00f0ff" stroke-width="1" stroke-dasharray="5,4" opacity=".4"/>
+        <text x="455" y="83" fill="#00f0ff" font-family="JetBrains Mono" font-size="8" opacity=".6">media 30%</text>
+        <!-- Bars -->
+        <!-- Aprile: 28% → height = (28/40)*160 = 112 → y = 200-112 = 88 -->
+        <rect x="120" y="88" width="60" height="112" rx="4" fill="#39ff14" opacity=".8"/>
+        <text x="150" y="82" fill="#39ff14" font-family="JetBrains Mono" font-size="13" text-anchor="middle" font-weight="700">28%</text>
+        <text x="150" y="210" fill="#8888aa" font-family="Bebas Neue" font-size="13" text-anchor="middle" letter-spacing="1">APRILE</text>
+        <!-- Maggio: 32% → height = (32/40)*160 = 128 → y = 200-128 = 72 -->
+        <rect x="220" y="72" width="60" height="128" rx="4" fill="#ff6a00" opacity=".8"/>
+        <text x="250" y="66" fill="#ff6a00" font-family="JetBrains Mono" font-size="13" text-anchor="middle" font-weight="700">32%</text>
+        <text x="250" y="210" fill="#8888aa" font-family="Bebas Neue" font-size="13" text-anchor="middle" letter-spacing="1">MAGGIO</text>
+        <!-- Giugno: 35% → height = (35/40)*160 = 140 → y = 200-140 = 60 -->
+        <rect x="320" y="60" width="60" height="140" rx="4" fill="#ff00aa" opacity=".8"/>
+        <text x="350" y="54" fill="#ff00aa" font-family="JetBrains Mono" font-size="13" text-anchor="middle" font-weight="700">35%</text>
+        <text x="350" y="210" fill="#8888aa" font-family="Bebas Neue" font-size="13" text-anchor="middle" letter-spacing="1">GIUGNO</text>
+        <!-- Arrow trend -->
+        <line x1="150" y1="85" x2="350" y2="57" stroke="#ff00aa" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5"/>
+      </svg>
+    </div>
+
+    <div class="box box-warn">
+      L'aumento del food cost dal <strong>28% al 35%</strong> nel trimestre aprile-giugno segnala la necessità di indagare sull'esistenza di possibili <strong>inefficienze nella gestione</strong>. Le cause possono includere: aumento del prezzo delle materie prime, sprechi in cucina, porzioni non standardizzate, furti, oppure una diminuzione dei ricavi non accompagnata da una riduzione proporzionale dei costi alimentari.
+    </div>
+
+    <div class="box box-example">
+      <strong>Come intervenire?</strong> Il ristoratore dovrebbe: verificare i prezzi dei fornitori con nuove prove di resa, controllare le procedure di stoccaggio per ridurre gli sprechi, standardizzare le porzioni con schede ricetta, rinegoziare i contratti di fornitura e rivalutare il menu eliminando le pietanze meno redditizie.
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="school-name">ISTITUTO AMERIGO VESPUCCI — MILANO</div>
+  Classe Quarta &nbsp;|&nbsp; ENO &nbsp;|&nbsp; DTA — Diritto e Tecniche Amministrative
+</footer>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+document.querySelectorAll('.sidebar a').forEach(a=>{a.addEventListener('click',()=>{if(window.innerWidth<=900)document.getElementById('sidebar').classList.remove('open')})});
+window.addEventListener('scroll',()=>{const h=document.documentElement;const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;document.getElementById('progressBar').style.width=p+'%'});
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.style.opacity=1;el.target.style.transform='translateY(0)'}})},{threshold:.08});
+document.querySelectorAll('.section').forEach(s=>{s.style.opacity=0;s.style.transform='translateY(30px)';s.style.transition='opacity .6s ease, transform .6s ease';obs.observe(s)});
+const secs=document.querySelectorAll('section[id],h3[id],.hero[id],.esempio-header[id]');
+const navs=document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.getAttribute('id')});navs.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+c)l.classList.add('active')})});
+</script>
+</body>
+</html>

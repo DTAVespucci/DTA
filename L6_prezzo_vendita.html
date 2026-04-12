@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 6 — La Determinazione del Prezzo di Vendita | DTA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg-card:#12121a;--bg-sidebar:#0e0e16;--neon-cyan:#00f0ff;--neon-magenta:#ff00aa;--neon-yellow:#ffe600;--neon-green:#39ff14;--neon-orange:#ff6a00;--neon-violet:#b44aff;--text:#e8e8f0;--text-dim:#8888aa;--border:#1e1e30;--glow-cyan:0 0 20px rgba(0,240,255,.35);--glow-magenta:0 0 20px rgba(255,0,170,.35);--glow-yellow:0 0 20px rgba(255,230,0,.35);--glow-green:0 0 20px rgba(57,255,20,.35);--glow-orange:0 0 20px rgba(255,106,0,.35);--font-display:'Bebas Neue',sans-serif;--font-mono:'JetBrains Mono',monospace;--font-body:'Outfit',sans-serif;--sidebar-w:280px;--header-h:70px}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.75;font-weight:300;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.top-header{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;z-index:1000}
+.top-header .logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:var(--glow-cyan)}
+.top-header .subtitle{margin-left:1.2rem;font-size:.85rem;color:var(--text-dim);letter-spacing:1px}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;margin-left:auto;padding:8px;z-index:1100}
+.hamburger span{width:26px;height:2px;background:var(--neon-cyan);border-radius:2px;transition:.3s}
+.sidebar{position:fixed;top:var(--header-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--header-h));background:var(--bg-sidebar);border-right:1px solid var(--border);overflow-y:auto;padding:1.5rem 0;z-index:900;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--neon-cyan);border-radius:4px}
+.sidebar .nav-label{font-family:var(--font-display);font-size:.9rem;letter-spacing:4px;color:var(--text-dim);padding:0 1.5rem;margin-bottom:.8rem}
+.sidebar a{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem 1.5rem;color:var(--text-dim);text-decoration:none;font-size:.82rem;font-weight:400;transition:.25s;border-left:3px solid transparent}
+.sidebar a:hover,.sidebar a.active{color:var(--neon-cyan);border-left-color:var(--neon-cyan);background:rgba(0,240,255,.04)}
+.sidebar a .n{font-family:var(--font-mono);font-size:.7rem;color:var(--neon-magenta);min-width:28px;margin-top:2px}
+.main{margin-left:var(--sidebar-w);margin-top:var(--header-h);padding:3rem 3.5rem 6rem;max-width:960px;position:relative;z-index:1}
+.hero{text-align:center;padding:4rem 0 3rem;animation:fadeSlide .8s ease-out}
+.hero .tag{display:inline-block;font-family:var(--font-mono);font-size:.75rem;letter-spacing:3px;color:var(--neon-magenta);border:1px solid var(--neon-magenta);padding:.3rem 1.2rem;border-radius:100px;margin-bottom:1.2rem;text-shadow:var(--glow-magenta)}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,5.5vw,4.2rem);letter-spacing:4px;line-height:1.05;color:#fff;text-shadow:0 0 40px rgba(0,240,255,.25)}
+.hero h1 span{color:var(--neon-cyan);text-shadow:var(--glow-cyan)}
+.hero .sub{font-size:1.05rem;color:var(--text-dim);margin-top:1rem;max-width:620px;margin-inline:auto}
+.section{margin-bottom:4.5rem;opacity:0;transform:translateY(30px)}
+.sh{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.sn{font-family:var(--font-display);font-size:3rem;line-height:1;color:var(--neon-magenta);text-shadow:var(--glow-magenta)}
+.st{font-family:var(--font-display);font-size:clamp(1.5rem,3.5vw,2.3rem);letter-spacing:2px;color:#fff}
+.section p{margin-bottom:1.2rem;font-size:.98rem}
+.box{border-radius:12px;padding:1.4rem 1.6rem;margin:1.5rem 0;border-left:4px solid;position:relative}
+.box::before{font-family:var(--font-display);font-size:.7rem;letter-spacing:3px;position:absolute;top:-10px;left:16px;padding:0 .5rem;border-radius:4px}
+.box-def{background:rgba(0,240,255,.06);border-color:var(--neon-cyan);box-shadow:var(--glow-cyan)}
+.box-def::before{content:'DEFINIZIONE';background:var(--neon-cyan);color:var(--bg)}
+.box-example{background:rgba(57,255,20,.05);border-color:var(--neon-green);box-shadow:var(--glow-green)}
+.box-example::before{content:'ESEMPIO';background:var(--neon-green);color:var(--bg)}
+.box-warn{background:rgba(255,106,0,.06);border-color:var(--neon-orange);box-shadow:var(--glow-orange)}
+.box-warn::before{content:'ATTENZIONE';background:var(--neon-orange);color:var(--bg)}
+.box-formula{background:rgba(180,74,255,.06);border-color:var(--neon-violet);box-shadow:0 0 20px rgba(180,74,255,.25)}
+.box-formula::before{content:'FORMULA';background:var(--neon-violet);color:#fff}
+.box-proc{background:rgba(255,230,0,.06);border-color:var(--neon-yellow);box-shadow:var(--glow-yellow)}
+.box-proc::before{content:'PROCEDIMENTO';background:var(--neon-yellow);color:var(--bg)}
+.box strong,.box b{color:#fff;font-weight:600}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+thead{background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,0,170,.08))}
+thead th{font-family:var(--font-display);font-size:.82rem;letter-spacing:2px;color:var(--neon-cyan);padding:.85rem 1.2rem;text-align:left;border-bottom:1px solid var(--border)}
+thead th.r{text-align:right}
+tbody td{padding:.7rem 1.2rem;border-bottom:1px solid rgba(30,30,48,.6);vertical-align:top}
+tbody tr:hover{background:rgba(0,240,255,.03)}
+tbody tr:last-child td{border-bottom:none}
+td.hc{color:var(--neon-cyan);font-weight:600}
+td.hm{color:var(--neon-magenta);font-weight:600}
+td.hg{color:var(--neon-green);font-weight:600}
+td.hy{color:var(--neon-yellow);font-weight:600}
+td.num{text-align:right;font-family:var(--font-mono);font-size:.85rem}
+tr.tot{background:rgba(0,240,255,.06);font-weight:700}
+tr.tot td{border-top:2px solid var(--neon-cyan)}
+tr.sc{background:rgba(0,240,255,.04)}
+tr.sm{background:rgba(255,0,170,.04)}
+tr.sg{background:rgba(57,255,20,.04)}
+tr.sy{background:rgba(255,230,0,.04)}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.5rem 0}
+.sg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;margin:1.5rem 0}
+.sc2{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.3rem;transition:.3s}
+.sc2:hover{border-color:var(--neon-cyan);box-shadow:var(--glow-cyan);transform:translateY(-2px)}
+.sc2 h4{font-family:var(--font-display);font-size:1rem;letter-spacing:2px;margin-bottom:.6rem}
+.sc2 p,.sc2 ul{font-size:.88rem;color:var(--text-dim)}
+.sc2 ul{list-style:none;padding:0}.sc2 ul li{padding:.2rem 0;padding-left:1rem;position:relative}
+.sc2 ul li::before{content:'›';position:absolute;left:0;color:var(--neon-magenta);font-weight:700}
+.mb{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;margin:1.2rem 0;font-family:var(--font-mono);font-size:.86rem;line-height:2;color:var(--text);overflow-x:auto}
+.mr{color:var(--neon-cyan);font-weight:700}
+.ml{color:var(--text-dim);font-size:.8rem;font-family:var(--font-body)}
+.step-list{margin:1rem 0}.step-item{display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start}
+.step-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.95rem;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:var(--glow-cyan)}
+.step-text{flex:1;font-size:.93rem;padding-top:4px}.step-text strong{color:#fff}
+.footer{margin-left:var(--sidebar-w);text-align:center;padding:2.5rem 2rem;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:.7rem;letter-spacing:2px;color:var(--text-dim)}
+.footer .sn2{color:var(--neon-cyan);text-shadow:var(--glow-cyan);font-family:var(--font-display);font-size:1rem;letter-spacing:4px;margin-bottom:.5rem}
+.progress-bar{position:fixed;top:var(--header-h);left:0;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));z-index:999;transition:width .15s;box-shadow:0 0 10px rgba(0,240,255,.5)}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0);box-shadow:4px 0 30px rgba(0,0,0,.7)}.main{margin-left:0;padding:2rem 1.5rem 5rem}.footer{margin-left:0}.hamburger{display:flex}.sg2,.sg3{grid-template-columns:1fr}.top-header .subtitle{display:none}}
+@media(max-width:500px){.main{padding:1.5rem 1rem 4rem}}
+mark.c{background:transparent;color:var(--neon-cyan);font-weight:600}
+mark.m{background:transparent;color:var(--neon-magenta);font-weight:600}
+mark.g{background:transparent;color:var(--neon-green);font-weight:600}
+mark.y{background:transparent;color:var(--neon-yellow);font-weight:600}
+mark.o{background:transparent;color:var(--neon-orange);font-weight:600}
+mark.v{background:transparent;color:var(--neon-violet);font-weight:600}
+h3.sub{font-family:var(--font-display);font-size:1.15rem;letter-spacing:2px;color:var(--neon-yellow);margin:2rem 0 .8rem;text-shadow:var(--glow-yellow)}
+.sep{width:60px;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));border-radius:4px;margin:3rem auto;box-shadow:0 0 12px rgba(0,240,255,.4)}
+.eh{font-family:var(--font-display);font-size:1rem;letter-spacing:2px;color:var(--neon-green);margin:2.5rem 0 .6rem;display:flex;align-items:center;gap:.6rem}
+.eh .badge{background:var(--neon-green);color:var(--bg);font-size:.65rem;letter-spacing:3px;padding:.2rem .7rem;border-radius:4px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem;margin:1.5rem 0}
+.fi{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:.6rem 1rem;font-size:.8rem;font-weight:600;text-align:center;min-width:90px}
+.fa{color:var(--neon-yellow);font-size:1.2rem;text-shadow:var(--glow-yellow)}
+.fr{background:linear-gradient(135deg,rgba(0,240,255,.15),rgba(255,0,170,.1));border-color:var(--neon-cyan);color:#fff}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="pBar"></div>
+<header class="top-header">
+  <div class="logo">DTA</div>
+  <div class="subtitle">DIRITTO E TECNICHE AMMINISTRATIVE</div>
+  <div class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+</header>
+
+<nav class="sidebar" id="sidebar">
+  <div class="nav-label">INDICE</div>
+  <a href="#intro"><span class="n">00</span> Introduzione</a>
+  <a href="#s1"><span class="n">01</span> Classificazione metodi</a>
+  <a href="#s2"><span class="n">02</span> Prezzo imprese ricettive</a>
+  <a href="#s2e"><span class="n">02.1</span> Es: Hotel Lungomare</a>
+  <a href="#s3"><span class="n">03</span> Prezzo imprese ristorative</a>
+  <a href="#s3a"><span class="n">03.1</span> Metodo costo pieno</a>
+  <a href="#s3ae"><span class="n">03.2</span> Es: Ferrarini srl</a>
+  <a href="#s3b"><span class="n">03.3</span> Metodo del fattore</a>
+  <a href="#s3be"><span class="n">03.4</span> Es: Rist. Valle</a>
+  <a href="#s3c"><span class="n">03.5</span> Metodo coeff. variabile</a>
+  <a href="#s3ce"><span class="n">03.6</span> Es: La Giara spa</a>
+  <a href="#s3d"><span class="n">03.7</span> Metodo concorrenza</a>
+  <a href="#s4"><span class="n">04</span> Prezzo imprese di viaggio</a>
+  <a href="#s4a"><span class="n">04.1</span> Metodo costo pieno</a>
+  <a href="#s4ae"><span class="n">04.2</span> Es: Mertini Travel</a>
+  <a href="#s4b"><span class="n">04.3</span> Metodo del ricarico</a>
+  <a href="#s4be"><span class="n">04.4</span> Es: Ferrara ADV</a>
+</nav>
+
+<main class="main">
+
+<div class="hero" id="intro">
+  <div class="tag">LEZIONE 06 — MODULO 2</div>
+  <h1>LA DETERMINAZIONE DEL<br><span>PREZZO DI VENDITA</span></h1>
+  <p class="sub">Metodi di calcolo dei prezzi per imprese ricettive, ristorative e di viaggio: dal costo pieno al metodo del ricarico.</p>
+</div>
+<div class="sep"></div>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEZ 1 — CLASSIFICAZIONE METODI -->
+<!-- ══════════════════════════════════ -->
+<section class="section" id="s1">
+<div class="sh"><div class="sn">01</div><div class="st">LA CLASSIFICAZIONE DEI METODI</div></div>
+
+<div class="box box-def">
+I <strong>metodi di calcolo dei prezzi</strong> applicati dalle imprese turistico-ristorative possono basarsi su tecniche di calcolo dei costi o prendere in considerazione presupposti diversi dal calcolo dei costi.
+</div>
+
+<p>Si possono raggruppare in tre categorie:</p>
+
+<div class="sg3">
+  <div class="sc2" style="border-color:var(--neon-cyan)"><h4 style="color:var(--neon-cyan)">TECNICHE FULL COSTING</h4><p style="color:var(--text)">Individuano e attribuiscono i costi diretti all'oggetto di calcolo e poi procedono all'imputazione su base unica o multipla dei costi comuni o generali. Calcolano un <strong style="color:#fff">costo pieno</strong>.</p></div>
+  <div class="sc2" style="border-color:var(--neon-magenta)"><h4 style="color:var(--neon-magenta)">TECNICHE DIRECT COSTING</h4><p style="color:var(--text)">Imputano solo i costi diretti. Preferibili quando materie prime e lavoro diretto rappresentano gran parte del costo complessivo. <strong style="color:#fff">Più semplici</strong> da applicare.</p></div>
+  <div class="sc2" style="border-color:var(--neon-yellow)"><h4 style="color:var(--neon-yellow)">METODI EMPIRICI</h4><p style="color:var(--text)">Non assumono come base di calcolo i costi, ma partono da presupposti diversi. Applicati prevalentemente dalle imprese ristorative di <strong style="color:#fff">piccole dimensioni</strong> (es. metodo della concorrenza).</p></div>
+</div>
+
+<div class="tw">
+<table>
+<thead><tr><th>TIPO DI IMPRESA</th><th>METODI APPLICABILI</th></tr></thead>
+<tbody>
+<tr><td class="hc">Imprese ricettive</td><td>Metodo del costo pieno</td></tr>
+<tr><td class="hm">Imprese ristorative</td><td>Metodo del costo pieno · Metodo del fattore · Metodo del coefficiente variabile · Metodo della concorrenza</td></tr>
+<tr><td class="hy">Imprese di viaggio</td><td>Metodo del costo pieno · Metodo del ricarico</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<div class="sep"></div>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEZ 2 — PREZZO IMPRESE RICETTIVE -->
+<!-- ══════════════════════════════════ -->
+<section class="section" id="s2">
+<div class="sh"><div class="sn">02</div><div class="st">IL PREZZO NELLE IMPRESE RICETTIVE</div></div>
+
+<div class="box box-def">
+Il <strong>metodo del costo pieno</strong> è un procedimento con il quale le imprese ricettive determinano il prezzo di un posto letto calcolando un full cost (costo complessivo e costo economico-tecnico) e applicando una <strong>maggiorazione</strong> che consente di realizzare un profitto adeguato.
+</div>
+
+<div class="flow">
+  <div class="fi">Costi diretti</div><div class="fa">→</div>
+  <div class="fi" style="color:var(--neon-cyan)">COSTO PRIMO</div><div class="fa">→</div>
+  <div class="fi">+ Costi indiretti</div><div class="fa">→</div>
+  <div class="fi" style="color:var(--neon-magenta)">COSTO COMPLESSIVO</div><div class="fa">→</div>
+  <div class="fi">+ Oneri figurativi</div><div class="fa">→</div>
+  <div class="fi" style="color:var(--neon-yellow)">C. ECO-TECNICO</div><div class="fa">→</div>
+  <div class="fi">+ Profitto</div><div class="fa">→</div>
+  <div class="fi fr">PREZZO DI VENDITA</div>
+</div>
+
+<div class="box box-proc">
+<div class="step-list">
+  <div class="step-item"><div class="step-num">1</div><div class="step-text">Si calcola il <strong>costo primo</strong>, il <strong>costo complessivo</strong> e il <strong>costo economico-tecnico</strong> del settore camere.</div></div>
+  <div class="step-item"><div class="step-num">2</div><div class="step-text">Si determina il <strong>ricavo complessivo</strong> del settore camere (costo complessivo + utile desiderato).</div></div>
+  <div class="step-item"><div class="step-num">3</div><div class="step-text">Si calcola il <strong>prezzo medio per posto letto</strong> dividendo il ricavo di vendita per il numero di posti letto della struttura ricettiva.</div></div>
+</div>
+</div>
+
+<p>Il valore che risulta dal calcolo è un <mark class="c">prezzo medio</mark>, che a sua volta sarà l'elemento per la differenziazione tra alta e bassa stagione: tariffe più alte nei periodi di domanda elevata (alta stagione) e tariffe più basse nei periodi di scarsa domanda (bassa stagione).</p>
+
+<!-- ESEMPIO HOTEL LUNGOMARE -->
+<div class="eh" id="s2e"><span class="badge">ESEMPIO</span> CALCOLO DEL PREZZO DI UN POSTO LETTO</div>
+
+<p>L'<strong>Hotel Lungomare</strong>, aperto tutto l'anno con un'occupazione media giornaliera di <mark class="c">25 posti letto</mark>, ha rilevato i seguenti dati annuali relativi ai costi sostenuti per il settore camere:</p>
+
+<div class="tw"><table>
+<thead><tr><th>VOCE DI COSTO</th><th class="r">IMPORTO (€)</th></tr></thead>
+<tbody>
+<tr><td>Materie prime e di consumo</td><td class="num">38.000</td></tr>
+<tr><td>Lavoro diretto</td><td class="num">120.000</td></tr>
+<tr><td>Altri costi diretti</td><td class="num">22.000</td></tr>
+<tr class="sc"><td class="hc"><strong>Costo primo</strong></td><td class="num hc">180.000</td></tr>
+<tr><td>Ammortamenti, manutenzioni, energia e servizi</td><td class="num">64.000</td></tr>
+<tr><td>Costi di amministrazione, distribuzione e altri costi comuni</td><td class="num">76.000</td></tr>
+<tr class="sm"><td class="hm"><strong>Costo complessivo</strong></td><td class="num hm">320.000</td></tr>
+<tr><td>Utile 25% su 320.000 euro</td><td class="num">80.000</td></tr>
+<tr class="sg"><td class="hg"><strong>Ricavo complessivo</strong></td><td class="num hg">400.000</td></tr>
+<tr><td>IVA 10% su 400.000 euro</td><td class="num">40.000</td></tr>
+<tr class="tot"><td class="hy"><strong>Ricavo comprensivo di IVA</strong></td><td class="num hy">440.000</td></tr>
+</tbody>
+</table></div>
+
+<h3 class="sub">▸ Prezzo medio per posto letto</h3>
+<div class="mb">
+440.000 ÷ 365 giorni = <span class="mr">1.205,48 €</span> <span class="ml">ricavo giornaliero del settore camere</span><br>
+1.205,48 ÷ 25 posti letto = <span class="mr">48,22 €</span> <span class="ml">prezzo medio per posto letto</span>
+</div>
+
+<div class="box box-example">
+Il prezzo medio di <strong>€ 48,22</strong> è l'informazione utile all'hotel per applicare la differenziazione dei prezzi tra alta e bassa stagione. Nei periodi di alta stagione (con domanda elevata) la tariffa applicata sarà <strong>più alta</strong> del prezzo medio, mentre nei periodi di bassa stagione la tariffa sarà <strong>inferiore</strong>.
+</div>
+</section>
+<div class="sep"></div>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEZ 3 — PREZZO IMPRESE RISTORATIVE -->
+<!-- ══════════════════════════════════ -->
+<section class="section" id="s3">
+<div class="sh"><div class="sn">03</div><div class="st">IL PREZZO NELLE IMPRESE RISTORATIVE</div></div>
+
+<p>Le imprese ristorative determinano il prezzo/piatto con metodi diversi. I principali sono: il metodo del costo pieno, il metodo del fattore, il metodo del coefficiente variabile e il metodo della concorrenza.</p>
+
+<!-- 3A — METODO DEL COSTO PIENO -->
+<h3 class="sub" id="s3a">▸ Il metodo del costo pieno</h3>
+
+<div class="box box-def">
+Il <strong>metodo del costo pieno</strong> è un procedimento con il quale l'impresa ristorativa determina il prezzo/piatto calcolando il costo complessivo e applicando una maggiorazione che consente di realizzare un profitto.
+</div>
+
+<div class="box box-proc">
+<div class="step-list">
+  <div class="step-item"><div class="step-num">1</div><div class="step-text"><strong>Costo delle materie prime:</strong> si intesta una scheda a ogni singolo piatto del menu, si elencano gli ingredienti, il costo di ciascuno e il costo totale. Di solito tale costo corrisponde a circa il <mark class="c">30%</mark> del costo complessivo.</div></div>
+  <div class="step-item"><div class="step-num">2</div><div class="step-text"><strong>Costo del lavoro:</strong> i piatti hanno diverse difficoltà di lavorazione. Il costo del lavoro rappresenta una quota compresa tra il <mark class="m">40% e il 50%</mark> del costo complessivo e va determinato per ciascun livello di difficoltà.</div></div>
+  <div class="step-item"><div class="step-num">3</div><div class="step-text">La quota stimata di <strong>costi comuni</strong> (amministrazione, distribuzione e altri costi comuni).</div></div>
+  <div class="step-item"><div class="step-num">4</div><div class="step-text">La percentuale di <strong>profitto</strong>, che si calcola e si aggiunge al costo complessivo per determinare il prezzo di vendita.</div></div>
+</div>
+</div>
+
+<!-- Tabella difficoltà/costo lavoro -->
+<div class="tw"><table>
+<thead><tr><th>DIFFICOLTÀ</th><th class="r">COSTO DEL LAVORO PER PIATTO (€)</th></tr></thead>
+<tbody>
+<tr><td>Bassa</td><td class="num">2,60</td></tr>
+<tr><td>Media</td><td class="num">4,40</td></tr>
+<tr><td>Medio-alta</td><td class="num">5,20</td></tr>
+<tr><td>Alta</td><td class="num">6,80</td></tr>
+</tbody>
+</table></div>
+
+<!-- ESEMPIO FERRARINI -->
+<div class="eh" id="s3ae"><span class="badge">ESEMPIO</span> COSTO PIENO — RISTORANTE FERRARINI SRL</div>
+
+<p>Il ristorante <strong>Ferrarini srl</strong> calcola il prezzo di vendita di un primo piatto (ravioli al ragù) con i seguenti dati: materie prime 2,80 €, quota di costi comuni 1,60 €, oneri figurativi 10% del costo complessivo, utile 15% del costo economico-tecnico, IVA 10%. La pietanza è di <mark class="c">difficoltà media</mark>.</p>
+
+<div class="tw"><table>
+<thead><tr><th>VOCE</th><th class="r">€</th></tr></thead>
+<tbody>
+<tr><td>Materie prime</td><td class="num">2,80</td></tr>
+<tr><td>Costo del lavoro (difficoltà media)</td><td class="num">4,40</td></tr>
+<tr><td>Quota costi di amministrazione, distribuzione e altri costi comuni</td><td class="num">1,60</td></tr>
+<tr class="sm"><td class="hm"><strong>Costo complessivo</strong></td><td class="num hm">8,80</td></tr>
+<tr><td>Oneri figurativi 10% di 8,80</td><td class="num">0,88</td></tr>
+<tr class="sc"><td class="hc"><strong>Costo economico-tecnico</strong></td><td class="num hc">9,68</td></tr>
+<tr><td>Utile 15% di 9,68</td><td class="num">1,45</td></tr>
+<tr class="sg"><td class="hg"><strong>Prezzo di vendita</strong></td><td class="num hg">11,13</td></tr>
+<tr><td>IVA 10% di 11,13</td><td class="num">1,11</td></tr>
+<tr class="tot"><td class="hy"><strong>Prezzo di vendita comprensivo di IVA</strong></td><td class="num hy">12,24</td></tr>
+</tbody>
+</table></div>
+
+<div class="mb">Prezzo arrotondato a 10 centesimi: <span class="mr">€ 12,20</span></div>
+
+<!-- 3B — METODO DEL FATTORE -->
+<h3 class="sub" id="s3b">▸ Il metodo del fattore</h3>
+
+<div class="box box-def">
+Il <strong>metodo del fattore</strong> è utilizzato dalle imprese ristorative e si basa solo sul costo delle materie prime. Consiste nel fissare il prezzo di vendita <strong>moltiplicando il costo delle materie prime per un coefficiente (fattore)</strong> che indica il rapporto medio tra i ricavi di vendita e i costi delle materie alimentari.
+</div>
+
+<div class="box box-formula">
+<strong>Ricavo di vendita di una pietanza</strong> = Costo degli alimenti × Fattore
+<br><br>
+<em>Es: un fattore uguale a 3 indica che mediamente i ricavi di vendita sono 3 volte il costo degli alimenti utilizzati.</em>
+</div>
+
+<div class="eh" id="s3be"><span class="badge">ESEMPIO</span> METODO DEL FATTORE — RISTORANTE VALLE</div>
+
+<p>Il ristorante <strong>Valle</strong> vuole determinare il prezzo di un secondo piatto per il quale sostiene <mark class="c">2,80 €</mark> di costi per gli alimenti. Il fattore è uguale a <mark class="m">3</mark>, l'IVA è al 10%.</p>
+
+<div class="mb">
+2,80 × 3 = <span class="mr">8,40 €</span> <span class="ml">prezzo di vendita al netto di IVA</span><br>
+8,40 × 10% = 0,84 € <span class="ml">IVA</span><br>
+8,40 + 0,84 = <span class="mr">9,24 €</span> → arrotondato a <span class="mr">€ 9,20</span>
+</div>
+
+<!-- 3C — METODO DEL COEFFICIENTE VARIABILE -->
+<h3 class="sub" id="s3c">▸ Il metodo del coefficiente variabile</h3>
+
+<div class="box box-def">
+Il <strong>metodo del coefficiente variabile</strong> è un procedimento con cui l'impresa ristorativa determina il prezzo/piatto applicando alle materie prime un <strong>coefficiente che rappresenta la difficoltà di lavorazione</strong> e aggiungendo un <strong>margine fisso</strong> in base al tipo di piatto e una percentuale di utile.
+</div>
+
+<div class="box box-proc">
+<div class="step-list">
+  <div class="step-item"><div class="step-num">1</div><div class="step-text">Si stabilisce la <strong>difficoltà di lavorazione</strong> delle diverse pietanze, partendo da 1 (piatto non lavorato). Coefficienti tipici: bassa 1,5 · media 2,0 · medio-alta 2,5 · alta 3,5.</div></div>
+  <div class="step-item"><div class="step-num">2</div><div class="step-text">Si moltiplica il <strong>costo dei generi alimentari</strong> per il coefficiente variabile.</div></div>
+  <div class="step-item"><div class="step-num">3</div><div class="step-text">Si somma un <strong>margine fisso</strong> per ogni tipo di portata.</div></div>
+  <div class="step-item"><div class="step-num">4</div><div class="step-text">Si aggiunge una percentuale di <strong>utile</strong>.</div></div>
+</div>
+</div>
+
+<div class="sg2">
+<div class="tw" style="margin:0"><table>
+<thead><tr><th>DIFFICOLTÀ</th><th class="r">COEFFICIENTE</th></tr></thead>
+<tbody>
+<tr><td>Bassa</td><td class="num">1,5</td></tr>
+<tr><td>Media</td><td class="num">2,0</td></tr>
+<tr><td>Medio-alta</td><td class="num">2,5</td></tr>
+<tr><td>Alta</td><td class="num">3,5</td></tr>
+</tbody>
+</table></div>
+<div class="tw" style="margin:0"><table>
+<thead><tr><th>PIETANZE</th><th class="r">MARGINE (€)</th></tr></thead>
+<tbody>
+<tr><td>Antipasto</td><td class="num">3,00</td></tr>
+<tr><td>Primi piatti</td><td class="num">3,50</td></tr>
+<tr><td>Secondi piatti</td><td class="num">4,50</td></tr>
+<tr><td>Contorni</td><td class="num">2,00</td></tr>
+<tr><td>Dolci</td><td class="num">2,50</td></tr>
+</tbody>
+</table></div>
+</div>
+
+<div class="eh" id="s3ce"><span class="badge">ESEMPIO</span> COEFFICIENTE VARIABILE — RISTORANTE LA GIARA SPA</div>
+
+<p>Il direttore e lo chef del ristorante <strong>La Giara spa</strong> calcolano il prezzo di tre pietanze con utile del <mark class="c">15%</mark> e IVA 10%. Prezzi arrotondati all'unità di euro.</p>
+
+<h3 class="sub">▸ Antipasto (bassa difficoltà, alimenti 1,20 €)</h3>
+<div class="mb">
+1,20 × 1,5 = 1,80 € <span class="ml">costo materie e lavorazione</span><br>
+1,80 + 3,00 = 4,80 € <span class="ml">+ margine fisso antipasto</span><br>
+4,80 × 15% = 0,72 € <span class="ml">utile</span><br>
+4,80 + 0,72 = 5,52 € <span class="ml">prezzo netto IVA</span><br>
+5,52 × 10% = 0,55 € <span class="ml">IVA</span><br>
+5,52 + 0,55 = 6,07 € → arrotondato a <span class="mr">€ 6,00</span>
+</div>
+
+<h3 class="sub">▸ Primo piatto (media difficoltà, alimenti 2,10 €)</h3>
+<div class="mb">
+2,10 × 2,0 = 4,20 € <span class="ml">costo materie e lavorazione</span><br>
+4,20 + 3,50 = 7,70 € <span class="ml">+ margine fisso primi piatti</span><br>
+7,70 × 15% = 1,16 € <span class="ml">utile</span><br>
+7,70 + 1,16 = 8,86 € <span class="ml">prezzo netto IVA</span><br>
+8,86 × 10% = 0,89 € <span class="ml">IVA</span><br>
+8,86 + 0,89 = 9,75 € → arrotondato a <span class="mr">€ 9,75</span>
+</div>
+
+<h3 class="sub">▸ Secondo piatto (alta difficoltà, alimenti 2,80 €)</h3>
+<div class="mb">
+2,80 × 3,5 = 9,80 € <span class="ml">costo materie e lavorazione</span><br>
+9,80 + 4,50 = 14,30 € <span class="ml">+ margine fisso secondi piatti</span><br>
+14,30 × 15% = 2,15 € <span class="ml">utile</span><br>
+14,30 + 2,15 = 16,45 € <span class="ml">prezzo netto IVA</span><br>
+16,45 × 10% = 1,65 € <span class="ml">IVA</span><br>
+16,45 + 1,65 = 18,10 € → arrotondato a <span class="mr">€ 18,00</span>
+</div>
+
+<!-- 3D — METODO DELLA CONCORRENZA -->
+<h3 class="sub" id="s3d">▸ Il metodo della concorrenza</h3>
+
+<div class="box box-def">
+Il <strong>metodo della concorrenza</strong> è utilizzato principalmente dalle imprese ristorative di piccole dimensioni e consiste nel fissare i prezzi delle pietanze <strong>allo stesso livello dei prezzi delle imprese ristorative concorrenti</strong>.
+</div>
+
+<div class="box box-warn">
+È un metodo <strong>empirico</strong> perché non si basa sul calcolo dei costi e può portare a errori di valutazione nella determinazione dei prezzi. Le imprese hanno strutture organizzative e capacità professionali diverse e possono avere costi differenti a parità di prodotto o servizio ottenuto. Un prezzo/piatto potrebbe essere remunerativo per un ristorante e non per altri.
+</div>
+</section>
+<div class="sep"></div>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEZ 4 — PREZZO IMPRESE DI VIAGGIO -->
+<!-- ══════════════════════════════════ -->
+<section class="section" id="s4">
+<div class="sh"><div class="sn">04</div><div class="st">IL PREZZO NELLE IMPRESE DI VIAGGIO</div></div>
+
+<p>Le imprese di viaggio che svolgono attività di intermediazione pura (ADV) operano per conto dell'impresa che fornisce il servizio e percepiscono una <mark class="m">provvigione</mark>, cioè una percentuale calcolata sull'importo delle vendite effettuate ai clienti.</p>
+
+<p>Le imprese che producono e organizzano viaggi (TO e tour organizer) stipulano contratti per acquisire le prestazioni delle imprese fornitrici, le combinano e le rivendono ai clienti a un prezzo che comprende un margine di guadagno.</p>
+
+<!-- 4A — METODO DEL COSTO PIENO -->
+<h3 class="sub" id="s4a">▸ Il metodo del costo pieno</h3>
+
+<div class="box box-def">
+Il <strong>metodo del costo pieno</strong> è un metodo con il quale l'impresa di viaggio imputa all'oggetto di calcolo (viaggio organizzato, pacchetto turistico ecc.) i costi diretti e una quota di costi comuni, calcola il costo complessivo e aggiunge l'utile, calcolato come percentuale del costo complessivo.
+</div>
+
+<p>I costi diretti comprendono il trasporto, l'alloggio e i servizi accessori; i costi comuni riguardano l'amministrazione, la distribuzione e gli altri costi indiretti.</p>
+
+<!-- ESEMPIO MERTINI TRAVEL -->
+<div class="eh" id="s4ae"><span class="badge">ESEMPIO</span> COSTO PIENO — TO MERTINI TRAVEL SRL</div>
+
+<p>Il TO <strong>Mertini Travel srl</strong> vuole inserire nel catalogo tre pacchetti turistici di 7 giorni e 6 notti ad <mark class="c">Amsterdam</mark>, <mark class="m">Barcellona</mark> e nelle <mark class="g">Isole della Grecia</mark>. Costi comuni: 225.000 € ripartiti in proporzione al numero di pacchetti turistici. Utile: 10% del costo complessivo. Prezzo arrotondato a 10 euro.</p>
+
+<div class="tw"><table>
+<thead><tr><th>VOCE</th><th class="r">AMSTERDAM</th><th class="r">BARCELLONA</th><th class="r">ISOLE GRECIA</th></tr></thead>
+<tbody>
+<tr><td>Volo A/R</td><td class="num">145.000</td><td class="num">162.000</td><td class="num">180.000</td></tr>
+<tr><td>Transfer da e per aeroporto</td><td class="num">12.000</td><td class="num">15.000</td><td class="num">18.000</td></tr>
+<tr><td>Bus GT</td><td class="num">26.000</td><td class="num">24.000</td><td class="num">22.000</td></tr>
+<tr><td>Escursioni</td><td class="num">28.000</td><td class="num">21.000</td><td class="num">25.000</td></tr>
+<tr><td>Hotel</td><td class="num">480.000</td><td class="num">510.000</td><td class="num">624.000</td></tr>
+<tr><td>N° pacchetti (previsione vendite)</td><td class="num">1.400</td><td class="num">1.600</td><td class="num">1.500</td></tr>
+</tbody>
+</table></div>
+
+<h3 class="sub">▸ Riparto dei costi comuni</h3>
+<div class="mb">
+Coefficiente di riparto = 225.000 ÷ (1.400 + 1.600 + 1.500) = 225.000 ÷ 4.500 = <span class="mr">50</span><br><br>
+<span class="ml">Amsterdam:</span> 50 × 1.400 = <span class="mr">70.000 €</span><br>
+<span class="ml">Barcellona:</span> 50 × 1.600 = <span class="mr">80.000 €</span><br>
+<span class="ml">Isole Grecia:</span> 50 × 1.500 = <span class="mr">75.000 €</span>
+</div>
+
+<h3 class="sub">▸ Calcolo del costo complessivo e del ricavo di vendita</h3>
+<div class="tw"><table>
+<thead><tr><th>VOCE</th><th class="r">AMSTERDAM</th><th class="r">BARCELLONA</th><th class="r">ISOLE GRECIA</th></tr></thead>
+<tbody>
+<tr><td>Volo A/R</td><td class="num">145.000</td><td class="num">162.000</td><td class="num">180.000</td></tr>
+<tr><td>Transfer da e per aeroporto</td><td class="num">12.000</td><td class="num">15.000</td><td class="num">18.000</td></tr>
+<tr><td>Bus GT</td><td class="num">26.000</td><td class="num">24.000</td><td class="num">22.000</td></tr>
+<tr><td>Escursioni</td><td class="num">28.000</td><td class="num">21.000</td><td class="num">25.000</td></tr>
+<tr><td>Hotel</td><td class="num">480.000</td><td class="num">510.000</td><td class="num">624.000</td></tr>
+<tr class="sc"><td class="hc"><strong>Costo primo</strong></td><td class="num hc">691.000</td><td class="num hc">732.000</td><td class="num hc">869.000</td></tr>
+<tr><td>Costi comuni</td><td class="num">70.000</td><td class="num">80.000</td><td class="num">75.000</td></tr>
+<tr class="sm"><td class="hm"><strong>Costo complessivo</strong></td><td class="num hm">761.000</td><td class="num hm">812.000</td><td class="num hm">944.000</td></tr>
+<tr><td>Utile 10% del costo complessivo</td><td class="num">76.100</td><td class="num">81.200</td><td class="num">94.400</td></tr>
+<tr class="tot"><td class="hy"><strong>Ricavo di vendita</strong></td><td class="num hy">837.100</td><td class="num hy">893.200</td><td class="num hy">1.038.400</td></tr>
+</tbody>
+</table></div>
+
+<h3 class="sub">▸ Prezzo unitario dei pacchetti</h3>
+<div class="mb">
+<span class="ml">Amsterdam:</span> 837.100 ÷ 1.400 = 597,93 → arrotondato a <span class="mr">€ 600</span><br>
+<span class="ml">Barcellona:</span> 893.200 ÷ 1.600 = 558,25 → arrotondato a <span class="mr">€ 560</span><br>
+<span class="ml">Isole Grecia:</span> 1.038.400 ÷ 1.500 = 692,27 → arrotondato a <span class="mr">€ 690</span>
+</div>
+
+<!-- 4B — METODO DEL RICARICO -->
+<h3 class="sub" id="s4b">▸ Il metodo del ricarico</h3>
+
+<div class="box box-def">
+Il <strong>metodo del ricarico</strong> è un metodo con il quale l'impresa di viaggio fissa il prezzo di vendita <strong>aggiungendo ai costi diretti un ricarico</strong>, calcolato come percentuale dei costi diretti. Il ricarico è una percentuale in grado di coprire i costi comuni e assicurare un utile all'impresa di viaggio.
+</div>
+
+<div class="box box-formula">
+<strong>Prezzo complessivo</strong> = Totale costi diretti + Ricarico (% dei costi diretti)<br><br>
+<strong>Quota individuale</strong> = Prezzo complessivo ÷ Numero di partecipanti
+</div>
+
+<!-- ESEMPIO FERRARA ADV -->
+<div class="eh" id="s4be"><span class="badge">ESEMPIO</span> METODO DEL RICARICO — FERRARA ADV</div>
+
+<p>La <strong>Ferrara ADV</strong> di Paolo e Sara Usuelli snc organizza due viaggi a domanda con ricarico del <mark class="c">35%</mark> e quota individuale arrotondata a 5 euro.</p>
+
+<div class="sg2">
+<div class="sc2" style="border-color:var(--neon-cyan)">
+<h4 style="color:var(--neon-cyan)">SOGGIORNO A NAPOLI</h4>
+<p style="color:var(--text)">Gruppo di <strong style="color:#fff">25 persone</strong> · Bus GT 1.450 € · Hotel HB 4 notti × 40 €/notte × 25 persone · Visite guidate 500 €</p>
+</div>
+<div class="sc2" style="border-color:var(--neon-magenta)">
+<h4 style="color:var(--neon-magenta)">SOGGIORNO IN TRENTINO</h4>
+<p style="color:var(--text)">Gruppo di <strong style="color:#fff">42 persone</strong> · Bus GT 2.050 € · Hotel HB 5 notti × 55 €/notte × 42 persone · Escursioni 750 €</p>
+</div>
+</div>
+
+<h3 class="sub">▸ Viaggio a Napoli (25 persone)</h3>
+<div class="tw"><table>
+<thead><tr><th>VOCE</th><th class="r">€</th></tr></thead>
+<tbody>
+<tr><td>Bus GT</td><td class="num">1.450,00</td></tr>
+<tr><td>Hotel 40 € × 4 notti × 25 persone</td><td class="num">4.000,00</td></tr>
+<tr><td>Visite guidate</td><td class="num">500,00</td></tr>
+<tr class="sc"><td class="hc"><strong>Totale costi diretti</strong></td><td class="num hc">5.950,00</td></tr>
+<tr><td>Ricarico 35% di 5.950</td><td class="num">2.082,50</td></tr>
+<tr class="tot"><td class="hy"><strong>Prezzo complessivo</strong></td><td class="num hy">8.032,50</td></tr>
+</tbody>
+</table></div>
+
+<div class="mb">
+Quota individuale = 8.032,50 ÷ 25 = 321,30 € → arrotondato a <span class="mr">€ 320</span>
+</div>
+
+<h3 class="sub">▸ Viaggio in Trentino (42 persone)</h3>
+<div class="tw"><table>
+<thead><tr><th>VOCE</th><th class="r">€</th></tr></thead>
+<tbody>
+<tr><td>Bus GT</td><td class="num">2.050,00</td></tr>
+<tr><td>Hotel 55 € × 5 notti × 42 persone</td><td class="num">11.550,00</td></tr>
+<tr><td>Escursioni</td><td class="num">750,00</td></tr>
+<tr class="sc"><td class="hc"><strong>Totale costi diretti</strong></td><td class="num hc">14.350,00</td></tr>
+<tr><td>Ricarico 35% di 14.350</td><td class="num">5.022,50</td></tr>
+<tr class="tot"><td class="hy"><strong>Prezzo complessivo</strong></td><td class="num hy">19.372,50</td></tr>
+</tbody>
+</table></div>
+
+<div class="mb">
+Quota individuale = 19.372,50 ÷ 42 = 461,25 € → arrotondato a <span class="mr">€ 460</span>
+</div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="sn2">ISTITUTO AMERIGO VESPUCCI — MILANO</div>
+  Classe Quarta &nbsp;|&nbsp; ENO &nbsp;|&nbsp; DTA — Diritto e Tecniche Amministrative
+</footer>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+document.querySelectorAll('.sidebar a').forEach(a=>{a.addEventListener('click',()=>{if(window.innerWidth<=900)document.getElementById('sidebar').classList.remove('open')})});
+window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('pBar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%'});
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.style.opacity=1;el.target.style.transform='translateY(0)'}})},{threshold:.08});
+document.querySelectorAll('.section').forEach(s=>{s.style.opacity=0;s.style.transform='translateY(30px)';s.style.transition='opacity .6s ease, transform .6s ease';obs.observe(s)});
+const secs=document.querySelectorAll('section[id],h3[id],.hero[id],.eh[id]');
+const navs=document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.getAttribute('id')});navs.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+c)l.classList.add('active')})});
+</script>
+</body>
+</html>

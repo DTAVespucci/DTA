@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 1 — I Costi e la loro Classificazione | DTA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ───────── RESET & VARIABLES ───────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #12121a;
+  --bg-sidebar: #0e0e16;
+  --neon-cyan: #00f0ff;
+  --neon-magenta: #ff00aa;
+  --neon-yellow: #ffe600;
+  --neon-green: #39ff14;
+  --neon-orange: #ff6a00;
+  --neon-violet: #b44aff;
+  --text: #e8e8f0;
+  --text-dim: #8888aa;
+  --border: #1e1e30;
+  --glow-cyan: 0 0 20px rgba(0,240,255,.35);
+  --glow-magenta: 0 0 20px rgba(255,0,170,.35);
+  --glow-yellow: 0 0 20px rgba(255,230,0,.35);
+  --glow-green: 0 0 20px rgba(57,255,20,.35);
+  --glow-orange: 0 0 20px rgba(255,106,0,.35);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'Outfit', sans-serif;
+  --sidebar-w: 280px;
+  --header-h: 70px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ───────── BACKGROUND GRAIN ───────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ───────── HEADER ───────── */
+.top-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: rgba(10,10,15,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 1000;
+}
+.top-header .logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 3px;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+.top-header .subtitle {
+  margin-left: 1.2rem;
+  font-size: .85rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 8px;
+  z-index: 1100;
+}
+.hamburger span {
+  width: 26px; height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 2px;
+  transition: .3s;
+}
+
+/* ───────── SIDEBAR ───────── */
+.sidebar {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  width: var(--sidebar-w);
+  height: calc(100vh - var(--header-h));
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 1.5rem 0;
+  z-index: 900;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 4px; }
+
+.sidebar .nav-label {
+  font-family: var(--font-display);
+  font-size: .9rem;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  padding: 0 1.5rem;
+  margin-bottom: .8rem;
+}
+.sidebar a {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .6rem 1.5rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: .88rem;
+  font-weight: 400;
+  transition: .25s;
+  border-left: 3px solid transparent;
+}
+.sidebar a:hover, .sidebar a.active {
+  color: var(--neon-cyan);
+  border-left-color: var(--neon-cyan);
+  background: rgba(0,240,255,.04);
+}
+.sidebar a .nav-num {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  color: var(--neon-magenta);
+  min-width: 26px;
+  margin-top: 2px;
+}
+
+/* ───────── MAIN CONTENT ───────── */
+.main {
+  margin-left: var(--sidebar-w);
+  margin-top: var(--header-h);
+  padding: 3rem 3.5rem 6rem;
+  max-width: 960px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ───────── HERO ───────── */
+.hero {
+  text-align: center;
+  padding: 4rem 0 3rem;
+  animation: fadeSlide .8s ease-out;
+}
+.hero .lezione-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: 3px;
+  color: var(--neon-magenta);
+  border: 1px solid var(--neon-magenta);
+  padding: .3rem 1.2rem;
+  border-radius: 100px;
+  margin-bottom: 1.2rem;
+  text-shadow: var(--glow-magenta);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  letter-spacing: 4px;
+  line-height: 1.05;
+  color: #fff;
+  text-shadow: 0 0 40px rgba(0,240,255,.25);
+}
+.hero h1 span {
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+.hero .hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  margin-top: 1rem;
+  max-width: 550px;
+  margin-inline: auto;
+}
+
+/* ───────── SECTIONS ───────── */
+.section {
+  margin-bottom: 4.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlide .7s ease-out forwards;
+}
+.section:nth-child(2) { animation-delay: .1s; }
+.section:nth-child(3) { animation-delay: .15s; }
+.section:nth-child(4) { animation-delay: .2s; }
+.section:nth-child(5) { animation-delay: .25s; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--neon-magenta);
+  text-shadow: var(--glow-magenta);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.section p {
+  margin-bottom: 1.2rem;
+  font-size: .98rem;
+}
+
+/* ───────── BOX SYSTEM ───────── */
+.box {
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid;
+  position: relative;
+}
+.box::before {
+  font-family: var(--font-display);
+  font-size: .7rem;
+  letter-spacing: 3px;
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  padding: 0 .5rem;
+  border-radius: 4px;
+}
+.box-def {
+  background: rgba(0,240,255,.06);
+  border-color: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+.box-def::before {
+  content: 'DEFINIZIONE';
+  background: var(--neon-cyan);
+  color: var(--bg);
+}
+.box-example {
+  background: rgba(57,255,20,.05);
+  border-color: var(--neon-green);
+  box-shadow: var(--glow-green);
+}
+.box-example::before {
+  content: 'ESEMPIO';
+  background: var(--neon-green);
+  color: var(--bg);
+}
+.box-warn {
+  background: rgba(255,106,0,.06);
+  border-color: var(--neon-orange);
+  box-shadow: var(--glow-orange);
+}
+.box-warn::before {
+  content: 'ATTENZIONE';
+  background: var(--neon-orange);
+  color: var(--bg);
+}
+.box-formula {
+  background: rgba(180,74,255,.06);
+  border-color: var(--neon-violet);
+  box-shadow: 0 0 20px rgba(180,74,255,.25);
+}
+.box-formula::before {
+  content: 'FORMULA';
+  background: var(--neon-violet);
+  color: #fff;
+}
+.box strong, .box b {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ───────── TABLES ───────── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+thead {
+  background: linear-gradient(135deg, rgba(0,240,255,.12), rgba(255,0,170,.08));
+}
+thead th {
+  font-family: var(--font-display);
+  font-size: .85rem;
+  letter-spacing: 2px;
+  color: var(--neon-cyan);
+  padding: .9rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+tbody td {
+  padding: .75rem 1.2rem;
+  border-bottom: 1px solid rgba(30,30,48,.6);
+  vertical-align: top;
+}
+tbody tr:hover { background: rgba(0,240,255,.03); }
+tbody tr:last-child td { border-bottom: none; }
+td.highlight-cyan { color: var(--neon-cyan); font-weight: 600; }
+td.highlight-mag { color: var(--neon-magenta); font-weight: 600; }
+td.num { text-align: right; font-family: var(--font-mono); font-size: .85rem; }
+tr.total-row {
+  background: rgba(0,240,255,.06);
+  font-weight: 700;
+}
+tr.total-row td { border-top: 2px solid var(--neon-cyan); }
+tr.subtotal-row { font-weight: 600; }
+
+/* ───────── FLOW DIAGRAM ───────── */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  margin: 2rem 0;
+}
+.flow-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .6rem 1rem;
+  font-size: .82rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 100px;
+}
+.flow-arrow {
+  color: var(--neon-yellow);
+  font-size: 1.3rem;
+  text-shadow: var(--glow-yellow);
+}
+.flow-result {
+  background: linear-gradient(135deg, rgba(0,240,255,.15), rgba(255,0,170,.1));
+  border-color: var(--neon-cyan);
+  color: #fff;
+}
+
+/* ───────── PILL LIST ───────── */
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0;
+  list-style: none;
+}
+.pill-list li {
+  background: rgba(0,240,255,.08);
+  border: 1px solid rgba(0,240,255,.2);
+  border-radius: 100px;
+  padding: .35rem 1rem;
+  font-size: .82rem;
+  color: var(--neon-cyan);
+}
+
+/* ───────── SCHEMA BLOCKS ───────── */
+.schema-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+.schema-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.3rem;
+  transition: .3s;
+}
+.schema-card:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+  transform: translateY(-2px);
+}
+.schema-card h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: .6rem;
+}
+.schema-card p, .schema-card ul {
+  font-size: .88rem;
+  color: var(--text-dim);
+}
+.schema-card ul {
+  list-style: none;
+  padding: 0;
+}
+.schema-card ul li {
+  padding: .2rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+.schema-card ul li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--neon-magenta);
+  font-weight: 700;
+}
+.card-cyan h4 { color: var(--neon-cyan); }
+.card-mag h4 { color: var(--neon-magenta); }
+.card-green h4 { color: var(--neon-green); }
+.card-orange h4 { color: var(--neon-orange); }
+.card-yellow h4 { color: var(--neon-yellow); }
+.card-violet h4 { color: var(--neon-violet); }
+
+/* ───────── CONFIG FLOW DIAGRAM ───────── */
+.config-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 2rem 0;
+  align-items: center;
+}
+.config-step {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: .92rem;
+  position: relative;
+}
+.config-step.s1 {
+  background: rgba(0,240,255,.1);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+.config-step.s2 {
+  background: rgba(255,0,170,.1);
+  border: 1px solid var(--neon-magenta);
+  color: var(--neon-magenta);
+}
+.config-step.s3 {
+  background: rgba(255,230,0,.1);
+  border: 1px solid var(--neon-yellow);
+  color: var(--neon-yellow);
+}
+.config-arrow {
+  width: 2px;
+  height: 28px;
+  background: var(--text-dim);
+  position: relative;
+}
+.config-arrow::after {
+  content: '▼';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: .6rem;
+  color: var(--text-dim);
+}
+.config-plus {
+  font-family: var(--font-display);
+  font-size: .8rem;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  padding: .3rem 0;
+}
+
+/* ───────── FOOTER ───────── */
+.footer {
+  margin-left: var(--sidebar-w);
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+.footer .school-name {
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 4px;
+  margin-bottom: .5rem;
+}
+
+/* ───────── ANIMATIONS ───────── */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ───────── SCROLL SPY INDICATOR ───────── */
+.progress-bar {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+  z-index: 999;
+  transition: width .15s;
+  box-shadow: 0 0 10px rgba(0,240,255,.5);
+}
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 30px rgba(0,0,0,.7); }
+  .main { margin-left: 0; padding: 2rem 1.5rem 5rem; }
+  .footer { margin-left: 0; }
+  .hamburger { display: flex; }
+  .schema-grid { grid-template-columns: 1fr; }
+  .top-header .subtitle { display: none; }
+}
+@media (max-width: 500px) {
+  .main { padding: 1.5rem 1rem 4rem; }
+  .flow { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+}
+
+/* ───────── HIGHLIGHT MARKS ───────── */
+mark.cyan { background: transparent; color: var(--neon-cyan); font-weight: 600; }
+mark.mag { background: transparent; color: var(--neon-magenta); font-weight: 600; }
+mark.green { background: transparent; color: var(--neon-green); font-weight: 600; }
+mark.yellow { background: transparent; color: var(--neon-yellow); font-weight: 600; }
+mark.orange { background: transparent; color: var(--neon-orange); font-weight: 600; }
+mark.violet { background: transparent; color: var(--neon-violet); font-weight: 600; }
+
+/* sub-section titles */
+h3.sub {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  color: var(--neon-yellow);
+  margin: 2rem 0 .8rem;
+  text-shadow: var(--glow-yellow);
+}
+
+/* separator */
+.sep {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+  border-radius: 4px;
+  margin: 3rem auto;
+  box-shadow: 0 0 12px rgba(0,240,255,.4);
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header class="top-header">
+  <div class="logo">DTA</div>
+  <div class="subtitle">DIRITTO E TECNICHE AMMINISTRATIVE</div>
+  <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="nav-label">INDICE</div>
+  <a href="#intro"><span class="nav-num">00</span> Introduzione</a>
+  <a href="#s1"><span class="nav-num">01</span> Il costo</a>
+  <a href="#s1-ogg"><span class="nav-num">01.1</span> Oggetto di calcolo</a>
+  <a href="#s1-imp"><span class="nav-num">01.2</span> Imputazione</a>
+  <a href="#s2"><span class="nav-num">02</span> Costi fissi e variabili</a>
+  <a href="#s2-fissi"><span class="nav-num">02.1</span> Costi fissi</a>
+  <a href="#s2-var"><span class="nav-num">02.2</span> Costi variabili</a>
+  <a href="#s3"><span class="nav-num">03</span> Costi diretti e indiretti</a>
+  <a href="#s3-dir"><span class="nav-num">03.1</span> Costi diretti</a>
+  <a href="#s3-ind"><span class="nav-num">03.2</span> Costi indiretti</a>
+  <a href="#s4"><span class="nav-num">04</span> Configurazioni di costo</a>
+  <a href="#s4-primo"><span class="nav-num">04.1</span> Costo primo</a>
+  <a href="#s4-compl"><span class="nav-num">04.2</span> Costo complessivo</a>
+  <a href="#s4-eco"><span class="nav-num">04.3</span> Costo economico-tecnico</a>
+  <a href="#s4-esempio"><span class="nav-num">04.4</span> Esempio svolto</a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="intro">
+    <div class="lezione-tag">LEZIONE 01 — MODULO 2</div>
+    <h1>I COSTI E LA LORO<br><span>CLASSIFICAZIONE</span></h1>
+    <p class="hero-sub">L'analisi dei costi delle imprese turistico-ristorative: definizioni, classificazioni e configurazioni di costo.</p>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 1 — IL COSTO -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">IL COSTO</div>
+    </div>
+
+    <div class="box box-def">
+      Il <strong>costo</strong> è il valore attribuito ai fattori produttivi utilizzati per ottenere prodotti o servizi o per il funzionamento di un settore aziendale. L'entità di cui si vuole determinare il costo si definisce <strong>oggetto di calcolo</strong>.
+    </div>
+
+    <p>Le informazioni di tipo quantitativo su costi e ricavi provengono dalla <mark class="cyan">contabilità gestionale</mark>, che è l'insieme di tecniche e strumenti con i quali si calcolano i costi e i ricavi dell'impresa. Il soggetto che dirige l'impresa utilizzerà queste informazioni per effettuare scelte di convenienza economica.</p>
+
+    <p>Il calcolo dei costi è utile in diverse situazioni: ad esempio, se si vogliono individuare sprechi e <mark class="orange">inefficienze</mark> nella gestione, oppure se si vuole determinare il prezzo di vendita di un prodotto o di un servizio.</p>
+
+    <div class="box box-example">
+      <strong>Esempio pratico:</strong> Il calcolo del costo medio per letto permette al titolare di un hotel di verificare l'andamento della gestione: un aumento del costo medio, a parità delle altre condizioni, segnala l'esistenza di probabili inefficienze nel settore camere. Allo stesso modo, la determinazione del costo complessivo di una pietanza permette al ristoratore di fissare il prezzo di vendita a un livello superiore al costo.
+    </div>
+
+    <!-- 1.1 OGGETTO DI CALCOLO -->
+    <h3 class="sub" id="s1-ogg">▸ L'oggetto di calcolo</h3>
+
+    <p>Un oggetto di calcolo può essere costituito da:</p>
+
+    <div class="schema-grid">
+      <div class="schema-card card-cyan">
+        <h4>UN PRODOTTO O SERVIZIO</h4>
+        <p>Un singolo piatto, un menu offerto ai clienti, un pacchetto turistico, un soggiorno in hotel ecc.</p>
+      </div>
+      <div class="schema-card card-mag">
+        <h4>UN INSIEME DI PRODOTTI/SERVIZI</h4>
+        <p>Un menu completo per un evento, un pacchetto "all inclusive" per un tour operator, un servizio catering.</p>
+      </div>
+      <div class="schema-card card-green">
+        <h4>UN SETTORE AZIENDALE</h4>
+        <p>Il costo del settore camere, il costo del settore food & beverage, il costo del settore spa e wellness.</p>
+      </div>
+      <div class="schema-card card-orange">
+        <h4>UN EVENTO O OCCASIONE</h4>
+        <p>Un banchetto nuziale, una cena di gala per 200 persone, un congresso con servizio catering.</p>
+      </div>
+    </div>
+
+    <!-- 1.2 IMPUTAZIONE -->
+    <h3 class="sub" id="s1-imp">▸ L'imputazione dei costi</h3>
+
+    <p>Una volta definito l'oggetto di calcolo, si attribuiscono a tale oggetto i costi sostenuti attraverso un procedimento che prende il nome di <mark class="cyan">imputazione</mark>.</p>
+
+    <div class="flow">
+      <div class="flow-item">Materie prime</div>
+      <div class="flow-item">Costi del lavoro</div>
+      <div class="flow-item">Costi per servizi</div>
+      <div class="flow-item">Ammortamenti</div>
+      <div class="flow-item">Altri costi</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item" style="font-family:var(--font-display);letter-spacing:1px;font-size:.7rem;color:var(--neon-yellow);">IMPUTAZIONE</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item flow-result">OGGETTO DI CALCOLO<br><small style="font-weight:300;font-size:.75rem;">(prodotto, servizio, settore)</small></div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 2 — COSTI FISSI E VARIABILI -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">COSTI FISSI E COSTI VARIABILI</div>
+    </div>
+
+    <p>In base al variare del <mark class="cyan">volume di produzione</mark>, i costi si distinguono in <strong>fissi</strong> e <strong>variabili</strong>.</p>
+
+    <!-- FISSI -->
+    <h3 class="sub" id="s2-fissi">▸ I costi fissi</h3>
+
+    <div class="box box-def">
+      I <strong>costi fissi</strong> sono quei costi che entro determinati limiti <strong>non variano</strong> al variare del volume di produzione. Sono detti anche <em>costi di struttura</em> perché dipendono dalle dimensioni dell'impresa.
+    </div>
+
+    <p>Un ristorante con 250 posti a sedere avrà costi fissi più alti di un ristorante con 40 posti a sedere. Il canone di locazione di un fabbricato di un hotel deve essere pagato dal titolare anche se l'hotel rimane chiuso.</p>
+
+    <div class="box box-example">
+      <strong>Costi fissi tipici delle imprese turistico-ristorative:</strong><br>
+      Ammortamenti delle immobilizzazioni (fabbricati, impianti, attrezzature, arredamento, biancheria ecc.) · Stipendi pagati al personale dipendente con contratto a tempo indeterminato · Fitti passivi, canoni di leasing · Premi di assicurazione · Costi di pubblicità · Interessi passivi.
+    </div>
+
+    <!-- VARIABILI -->
+    <h3 class="sub" id="s2-var">▸ I costi variabili</h3>
+
+    <div class="box box-def">
+      I <strong>costi variabili</strong> sono quei costi che <strong>variano al variare del volume di produzione</strong>. Aumentano se aumenta la clientela e diminuiscono in caso contrario.
+    </div>
+
+    <div class="box box-example">
+      <strong>Costi variabili tipici delle imprese turistico-ristorative:</strong><br>
+      Costi per l'acquisto di materie prime (generi alimentari, bevande ecc.) · Costi per l'acquisto di materiale di consumo (detersivi, shampoo, saponi ecc.) · Stipendi pagati al personale stagionale · Provvigioni a favore degli intermediari.
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>CARATTERISTICA</th>
+            <th style="color:var(--neon-cyan)">COSTI FISSI</th>
+            <th style="color:var(--neon-magenta)">COSTI VARIABILI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Variazione con il volume</td>
+            <td class="highlight-cyan">Non variano (entro certi limiti)</td>
+            <td class="highlight-mag">Variano proporzionalmente</td>
+          </tr>
+          <tr>
+            <td>Altro nome</td>
+            <td>Costi di struttura</td>
+            <td>Costi operativi</td>
+          </tr>
+          <tr>
+            <td>Esempio ristorante</td>
+            <td>Affitto del locale, ammortamento forni</td>
+            <td>Generi alimentari, personale extra</td>
+          </tr>
+          <tr>
+            <td>Esempio hotel</td>
+            <td>Canone di locazione, assicurazione</td>
+            <td>Biancheria monouso, prodotti per pulizia</td>
+          </tr>
+          <tr>
+            <td>Se l'attività è chiusa…</td>
+            <td class="highlight-cyan">Si sostengono comunque</td>
+            <td class="highlight-mag">Non si sostengono</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 3 — COSTI DIRETTI E INDIRETTI -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">COSTI DIRETTI E COSTI INDIRETTI</div>
+    </div>
+
+    <p>In base a come si attribuiscono all'oggetto di calcolo, i costi si distinguono in <strong>diretti</strong> e <strong>indiretti</strong>.</p>
+
+    <!-- DIRETTI -->
+    <h3 class="sub" id="s3-dir">▸ I costi diretti</h3>
+
+    <div class="box box-def">
+      I <strong>costi diretti</strong> sono quei costi che si attribuiscono in modo <strong>esclusivo e immediato</strong> all'oggetto di calcolo.
+    </div>
+
+    <p>Se un ristorante sta calcolando il costo di un primo piatto, la pasta e gli ingredienti del condimento sono costi diretti perché sono riferibili esclusivamente a quel piatto.</p>
+
+    <div class="schema-card card-cyan" style="margin:1.5rem 0;">
+      <h4>COSTI DIRETTI DELLE IMPRESE TURISTICO-RISTORATIVE</h4>
+      <ul>
+        <li>Costi delle materie prime e delle bevande utilizzate per la produzione dei pasti</li>
+        <li>Costi del lavoro diretto (personale addetto alla preparazione di un pasto, personale di front office nel calcolo del costo di un viaggio organizzato ecc.)</li>
+        <li>Per le imprese ricettive e ristorative: il materiale di cortesia, il costo di pieghevoli e dépliant, le provvigioni pagate alle ADV</li>
+        <li>Per le imprese di viaggio: l'acquisto di servizi di trasporto, alberghieri, interpreti, guide ecc.</li>
+      </ul>
+    </div>
+
+    <!-- INDIRETTI -->
+    <h3 class="sub" id="s3-ind">▸ I costi indiretti</h3>
+
+    <div class="box box-def">
+      I <strong>costi indiretti</strong> sono i costi <strong>comuni a più oggetti di calcolo</strong> e i <strong>costi generali</strong>, che si riferiscono all'intera azienda. Questi costi devono essere ripartiti fra più oggetti, nel senso che bisogna imputare a ciascun oggetto solo una quota di costi indiretti.
+    </div>
+
+    <div class="box box-example">
+      <strong>Esempio:</strong> Se stiamo calcolando il costo del settore camere di un hotel, lo stipendio del direttore dell'hotel — che ha lavorato per organizzare anche gli altri settori — è un costo indiretto. Al settore camere si attribuirà solo una <em>quota</em> del suo stipendio.
+    </div>
+
+    <div class="schema-card card-mag" style="margin:1.5rem 0;">
+      <h4>COSTI INDIRETTI DELLE IMPRESE TURISTICO-RISTORATIVE</h4>
+      <ul>
+        <li>Costi comuni di produzione: ammortamenti fabbricati, macchinari, attrezzature, manutenzioni, fitti passivi, canoni di leasing, costi per energia e servizi, costi del personale addetto a più reparti</li>
+        <li>Costi comuni di amministrazione: ammortamenti, costi per servizi e costi del personale amministrativo</li>
+        <li>Costi comuni di distribuzione: ammortamenti, costi per servizi e costi del personale del settore commerciale e marketing</li>
+        <li>Oneri finanziari</li>
+        <li>Oneri tributari</li>
+      </ul>
+    </div>
+
+    <div class="box box-warn">
+      La distinzione tra costi diretti e indiretti è fondamentale nella fase di calcolo delle <strong>configurazioni di costo</strong>. Il criterio di classificazione non è assoluto: un costo può essere diretto rispetto a un oggetto di calcolo e indiretto rispetto a un altro.
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>CARATTERISTICA</th>
+            <th style="color:var(--neon-cyan)">COSTI DIRETTI</th>
+            <th style="color:var(--neon-magenta)">COSTI INDIRETTI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Attribuzione</td>
+            <td class="highlight-cyan">Esclusiva e immediata</td>
+            <td class="highlight-mag">Ripartita tra più oggetti</td>
+          </tr>
+          <tr>
+            <td>Riferimento</td>
+            <td>Un solo oggetto di calcolo</td>
+            <td>Più oggetti / intera azienda</td>
+          </tr>
+          <tr>
+            <td>Esempio (ristorante)</td>
+            <td>Farina per la pizza margherita</td>
+            <td>Affitto del locale, stipendio del direttore</td>
+          </tr>
+          <tr>
+            <td>Modalità di calcolo</td>
+            <td class="highlight-cyan">Si sommano direttamente</td>
+            <td class="highlight-mag">Si ripartiscono con criteri di riparto</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SEZIONE 4 — LE CONFIGURAZIONI DI COSTO -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title">LE CONFIGURAZIONI DI COSTO</div>
+    </div>
+
+    <div class="box box-def">
+      Le <strong>configurazioni di costo</strong> sono un insieme di costi diretti e indiretti che si riferiscono a un oggetto di calcolo e che possono comprendere <strong>tutti i costi sostenuti</strong> o possono comprendere solo alcuni costi ed escluderne altri.
+    </div>
+
+    <p>Le configurazioni di costo rappresentano i diversi livelli di aggregazione dei costi e sono fondamentali per prendere decisioni gestionali consapevoli.</p>
+
+    <!-- SCHEMA VISUALE CONFIGURAZIONI -->
+    <div class="config-flow">
+      <div class="config-step s1">
+        <strong>COSTO PRIMO</strong><br>
+        <small style="font-weight:300;font-size:.82rem;">Materie prime + Lavoro diretto + Altri costi diretti di produzione</small>
+      </div>
+      <div class="config-arrow"></div>
+      <div class="config-plus">+ COSTI INDIRETTI</div>
+      <div class="config-arrow"></div>
+      <div class="config-step s2">
+        <strong>COSTO COMPLESSIVO</strong><br>
+        <small style="font-weight:300;font-size:.82rem;">Costo primo + Costi indiretti (produzione, amministrazione, distribuzione, oneri)</small>
+      </div>
+      <div class="config-arrow"></div>
+      <div class="config-plus">+ ONERI FIGURATIVI</div>
+      <div class="config-arrow"></div>
+      <div class="config-step s3">
+        <strong>COSTO ECONOMICO-TECNICO</strong><br>
+        <small style="font-weight:300;font-size:.82rem;">Costo complessivo + Stipendio direzionale + Fitto figurativo + Interesse di computo</small>
+      </div>
+    </div>
+
+    <!-- 4.1 COSTO PRIMO -->
+    <h3 class="sub" id="s4-primo">▸ Il costo primo</h3>
+
+    <div class="box box-def">
+      Il <strong>costo primo</strong> si ottiene <strong>sommando i costi diretti di produzione</strong> sostenuti dall'impresa per ottenere un bene o un servizio. Comprende i costi di produzione direttamente riferibili all'oggetto di calcolo.
+    </div>
+
+    <div class="box box-example">
+      <strong>Esempio:</strong> Il costo primo di un menu si ottiene sommando i costi delle materie prime alimentari impiegate e degli altri costi riferibili in modo diretto alla realizzazione del menu. Il calcolo del costo primo non presenta problemi di particolare complessità: basta sommare i costi di produzione che si riferiscono direttamente all'oggetto di calcolo.
+    </div>
+
+    <div class="box box-formula">
+      <strong>COSTO PRIMO</strong> = Materie prime + Lavoro diretto + Altri costi diretti di produzione
+    </div>
+
+    <!-- 4.2 COSTO COMPLESSIVO -->
+    <h3 class="sub" id="s4-compl">▸ Il costo complessivo</h3>
+
+    <div class="box box-def">
+      Il <strong>costo complessivo</strong> si ottiene aggiungendo al costo primo una <strong>quota di costi indiretti</strong>: costi comuni o generali di produzione, costi di amministrazione, costi di distribuzione, oneri finanziari, oneri tributari.
+    </div>
+
+    <p>Poiché i costi indiretti si riferiscono a più prodotti/servizi o all'impresa nel suo complesso, la quota da attribuire all'oggetto di calcolo deve essere determinata attraverso un <mark class="cyan">procedimento di riparto</mark>.</p>
+
+    <div class="box box-formula">
+      <strong>COSTO COMPLESSIVO</strong> = Costo primo + Quota costi indiretti (produzione + amministrazione + distribuzione + oneri finanziari + oneri tributari)
+    </div>
+
+    <!-- 4.3 COSTO ECONOMICO-TECNICO -->
+    <h3 class="sub" id="s4-eco">▸ Il costo economico-tecnico</h3>
+
+    <div class="box box-def">
+      Il <strong>costo economico-tecnico</strong> si ottiene aggiungendo al costo complessivo gli <strong>oneri figurativi</strong>, cioè le spese non sostenute realmente che corrispondono a mancati ricavi per l'imprenditore.
+    </div>
+
+    <p>Il costo economico-tecnico rappresenta il <mark class="orange">limite minimo</mark> per la determinazione del prezzo di vendita. Se il prezzo di vendita è inferiore al costo economico-tecnico, l'attività non è remunerativa.</p>
+
+    <div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="schema-card card-violet">
+        <h4>STIPENDIO DIREZIONALE</h4>
+        <p>Lo stipendio del titolare che lavora nell'impresa. In realtà non è uno stipendio fisso, ma l'utile conseguito. Si calcola come lo stipendio che otterrebbe dirigendo un'altra impresa simile.</p>
+      </div>
+      <div class="schema-card card-yellow">
+        <h4>FITTO FIGURATIVO</h4>
+        <p>Il fitto sul fabbricato di proprietà. Se l'impresa svolge la propria attività in un fabbricato di proprietà, il fitto figurativo corrisponde a quanto l'imprenditore "perde" non potendo dare in locazione l'immobile ad altri.</p>
+      </div>
+      <div class="schema-card card-green">
+        <h4>INTERESSE DI COMPUTO</h4>
+        <p>L'interesse sui capitali investiti nell'impresa. L'imprenditore "perde" l'interesse che otterrebbe investendo quei capitali in attività finanziarie a rischio limitato (es. titoli di Stato).</p>
+      </div>
+    </div>
+
+    <div class="box box-formula">
+      <strong>COSTO ECONOMICO-TECNICO</strong> = Costo complessivo + Stipendio direzionale + Fitto figurativo + Interesse di computo
+    </div>
+
+    <!-- 4.4 ESEMPIO SVOLTO -->
+    <h3 class="sub" id="s4-esempio">▸ Esempio svolto: evento danzante per 140 persone</h3>
+
+    <p>Il titolare di un ristorante ha rilevato i seguenti costi relativi a un evento danzante al quale partecipano <mark class="cyan">140 persone</mark>: generi alimentari e bevande 1.150 euro, costi per intrattenimento 400 euro, costi diretti del personale di cucina e di sala 1.400 euro, altri costi diretti di produzione 120 euro, costi indiretti di amministrazione e distribuzione 650 euro, altri costi indiretti 480 euro. Gli oneri figurativi sono stimati nel <mark class="mag">10%</mark> del costo complessivo.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:65%">VOCE DI COSTO</th>
+            <th style="width:35%;text-align:right">IMPORTO (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Generi alimentari e bevande</td>
+            <td class="num">1.150,00</td>
+          </tr>
+          <tr>
+            <td>Costi per intrattenimento</td>
+            <td class="num">400,00</td>
+          </tr>
+          <tr>
+            <td>Costi diretti del personale di cucina e di sala</td>
+            <td class="num">1.400,00</td>
+          </tr>
+          <tr>
+            <td>Altri costi diretti di produzione</td>
+            <td class="num">120,00</td>
+          </tr>
+          <tr class="subtotal-row" style="background:rgba(0,240,255,.06);">
+            <td class="highlight-cyan">COSTO PRIMO</td>
+            <td class="num highlight-cyan">3.070,00</td>
+          </tr>
+          <tr>
+            <td>Costi indiretti di amministrazione e distribuzione</td>
+            <td class="num">650,00</td>
+          </tr>
+          <tr>
+            <td>Altri costi indiretti</td>
+            <td class="num">480,00</td>
+          </tr>
+          <tr class="subtotal-row" style="background:rgba(255,0,170,.06);">
+            <td class="highlight-mag">COSTO COMPLESSIVO</td>
+            <td class="num highlight-mag">4.200,00</td>
+          </tr>
+          <tr>
+            <td>Oneri figurativi (10% di 4.200,00 euro)</td>
+            <td class="num">420,00</td>
+          </tr>
+          <tr class="total-row">
+            <td style="color:var(--neon-yellow);">COSTO ECONOMICO-TECNICO</td>
+            <td class="num" style="color:var(--neon-yellow);">4.620,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schema-grid">
+      <div class="schema-card card-mag">
+        <h4>COSTO COMPLESSIVO PER PERSONA</h4>
+        <p style="font-family:var(--font-mono);font-size:1.1rem;color:var(--neon-magenta);margin-top:.5rem;">4.200 ÷ 140 = <strong>€ 30,00</strong></p>
+      </div>
+      <div class="schema-card card-yellow">
+        <h4>COSTO ECO-TECNICO PER PERSONA</h4>
+        <p style="font-family:var(--font-mono);font-size:1.1rem;color:var(--neon-yellow);margin-top:.5rem;">4.620 ÷ 140 = <strong>€ 33,00</strong></p>
+      </div>
+    </div>
+
+    <div class="box box-warn">
+      Con un costo complessivo per persona di <strong>30 euro</strong>, un prezzo di vendita inferiore ai <strong>33 euro</strong> (costo economico-tecnico per persona) farebbe sì che l'utile risulterebbe inferiore agli oneri figurativi (stipendio direzionale, fitto figurativo e interesse di computo), rendendo l'attività <strong>non remunerativa</strong>. Il costo economico-tecnico è il livello minimo del prezzo di vendita.
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="school-name">ISTITUTO AMERIGO VESPUCCI — MILANO</div>
+  Classe Quarta &nbsp;|&nbsp; ENO &nbsp;|&nbsp; DTA — Diritto e Tecniche Amministrative
+</footer>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- JAVASCRIPT -->
+<!-- ═══════════════════════════════════════ -->
+<script>
+// Sidebar toggle (mobile)
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+// Close sidebar on link click (mobile)
+document.querySelectorAll('.sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (window.innerWidth <= 900) {
+      document.getElementById('sidebar').classList.remove('open');
+    }
+  });
+});
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// Scroll-based fade-in
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = 1;
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.section').forEach(s => {
+  s.style.opacity = 0;
+  s.style.transform = 'translateY(30px)';
+  s.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(s);
+});
+
+// Active nav highlight
+const sections = document.querySelectorAll('section[id], h3[id], .hero[id]');
+const navLinks = document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
