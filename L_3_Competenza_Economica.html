@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Principio di Competenza Economica | DTA — Classe Terza</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg-card:#12121a;--bg-sidebar:#0e0e16;--neon-cyan:#00f0ff;--neon-magenta:#ff00aa;--neon-yellow:#ffe600;--neon-green:#39ff14;--neon-orange:#ff6a00;--neon-violet:#b44aff;--text:#e8e8f0;--text-dim:#8888aa;--border:#1e1e30;--glow-cyan:0 0 20px rgba(0,240,255,.35);--glow-magenta:0 0 20px rgba(255,0,170,.35);--glow-yellow:0 0 20px rgba(255,230,0,.35);--glow-green:0 0 20px rgba(57,255,20,.35);--glow-orange:0 0 20px rgba(255,106,0,.35);--font-display:'Bebas Neue',sans-serif;--font-mono:'JetBrains Mono',monospace;--font-body:'Outfit',sans-serif;--sidebar-w:270px;--header-h:70px}
+html{scroll-behavior:smooth}body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.8;font-weight:300;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.top-header{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:rgba(10,10,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;z-index:1000}.top-header .logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:3px;color:var(--neon-cyan);text-shadow:var(--glow-cyan)}.top-header .subtitle{margin-left:1.2rem;font-size:.85rem;color:var(--text-dim);letter-spacing:1px}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;margin-left:auto;padding:8px;z-index:1100}.hamburger span{width:26px;height:2px;background:var(--neon-cyan);border-radius:2px;transition:.3s}
+.sidebar{position:fixed;top:var(--header-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--header-h));background:var(--bg-sidebar);border-right:1px solid var(--border);overflow-y:auto;padding:1.5rem 0;z-index:900;transition:transform .35s cubic-bezier(.4,0,.2,1)}.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--neon-cyan);border-radius:4px}
+.sidebar .nl{font-family:var(--font-display);font-size:.85rem;letter-spacing:4px;color:var(--text-dim);padding:0 1.2rem;margin-bottom:.6rem;margin-top:1rem}
+.sidebar a{display:flex;align-items:flex-start;gap:.5rem;padding:.45rem 1.2rem;color:var(--text-dim);text-decoration:none;font-size:.78rem;font-weight:400;transition:.25s;border-left:3px solid transparent}
+.sidebar a:hover,.sidebar a.active{color:var(--neon-cyan);border-left-color:var(--neon-cyan);background:rgba(0,240,255,.04)}
+.sidebar a .n{font-family:var(--font-mono);font-size:.65rem;color:var(--neon-magenta);min-width:22px;margin-top:2px}
+.main{margin-left:var(--sidebar-w);margin-top:var(--header-h);padding:3rem 3.5rem 6rem;max-width:960px;position:relative;z-index:1}
+.hero{text-align:center;padding:4rem 0 3rem;animation:fadeSlide .8s ease-out}.hero .tag{display:inline-block;font-family:var(--font-mono);font-size:.75rem;letter-spacing:3px;color:var(--neon-magenta);border:1px solid var(--neon-magenta);padding:.3rem 1.2rem;border-radius:100px;margin-bottom:1.2rem;text-shadow:var(--glow-magenta)}.hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,4rem);letter-spacing:4px;line-height:1.05;color:#fff;text-shadow:0 0 40px rgba(0,240,255,.25)}.hero h1 span{color:var(--neon-cyan);text-shadow:var(--glow-cyan)}.hero .hsub{font-size:1rem;color:var(--text-dim);margin-top:1rem;max-width:660px;margin-inline:auto}
+.section{margin-bottom:4rem;opacity:0;transform:translateY(30px)}.sh{display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}.snum{font-family:var(--font-display);font-size:2.8rem;line-height:1;color:var(--neon-magenta);text-shadow:var(--glow-magenta)}.stit{font-family:var(--font-display);font-size:clamp(1.3rem,3vw,2.1rem);letter-spacing:2px;color:#fff}
+.section p{margin-bottom:1.1rem;font-size:.95rem}
+.box{border-radius:12px;padding:1.3rem 1.5rem;margin:1.4rem 0;border-left:4px solid;position:relative}.box::before{font-family:var(--font-display);font-size:.65rem;letter-spacing:3px;position:absolute;top:-10px;left:14px;padding:0 .5rem;border-radius:4px}
+.bdef{background:rgba(0,240,255,.06);border-color:var(--neon-cyan);box-shadow:var(--glow-cyan)}.bdef::before{content:'DEFINIZIONE';background:var(--neon-cyan);color:var(--bg)}
+.bex{background:rgba(57,255,20,.05);border-color:var(--neon-green);box-shadow:var(--glow-green)}.bex::before{content:'ESEMPIO';background:var(--neon-green);color:var(--bg)}
+.bwarn{background:rgba(255,106,0,.06);border-color:var(--neon-orange);box-shadow:var(--glow-orange)}.bwarn::before{content:'ATTENZIONE';background:var(--neon-orange);color:var(--bg)}
+.bform{background:rgba(180,74,255,.06);border-color:var(--neon-violet);box-shadow:0 0 20px rgba(180,74,255,.25)}.bform::before{content:'FORMULA';background:var(--neon-violet);color:#fff}
+.bkey{background:rgba(255,230,0,.06);border-color:var(--neon-yellow);box-shadow:var(--glow-yellow)}.bkey::before{content:'CONCETTO CHIAVE';background:var(--neon-yellow);color:var(--bg)}
+.blaw{background:rgba(0,240,255,.04);border-color:#4488cc;box-shadow:0 0 15px rgba(68,136,204,.2)}.blaw::before{content:'FONTE NORMATIVA';background:#4488cc;color:#fff}
+.box strong,.box b{color:#fff;font-weight:600}
+.tw{overflow-x:auto;margin:1.4rem 0;border-radius:12px;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;font-size:.87rem}thead{background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,0,170,.08))}thead th{font-family:var(--font-display);font-size:.78rem;letter-spacing:2px;color:var(--neon-cyan);padding:.8rem 1rem;text-align:left;border-bottom:1px solid var(--border)}thead th.r{text-align:right}tbody td{padding:.65rem 1rem;border-bottom:1px solid rgba(30,30,48,.6);vertical-align:top}tbody tr:hover{background:rgba(0,240,255,.03)}tbody tr:last-child td{border-bottom:none}
+td.hc{color:var(--neon-cyan);font-weight:600}td.hm{color:var(--neon-magenta);font-weight:600}td.hg{color:var(--neon-green);font-weight:600}td.hy{color:var(--neon-yellow);font-weight:600}td.num{text-align:right;font-family:var(--font-mono);font-size:.84rem}tr.tot{background:rgba(0,240,255,.06);font-weight:700}tr.tot td{border-top:2px solid var(--neon-cyan)}tr.sc{background:rgba(0,240,255,.04)}tr.sm{background:rgba(255,0,170,.04)}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin:1.4rem 0}.sg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.1rem;margin:1.4rem 0}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;transition:.3s}.card:hover{border-color:var(--neon-cyan);box-shadow:var(--glow-cyan);transform:translateY(-2px)}.card h4{font-family:var(--font-display);font-size:.9rem;letter-spacing:2px;margin-bottom:.5rem}.card p,.card ul{font-size:.85rem;color:var(--text-dim)}.card ul{list-style:none;padding:0}.card ul li{padding:.15rem 0 .15rem 1rem;position:relative}.card ul li::before{content:'›';position:absolute;left:0;color:var(--neon-magenta);font-weight:700}
+.mb{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.3rem;margin:1.1rem 0;font-family:var(--font-mono);font-size:.84rem;line-height:2;color:var(--text);overflow-x:auto}.mr{color:var(--neon-cyan);font-weight:700}.ml{color:var(--text-dim);font-size:.76rem;font-family:var(--font-body)}
+.pd{margin:1.1rem 0;border:1px solid var(--border);border-radius:10px;overflow:hidden}.pd-header{background:linear-gradient(135deg,rgba(0,240,255,.1),rgba(255,0,170,.06));padding:.55rem 1rem;font-family:var(--font-display);font-size:.75rem;letter-spacing:2px;color:var(--neon-cyan);display:flex;justify-content:space-between}
+.pd-row{display:grid;grid-template-columns:55px 1fr auto 75px 75px;padding:.45rem 1rem;border-bottom:1px solid rgba(30,30,48,.4);font-size:.83rem;align-items:center}.pd-row:last-child{border-bottom:none}.pd-date{font-family:var(--font-mono);font-size:.75rem;color:var(--text-dim)}.pd-account{font-weight:400}.pd-note{font-size:.72rem;color:var(--text-dim);font-style:italic}.pd-dare{text-align:right;font-family:var(--font-mono);font-size:.82rem;color:var(--neon-cyan);font-weight:600}.pd-avere{text-align:right;font-family:var(--font-mono);font-size:.82rem;color:var(--neon-magenta);font-weight:600}
+.timeline{display:flex;align-items:center;margin:1.4rem 0;padding:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;gap:.3rem;flex-wrap:wrap;justify-content:center}.tl-date{font-family:var(--font-mono);font-size:.78rem;color:var(--neon-cyan);padding:.3rem .6rem;background:rgba(0,240,255,.1);border-radius:6px;white-space:nowrap}.tl-bar{height:6px;border-radius:3px;flex:1;min-width:40px}.tl-bar.comp{background:var(--neon-green);box-shadow:var(--glow-green)}.tl-bar.nocomp{background:rgba(255,255,255,.08)}.tl-label{font-size:.7rem;color:var(--text-dim);text-align:center;width:100%;margin-top:.3rem}
+.quiz{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin:1.8rem 0}.quiz-title{font-family:var(--font-display);font-size:.95rem;letter-spacing:2px;color:var(--neon-yellow);margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem}.quiz-title .qb{background:var(--neon-yellow);color:var(--bg);font-size:.6rem;letter-spacing:3px;padding:.2rem .6rem;border-radius:4px}.quiz-q{font-size:.92rem;margin-bottom:.8rem}.quiz-opts{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.8rem}.quiz-opt{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:.65rem 1rem;cursor:pointer;transition:.2s;font-size:.88rem}.quiz-opt:hover{border-color:var(--neon-cyan);background:rgba(0,240,255,.04)}.quiz-opt.correct{border-color:var(--neon-green);background:rgba(57,255,20,.1);color:var(--neon-green)}.quiz-opt.wrong{border-color:var(--neon-orange);background:rgba(255,106,0,.08);color:var(--neon-orange)}.quiz-opt.disabled{pointer-events:none;opacity:.7}.quiz-fb{font-size:.86rem;padding:.8rem 1rem;border-radius:8px;margin-top:.5rem;display:none}.quiz-fb.show{display:block}.quiz-fb.ok{background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.3);color:var(--neon-green)}.quiz-fb.ko{background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.3);color:var(--neon-orange)}
+.calc-ex{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin:1.8rem 0}.calc-ex input[type="number"]{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:.45rem .7rem;color:var(--text);font-family:var(--font-mono);font-size:.88rem;width:110px;text-align:right}.calc-ex input:focus{outline:none;border-color:var(--neon-cyan);box-shadow:var(--glow-cyan)}.calc-ex button{background:var(--neon-cyan);color:var(--bg);border:none;padding:.45rem 1rem;border-radius:6px;font-family:var(--font-display);font-size:.82rem;letter-spacing:2px;cursor:pointer;transition:.2s;margin-left:.5rem}.calc-ex button:hover{box-shadow:var(--glow-cyan)}.calc-result{margin-top:.7rem;font-size:.86rem;padding:.6rem 1rem;border-radius:8px;display:none}.calc-result.show{display:block}.calc-result.ok{background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.3);color:var(--neon-green)}.calc-result.ko{background:rgba(255,106,0,.08);border:1px solid rgba(255,106,0,.3);color:var(--neon-orange)}
+h3.sub{font-family:var(--font-display);font-size:1.05rem;letter-spacing:2px;color:var(--neon-yellow);margin:1.8rem 0 .7rem;text-shadow:var(--glow-yellow)}.sep{width:60px;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));border-radius:4px;margin:2.5rem auto;box-shadow:0 0 12px rgba(0,240,255,.4)}
+.eh{font-family:var(--font-display);font-size:.9rem;letter-spacing:2px;color:var(--neon-green);margin:2rem 0 .5rem;display:flex;align-items:center;gap:.6rem}.eh .badge{background:var(--neon-green);color:var(--bg);font-size:.55rem;letter-spacing:3px;padding:.2rem .5rem;border-radius:4px}
+mark.c{background:transparent;color:var(--neon-cyan);font-weight:600}mark.m{background:transparent;color:var(--neon-magenta);font-weight:600}mark.g{background:transparent;color:var(--neon-green);font-weight:600}mark.y{background:transparent;color:var(--neon-yellow);font-weight:600}mark.o{background:transparent;color:var(--neon-orange);font-weight:600}mark.v{background:transparent;color:var(--neon-violet);font-weight:600}
+.progress-bar{position:fixed;top:var(--header-h);left:0;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));z-index:999;transition:width .15s;box-shadow:0 0 10px rgba(0,240,255,.5)}
+.footer{margin-left:var(--sidebar-w);text-align:center;padding:2.5rem 2rem;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:.7rem;letter-spacing:2px;color:var(--text-dim)}.footer .fn{color:var(--neon-cyan);text-shadow:var(--glow-cyan);font-family:var(--font-display);font-size:1rem;letter-spacing:4px;margin-bottom:.5rem}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0);box-shadow:4px 0 30px rgba(0,0,0,.7)}.main{margin-left:0;padding:2rem 1.5rem 5rem}.footer{margin-left:0}.hamburger{display:flex}.sg2,.sg3{grid-template-columns:1fr}.top-header .subtitle{display:none}.pd-row{grid-template-columns:45px 1fr auto 65px 65px;font-size:.78rem}}
+@media(max-width:500px){.main{padding:1.5rem 1rem 4rem}.pd-row{grid-template-columns:1fr;gap:.15rem}.pd-note{display:none}}
+blockquote{border-left:3px solid #4488cc;padding:.6rem 1rem;margin:1rem 0;font-size:.88rem;color:var(--text-dim);font-style:italic;background:rgba(68,136,204,.05);border-radius:0 8px 8px 0}
+blockquote strong{color:#6ab0ff;font-style:normal}
+.step-list{margin:1rem 0}.step-item{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.9rem;border:2px solid var(--neon-cyan);color:var(--neon-cyan)}.step-text{flex:1;font-size:.92rem;padding-top:3px}.step-text strong{color:#fff}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="pBar"></div>
+<header class="top-header"><div class="logo">DTA</div><div class="subtitle">DIRITTO E TECNICHE AMMINISTRATIVE</div><div class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div></header>
+
+<nav class="sidebar" id="sidebar">
+<div class="nl">FONDAMENTI</div>
+<a href="#intro"><span class="n">00</span> Introduzione</a>
+<a href="#s1"><span class="n">01</span> Il principio</a>
+<a href="#s1b"><span class="n">01.1</span> Fonti normative</a>
+<a href="#s1c"><span class="n">01.2</span> Competenza vs Cassa</a>
+<div class="nl">ASSESTAMENTO</div>
+<a href="#s2"><span class="n">02</span> Operazioni di assestam.</a>
+<a href="#s2a"><span class="n">02.1</span> Completamento</a>
+<a href="#s2b"><span class="n">02.2</span> Integrazione</a>
+<a href="#s2c"><span class="n">02.3</span> Rettifica</a>
+<a href="#s2d"><span class="n">02.4</span> Ammortamento</a>
+<div class="nl">SCRITTURE</div>
+<a href="#s3"><span class="n">03</span> Svalutazione crediti</a>
+<a href="#s4"><span class="n">04</span> Ratei</a>
+<a href="#s4b"><span class="n">04.1</span> Rateo passivo</a>
+<a href="#s5"><span class="n">05</span> Risconti</a>
+<a href="#s5b"><span class="n">05.1</span> Risconto passivo</a>
+<a href="#s6"><span class="n">06</span> Rimanenze</a>
+<a href="#s7"><span class="n">07</span> Ammortamento</a>
+<a href="#s8"><span class="n">08</span> Altre scritture</a>
+<div class="nl">ESERCIZI</div>
+<a href="#quiz"><span class="n">09</span> Quiz interattivi</a>
+<a href="#calc"><span class="n">10</span> Esercizi di calcolo</a>
+</nav>
+
+<main class="main">
+
+<div class="hero" id="intro">
+<div class="tag">CLASSE TERZA — ENOGASTRONOMIA · ACCOGLIENZA TURISTICA</div>
+<h1>IL PRINCIPIO DI<br><span>COMPETENZA ECONOMICA</span></h1>
+<p class="hsub">Fondamenti normativi, principi contabili OIC, operazioni di assestamento e scritture in Partita Doppia: una guida completa per comprendere come il bilancio riflette la realtà economica dell'impresa.</p>
+</div>
+<div class="sep"></div>
+
+<!-- ══════════════════════════════ -->
+<!-- SEZ 1 — IL PRINCIPIO -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s1">
+<div class="sh"><div class="snum">01</div><div class="stit">IL PRINCIPIO DI COMPETENZA ECONOMICA</div></div>
+
+<div class="box bdef">
+Il <strong>principio di competenza economica</strong> è il criterio contabile che stabilisce che nel conto economico di un bilancio devono comparire <strong>esclusivamente</strong> i costi e i ricavi che si riferiscono al periodo amministrativo considerato (di norma dal 1° gennaio al 31 dicembre), <strong>indipendentemente</strong> dal momento in cui avviene l'incasso o il pagamento.
+</div>
+
+<p>Si tratta di uno dei postulati fondamentali della redazione del bilancio d'esercizio. In termini semplici, ciò che conta non è <em>quando</em> il denaro entra o esce dalla cassa dell'impresa, ma <em>quando</em> il fatto economico si è maturato. Un costo "appartiene" all'esercizio in cui il bene o il servizio è stato utilizzato; un ricavo "appartiene" all'esercizio in cui la prestazione è stata fornita o il bene è stato ceduto.</p>
+
+<p>Questo principio ha origini storiche profonde: le prime forme di rilevazioni contabili ispirate alla logica della competenza risalgono al XVI secolo, quando gli assestamenti di bilancio venivano già utilizzati per attribuire costi e ricavi al periodo di riferimento. Nel XX secolo il principio è diventato il pilastro del cosiddetto <mark class="c">sistema reddituale</mark>, la base della contabilità moderna.</p>
+
+<!-- FONTI NORMATIVE -->
+<h3 class="sub" id="s1b">▸ Le fonti normative</h3>
+
+<div class="box blaw">
+<strong>Art. 2423-bis, comma 1, n. 3 del Codice Civile:</strong><br>
+«Si deve tener conto dei proventi e degli oneri di competenza dell'esercizio, <strong>indipendentemente dalla data dell'incasso o del pagamento</strong>.»
+</div>
+
+<div class="box blaw">
+<strong>Art. 2423-bis, comma 1, n. 4 del Codice Civile:</strong><br>
+«Si deve tener conto dei rischi e delle perdite di competenza dell'esercizio, <strong>anche se conosciuti dopo la chiusura di questo</strong>.»
+</div>
+
+<p>Il principio di competenza è quindi sancito dalla legge: il legislatore lo ha codificato nell'articolo 2423-bis del Codice Civile, all'interno della disciplina sulla redazione del bilancio delle società. Ma il quadro normativo non si ferma qui.</p>
+
+<div class="tw"><table>
+<thead><tr><th>FONTE</th><th>CONTENUTO RILEVANTE</th></tr></thead>
+<tbody>
+<tr><td class="hc">Art. 2423 c.c.</td><td>Il bilancio deve essere redatto con chiarezza e rappresentare in modo <strong>veritiero e corretto</strong> la situazione patrimoniale, finanziaria e il risultato economico (<em>true and fair view</em>).</td></tr>
+<tr><td class="hc">Art. 2423-bis c.c.</td><td>Principi di redazione: prudenza, continuità aziendale, competenza economica, separata valutazione, costanza dei criteri.</td></tr>
+<tr><td class="hc">Art. 2424-bis, c. 6 c.c.</td><td>Definisce dove classificare ratei e risconti nello Stato Patrimoniale.</td></tr>
+<tr><td class="hc">Art. 2426 c.c.</td><td>Criteri di valutazione delle immobilizzazioni e delle rimanenze (costo di acquisto o valore di mercato, se minore).</td></tr>
+<tr><td class="hm">OIC 11</td><td>Principio contabile nazionale che interpreta i postulati del bilancio, tra cui la competenza economica, la prudenza e la prevalenza della sostanza sulla forma.</td></tr>
+<tr><td class="hm">OIC 18</td><td>Disciplina i criteri per la rilevazione, classificazione e valutazione di <strong>ratei e risconti</strong>.</td></tr>
+<tr><td class="hm">OIC 13</td><td>Disciplina la valutazione delle <strong>rimanenze</strong> (media ponderata, FIFO, LIFO).</td></tr>
+<tr><td class="hm">OIC 16</td><td>Disciplina le <strong>immobilizzazioni materiali</strong> e il relativo ammortamento.</td></tr>
+<tr><td class="hy">Art. 109 TUIR</td><td>In ambito fiscale, il principio di competenza impone che i ricavi e i costi concorrano alla formazione del reddito nell'esercizio di competenza, purché certi e determinabili.</td></tr>
+</tbody>
+</table></div>
+
+<div class="box bwarn">
+Il principio contabile <strong>OIC 11</strong> precisa un'asimmetria fondamentale: in caso di conflitto tra competenza e prudenza, <strong>la prudenza prevale</strong>. Ciò significa che gli utili attesi ma non ancora realizzati non devono essere contabilizzati, mentre le perdite — anche se solo probabili — devono essere riconosciute subito.
+</div>
+
+<!-- COMPETENZA VS CASSA -->
+<h3 class="sub" id="s1c">▸ Competenza vs Cassa: la differenza fondamentale</h3>
+
+<div class="sg2">
+<div class="card" style="border-color:var(--neon-cyan)"><h4 style="color:var(--neon-cyan)">PRINCIPIO DI COMPETENZA</h4><p style="color:var(--text)">Il costo o il ricavo viene registrato nel momento in cui il fatto economico <strong style="color:#fff">si matura</strong>, cioè quando il bene è consumato, il servizio è prestato, il diritto è sorto.<br><br><em>Domanda guida: "A quale periodo appartiene questo fatto economico?"</em></p></div>
+<div class="card" style="border-color:var(--neon-magenta)"><h4 style="color:var(--neon-magenta)">PRINCIPIO DI CASSA</h4><p style="color:var(--text)">Il costo o il ricavo viene registrato nel momento in cui il denaro <strong style="color:#fff">entra o esce</strong> materialmente dalla cassa o dal conto corrente.<br><br><em>Domanda guida: "Quando è stato incassato/pagato?"</em></p></div>
+</div>
+
+<div class="box bex">
+<strong>Esempio nel settore ristorativo:</strong> Il ristorante "La Terrazza" riceve a novembre 2025 una fornitura di olio d'oliva per 2.000 €. Il pagamento avviene a gennaio 2026. Per il <strong>principio di competenza</strong>, il costo di 2.000 € va registrato nell'esercizio 2025 (l'olio è stato ricevuto e potrà essere utilizzato), anche se il denaro uscirà solo nel 2026.
+</div>
+
+<div class="box bex">
+<strong>Esempio nel settore alberghiero:</strong> L'hotel "Bella Vista" ospita un congresso il 28-30 dicembre 2025. Il pagamento da parte dell'organizzatore arriva il 15 gennaio 2026. Il ricavo è di competenza del <strong>2025</strong>, perché il servizio è stato erogato nel 2025.
+</div>
+
+<div class="box bex">
+<strong>Esempio impresa di viaggio:</strong> Un tour operator paga ad ottobre 2025 il premio assicurativo annuale di 3.600 € (valido da ott 2025 a set 2026). Solo 3 mesi (ott-nov-dic) sono di competenza del 2025: il costo di competenza è 900 €. I restanti 2.700 € sono di competenza del 2026 e vanno "sospesi" come risconto attivo.
+</div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SEZ 2 — OPERAZIONI DI ASSESTAMENTO -->
+<!-- ═══════════════════════════════════ -->
+<section class="section" id="s2">
+<div class="sh"><div class="snum">02</div><div class="stit">LE OPERAZIONI DI ASSESTAMENTO</div></div>
+
+<p>Durante l'anno la contabilità registra i fatti di gestione nel momento della loro <mark class="c">manifestazione finanziaria</mark> (quando si emette o si riceve una fattura, quando si paga o si incassa). Ma al 31 dicembre lo scopo cambia: bisogna determinare il <mark class="m">reddito d'esercizio</mark> — la ricchezza economica effettivamente generata — e per farlo occorre <strong>trasformare i valori contabili in valori di bilancio</strong>.</p>
+
+<p>Questo è il compito delle <strong>scritture di assestamento</strong>: correggere, integrare, rettificare i valori per far rispettare il principio di competenza. Si dividono in quattro categorie:</p>
+
+<div class="sg2">
+<div class="card" style="border-color:var(--neon-cyan)" id="s2a"><h4 style="color:var(--neon-cyan)">① COMPLETAMENTO</h4><p style="color:var(--text);margin-bottom:.4rem">Registrare operazioni di competenza dell'esercizio che <strong style="color:#fff">non sono ancora state rilevate</strong> perché si manifestano solo a fine anno.</p><ul><li>Crediti inesigibili (perdite su crediti)</li><li>Crediti e debiti da liquidare (fatture da ricevere/emettere)</li><li>Quote TFR maturate nell'anno</li><li>Interessi maturati sul c/c bancario</li></ul></div>
+<div class="card" style="border-color:var(--neon-magenta)" id="s2b"><h4 style="color:var(--neon-magenta)">② INTEGRAZIONE</h4><p style="color:var(--text);margin-bottom:.4rem"><strong style="color:#fff">Aggiungere</strong> componenti di reddito di competenza ma non ancora rilevati perché la manifestazione finanziaria avverrà in futuro.</p><ul><li><strong style="color:#fff">Ratei attivi</strong> (ricavi maturati, incasso futuro)</li><li><strong style="color:#fff">Ratei passivi</strong> (costi maturati, pagamento futuro)</li><li>Fondi rischi e oneri</li><li>Svalutazione dei crediti</li></ul></div>
+<div class="card" style="border-color:var(--neon-yellow)" id="s2c"><h4 style="color:var(--neon-yellow)">③ RETTIFICA</h4><p style="color:var(--text);margin-bottom:.4rem"><strong style="color:#fff">Togliere</strong> costi e ricavi già rilevati (la manifestazione finanziaria c'è già stata) ma <strong style="color:#fff">non ancora maturati economicamente</strong>.</p><ul><li><strong style="color:#fff">Risconti attivi</strong> (costi pagati, non ancora maturati)</li><li><strong style="color:#fff">Risconti passivi</strong> (ricavi incassati, non ancora maturati)</li><li>Rimanenze di magazzino</li></ul></div>
+<div class="card" style="border-color:var(--neon-green)" id="s2d"><h4 style="color:var(--neon-green)">④ AMMORTAMENTO</h4><p style="color:var(--text);margin-bottom:.4rem"><strong style="color:#fff">Attribuire</strong> all'esercizio la quota di costo pluriennale relativa al periodo. Un bene durevole non si consuma in un anno: il suo costo va distribuito su tutti gli anni di vita utile.</p><ul><li>Ammortamento immobilizzazioni immateriali</li><li>Ammortamento immobilizzazioni materiali</li></ul></div>
+</div>
+
+<div class="box bkey">
+<strong>Le 3 domande da porsi al 31/12:</strong><br>
+<mark class="g">1.</mark> C'è qualcosa che manca? (costi/ricavi maturati ma non registrati) → <strong>Completamento / Integrazione</strong><br>
+<mark class="o">2.</mark> C'è qualcosa di troppo? (costi/ricavi registrati ma non ancora maturati) → <strong>Rettifica</strong><br>
+<mark class="v">3.</mark> Quanto del costo dei beni durevoli spetta a quest'anno? → <strong>Ammortamento</strong>
+</div>
+</section>
+<div class="sep"></div>
+
+<!-- ══════════════════════════════ -->
+<!-- SEZ 3 — SVALUTAZIONE CREDITI -->
+<!-- ══════════════════════════════ -->
+<section class="section" id="s3">
+<div class="sh"><div class="snum">03</div><div class="stit">SVALUTAZIONE DEI CREDITI</div></div>
+
+<div class="box bdef">
+I crediti devono essere iscritti in bilancio al loro <strong>presunto valore di realizzo</strong> (art. 2426 c.c.; OIC 15). Ciò significa che se c'è il rischio che un cliente non paghi, il valore del credito in bilancio va ridotto. La svalutazione può avvenire a tre livelli di gravità.
+</div>
+
+<div class="sg3">
+<div class="card" style="border-color:var(--neon-orange)"><h4 style="color:var(--neon-orange)">A) STRALCIO</h4><p style="color:var(--text)"><strong style="color:#fff">Certezza di perdita:</strong> il credito è sicuramente inesigibile (es. il cliente è fallito). Si cancella completamente: Perdite su crediti in Dare, Crediti v/clienti in Avere.</p></div>
+<div class="card" style="border-color:var(--neon-magenta)"><h4 style="color:var(--neon-magenta)">B) SVALUT. SPECIFICA</h4><p style="color:var(--text)"><strong style="color:#fff">Rischio specifico:</strong> un singolo credito è parzialmente a rischio. Si svaluta la parte NON esigibile: Svalutazione crediti in Dare, Fondo svalutazione crediti in Avere.</p></div>
+<div class="card" style="border-color:var(--neon-cyan)"><h4 style="color:var(--neon-cyan)">C) SVALUT. GENERICA</h4><p style="color:var(--text)"><strong style="color:#fff">Rischio generico:</strong> su tutti i crediti residui si applica una % di rischio insolvenza. Svalutazione crediti in Dare, Fondo rischi su crediti in Avere.</p></div>
+</div>
+
+<div class="eh" id="s3e"><span class="badge">ESEMPIO SVOLTO</span> SVALUTAZIONE A TRE LIVELLI</div>
+<p>Crediti v/clienti: <mark class="c">140.000 €</mark>. Un credito di 3.000 € è inesigibile. Un credito di 2.000 € è esigibile al 40% (NON esigibile: 60% = 1.200 €). Generica insolvenza del 5% sui crediti residui.</p>
+
+<h3 class="sub">▸ a) Stralcio (3.000 €)</h3>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Perdite su crediti</strong></span><span class="pd-note">costo</span><span class="pd-dare">3.000</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Crediti v/clienti</span><span class="pd-note">↓ attivo</span><span class="pd-dare"></span><span class="pd-avere">3.000</span></div></div>
+
+<h3 class="sub">▸ b) Svalutazione specifica (1.200 €)</h3>
+<div class="mb">Credito 2.000 € esigibile al 40% → parte NON esigibile = 2.000 × 60% = <span class="mr">1.200 €</span></div>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Svalutazione crediti</strong></span><span class="pd-note">costo</span><span class="pd-dare">1.200</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Fondo svalutazione crediti</span><span class="pd-note">rettifica attivo</span><span class="pd-dare"></span><span class="pd-avere">1.200</span></div></div>
+
+<h3 class="sub">▸ c) Svalutazione generica (5%)</h3>
+<div class="mb">Crediti residui = 140.000 − 3.000 − 1.200 = <span class="mr">135.800 €</span><br>Svalutazione = 135.800 × 5% = <span class="mr">6.790 €</span></div>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Svalutazione crediti</strong></span><span class="pd-note">costo</span><span class="pd-dare">6.790</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Fondo rischi su crediti</span><span class="pd-note">rettifica attivo</span><span class="pd-dare"></span><span class="pd-avere">6.790</span></div></div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════ -->
+<!-- SEZ 4 — RATEI -->
+<!-- ═══════════════ -->
+<section class="section" id="s4">
+<div class="sh"><div class="snum">04</div><div class="stit">I RATEI</div></div>
+
+<div class="box bdef">
+Secondo l'<strong>OIC 18</strong>, i ratei sono quote di costi o ricavi di competenza dell'esercizio che <strong>non sono stati ancora rilevati in contabilità</strong> in quanto la manifestazione finanziaria avverrà in futuro. Sono scritture di <mark class="m">integrazione</mark>.
+</div>
+
+<div class="box blaw"><strong>Art. 2424-bis, comma 6, c.c.:</strong> «Nella voce ratei e risconti attivi devono essere iscritti i proventi di competenza dell'esercizio esigibili in esercizi successivi [...]»</div>
+
+<div class="sg2">
+<div class="card" style="border-color:var(--neon-cyan)"><h4 style="color:var(--neon-cyan)">RATEO ATTIVO</h4><p style="color:var(--text)"><strong style="color:#fff">Riscossione posticipata</strong> → ho un ricavo maturato ma non ancora incassato → registra un credito potenziale (Rateo attivo in Dare) e il ricavo (in Avere).<br><br><em>Penso: "Ho già lavorato/servito, ma i soldi arriveranno dopo."</em></p></div>
+<div class="card" style="border-color:var(--neon-magenta)"><h4 style="color:var(--neon-magenta)">RATEO PASSIVO</h4><p style="color:var(--text)"><strong style="color:#fff">Pagamento posticipato</strong> → ho un costo maturato ma non ancora pagato → registra un debito potenziale (in Avere) e il costo (Rateo passivo in Dare).<br><br><em>Penso: "Ho già usufruito del servizio, ma pagherò dopo."</em></p></div>
+</div>
+
+<div class="eh" id="s4a"><span class="badge">ESEMPIO 1</span> RATEO ATTIVO — FITTO MAGAZZINO</div>
+<p>Il 15/10 un albergo concede in locazione un magazzino al canone semestrale posticipato di <mark class="c">9.000 €</mark>. La riscossione avverrà il 15/04.</p>
+<div class="timeline">
+<div class="tl-date">15/10</div><div class="tl-bar comp" style="flex:2.5"></div><div class="tl-date" style="background:rgba(255,0,170,.15);color:var(--neon-magenta)">31/12</div><div class="tl-bar nocomp" style="flex:3.5"></div><div class="tl-date">15/04</div>
+<div class="tl-label"><span style="color:var(--neon-green)">◀ 2,5 mesi DI COMPETENZA ▶</span> · <span style="color:var(--text-dim)">◀ 3,5 mesi esercizio successivo ▶</span></div></div>
+<div class="mb">Canone mensile = 9.000 ÷ 6 = <span class="mr">1.500 €</span><br>Rateo attivo = 1.500 × 2,5 = <span class="mr">3.750 €</span></div>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Rateo attivo</strong></span><span class="pd-note">credito potenziale</span><span class="pd-dare">3.750</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Fitti attivi</span><span class="pd-note">ricavo</span><span class="pd-dare"></span><span class="pd-avere">3.750</span></div></div>
+
+<div class="eh" id="s4b"><span class="badge">ESEMPIO 2</span> RATEO PASSIVO — STIPENDI DICEMBRE</div>
+<p>Un ristorante paga gli stipendi del mese il 5 del mese successivo. Al 31/12 gli stipendi di dicembre (<mark class="m">8.500 €</mark>) non sono ancora stati pagati ma sono di competenza del 2025.</p>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Salari e stipendi</strong></span><span class="pd-note">costo</span><span class="pd-dare">8.500</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Rateo passivo</span><span class="pd-note">debito potenziale</span><span class="pd-dare"></span><span class="pd-avere">8.500</span></div></div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════ -->
+<!-- SEZ 5 — RISCONTI -->
+<!-- ═══════════════════ -->
+<section class="section" id="s5">
+<div class="sh"><div class="snum">05</div><div class="stit">I RISCONTI</div></div>
+
+<div class="box bdef">
+Secondo l'<strong>OIC 18</strong>, i risconti rappresentano quote di costi o ricavi che hanno già avuto la manifestazione finanziaria, ma <strong>sono di competenza di uno o più esercizi successivi</strong>. Sono scritture di <mark class="y">rettifica</mark>: "tolgono" dal conto economico la parte non di competenza.
+</div>
+
+<div class="box blaw"><strong>Art. 2424-bis, comma 6, c.c.:</strong> «[...] e i costi sostenuti entro la chiusura dell'esercizio ma di competenza di esercizi successivi. Nella voce ratei e risconti passivi devono essere iscritti i costi di competenza dell'esercizio esigibili in esercizi successivi e i proventi percepiti entro la chiusura dell'esercizio ma di competenza di esercizi successivi.»</div>
+
+<div class="box bkey">
+<strong>La differenza fondamentale Ratei / Risconti:</strong><br>
+<mark class="g">RATEO</mark> = il denaro NON si è ancora mosso → devo <strong>aggiungere</strong> un valore (integrazione) → nasce un credito/debito potenziale<br>
+<mark class="y">RISCONTO</mark> = il denaro si è GIÀ mosso → devo <strong>togliere</strong> la parte non di competenza (rettifica) → nasce un costo/ricavo sospeso
+</div>
+
+<div class="eh" id="s5a"><span class="badge">ESEMPIO 1</span> RISCONTO ATTIVO — MANUTENZIONE</div>
+<p>Il 1/09 un hotel paga un canone di manutenzione semestrale anticipato di <mark class="c">600 €</mark> (copre 1/09 – 1/03).</p>
+<div class="timeline">
+<div class="tl-date">1/09</div><div class="tl-bar comp" style="flex:4"></div><div class="tl-date" style="background:rgba(255,0,170,.15);color:var(--neon-magenta)">31/12</div><div class="tl-bar nocomp" style="flex:2"></div><div class="tl-date">1/03</div>
+<div class="tl-label"><span style="color:var(--neon-green)">◀ 4 mesi di competenza ▶</span> · <span style="color:var(--neon-orange)">◀ 2 mesi NON di competenza ▶</span></div></div>
+<div class="mb">Canone mensile = 600 ÷ 6 = 100 €<br>Risconto attivo = 100 × 2 = <span class="mr">200 €</span> <span class="ml">(quota da sospendere)</span></div>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Risconto attivo</strong></span><span class="pd-note">costo sospeso</span><span class="pd-dare">200</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Canone di manutenzione</span><span class="pd-note">rettifica costo</span><span class="pd-dare"></span><span class="pd-avere">200</span></div></div>
+
+<div class="eh" id="s5b"><span class="badge">ESEMPIO 2</span> RISCONTO PASSIVO — AFFITTO INCASSATO</div>
+<p>Il 1/11 un B&B incassa un canone di affitto trimestrale anticipato di <mark class="m">4.500 €</mark> (copre nov-dic-gen).</p>
+<div class="mb">Canone mensile = 4.500 ÷ 3 = 1.500 €<br>Risconto passivo = 1.500 × 1 mese (gennaio) = <span class="mr">1.500 €</span></div>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Fitti attivi</strong></span><span class="pd-note">rettifica ricavo</span><span class="pd-dare">1.500</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Risconto passivo</span><span class="pd-note">ricavo sospeso</span><span class="pd-dare"></span><span class="pd-avere">1.500</span></div></div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════ -->
+<!-- SEZ 6 — RIMANENZE -->
+<!-- ═══════════════════ -->
+<section class="section" id="s6">
+<div class="sh"><div class="snum">06</div><div class="stit">VALUTAZIONE DELLE RIMANENZE</div></div>
+
+<div class="box blaw"><strong>Art. 2426, n. 9, c.c.:</strong> Le rimanenze devono essere iscritte al <strong>costo di acquisto</strong> o, se minore, al <strong>valore di mercato</strong>.</div>
+
+<p>Le rimanenze di magazzino (materie prime, alimenti, bevande non consumati al 31/12) sono un'operazione di <mark class="y">rettifica</mark>: servono a "togliere" dal conto economico il costo di ciò che non è stato ancora venduto o consumato. L'<strong>OIC 13</strong> disciplina i criteri di valutazione per i beni fungibili (sostituibili tra loro).</p>
+
+<div class="sg3">
+<div class="card" style="border-color:var(--neon-cyan)"><h4 style="color:var(--neon-cyan)">MEDIA PONDERATA</h4><p style="color:var(--text)">Si calcola la media dei prezzi di acquisto, ponderata per le quantità di ciascuna partita.<br><br><em>Formula: Σ(prezzo × quantità) ÷ quantità totale</em></p></div>
+<div class="card" style="border-color:var(--neon-green)"><h4 style="color:var(--neon-green)">FIFO</h4><p style="color:var(--text)"><strong style="color:#fff">First In, First Out.</strong> Le merci rimaste sono quelle acquistate <em>più di recente</em> → valutate ai prezzi più recenti. Ideale per <strong style="color:#fff">merci deperibili</strong> (alimenti freschi).</p></div>
+<div class="card" style="border-color:var(--neon-magenta)"><h4 style="color:var(--neon-magenta)">LIFO</h4><p style="color:var(--text)"><strong style="color:#fff">Last In, First Out.</strong> Le merci rimaste sono quelle acquistate <em>per prime</em> → valutate ai prezzi più vecchi. In periodi di inflazione, riduce il reddito imponibile.</p></div>
+</div>
+
+<div class="eh"><span class="badge">ESEMPIO</span> RIMANENZE BAR — FIFO</div>
+<p>Un bar ha acquistato birra durante l'anno: 100 casse a 20 € (gennaio), 80 casse a 22 € (giugno), 60 casse a 24 € (ottobre). Al 31/12 restano 50 casse. Con il FIFO le 50 casse rimaste sono quelle comprate più di recente.</p>
+<div class="mb">50 casse ai prezzi più recenti:<br>→ 50 dall'ultimo acquisto (ottobre) a 24 € = 50 × 24 = <span class="mr">1.200 €</span> <span class="ml">valore rimanenze</span></div>
+
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Rimanenze bar</strong></span><span class="pd-note">costo sospeso</span><span class="pd-dare">1.200</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Bar c/rimanenze finali</span><span class="pd-note">rettifica costo</span><span class="pd-dare"></span><span class="pd-avere">1.200</span></div></div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════ -->
+<!-- SEZ 7 — AMMORTAMENTO -->
+<!-- ═══════════════════════ -->
+<section class="section" id="s7">
+<div class="sh"><div class="snum">07</div><div class="stit">L'AMMORTAMENTO</div></div>
+
+<div class="box bdef">
+L'<strong>ammortamento</strong> è il procedimento contabile con cui il costo di un'immobilizzazione (bene a utilità pluriennale) viene ripartito su tutti gli esercizi della sua <strong>vita utile</strong>. Ogni anno si registra una quota di ammortamento come costo nel conto economico (OIC 16).
+</div>
+
+<div class="box bform">
+<strong>Valore da ammortizzare</strong> = Costo storico − Valore di recupero<br>
+<strong>Quota annua</strong> = Valore da ammortizzare ÷ Anni di vita utile<br>
+<strong>Fondo ammortamento</strong> (anno n) = Quota annua × n<br>
+<strong>Valore contabile</strong> (anno n) = Costo storico − Fondo ammortamento
+</div>
+
+<div class="eh" id="s7e"><span class="badge">ESEMPIO</span> ARREDAMENTO 27.000 € — 5 ANNI — RECUPERO 2.000 €</div>
+<div class="mb">Valore da ammortizzare = 27.000 − 2.000 = 25.000 €<br>Quota annua = 25.000 ÷ 5 = <span class="mr">5.000 €/anno</span></div>
+
+<div class="tw"><table>
+<thead><tr><th>ANNO</th><th class="r">COSTO STORICO</th><th class="r">QUOTA</th><th class="r">FONDO</th><th class="r">VAL. CONTABILE</th></tr></thead>
+<tbody>
+<tr><td>1</td><td class="num">27.000</td><td class="num hc">5.000</td><td class="num">5.000</td><td class="num">22.000</td></tr>
+<tr><td>2</td><td class="num">27.000</td><td class="num hc">5.000</td><td class="num">10.000</td><td class="num">17.000</td></tr>
+<tr><td>3</td><td class="num">27.000</td><td class="num hc">5.000</td><td class="num">15.000</td><td class="num">12.000</td></tr>
+<tr><td>4</td><td class="num">27.000</td><td class="num hc">5.000</td><td class="num">20.000</td><td class="num">7.000</td></tr>
+<tr class="tot"><td>5</td><td class="num">27.000</td><td class="num hc">5.000</td><td class="num">25.000</td><td class="num hy">2.000</td></tr>
+</tbody></table></div>
+
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Ammortamento arredamento</strong></span><span class="pd-note">costo</span><span class="pd-dare">5.000</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Fondo ammortamento arredamento</span><span class="pd-note">rettifica</span><span class="pd-dare"></span><span class="pd-avere">5.000</span></div></div>
+
+<div class="box bex"><strong>Nel settore alberghiero:</strong> Un hotel che acquista un impianto di condizionamento a 60.000 € con vita utile di 10 anni ammortizza 6.000 € all'anno. Al terzo anno il valore contabile è 60.000 − 18.000 = 42.000 €. Questo valore compare nello Stato Patrimoniale.</div>
+</section>
+<div class="sep"></div>
+
+<!-- ════════════════════════ -->
+<!-- SEZ 8 — ALTRE SCRITTURE -->
+<!-- ════════════════════════ -->
+<section class="section" id="s8">
+<div class="sh"><div class="snum">08</div><div class="stit">ALTRE SCRITTURE DI ASSESTAMENTO</div></div>
+
+<h3 class="sub">▸ Fatture da ricevere (completamento)</h3>
+<p>Merci ricevute a dicembre ma la fattura non è ancora pervenuta al 31/12. Si usa il conto transitorio "Fatture da ricevere" al posto di Debiti v/fornitori.</p>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Merci c/acquisti</strong></span><span class="pd-note">costo</span><span class="pd-dare">1.000</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>IVA ns/credito</strong></span><span class="pd-note"></span><span class="pd-dare">100</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account">Fatture da ricevere</span><span class="pd-note">debito provvisorio</span><span class="pd-dare"></span><span class="pd-avere">1.100</span></div></div>
+
+<h3 class="sub">▸ TFR (completamento)</h3>
+<p>La quota annuale di Trattamento di Fine Rapporto maturata dai dipendenti è un costo di competenza dell'esercizio, anche se verrà liquidata solo alla cessazione del rapporto di lavoro.</p>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>TFR</strong></span><span class="pd-note">costo</span><span class="pd-dare">1.500</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Debiti per TFR</span><span class="pd-note">debito</span><span class="pd-dare"></span><span class="pd-avere">1.500</span></div></div>
+
+<h3 class="sub">▸ Fondo responsabilità civile (integrazione)</h3>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Responsabilità civile</strong></span><span class="pd-note">costo</span><span class="pd-dare">3.000</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Fondo responsabilità civile</span><span class="pd-note">fondo rischi</span><span class="pd-dare"></span><span class="pd-avere">3.000</span></div></div>
+
+<h3 class="sub">▸ Interessi passivi bancari (completamento)</h3>
+<div class="pd"><div class="pd-header"><span>31/12</span><span>DARE · AVERE</span></div>
+<div class="pd-row"><span class="pd-date">31/12</span><span class="pd-account"><strong>Interessi passivi bancari</strong></span><span class="pd-note">costo</span><span class="pd-dare">500</span><span class="pd-avere"></span></div>
+<div class="pd-row"><span class="pd-date"></span><span class="pd-account">Banca c/c</span><span class="pd-note">↓ attivo</span><span class="pd-dare"></span><span class="pd-avere">500</span></div></div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════ -->
+<!-- SEZ 9 — QUIZ INTERATTIVI -->
+<!-- ═══════════════════════════════ -->
+<section class="section" id="quiz">
+<div class="sh"><div class="snum">09</div><div class="stit">QUIZ INTERATTIVI</div></div>
+
+<div class="quiz" id="q1"><div class="quiz-title"><span class="qb">1</span> COMPETENZA ECONOMICA</div><div class="quiz-q">Un hotel riceve la fattura dell'energia elettrica di dicembre 2025 a gennaio 2026. In quale esercizio si registra il costo?</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q1',this,0)">A) 2026 — quando arriva la fattura</div><div class="quiz-opt" onclick="ck('q1',this,1)">B) 2025 — quando l'energia è stata consumata</div><div class="quiz-opt" onclick="ck('q1',this,0)">C) Metà e metà</div></div><div class="quiz-fb" id="q1-fb"></div></div>
+
+<div class="quiz" id="q2"><div class="quiz-title"><span class="qb">2</span> RATEO O RISCONTO?</div><div class="quiz-q">Il 1° novembre un ristorante paga l'assicurazione annuale anticipata di 2.400 €. Al 31/12 che scrittura si fa?</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q2',this,0)">A) Rateo attivo di 2.000 €</div><div class="quiz-opt" onclick="ck('q2',this,1)">B) Risconto attivo di 2.000 €</div><div class="quiz-opt" onclick="ck('q2',this,0)">C) Rateo passivo di 2.000 €</div><div class="quiz-opt" onclick="ck('q2',this,0)">D) Risconto passivo di 400 €</div></div><div class="quiz-fb" id="q2-fb"></div></div>
+
+<div class="quiz" id="q3"><div class="quiz-title"><span class="qb">3</span> SVALUTAZIONE</div><div class="quiz-q">Un credito di 5.000 € è esigibile al 30%. Quanto vale la svalutazione specifica?</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q3',this,0)">A) 1.500 €</div><div class="quiz-opt" onclick="ck('q3',this,1)">B) 3.500 €</div><div class="quiz-opt" onclick="ck('q3',this,0)">C) 5.000 €</div></div><div class="quiz-fb" id="q3-fb"></div></div>
+
+<div class="quiz" id="q4"><div class="quiz-title"><span class="qb">4</span> AMMORTAMENTO</div><div class="quiz-q">Forno industriale: 15.000 €, vita utile 5 anni, valore recupero 0 €. Quota annua?</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q4',this,1)">A) 3.000 €</div><div class="quiz-opt" onclick="ck('q4',this,0)">B) 5.000 €</div><div class="quiz-opt" onclick="ck('q4',this,0)">C) 2.500 €</div></div><div class="quiz-fb" id="q4-fb"></div></div>
+
+<div class="quiz" id="q5"><div class="quiz-title"><span class="qb">5</span> CLASSIFICAZIONE</div><div class="quiz-q">Le rimanenze di magazzino sono un'operazione di:</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q5',this,0)">A) Completamento</div><div class="quiz-opt" onclick="ck('q5',this,0)">B) Integrazione</div><div class="quiz-opt" onclick="ck('q5',this,1)">C) Rettifica</div><div class="quiz-opt" onclick="ck('q5',this,0)">D) Ammortamento</div></div><div class="quiz-fb" id="q5-fb"></div></div>
+
+<div class="quiz" id="q6"><div class="quiz-title"><span class="qb">6</span> NORMATIVA</div><div class="quiz-q">Quale articolo del Codice Civile sancisce il principio di competenza economica?</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q6',this,0)">A) Art. 2423</div><div class="quiz-opt" onclick="ck('q6',this,1)">B) Art. 2423-bis, comma 1, n. 3</div><div class="quiz-opt" onclick="ck('q6',this,0)">C) Art. 2426</div><div class="quiz-opt" onclick="ck('q6',this,0)">D) Art. 2424</div></div><div class="quiz-fb" id="q6-fb"></div></div>
+
+<div class="quiz" id="q7"><div class="quiz-title"><span class="qb">7</span> OIC</div><div class="quiz-q">Quale principio contabile OIC disciplina ratei e risconti?</div><div class="quiz-opts"><div class="quiz-opt" onclick="ck('q7',this,0)">A) OIC 11</div><div class="quiz-opt" onclick="ck('q7',this,0)">B) OIC 13</div><div class="quiz-opt" onclick="ck('q7',this,1)">C) OIC 18</div><div class="quiz-opt" onclick="ck('q7',this,0)">D) OIC 16</div></div><div class="quiz-fb" id="q7-fb"></div></div>
+</section>
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════ -->
+<!-- SEZ 10 — ESERCIZI DI CALCOLO -->
+<!-- ═══════════════════════════════ -->
+<section class="section" id="calc">
+<div class="sh"><div class="snum">10</div><div class="stit">ESERCIZI DI CALCOLO</div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 1</span> RATEO PASSIVO</div><div class="quiz-q">Il 1° ottobre un ristorante stipula un contratto di assicurazione semestrale posticipato di <strong>3.600 €</strong>. Calcola il rateo passivo al 31/12.</div><p style="font-size:.82rem;color:var(--text-dim);margin-bottom:.6rem">Mesi di competenza: ott, nov, dic = 3</p><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c1" placeholder="..."><button onclick="cc('c1',1800,'Canone mensile = 3.600 ÷ 6 = 600 €. Mesi di competenza = 3. Rateo = 600 × 3 = 1.800 €.')">VERIFICA</button></div><div class="calc-result" id="c1-fb"></div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 2</span> RISCONTO ATTIVO</div><div class="quiz-q">Il 1° agosto un hotel paga un canone di pulizia quadrimestrale anticipato di <strong>2.800 €</strong> (ago-nov). Calcola il risconto attivo al 31/12.</div><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c2" placeholder="..."><button onclick="cc('c2',0,'Il canone copre ago-set-ott-nov: tutti e 4 i mesi sono PRIMA del 31/12, quindi interamente di competenza. Risconto = 0 €. Era un trabocchetto!')">VERIFICA</button></div><div class="calc-result" id="c2-fb"></div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 3</span> SVALUTAZIONE GENERICA</div><div class="quiz-q">Crediti: 80.000 €. Stralcio: 5.000 €. Svalutazione specifica: 1.500 €. Generica insolvenza: 4%. Calcola la svalutazione generica.</div><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c3" placeholder="..."><button onclick="cc('c3',2940,'Residui = 80.000 − 5.000 − 1.500 = 73.500. Svalutazione = 73.500 × 4% = 2.940 €.')">VERIFICA</button></div><div class="calc-result" id="c3-fb"></div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 4</span> VALORE CONTABILE</div><div class="quiz-q">Impianto: 40.000 €, vita utile 8 anni, recupero 0 €. Siamo al 3° anno. Calcola il valore contabile.</div><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c4" placeholder="..."><button onclick="cc('c4',25000,'Quota = 40.000 ÷ 8 = 5.000 €. Fondo al 3° anno = 15.000. V.C. = 40.000 − 15.000 = 25.000 €.')">VERIFICA</button></div><div class="calc-result" id="c4-fb"></div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 5</span> RATEO ATTIVO</div><div class="quiz-q">Il 1° novembre un agriturismo affitta una sala con canone trimestrale posticipato di <strong>4.500 €</strong>. Incasso: 1° febbraio. Rateo attivo al 31/12?</div><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c5" placeholder="..."><button onclick="cc('c5',3000,'Mensile = 4.500 ÷ 3 = 1.500 €. Mesi di competenza (nov, dic) = 2. Rateo = 1.500 × 2 = 3.000 €.')">VERIFICA</button></div><div class="calc-result" id="c5-fb"></div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 6</span> RISCONTO PASSIVO</div><div class="quiz-q">Il 1° ottobre un hotel incassa un canone di affitto semestrale anticipato di <strong>12.000 €</strong> (ott-mar). Calcola il risconto passivo al 31/12.</div><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c6" placeholder="..."><button onclick="cc('c6',6000,'Mensile = 12.000 ÷ 6 = 2.000 €. Mesi NON di competenza (gen, feb, mar) = 3. Risconto passivo = 2.000 × 3 = 6.000 €.')">VERIFICA</button></div><div class="calc-result" id="c6-fb"></div></div>
+
+<div class="calc-ex"><div class="quiz-title"><span class="qb">ES. 7</span> RIMANENZE FIFO</div><div class="quiz-q">Un ristorante ha acquistato farina: 200 kg a 1,20 €/kg (marzo), 150 kg a 1,40 €/kg (luglio), 100 kg a 1,50 €/kg (novembre). Al 31/12 restano 80 kg. Con il metodo FIFO, qual è il valore delle rimanenze?</div><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><label style="font-size:.88rem">€</label><input type="number" id="c7" placeholder="..."><button onclick="cc('c7',120,'Con FIFO le 80 kg rimaste sono le più recenti: 80 kg dall\'acquisto di novembre a 1,50 €/kg = 80 × 1,50 = 120 €.')">VERIFICA</button></div><div class="calc-result" id="c7-fb"></div></div>
+
+</section>
+
+</main>
+
+<footer class="footer"><div class="fn">ISTITUTO AMERIGO VESPUCCI — MILANO</div>Classe Terza &nbsp;|&nbsp; ENO · AAT &nbsp;|&nbsp; DTA — Diritto e Tecniche Amministrative</footer>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+document.querySelectorAll('.sidebar a').forEach(a=>{a.addEventListener('click',()=>{if(window.innerWidth<=900)document.getElementById('sidebar').classList.remove('open')})});
+window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('pBar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+'%'});
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.style.opacity=1;el.target.style.transform='translateY(0)'}})},{threshold:.06});
+document.querySelectorAll('.section').forEach(s=>{s.style.opacity=0;s.style.transform='translateY(30px)';s.style.transition='opacity .6s ease, transform .6s ease';obs.observe(s)});
+const secs=document.querySelectorAll('section[id],h3[id],.hero[id],.eh[id]');const navs=document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.getAttribute('id')});navs.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+c)l.classList.add('active')})});
+
+const QFB={
+q1:{ok:'Corretto! Per il principio di competenza (art. 2423-bis n.3 c.c.) il costo appartiene al 2025 perché l\'energia è stata consumata nel 2025, indipendentemente dalla data di ricezione della fattura.',ko:'No. Il principio di competenza impone di registrare il costo nell\'esercizio in cui il fatto economico si matura (consumo dell\'energia = 2025).'},
+q2:{ok:'Esatto! Pagamento anticipato → risconto. È un costo pagato → risconto ATTIVO. Competenza: 2 mesi (nov-dic). Non di competenza: 10 mesi. Risconto = 2.400 ÷ 12 × 10 = 2.000 €.',ko:'Pagamento anticipato → risconto (non rateo). È un costo → risconto ATTIVO. 10 mesi non di competenza → 2.400/12 × 10 = 2.000 €.'},
+q3:{ok:'Corretto! Si svaluta la parte NON esigibile: 5.000 × 70% = 3.500 €.',ko:'Si svaluta la parte NON esigibile. Esigibile al 30% → NON esigibile al 70%. Svalutazione = 5.000 × 70% = 3.500 €.'},
+q4:{ok:'Esatto! 15.000 ÷ 5 = 3.000 €/anno.',ko:'Quota = Valore da ammortizzare ÷ Anni = 15.000 ÷ 5 = 3.000 €.'},
+q5:{ok:'Corretto! Le rimanenze "tolgono" dal C.E. il valore dei beni non consumati → operazione di rettifica.',ko:'Le rimanenze servono a rettificare (togliere) i costi delle merci non vendute/consumate.'},
+q6:{ok:'Corretto! L\'art. 2423-bis, comma 1, n. 3 c.c.: "si deve tener conto dei proventi e degli oneri di competenza dell\'esercizio, indipendentemente dalla data dell\'incasso o del pagamento."',ko:'È l\'art. 2423-bis, comma 1, n. 3 c.c. che sancisce espressamente il principio di competenza.'},
+q7:{ok:'Corretto! L\'OIC 18 disciplina specificamente ratei e risconti. L\'OIC 11 riguarda i postulati generali, l\'OIC 13 le rimanenze, l\'OIC 16 le immobilizzazioni.',ko:'L\'OIC 18 disciplina ratei e risconti. OIC 11 = postulati generali, OIC 13 = rimanenze, OIC 16 = immobilizzazioni.'}
+};
+function ck(id,el,correct){const opts=el.parentElement.querySelectorAll('.quiz-opt');opts.forEach(o=>{o.classList.add('disabled');if(o===el)o.classList.add(correct?'correct':'wrong')});if(!correct)opts.forEach((o,i)=>{const oc=o.getAttribute('onclick');if(oc&&oc.includes(',1)'))o.classList.add('correct')});const fb=document.getElementById(id+'-fb');fb.className='quiz-fb show '+(correct?'ok':'ko');fb.textContent=correct?QFB[id].ok:QFB[id].ko}
+function cc(id,ans,expl){const v=parseFloat(document.getElementById(id).value);const fb=document.getElementById(id+'-fb');if(isNaN(v)){fb.className='calc-result show ko';fb.textContent='Inserisci un valore numerico.';return}if(Math.abs(v-ans)<1){fb.className='calc-result show ok';fb.textContent='✓ Corretto! '+expl}else{fb.className='calc-result show ko';fb.textContent='✗ Non esatto. '+expl}}
+</script>
+</body>
+</html>
