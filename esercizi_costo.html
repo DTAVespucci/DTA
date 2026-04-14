@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DTA Arena — Esercizi Gamificati</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#06060c;--card:#0d0d18;--card2:#111122;--cyan:#00e5ff;--mag:#ff2d87;--yel:#ffd000;--grn:#00ff88;--orn:#ff7b00;--vio:#a855f7;--txt:#f0f0f8;--dim:#6b6b8a;--brd:#1a1a2e;--r:12px}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;overflow-x:hidden;min-height:100vh}
+/* ANIMATED BG */
+body::after{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 20% 50%,rgba(0,229,255,.03) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(255,45,135,.03) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(168,85,247,.03) 0%,transparent 50%);animation:bgPulse 20s ease-in-out infinite alternate;pointer-events:none;z-index:0}
+@keyframes bgPulse{0%{transform:rotate(0deg)}100%{transform:rotate(3deg)}}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(6,6,12,.85);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid rgba(255,255,255,.05);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.logo{font-family:'Bebas Neue';font-size:1.4rem;letter-spacing:4px;background:linear-gradient(135deg,var(--cyan),var(--mag));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hud{display:flex;align-items:center;gap:.8rem;margin-left:auto}
+.hud-item{display:flex;align-items:center;gap:.3rem;font-size:.75rem;font-family:'JetBrains Mono';padding:.3rem .7rem;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.hud-item .icon{font-size:.9rem}
+.hud-item .val{font-weight:700}
+.xp-val{color:var(--cyan)}.coin-val{color:var(--yel)}.combo-val{color:var(--mag)}
+.xp-outer{width:120px;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.xp-inner{height:100%;background:linear-gradient(90deg,var(--cyan),var(--grn));border-radius:3px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.lvl-pill{background:linear-gradient(135deg,var(--mag),var(--vio));padding:.2rem .7rem;border-radius:20px;font-family:'Bebas Neue';font-size:.7rem;letter-spacing:2px;color:#fff}
+
+.main{max-width:800px;margin:0 auto;padding:1.5rem;position:relative;z-index:1}
+
+/* DASHBOARD HERO */
+.dash-hero{text-align:center;padding:3rem 0 2rem;position:relative}
+.dash-hero h1{font-family:'Bebas Neue';font-size:clamp(2rem,6vw,3.5rem);letter-spacing:5px;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dash-hero p{color:var(--dim);font-size:.9rem;margin-top:.5rem}
+.dash-stats{display:flex;justify-content:center;gap:1.5rem;margin-top:1.5rem}
+.stat-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:.8rem 1.5rem;text-align:center}
+.stat-card .sv{font-family:'Bebas Neue';font-size:1.8rem;letter-spacing:2px}
+.stat-card .sl{font-size:.65rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+
+/* MISSION LIST */
+.sec-title{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:4px;color:var(--dim);margin:2rem 0 .8rem;display:flex;align-items:center;gap:.8rem}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--brd),transparent)}
+.missions{display:grid;gap:.6rem}
+.mis{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:1rem 1.2rem;cursor:pointer;transition:all .3s;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem}
+.mis:hover{border-color:var(--cyan);transform:translateX(4px);box-shadow:0 0 30px rgba(0,229,255,.08)}
+.mis.done{opacity:.6;border-color:var(--grn)}
+.mis-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:linear-gradient(135deg,rgba(0,229,255,.15),rgba(255,45,135,.1));border:1px solid rgba(0,229,255,.2)}
+.mis.done .mis-icon{background:linear-gradient(135deg,rgba(0,255,136,.15),rgba(0,255,136,.05));border-color:rgba(0,255,136,.3)}
+.mis-info .mi-t{font-weight:600;font-size:.9rem}.mis-info .mi-d{font-size:.75rem;color:var(--dim);margin-top:.1rem}
+.mis-xp{font-family:'JetBrains Mono';font-size:.7rem;color:var(--yel);background:rgba(255,208,0,.08);padding:.2rem .6rem;border-radius:6px}
+
+/* EXERCISE VIEW */
+#exView{display:none;animation:slideIn .4s ease}
+#exView.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.back-btn{display:inline-flex;align-items:center;gap:.3rem;background:none;border:1px solid var(--brd);color:var(--dim);padding:.4rem 1rem;border-radius:8px;font-size:.8rem;cursor:pointer;transition:.2s;margin-bottom:1rem}
+.back-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* EXERCISE CARD */
+.ex-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;overflow:hidden;margin-bottom:1.5rem}
+.ex-top{background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(255,45,135,.05));padding:1.5rem;border-bottom:1px solid var(--brd);position:relative}
+.ex-badge{display:inline-block;font-family:'Bebas Neue';font-size:.65rem;letter-spacing:3px;background:var(--mag);color:#fff;padding:.2rem .8rem;border-radius:5px;margin-bottom:.6rem}
+.ex-top h2{font-family:'Bebas Neue';font-size:1.5rem;letter-spacing:3px}
+.ex-top p{color:var(--dim);font-size:.85rem;margin-top:.3rem}
+
+/* DATA DISPLAY */
+.data-box{background:var(--card2);border:1px solid var(--brd);border-radius:var(--r);margin:1rem 1.5rem;overflow:hidden}
+.data-box .db-title{background:rgba(0,229,255,.06);padding:.5rem 1rem;font-family:'Bebas Neue';font-size:.75rem;letter-spacing:3px;color:var(--cyan);border-bottom:1px solid var(--brd)}
+.data-box table{width:100%;border-collapse:collapse}
+.data-box th{font-size:.7rem;font-weight:600;letter-spacing:1px;color:var(--dim);padding:.5rem .8rem;text-align:left;text-transform:uppercase}
+.data-box th.r{text-align:right}
+.data-box td{padding:.45rem .8rem;border-top:1px solid rgba(255,255,255,.03);font-size:.85rem}
+.data-box td.n{text-align:right;font-family:'JetBrains Mono';font-size:.82rem;color:var(--cyan)}
+
+/* THEORY PILL */
+.theory-pill{margin:1rem 1.5rem;padding:1rem;border-radius:var(--r);background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15)}
+.theory-pill h4{font-family:'Bebas Neue';font-size:.8rem;letter-spacing:3px;color:var(--vio);margin-bottom:.3rem}
+.theory-pill p{font-size:.82rem;color:var(--dim);line-height:1.8}
+.theory-pill strong{color:var(--txt)}
+.theory-pill code{font-family:'JetBrains Mono';font-size:.8rem;background:rgba(255,208,0,.08);color:var(--yel);padding:.15rem .5rem;border-radius:4px}
+
+/* STEPS */
+.steps-area{padding:0 1.5rem 1.5rem}
+.stp{background:var(--card2);border:1px solid var(--brd);border-radius:var(--r);margin-bottom:.8rem;overflow:hidden;transition:all .4s}
+.stp.active{border-color:var(--cyan);box-shadow:0 0 25px rgba(0,229,255,.1)}
+.stp.done{border-color:var(--grn);box-shadow:none}
+.stp.locked{opacity:.25;pointer-events:none;filter:blur(1px)}
+.stp-head{padding:.7rem 1rem;display:flex;align-items:center;gap:.7rem}
+.stp-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--brd);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:.85rem;color:var(--dim);flex-shrink:0;transition:.3s}
+.stp.active .stp-dot{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,229,255,.3)}
+.stp.done .stp-dot{border-color:var(--grn);background:var(--grn);color:var(--bg)}
+.stp-name{font-weight:600;font-size:.82rem;color:var(--dim);transition:.3s}
+.stp.active .stp-name{color:var(--txt)}
+.stp.done .stp-name{color:var(--grn)}
+.stp-xp{margin-left:auto;font-family:'JetBrains Mono';font-size:.65rem;color:var(--yel);opacity:.6}
+.stp-body{display:none;padding:0 1rem 1rem}
+.stp.active .stp-body,.stp.done .stp-body{display:block}
+
+/* EXPLAIN */
+.stp-explain{font-size:.84rem;color:var(--dim);line-height:1.9;margin-bottom:.8rem;padding:.6rem;background:rgba(255,255,255,.02);border-radius:8px;border-left:3px solid var(--cyan)}
+.stp-explain strong{color:var(--txt)}
+.hi-c{color:var(--cyan);font-weight:600}
+.hi-m{color:var(--mag);font-weight:600}
+.hi-g{color:var(--grn);font-weight:600}
+.hi-y{color:var(--yel);font-weight:600}
+
+/* INPUTS */
+.inp-group{display:flex;flex-direction:column;gap:.5rem}
+.inp-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.inp-row label{font-size:.84rem;font-weight:600;min-width:170px;display:flex;align-items:center;gap:.3rem}
+.inp-row label .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+.inp-wrap{position:relative;display:flex;align-items:center}
+.inp-wrap input{background:rgba(255,255,255,.04);border:2px solid var(--brd);border-radius:8px;padding:.5rem .8rem;padding-right:2rem;color:var(--txt);font-family:'JetBrains Mono';font-size:.9rem;width:140px;text-align:right;transition:all .3s}
+.inp-wrap input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 15px rgba(0,229,255,.15);background:rgba(0,229,255,.03)}
+.inp-wrap input.ok{border-color:var(--grn);background:rgba(0,255,136,.05);color:var(--grn);animation:pulse .4s}
+.inp-wrap input.ko{border-color:var(--orn);background:rgba(255,123,0,.05);color:var(--orn);animation:shake .4s}
+.inp-wrap .unit{position:absolute;right:.6rem;font-size:.7rem;color:var(--dim);pointer-events:none}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+.check-btn{background:linear-gradient(135deg,var(--cyan),#0088ff);color:#000;border:none;padding:.55rem 1.5rem;border-radius:8px;font-weight:700;font-size:.82rem;letter-spacing:1px;cursor:pointer;transition:all .3s;margin-top:.6rem;text-transform:uppercase}
+.check-btn:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,229,255,.3)}
+.check-btn:active{transform:translateY(0)}
+.adv-btn{background:linear-gradient(135deg,var(--vio),var(--mag));color:#fff}
+
+.stp-fb{padding:.6rem .8rem;border-radius:8px;margin-top:.6rem;font-size:.82rem;display:none;font-weight:500}
+.stp-fb.show{display:flex;align-items:center;gap:.5rem;animation:slideIn .3s}
+.stp-fb.ok{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:var(--grn)}
+.stp-fb.ko{background:rgba(255,123,0,.06);border:1px solid rgba(255,123,0,.15);color:var(--orn)}
+
+/* TOAST */
+.toast-area{position:fixed;top:80px;right:1rem;z-index:300;display:flex;flex-direction:column;gap:.4rem;pointer-events:none}
+.toast{background:var(--card);border:1px solid var(--grn);border-radius:10px;padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;box-shadow:0 4px 30px rgba(0,255,136,.15);animation:toastIn .4s ease,toastOut .4s ease 2.2s forwards;pointer-events:auto}
+.toast .t-icon{font-size:1.2rem}
+.toast .t-xp{color:var(--grn);font-family:'JetBrains Mono'}
+.toast .t-msg{color:var(--dim);font-weight:400;font-size:.75rem}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px)}}
+
+/* CONFETTI */
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:250;overflow:hidden}
+.confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall 2.5s ease-out forwards}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* COMBO FLASH */
+.combo-flash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue';font-size:4rem;letter-spacing:5px;color:var(--yel);text-shadow:0 0 40px rgba(255,208,0,.5);z-index:200;pointer-events:none;animation:comboAnim .8s ease-out forwards;opacity:0}
+@keyframes comboAnim{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}100%{opacity:0;transform:translate(-50%,-60%) scale(1)}}
+
+/* PROGRESS RING */
+.ring-wrap{display:flex;justify-content:center;margin:1rem 0}
+.ring{position:relative;width:60px;height:60px}
+.ring svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--brd);stroke-width:4}
+.ring-fg{fill:none;stroke:var(--cyan);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s}
+.ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:.9rem;color:var(--cyan)}
+
+@media(max-width:600px){.main{padding:.8rem}.topbar{padding:.5rem .8rem;gap:.5rem}.hud-item{padding:.2rem .4rem;font-size:.65rem}.xp-outer{width:60px}.mis{grid-template-columns:1fr auto;gap:.5rem}.mis-icon{display:none}.inp-row label{min-width:auto;width:100%}.ex-top{padding:1rem}.data-box,.theory-pill,.steps-area{margin-left:.8rem;margin-right:.8rem}.dash-stats{gap:.5rem}.stat-card{padding:.5rem .8rem}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">DTA ARENA</div>
+  <div class="hud">
+    <div class="lvl-pill" id="lvlP">LV.1</div>
+    <div class="xp-outer"><div class="xp-inner" id="xpBar" style="width:0%"></div></div>
+    <div class="hud-item"><span class="icon">⚡</span><span class="val xp-val" id="xpVal">0</span></div>
+    <div class="hud-item"><span class="icon">🔥</span><span class="val combo-val" id="comboVal">0</span></div>
+  </div>
+</div>
+
+<div class="toast-area" id="toasts"></div>
+<div class="confetti" id="confetti"></div>
+
+<div class="main">
+<!-- DASHBOARD -->
+<div id="dash">
+  <div class="dash-hero">
+    <h1>DTA ARENA</h1>
+    <p>Modulo 2 — Classe 4ª Enogastronomia · Completa tutte le missioni</p>
+    <div class="dash-stats">
+      <div class="stat-card"><div class="sv" style="color:var(--cyan)" id="statDone">0</div><div class="sl">Completati</div></div>
+      <div class="stat-card"><div class="sv" style="color:var(--yel)" id="statXP">0</div><div class="sl">XP Totali</div></div>
+      <div class="stat-card"><div class="sv" style="color:var(--mag)" id="statLvl">1</div><div class="sl">Livello</div></div>
+    </div>
+  </div>
+  <div id="mList"></div>
+</div>
+
+<!-- EXERCISE VIEW -->
+<div id="exView"></div>
+</div>
+
+<script>
+// ═══════ ENGINE ═══════
+let xp=0,combo=0,lv=1;
+const LVS=[{n:'Apprendista',x:0},{n:'Commis',x:120},{n:'Cuoco',x:300},{n:'Chef de Partie',x:550},{n:'Sous Chef',x:900},{n:'Executive Chef',x:1400},{n:'Maestro',x:2000}];
+
+function earnXP(a,msg){
+  const mult=combo>=5?2:combo>=3?1.5:1;
+  const gained=Math.round(a*mult);
+  xp+=gained;combo++;
+  let nl=0;for(let i=LVS.length-1;i>=0;i--)if(xp>=LVS[i].x){nl=i+1;break;}
+  const lvUp=nl>lv;lv=nl;
+  updHUD();
+  showToast(gained,msg||(lvUp?'🎉 LEVEL UP! '+LVS[lv-1].n:'Step completato!'));
+  if(combo===3)showCombo('3x COMBO!');
+  if(combo===5)showCombo('5x STREAK! 🔥');
+  if(combo===10)showCombo('10x UNSTOPPABLE!! ⚡');
+  if(lvUp){fireConfetti();showCombo('LEVEL UP!')}
+}
+function breakCombo(){combo=0;updHUD()}
+
+function updHUD(){
+  const c=LVS[lv-1],nx=LVS[lv]||{x:c.x+500};
+  const pct=Math.min(100,((xp-c.x)/(nx.x-c.x))*100);
+  document.getElementById('xpBar').style.width=pct+'%';
+  document.getElementById('xpVal').textContent=xp;
+  document.getElementById('comboVal').textContent=combo;
+  document.getElementById('lvlP').textContent='LV.'+lv;
+  document.getElementById('statXP').textContent=xp;
+  document.getElementById('statLvl').textContent=lv;
+  document.getElementById('statDone').textContent=EX.filter(e=>localStorage.getItem('d_'+e.id)).length;
+}
+
+function showToast(xpAmt,msg){
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML=`<span class="t-icon">⭐</span><span class="t-xp">+${xpAmt} XP</span><span class="t-msg">${msg}</span>`;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>t.remove(),2800);
+}
+
+function showCombo(txt){
+  const c=document.createElement('div');c.className='combo-flash';c.textContent=txt;
+  document.body.appendChild(c);setTimeout(()=>c.remove(),1000);
+}
+
+function fireConfetti(){
+  const container=document.getElementById('confetti');
+  const colors=['#00e5ff','#ff2d87','#ffd000','#00ff88','#a855f7','#ff7b00'];
+  for(let i=0;i<50;i++){
+    const p=document.createElement('div');p.className='confetti-piece';
+    p.style.left=Math.random()*100+'%';p.style.background=colors[Math.floor(Math.random()*6)];
+    p.style.animationDelay=Math.random()*.8+'s';p.style.animationDuration=(2+Math.random())+'s';
+    p.style.width=(5+Math.random()*8)+'px';p.style.height=(5+Math.random()*8)+'px';
+    container.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+
+// ═══════ EXERCISE DATA ═══════
+const EX=[
+// ─── L1 ───
+{id:'e4',l:1,n:'4',xp:80,icon:'🍳',t:'Configurazioni di costo',d:'CP, CC e CET di un ristorante. OF=20%.',
+data:{title:'DATI DEL RISTORANTE',rows:[['Alimenti','124.000'],['Costi del lavoro','130.000'],['Altri costi diretti di produzione','36.000'],['Costi di amministrazione','22.000'],['Costi di distribuzione','5.000'],['Oneri finanziari','3.000'],['Oneri tributari','24.000'],['Oneri figurativi','20% del CC']]},
+th:{t:'LE CONFIGURAZIONI DI COSTO',p:'Nel settore ristorativo i costi si aggregano in tre livelli progressivi. Il <strong>costo primo</strong> include solo i costi diretti (materie prime, lavoro, altri diretti). Il <strong>costo complessivo</strong> aggiunge i costi indiretti. Il <strong>costo economico-tecnico</strong> aggiunge gli oneri figurativi — il livello minimo del prezzo di vendita.',c:'CET = CP + Costi indiretti + OF'},
+s:[
+{l:'Calcola il COSTO PRIMO',e:'Somma i tre costi diretti: <strong>Alimenti</strong> (124.000) + <strong>Lavoro</strong> (130.000) + <strong>Altri diretti</strong> (36.000). Questi sono i costi attribuibili direttamente alla produzione dei piatti.',
+ f:[{i:'e4a',lb:'Costo primo',a:290000,h:'124.000 + 130.000 + 36.000'}],xp:20},
+{l:'Calcola il COSTO COMPLESSIVO',e:'Al costo primo (290.000) aggiungi tutti i costi indiretti: <strong>Amministrazione</strong> (22.000) + <strong>Distribuzione</strong> (5.000) + <strong>Oneri finanziari</strong> (3.000) + <strong>Oneri tributari</strong> (24.000).',
+ f:[{i:'e4b',lb:'Costo complessivo',a:344000,h:'290.000 + 22.000 + 5.000 + 3.000 + 24.000'}],xp:20},
+{l:'Calcola gli ONERI FIGURATIVI',e:'Gli oneri figurativi sono il 20% del costo complessivo. Rappresentano ciò che l\'imprenditore "perde" non investendo altrove: stipendio direzionale, fitto figurativo, interesse di computo.<br><br><span class="hi-y">344.000 × 20% = ?</span>',
+ f:[{i:'e4c',lb:'Oneri figurativi',a:68800,h:'344.000 × 0,20'}],xp:20},
+{l:'Calcola il COSTO ECONOMICO-TECNICO',e:'Il CET è il prezzo minimo di vendita: sotto questo valore, il ristorante non copre nemmeno i costi figurativi e non è remunerativo.<br><br><span class="hi-g">344.000 + 68.800 = ?</span>',
+ f:[{i:'e4d',lb:'Costo eco-tecnico',a:412800}],xp:20}
+]},
+
+{id:'e5',l:1,n:'5',xp:60,icon:'💒',t:'Pranzo nuziale — 180 invitati',d:'Costo primo, complessivo e per persona.',
+data:{title:'DATI DEL PRANZO NUZIALE',rows:[['Generi alimentari e materie di consumo','2.600'],['Costi diretti del personale','1.650'],['Altri costi diretti di produzione','630'],['Costi di amm. e distribuzione','620'],['Altri costi indiretti','800'],['Numero invitati','180']]},
+s:[
+{l:'COSTO PRIMO',e:'<span class="hi-c">2.600 + 1.650 + 630 = ?</span>',f:[{i:'e5a',lb:'Costo primo',a:4880}],xp:15},
+{l:'COSTO COMPLESSIVO',e:'<span class="hi-m">4.880 + 620 + 800 = ?</span>',f:[{i:'e5b',lb:'Costo complessivo',a:6300}],xp:15},
+{l:'COSTO PER PERSONA',e:'Dividi il CC per il numero degli invitati (180):<br><span class="hi-g">6.300 ÷ 180 = ?</span>',f:[{i:'e5c',lb:'€/persona',a:35}],xp:30}
+]},
+
+{id:'e7',l:1,n:'7',xp:80,icon:'🎪',t:'Evento catering — CET al 18%',d:'Tutte le configurazioni con OF al 18%.',
+data:{title:'DATI EVENTO',rows:[['Generi alimentari','730'],['Costi diretti personale','820'],['Altri costi diretti','480'],['Costi amm. e distribuzione','310'],['Altri costi indiretti','260'],['Oneri figurativi','18% del CC']]},
+s:[
+{l:'COSTO PRIMO',e:'<span class="hi-c">730 + 820 + 480 = ?</span>',f:[{i:'e7a',lb:'CP',a:2030}],xp:20},
+{l:'COSTO COMPLESSIVO',e:'<span class="hi-m">2.030 + 310 + 260 = ?</span>',f:[{i:'e7b',lb:'CC',a:2600}],xp:20},
+{l:'ONERI FIGURATIVI',e:'<span class="hi-y">2.600 × 18% = ?</span>',f:[{i:'e7c',lb:'OF',a:468}],xp:20},
+{l:'CET',e:'<span class="hi-g">2.600 + 468 = ?</span>',f:[{i:'e7d',lb:'CET',a:3068}],xp:20}
+]},
+
+// ─── L2 ───
+{id:'e13',l:2,n:'13',xp:120,icon:'🏭',t:'Full costing base unica — 3 mense',d:'Riparto costi indiretti (252.000) in proporzione al CP.',
+data:{title:'DATI DELLE TRE MENSE AZIENDALI',cols:['','GT Industrie','VD Commerciale','LR Informatica'],rows:[['Materie prime','280.000','320.000','140.000'],['Lavoro diretto','180.000','220.000','120.000'],['Costi indiretti totali','','252.000','']]},
+th:{t:'FULL COSTING — BASE UNICA',p:'Si ripartiscono TUTTI i costi indiretti usando un unico criterio (qui: in proporzione al costo primo). Il <strong>coefficiente di riparto</strong> = Totale CI ÷ Somma CP. Poi si moltiplica il coefficiente per il CP di ciascun oggetto.',c:'Coeff = CI totali ÷ Σ CP'},
+s:[
+{l:'COSTI PRIMI delle 3 mense',e:'Per ogni mensa somma <strong>materie prime + lavoro diretto</strong>.',
+ f:[{i:'e13a',lb:'CP GT Industrie',a:460000,h:'280k+180k'},{i:'e13b',lb:'CP VD Commerciale',a:540000,h:'320k+220k'},{i:'e13c',lb:'CP LR Informatica',a:260000,h:'140k+120k'}],xp:20},
+{l:'COEFFICIENTE DI RIPARTO',e:'Somma tutti i CP: 460k+540k+260k = 1.260.000. Dividi i CI totali per la somma:<br><span class="hi-y">252.000 ÷ 1.260.000 = ?</span>',
+ f:[{i:'e13d',lb:'Coefficiente',a:0.2,s:.01}],xp:30},
+{l:'QUOTE E COSTI COMPLESSIVI',e:'Moltiplica il coefficiente (0,2) per ciascun CP, poi aggiungi al CP:<br>GT: 460k + 0,2×460k = ?<br>VD: 540k + 0,2×540k = ?<br>LR: 260k + 0,2×260k = ?',
+ f:[{i:'e13e',lb:'CC GT Industrie',a:552000},{i:'e13f',lb:'CC VD Commerciale',a:648000},{i:'e13g',lb:'CC LR Informatica',a:312000}],xp:70}
+]},
+
+{id:'e14',l:2,n:'14',xp:120,icon:'✈️',t:'Full costing — Shanghai / Singapore / Dubai',d:'Riparto 136.000 di costi comuni in base al CP.',
+data:{title:'PACCHETTI TURISTICI',cols:['','Shanghai','Singapore','Dubai'],rows:[['Volo A/R','220.000','180.000','280.000'],['Hotel','210.000','230.000','340.000'],['Servizi vari','80.000','70.000','90.000'],['Costi amm.','40.000','',''],['Costi distribuzione','31.000','',''],['Oneri finanziari','25.000','',''],['Oneri tributari','40.000','','']]},
+s:[
+{l:'COSTI PRIMI',e:'Per ogni destinazione: <strong>Volo + Hotel + Servizi</strong>.',
+ f:[{i:'e14a',lb:'CP Shanghai',a:510000},{i:'e14b',lb:'CP Singapore',a:480000},{i:'e14c',lb:'CP Dubai',a:710000}],xp:20},
+{l:'TOTALE COSTI COMUNI',e:'40k + 31k + 25k + 40k = ?',f:[{i:'e14d',lb:'Totale CI',a:136000}],xp:15},
+{l:'COEFFICIENTE',e:'136.000 ÷ (510k+480k+710k) = <span class="hi-y">136.000 ÷ 1.700.000 = ?</span>',f:[{i:'e14e',lb:'Coeff.',a:0.08,s:.01}],xp:25},
+{l:'COSTI COMPLESSIVI',e:'Per ciascuno: CP + (0,08 × CP)',
+ f:[{i:'e14f',lb:'CC Shanghai',a:550800},{i:'e14g',lb:'CC Singapore',a:518400},{i:'e14h',lb:'CC Dubai',a:766800}],xp:60}
+]},
+
+{id:'e19',l:2,n:'19',xp:100,icon:'🏡',t:'Direct costing — Agriturismo',d:'MdC di Camere, Equitazione, Ristorante. CF=180.000.',
+data:{title:'AGRITURISMO — DATI PER SETTORE',cols:['','Camere','Equitazione','Ristorante'],rows:[['Ricavi di vendita','490.000','280.000','470.000'],['Materie e servizi','58.000','46.000','110.000'],['Lavoro diretto','140.000','96.000','170.000'],['Ammortamenti','35.000','42.000','23.000'],['Costi fissi comuni','','180.000','']]},
+th:{t:'DIRECT COSTING',p:'Si imputano solo i costi diretti. Il <strong>Margine di contribuzione</strong> (MdC) = Ricavi − Costi diretti. Indica quanto ogni settore contribuisce a coprire i costi fissi comuni e a generare utile.',c:'MdC = Ricavi − CD  |  RE = ΣMdC − CF'},
+s:[
+{l:'COSTI DIRETTI per settore',e:'Somma materie+lavoro+ammortamenti per ciascun settore.',
+ f:[{i:'e19a',lb:'CD Camere',a:233000,h:'58k+140k+35k'},{i:'e19b',lb:'CD Equitazione',a:184000,h:'46k+96k+42k'},{i:'e19c',lb:'CD Ristorante',a:303000,h:'110k+170k+23k'}],xp:25},
+{l:'MARGINI DI CONTRIBUZIONE',e:'MdC = Ricavi − Costi diretti per ciascun settore.',
+ f:[{i:'e19d',lb:'MdC Camere',a:257000,h:'490k−233k'},{i:'e19e',lb:'MdC Equitazione',a:96000,h:'280k−184k'},{i:'e19f',lb:'MdC Ristorante',a:167000,h:'470k−303k'}],xp:35},
+{l:'RISULTATO ECONOMICO',e:'MdC totale (257k+96k+167k = 520.000) − Costi fissi comuni (180.000) = ?',
+ f:[{i:'e19g',lb:'Risultato economico',a:340000}],xp:40}
+]},
+
+{id:'e22',l:2,n:'22',xp:120,icon:'📊',t:'Direct costing + MdC% — 3 mense',d:'Quale mensa copre meglio i costi fissi?',
+data:{title:'TRE MENSE AZIENDALI',cols:['','Italfer','Inform','Tessuti'],rows:[['Ricavi','630.000','700.000','681.000'],['Materie/servizi','250.000','210.000','230.000'],['Lavoro diretto','220.000','185.000','195.000'],['Ammortamenti','38.000','56.000','34.000'],['CF comuni','','250.000','']]},
+s:[
+{l:'COSTI DIRETTI',e:'Per ciascuna: materie+lavoro+ammortamenti.',
+ f:[{i:'e22a',lb:'CD Italfer',a:508000},{i:'e22b',lb:'CD Inform',a:451000},{i:'e22c',lb:'CD Tessuti',a:459000}],xp:15},
+{l:'MARGINI E RISULTATO',e:'MdC = Ricavi − CD. RE = ΣMdC − CF comuni.',
+ f:[{i:'e22d',lb:'MdC Italfer',a:122000},{i:'e22e',lb:'MdC Inform',a:249000},{i:'e22f',lb:'MdC Tessuti',a:222000},{i:'e22g',lb:'RE (utile)',a:343000}],xp:45},
+{l:'MdC PERCENTUALE',e:'(MdC÷Ricavi)×100. Quale mensa ha la % più alta?',
+ f:[{i:'e22h',lb:'MdC% Italfer',a:19.37,s:.01},{i:'e22i',lb:'MdC% Inform',a:35.57,s:.01},{i:'e22j',lb:'MdC% Tessuti',a:32.60,s:.01}],xp:60}
+]},
+
+// ─── L5 ───
+{id:'e40',l:5,n:'40',xp:100,icon:'🥩',t:'Prova di resa — Moretti vs Giugni',d:'Chi conviene? Il prezzo al kg non dice tutto!',
+data:{title:'DATI PROVA DI RESA',cols:['','Moretti srl','Giugni srl'],rows:[['Peso lordo','20,00 kg','20,00 kg'],['Porzione','0,30 kg','0,30 kg'],['Scarto di lavorazione','3,50 kg','2,00 kg'],['Prezzo al kg','11,00 €','14,00 €']]},
+th:{t:'LE PROVE DI RESA',p:'Un prezzo al kg più basso NON significa sempre un costo per porzione più basso. Il segreto sta nello <strong>scarto di lavorazione</strong>. Lo chef confronta peso netto, numero porzioni e costo finale per scegliere il fornitore migliore.',c:'Costo/porzione = (Prezzo×Peso lordo) ÷ (Peso netto÷Porzione)'},
+s:[
+{l:'PESO NETTO al piatto',e:'Peso netto = Peso lordo − Scarto.<br><span class="hi-c">Moretti: 20 − 3,50 = ?</span><br><span class="hi-m">Giugni: 20 − 2,00 = ?</span>',
+ f:[{i:'e40a',lb:'Netto Moretti (kg)',a:16.5,s:.1},{i:'e40b',lb:'Netto Giugni (kg)',a:18,s:.1}],xp:15},
+{l:'NUMERO DI PORZIONI',e:'N° porzioni = Peso netto ÷ Peso porzione (0,30 kg).',
+ f:[{i:'e40c',lb:'Porzioni Moretti',a:55},{i:'e40d',lb:'Porzioni Giugni',a:60}],xp:15},
+{l:'COSTO TOTALE materie',e:'Costo = Prezzo/kg × Peso lordo.<br>Moretti: 11×20=? | Giugni: 14×20=?',
+ f:[{i:'e40e',lb:'Costo Moretti €',a:220},{i:'e40f',lb:'Costo Giugni €',a:280}],xp:15},
+{l:'COSTO PER PORZIONE',e:'Costo totale ÷ N° porzioni. <strong>Chi costa meno a porzione?</strong>',
+ f:[{i:'e40g',lb:'€/porz Moretti',a:4.00,s:.01},{i:'e40h',lb:'€/porz Giugni',a:4.67,s:.01}],xp:55}
+]},
+
+{id:'e41',l:5,n:'41',xp:100,icon:'🥩',t:'Prova di resa — Filetto (Monti vs Boni)',d:'18 kg lordi, porzione 0,15 kg.',
+data:{title:'FILETTO — DATI',cols:['','Monti carni','Macelleria Boni'],rows:[['Peso lordo','18,00 kg','18,00 kg'],['Porzione','0,15 kg','0,15 kg'],['Scarto','2,40 kg','4,20 kg'],['Prezzo/kg','30,00 €','25,00 €']]},
+s:[
+{l:'PESO NETTO',e:'Monti: 18−2,4=? | Boni: 18−4,2=?',
+ f:[{i:'e41a',lb:'Netto Monti',a:15.6,s:.1},{i:'e41b',lb:'Netto Boni',a:13.8,s:.1}],xp:15},
+{l:'PORZIONI',e:'÷ 0,15 kg',f:[{i:'e41c',lb:'Porz. Monti',a:104},{i:'e41d',lb:'Porz. Boni',a:92}],xp:15},
+{l:'COSTO/PORZIONE',e:'Monti: 540÷104=? | Boni: 450÷92=?<br><span class="hi-g">Conviene Boni nonostante lo scarto maggiore!</span>',
+ f:[{i:'e41e',lb:'€/porz Monti',a:5.19,s:.01},{i:'e41f',lb:'€/porz Boni',a:4.89,s:.01}],xp:70}
+]},
+
+{id:'e43',l:5,n:'43',xp:60,icon:'📦',t:'Scorta e riordino — Pomodoro',d:'C=75 kg/gg, g=4 gg, sicurezza=7 gg.',
+th:{t:'SCORTA E RIORDINO',p:'La <strong>scorta di sicurezza</strong> (S) evita rotture di stock. Il <strong>livello di riordino</strong> (L) dice quando riordinare.',c:'S = C × gg sicurezza  |  L = C × g + S'},
+s:[
+{l:'SCORTA DI SICUREZZA',e:'Consumo giornaliero (75 kg) × Giorni sicurezza (7) = ?',f:[{i:'e43a',lb:'Scorta (kg)',a:525}],xp:30},
+{l:'LIVELLO DI RIORDINO',e:'L = 75 × 4 + 525 = ?<br>Quando le scorte raggiungono questo livello, <strong>ordina subito</strong>!',f:[{i:'e43b',lb:'Riordino (kg)',a:825}],xp:30}
+]},
+
+{id:'e46',l:5,n:'46',xp:80,icon:'📈',t:'Food cost % — Trimestre',d:'Il food cost sta aumentando?',
+data:{title:'DATI TRIMESTRALI',cols:['','Gennaio','Febbraio','Marzo'],rows:[['Costo alimenti','22.000','18.000','26.000'],['Ricavi ristorazione','78.000','62.000','80.000']]},
+th:{t:'IL FOOD COST',p:'Percentuale che misura l\'incidenza delle materie prime sui ricavi. Media settore ≈ 30%. Un trend in aumento segnala <strong>inefficienze</strong> (sprechi, prezzi in crescita, porzioni non standardizzate).',c:'FC% = (Costo alimenti ÷ Ricavi) × 100'},
+s:[
+{l:'FC% MENSILI',e:'Applica la formula per ciascun mese.',
+ f:[{i:'e46a',lb:'FC% Gennaio',a:28.21,s:.01},{i:'e46b',lb:'FC% Febbraio',a:29.03,s:.01},{i:'e46c',lb:'FC% Marzo',a:32.50,s:.01}],xp:40},
+{l:'FC% TRIMESTRALE',e:'Totale alimenti (66k) ÷ Totale ricavi (220k) × 100 = ?<br><span class="hi-m">⚠ Il trend è in aumento! Da 28% a 32%.</span>',f:[{i:'e46d',lb:'FC% Trimestre',a:30,s:.01}],xp:40}
+]},
+
+// ─── L6 ───
+{id:'e49',l:6,n:'49',xp:120,icon:'🏨',t:'Prezzo posto letto — 35 posti, 365 gg',d:'Metodo costo pieno. Utile 25%, IVA 10%.',
+data:{title:'HOTEL — COSTI ANNUALI SETTORE CAMERE',rows:[['Materie prime e di consumo','83.000'],['Lavoro diretto','224.000'],['Ammortamenti e manutenzioni','130.000'],['Costi amm./distr./comuni','140.000'],['Posti letto','35'],['Giorni apertura','365'],['Utile desiderato','25% del CC'],['IVA','10%']]},
+th:{t:'PREZZO NELLE IMPRESE RICETTIVE',p:'Il prezzo medio per posto letto si calcola partendo dal costo complessivo, aggiungendo l\'utile e l\'IVA, poi dividendo per i giorni di apertura e per il numero di posti letto.',c:'Prezzo = (CC + Utile + IVA) ÷ 365 ÷ N° posti'},
+s:[
+{l:'COSTO PRIMO',e:'Materie prime + Lavoro = <span class="hi-c">83.000 + 224.000 = ?</span>',f:[{i:'e49a',lb:'Costo primo',a:307000}],xp:15},
+{l:'COSTO COMPLESSIVO',e:'CP + Ammortamenti (130k) + Costi amm/distr (140k) = ?',f:[{i:'e49b',lb:'CC',a:577000}],xp:15},
+{l:'UTILE',e:'<span class="hi-y">577.000 × 25% = ?</span>',f:[{i:'e49c',lb:'Utile',a:144250}],xp:10},
+{l:'RICAVO COMPLESSIVO CON IVA',e:'Ricavo = 577k+144.250 = 721.250.<br>IVA = 721.250×10% = 72.125.<br>Totale = <span class="hi-m">721.250 + 72.125 = ?</span>',f:[{i:'e49d',lb:'Ricavo c/IVA',a:793375}],xp:20},
+{l:'PREZZO MEDIO POSTO LETTO',e:'Ricavo giornaliero = 793.375÷365 = 2.173,63.<br>Prezzo = 2.173,63÷35 = ?',f:[{i:'e49e',lb:'PREZZO MEDIO',a:62.10,s:.01}],xp:60}
+]},
+
+{id:'e52',l:6,n:'52',xp:100,icon:'🐟',t:'Costo pieno — Salmone al vapore (diff. media)',d:'OF 15%, Utile 12%, IVA 10%.',
+data:{title:'SALMONE AL VAPORE',rows:[['Materie prime','2,80 €'],['Difficoltà','Media → Lavoro = 3,90 €'],['Quota costi comuni','1,50 €'],['Oneri figurativi','15% del CC'],['Utile','12% del CET'],['IVA','10%']]},
+th:{t:'PREZZO PIETANZA — COSTO PIENO',p:'Per le imprese ristorative il costo del lavoro dipende dalla <strong>difficoltà di preparazione</strong> del piatto (bassa, media, medio-alta, alta). Il prezzo finale si arrotonda a 10 centesimi.',c:'Prezzo = (CC + OF + Utile) × (1 + IVA)'},
+s:[
+{l:'COSTO COMPLESSIVO',e:'Materie (2,80) + Lavoro media (3,90) + Comuni (1,50) = ?',f:[{i:'e52a',lb:'CC',a:8.20,s:.01}],xp:20},
+{l:'CET',e:'OF = 8,20 × 15% = 1,23. CET = 8,20 + 1,23 = ?',f:[{i:'e52b',lb:'CET',a:9.43,s:.01}],xp:20},
+{l:'PREZZO CON IVA',e:'Utile = 9,43×12% = 1,13 → Vendita = 10,56.<br>IVA = 10,56×10% = 1,06 → 11,62 arrot. = ?',f:[{i:'e52c',lb:'PREZZO',a:11.70,s:.1}],xp:60}
+]},
+
+{id:'e55',l:6,n:'55',xp:60,icon:'🔢',t:'Metodo del fattore — Fattore 3,2',d:'Alimenti 2,40 €, IVA 10%.',
+data:{title:'DATI PIETANZA',rows:[['Costo alimenti','2,40 €'],['Fattore','3,2'],['IVA','10%'],['Arrotondamento','10 cent per eccesso']]},
+th:{t:'IL METODO DEL FATTORE',p:'Il <strong>fattore</strong> indica quante volte il ricavo è il costo delle materie prime. Un fattore 3 significa che il prezzo è 3 volte il costo degli alimenti. È un metodo rapido usato in ristorazione.',c:'Prezzo netto = Costo alimenti × Fattore'},
+s:[
+{l:'PREZZO NETTO IVA',e:'<span class="hi-c">2,40 × 3,2 = ?</span>',f:[{i:'e55a',lb:'Prezzo netto',a:7.68,s:.01}],xp:20},
+{l:'PREZZO FINALE',e:'IVA = 7,68 × 10% = 0,77. Totale = 8,45. Arrotondato per eccesso a 10 cent = ?',f:[{i:'e55b',lb:'PREZZO',a:8.50,s:.1}],xp:40}
+]},
+
+{id:'e58',l:6,n:'58',xp:80,icon:'🎛️',t:'Coeff. variabile — Antipasto misto (bassa)',d:'Alim 2,90€, coeff 1,5, margine 2,50€, utile 20%.',
+data:{title:'ANTIPASTO MISTO',rows:[['Costo alimenti','2,90 €'],['Difficoltà','Bassa → Coeff. = 1,5'],['Margine fisso antipasto','2,50 €'],['Utile','20%'],['IVA','10%'],['Arrotondamento','unità di €']]},
+th:{t:'METODO DEL COEFFICIENTE VARIABILE',p:'Il coefficiente rappresenta la difficoltà di lavorazione. Si moltiplica per il costo alimenti, si aggiunge un <strong>margine fisso</strong> per tipo di portata, poi utile e IVA.',c:'P = (Alim × Coeff + Margine) × (1+Utile) × (1+IVA)'},
+s:[
+{l:'COSTO MATERIE E LAVORAZIONE',e:'<span class="hi-c">2,90 × 1,5 = ?</span>',f:[{i:'e58a',lb:'Costo lavor.',a:4.35,s:.01}],xp:15},
+{l:'+ MARGINE FISSO',e:'<span class="hi-m">4,35 + 2,50 = ?</span>',f:[{i:'e58b',lb:'+ margine',a:6.85,s:.01}],xp:15},
+{l:'PREZZO FINALE',e:'Utile = 6,85×20% = 1,37 → 8,22 netto IVA.<br>IVA = 0,82 → 9,04 arrot = ?',f:[{i:'e58c',lb:'PREZZO',a:9}],xp:50}
+]},
+
+{id:'e63',l:6,n:'63',xp:80,icon:'🚌',t:'Metodo ricarico — 35 persone, 3 notti',d:'Bus 1.750€, Hotel 55€×3n×35p. Ricarico 35%.',
+data:{title:'VIAGGIO A DOMANDA',rows:[['Bus GT','1.750 €'],['Hotel','55 € × 3 notti × 35 persone'],['Ricarico','35% dei costi diretti'],['Arrotondamento quota','5 €']]},
+th:{t:'METODO DEL RICARICO',p:'L\'impresa di viaggio aggiunge ai costi diretti un <strong>ricarico percentuale</strong> che copre i costi comuni e garantisce un utile. Poi divide per il numero di partecipanti.',c:'Prezzo = CD × (1 + %ricarico)'},
+s:[
+{l:'COSTO HOTEL',e:'55 € × 3 notti × 35 persone = ?',f:[{i:'e63a',lb:'Hotel totale',a:5775}],xp:15},
+{l:'TOTALE COSTI DIRETTI',e:'Bus (1.750) + Hotel (5.775) = ?',f:[{i:'e63b',lb:'Tot. CD',a:7525}],xp:15},
+{l:'PREZZO COMPLESSIVO',e:'<span class="hi-y">7.525 + (7.525 × 35%) = 7.525 + 2.633,75 = ?</span>',f:[{i:'e63c',lb:'Prezzo totale',a:10158.75,s:.01}],xp:20},
+{l:'QUOTA INDIVIDUALE',e:'10.158,75 ÷ 35 = 290,25 arrot. = ?',f:[{i:'e63d',lb:'QUOTA',a:290}],xp:30}
+]},
+
+{id:'e61',l:6,n:'61',xp:140,icon:'🇦🇹',t:'Costo pieno — Vienna/Salisburgo/Innsbruck',d:'CI 240.000 ripartiti per n° pacchetti. Utile 10%.',
+data:{title:'PACCHETTI TURISTICI AUSTRIA',cols:['','Vienna','Salisburgo','Innsbruck'],rows:[['Volo A/R','200.000','150.000','120.000'],['Transfer','15.000','15.000','10.000'],['Hotel','220.000','180.000','360.000'],['N° pacchetti','800','800','800'],['Costi comuni','','240.000',''],['Utile','','10% del CC','']]},
+s:[
+{l:'COSTI PRIMI',e:'Per ogni destinazione: Volo+Transfer+Hotel.',
+ f:[{i:'e61a',lb:'CP Vienna',a:435000},{i:'e61b',lb:'CP Salisburgo',a:345000},{i:'e61c',lb:'CP Innsbruck',a:490000}],xp:20},
+{l:'COEFFICIENTE',e:'240.000 ÷ (800+800+800) = 240.000 ÷ 2.400 = ?',f:[{i:'e61d',lb:'Coeff.',a:100}],xp:20},
+{l:'CC E RICAVI',e:'Quota comuni = 100×800 = 80.000 per ciascuno.<br>CC = CP+80k. Utile = 10%×CC. Ricavo = CC+Utile.',
+ f:[{i:'e61e',lb:'Ricavo Vienna',a:566500},{i:'e61f',lb:'Ricavo Salisb.',a:467500},{i:'e61g',lb:'Ricavo Innsbr.',a:627000}],xp:40},
+{l:'PREZZI UNITARI',e:'Ricavo ÷ 800 pacchetti, arrotondato a 10€.',
+ f:[{i:'e61h',lb:'Vienna €',a:710},{i:'e61i',lb:'Salisburgo €',a:580},{i:'e61j',lb:'Innsbruck €',a:780}],xp:60}
+]},
+];
+
+// ═══════ RENDER ═══════
+const LMAP={1:{id:'m1',t:'LEZIONE 1 — CLASSIFICAZIONE DEI COSTI'},2:{id:'m2',t:'LEZIONE 2 — METODI DI CALCOLO'},5:{id:'m5',t:'LEZIONE 5 — FOOD & BEVERAGE COST'},6:{id:'m6',t:'LEZIONE 6 — PREZZO DI VENDITA'}};
+
+function renderDash(){
+  let html='';
+  Object.entries(LMAP).forEach(([l,info])=>{
+    const exs=EX.filter(e=>e.l==l);if(!exs.length)return;
+    html+=`<div class="sec-title">${info.t}</div><div class="missions">`;
+    exs.forEach(ex=>{
+      const done=localStorage.getItem('d_'+ex.id);
+      html+=`<div class="mis${done?' done':''}" onclick="openEx('${ex.id}')">
+        <div class="mis-icon">${ex.icon}</div>
+        <div class="mis-info"><div class="mi-t">Es. ${ex.n} — ${ex.t}</div><div class="mi-d">${ex.d}</div></div>
+        <div class="mis-xp">${done?'✓':'⭐'+ex.xp}</div></div>`;
+    });
+    html+=`</div>`;
+  });
+  document.getElementById('mList').innerHTML=html;
+  updHUD();
+}
+
+function openEx(id){
+  const ex=EX.find(e=>e.id===id);if(!ex)return;
+  document.getElementById('dash').style.display='none';
+  const v=document.getElementById('exView');v.classList.add('active');
+  let h=`<button class="back-btn" onclick="goBack()">← Torna alle missioni</button>`;
+  h+=`<div class="ex-card"><div class="ex-top"><div class="ex-badge">MISSIONE ${ex.n} · ⭐${ex.xp} XP</div><h2>${ex.t}</h2><p>${ex.d}</p></div>`;
+  
+  // Data table
+  if(ex.data){
+    h+=`<div class="data-box"><div class="db-title">📋 ${ex.data.title}</div><table>`;
+    if(ex.data.cols)h+=`<tr>${ex.data.cols.map((c,i)=>`<th${i>0?' class="r"':''}>${c}</th>`).join('')}</tr>`;
+    ex.data.rows.forEach(r=>{
+      if(ex.data.cols)h+=`<tr>${r.map((c,i)=>`<td${i>0?' class="n"':''}>${c}</td>`).join('')}</tr>`;
+      else h+=`<tr><td>${r[0]}</td><td class="n">${r[1]}</td></tr>`;
+    });
+    h+=`</table></div>`;
+  }
+  
+  // Theory
+  if(ex.th)h+=`<div class="theory-pill"><h4>💡 ${ex.th.t}</h4><p>${ex.th.p}</p>${ex.th.c?'<br><code>'+ex.th.c+'</code>':''}</div>`;
+  
+  // Steps
+  h+=`<div class="steps-area">`;
+  ex.s.forEach((st,si)=>{
+    h+=`<div class="stp ${si===0?'active':'locked'}" id="${id}_s${si}">
+      <div class="stp-head"><div class="stp-dot">${si+1}</div><div class="stp-name">STEP ${si+1}: ${st.l}</div>${st.xp?'<div class="stp-xp">+'+st.xp+'</div>':''}</div>
+      <div class="stp-body"><div class="stp-explain">${st.e}</div><div class="inp-group">`;
+    st.f.forEach(f=>{
+      h+=`<div class="inp-row"><label><span class="dot"></span>${f.lb}</label><div class="inp-wrap"><input type="number" id="${f.i}" placeholder="..." ${f.s?'step="'+f.s+'"':''}><span class="unit">€</span></div></div>`;
+      if(f.h)h+=`<div style="font-size:.7rem;color:var(--dim);margin:-.2rem 0 .3rem 1rem;font-style:italic">💡 ${f.h}</div>`;
+    });
+    h+=`</div><button class="check-btn" onclick="chkStep('${id}',${si})">VERIFICA ✓</button>
+    <div class="stp-fb" id="${id}_fb${si}"></div></div></div>`;
+  });
+  h+=`</div></div>`;
+  v.innerHTML=h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goBack(){document.getElementById('exView').classList.remove('active');document.getElementById('exView').innerHTML='';document.getElementById('dash').style.display='block';renderDash();window.scrollTo({top:0})}
+
+function chkStep(id,si){
+  const ex=EX.find(e=>e.id===id),st=ex.s[si],fb=document.getElementById(id+'_fb'+si);
+  let ok=true;
+  st.f.forEach(f=>{
+    const inp=document.getElementById(f.i);if(!inp)return;
+    const v=parseFloat(inp.value),tol=Math.max(0.5,Math.abs(f.a)*0.008);
+    if(!isNaN(v)&&Math.abs(v-f.a)<=tol){inp.classList.add('ok');inp.classList.remove('ko')}
+    else{inp.classList.add('ko');inp.classList.remove('ok');ok=false}
+  });
+  if(ok){
+    fb.className='stp-fb show ok';fb.innerHTML='✅ Perfetto!';
+    const cs=document.getElementById(id+'_s'+si);cs.classList.remove('active');cs.classList.add('done');
+    if(!cs.dataset.xpa&&st.xp){cs.dataset.xpa='1';earnXP(st.xp)}
+    const ns=document.getElementById(id+'_s'+(si+1));
+    if(ns)setTimeout(()=>{ns.classList.remove('locked');ns.classList.add('active');ns.scrollIntoView({behavior:'smooth',block:'center'})},800);
+    else{localStorage.setItem('d_'+id,'1');setTimeout(()=>{earnXP(0,'🏆 MISSIONE '+ex.n+' COMPLETATA!');fireConfetti()},800)}
+  }else{
+    fb.className='stp-fb show ko';
+    let hints=[];st.f.forEach(f=>{const inp=document.getElementById(f.i);const v=parseFloat(inp?.value);const tol=Math.max(0.5,Math.abs(f.a)*0.008);if(isNaN(v)||Math.abs(v-f.a)>tol)hints.push(f.lb+' = '+f.a.toLocaleString('it-IT'))});
+    fb.innerHTML='❌ Ricontrolla: '+hints.join(' · ');
+    breakCombo();
+  }
+}
+
+renderDash();
+</script>
+</body>
+</html>
